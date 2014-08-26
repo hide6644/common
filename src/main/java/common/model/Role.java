@@ -19,7 +19,7 @@ import org.springframework.security.core.GrantedAuthority;
 @NamedQueries({
         @NamedQuery(
                 name = "findRoleByName",
-                query = "select r from Role r where r.name = :name"
+                query = "from Role r where r.name = :name"
         )
 })
 public class Role extends BaseObject implements Serializable, GrantedAuthority {

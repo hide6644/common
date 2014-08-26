@@ -1,6 +1,5 @@
 package common.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +20,10 @@ public final class PaginatedList<T> {
     public static final int DEFAULT_RANGE_SIZE = 2;
 
     /** 総レコード数 */
-    private int allRecordCount;
+    private long allRecordCount;
 
     /** 検索条件 */
-    private Serializable searchCondition;
+    private Object searchCondition;
 
     /** 現在のページ番号 */
     private int currentPageNumber;
@@ -69,7 +68,7 @@ public final class PaginatedList<T> {
      *
      * @return ページングなしの総レコード数
      */
-    public int getAllRecordCount() {
+    public long getAllRecordCount() {
         return allRecordCount;
     }
 
@@ -79,7 +78,7 @@ public final class PaginatedList<T> {
      * @param allRecordCount
      *            ページングなし総レコード数
      */
-    public void setAllRecordCount(int allRecordCount) {
+    public void setAllRecordCount(long allRecordCount) {
         this.allRecordCount = allRecordCount;
     }
 
@@ -88,7 +87,7 @@ public final class PaginatedList<T> {
      *
      * @return 検索条件
      */
-    public Serializable getSearchCondition() {
+    public Object getSearchCondition() {
         return searchCondition;
     }
 
@@ -98,7 +97,7 @@ public final class PaginatedList<T> {
      * @param searchCondition
      *            検索条件
      */
-    public void setSearchCondition(Serializable searchCondition) {
+    public void setSearchCondition(Object searchCondition) {
         this.searchCondition = searchCondition;
     }
 

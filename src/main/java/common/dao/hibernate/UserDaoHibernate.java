@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.Table;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -70,5 +72,29 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
         JdbcTemplate jdbcTemplate = new JdbcTemplate(SessionFactoryUtils.getDataSource(getSessionFactory()));
         Table table = AnnotationUtils.findAnnotation(User.class, Table.class);
         return jdbcTemplate.queryForObject("select password from " + table.name() + " where id=?", String.class, id);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<User> getPaged(Class<?> searchClass, Object searchCondition, Integer offset, Integer limit) {
+        Criteria criteria = getSession().createCriteria(searchClass);
+        criteria.setFirstResult(offset);
+        criteria.setMaxResults(limit);
+
+        User user = (User) searchCondition;
+        criteria.add(Restrictions.like("username", "%" + user.getUsername() + "%"));
+        criteria.add(Restrictions.like("email", "%" + user.getEmail() + "%"));
+
+        return criteria.list();
+    }
+
+    public long getRecordCount(Class<?> searchClass, Object searchCondition) {
+        Criteria criteria = getSession().createCriteria(searchClass);
+        criteria.setProjection(Projections.rowCount());
+
+        User user = (User) searchCondition;
+        criteria.add(Restrictions.like("username", "%" + user.getUsername() + "%"));
+        criteria.add(Restrictions.like("email", "%" + user.getEmail() + "%"));
+
+        return (Long) criteria.uniqueResult();
     }
 }

@@ -82,9 +82,11 @@ public interface GenericManager<T, PK extends Serializable> {
     /**
      * オブジェクトをページング処理して取得する.
      *
+     * @param searchClass
+     *            検索オブジェクト
      * @param paginatedList
      *            ページング情報保持モデル
      * @return ページング処理された分類一覧
      */
-    List<T> getPaged(PaginatedList<T> paginatedList);
+    List<T> getPaged(Class<?> searchClass, PaginatedList<T> paginatedList);
 }

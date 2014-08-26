@@ -2,7 +2,6 @@ package common.dao.hibernate;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +10,12 @@ import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.Search;
 import org.hibernate.search.query.facet.Facet;
@@ -46,7 +47,7 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
      * @param persistentClass
      *            エンティティクラス
      */
-    public GenericDaoHibernate(final Class<T> persistentClass) {
+    public GenericDaoHibernate(Class<T> persistentClass) {
         this.persistentClass = persistentClass;
     }
 
@@ -58,7 +59,7 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
      * @param sessionFactory
      *            セッション生成クラス
      */
-    public GenericDaoHibernate(final Class<T> persistentClass, SessionFactory sessionFactory) {
+    public GenericDaoHibernate(Class<T> persistentClass, SessionFactory sessionFactory) {
         this.persistentClass = persistentClass;
         this.sessionFactory = sessionFactory;
     }
@@ -136,20 +137,20 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
         HibernateSearchTools.reindexAll(async, getSessionFactory().getCurrentSession());
     }
 
-    public List<T> getPaged(Serializable search, Integer offset, Integer limit) {
-        Map<String, Object> queryParams = new HashMap<String, Object>();
-        queryParams.put("search", search);
-        queryParams.put("offset", offset);
-        queryParams.put("limit", limit);
+    @SuppressWarnings("unchecked")
+    public List<T> getPaged(Class<?> searchClass, Object searchCondition, Integer offset, Integer limit) {
+        Criteria criteria = getSession().createCriteria(searchClass);
+        criteria.setFirstResult(offset);
+        criteria.setMaxResults(limit);
 
-        return findByNamedQuery("getPaged" + persistentClass + "s", queryParams);
+        return criteria.list();
     }
 
-    public int getRecordCount(Serializable search) {
-        Query namedQuery = getSession().getNamedQuery("get" + persistentClass + "RecordCount");
-        namedQuery.setParameter("search", search);
+    public long getRecordCount(Class<?> searchClass, Object searchCondition) {
+        Criteria criteria = getSession().createCriteria(searchClass);
+        criteria.setProjection(Projections.rowCount());
 
-        return (Integer) namedQuery.list().get(0);
+        return (Long) criteria.uniqueResult();
     }
 
     /**

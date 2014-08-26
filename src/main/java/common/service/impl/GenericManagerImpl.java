@@ -94,8 +94,8 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
     /**
      * {@inheritDoc}
      */
-    public List<T> getPaged(PaginatedList<T> paginatedList) {
-        paginatedList.setAllRecordCount(dao.getRecordCount(paginatedList.getSearchCondition()));
+    public List<T> getPaged(Class<?> searchClass, PaginatedList<T> paginatedList) {
+        paginatedList.setAllRecordCount(dao.getRecordCount(searchClass, paginatedList.getSearchCondition()));
 
         if (paginatedList.getAllRecordCount() == 0) {
             return new ArrayList<T>();
@@ -106,6 +106,6 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
             paginatedList.setCurrentPageNumber(paginatedList.getAllPageCount());
         }
 
-        return dao.getPaged(paginatedList.getSearchCondition(), paginatedList.getCurrentStartRecordNumber(), paginatedList.getPageSize());
+        return dao.getPaged(searchClass, paginatedList.getSearchCondition(), paginatedList.getCurrentStartRecordNumber(), paginatedList.getPageSize());
     }
 }

@@ -115,7 +115,9 @@ public interface GenericDao<T, PK extends Serializable> {
     /**
      * 指定の範囲のオブジェクトを取得する.
      *
-     * @param search
+     * @param searchClass
+     *            検索オブジェクト
+     * @param searchCondition
      *            検索条件
      * @param offset
      *            開始位置
@@ -123,14 +125,16 @@ public interface GenericDao<T, PK extends Serializable> {
      *            取得数
      * @return 職種一覧
      */
-    List<T> getPaged(Serializable search, Integer offset, Integer limit);
+    List<T> getPaged(Class<?> searchClass, Object searchCondition, Integer offset, Integer limit);
 
     /**
      * 件数を取得する.
      *
-     * @param search
+     * @param searchClass
+     *            検索オブジェクト
+     * @param searchCondition
      *            検索条件
      * @return 件数
      */
-    int getRecordCount(Serializable search);
+    long getRecordCount(Class<?> searchClass, Object searchCondition);
 }
