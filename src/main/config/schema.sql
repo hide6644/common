@@ -20,6 +20,7 @@ create table app_user (
     update_user varchar(16) default null,
     update_date timestamp default '0000-00-00 00:00:00',
     primary key (id),
+    unique (username),
     unique (email)
 ) engine = InnoDB default character set utf8;
 

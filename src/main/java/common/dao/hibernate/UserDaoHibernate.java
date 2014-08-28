@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Table;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -83,6 +84,7 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
         User user = (User) searchCondition;
         criteria.add(Restrictions.like("username", "%" + user.getUsername() + "%"));
         criteria.add(Restrictions.like("email", "%" + user.getEmail() + "%"));
+        criteria.addOrder(Order.asc("username"));
 
         return criteria.list();
     }
