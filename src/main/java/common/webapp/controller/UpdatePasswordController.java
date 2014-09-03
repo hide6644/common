@@ -83,9 +83,9 @@ public class UpdatePasswordController extends BaseController {
             saveFlashMessage(getText("updated", 1));
         } else {
             if (usingToken) {
-                saveFlashMessage(getText("updatePasswordForm.invalidToken"));
+                saveFlashError(getText("updatePasswordForm.invalidToken"));
             } else {
-                saveFlashMessage(getText("updatePasswordForm.invalidPassword"));
+                saveFlashError(getText("updatePasswordForm.invalidPassword"));
                 return showForm(username, null, request);
             }
         }

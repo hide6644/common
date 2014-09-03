@@ -67,7 +67,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         request.addParameter("username", username);
         request.addParameter("token", badtoken);
         controller.showForm(username, badtoken, request);
-        assertNotNull(FlashMap.get("flash_info_messages"));
+        assertNotNull(FlashMap.get("flash_error_messages"));
     }
 
     @Test
