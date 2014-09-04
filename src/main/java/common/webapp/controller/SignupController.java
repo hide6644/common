@@ -26,6 +26,7 @@ import common.Constants;
 import common.exception.DBException;
 import common.model.Role;
 import common.model.User;
+import common.service.RoleManager;
 import common.service.UserManager;
 import common.webapp.util.RequestUtil;
 
@@ -40,6 +41,10 @@ public class SignupController extends BaseController {
     /** User処理クラス */
     @Autowired
     private UserManager userManager;
+
+    /** Role処理クラス */
+    @Autowired
+    private RoleManager roleManager;
 
     /**
      * ユーザ登録画面初期処理.
@@ -73,7 +78,7 @@ public class SignupController extends BaseController {
         user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
         // 新規登録時は権限を一般で設定する
         user.getRoles().clear();
-        user.addRole(new Role(Constants.USER_ROLE));
+        user.addRole(roleManager.getRole(Constants.USER_ROLE));
 
         try {
             userManager.saveUser(user);

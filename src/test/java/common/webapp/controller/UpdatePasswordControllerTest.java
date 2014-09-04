@@ -16,7 +16,7 @@ import common.webapp.filter.FlashMap;
 public class UpdatePasswordControllerTest extends BaseControllerTestCase {
 
     @Autowired
-    private UpdatePasswordController controller;
+    private UpdatePasswordController c;
 
     @Autowired
     private UserManager userManager;
@@ -30,7 +30,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         Wiser wiser = new Wiser();
         wiser.setPort(getSmtpPort());
         wiser.start();
-        controller.requestRecoveryToken(username, request);
+        c.requestRecoveryToken(username, request);
         // verify an account information e-mail was sent
         wiser.stop();
         assertTrue(wiser.getMessages().size() == 1);
@@ -43,7 +43,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         String username = "administrator";
         MockHttpServletRequest request = newGet("/updatePassword");
         request.addParameter("username", username);
-        ModelAndView mav = controller.showForm(username, null, request);
+        ModelAndView mav = c.showForm(username, null, request);
         assertEquals("updatePassword", mav.getViewName());
     }
 
@@ -55,7 +55,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         MockHttpServletRequest request = newGet("/updatePassword");
         request.addParameter("username", username);
         request.addParameter("token", token);
-        ModelAndView mav = controller.showForm(username, token, request);
+        ModelAndView mav = c.showForm(username, token, request);
         assertEquals("updatePassword", mav.getViewName());
     }
 
@@ -66,7 +66,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         MockHttpServletRequest request = newGet("/updatePassword");
         request.addParameter("username", username);
         request.addParameter("token", badtoken);
-        controller.showForm(username, badtoken, request);
+        c.showForm(username, badtoken, request);
         assertNotNull(FlashMap.get("flash_error_messages"));
     }
 
@@ -83,7 +83,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         Wiser wiser = new Wiser();
         wiser.setPort(getSmtpPort());
         wiser.start();
-        controller.onSubmit(username, token, null, password, request);
+        c.onSubmit(username, token, null, password, request);
         wiser.stop();
         assertTrue(wiser.getMessages().size() == 1);
         assertNotNull(FlashMap.get("flash_info_messages"));
@@ -99,7 +99,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         request.addParameter("username", username);
         request.addParameter("token", badToken);
         request.addParameter("password", password);
-        controller.onSubmit(username, badToken, null, password, request);
+        c.onSubmit(username, badToken, null, password, request);
         assertNull(FlashMap.get("flash_info_messages"));
         assertNotNull(FlashMap.get("flash_error_messages"));
     }
@@ -114,7 +114,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         request.addParameter("username", username);
         request.addParameter("currentPassword", currentPassword);
         request.addParameter("password", password);
-        controller.onSubmit(username, null, currentPassword, password, request);
+        c.onSubmit(username, null, currentPassword, password, request);
         assertNotNull(FlashMap.get("flash_info_messages"));
         assertNull(FlashMap.get("flash_error_messages"));
     }
@@ -129,7 +129,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         request.addParameter("username", username);
         request.addParameter("currentPassword", currentPassword);
         request.addParameter("password", password);
-        controller.onSubmit(username, null, currentPassword, password, request);
+        c.onSubmit(username, null, currentPassword, password, request);
         assertNull(FlashMap.get("flash_info_messages"));
         assertNotNull(FlashMap.get("flash_error_messages"));
     }
