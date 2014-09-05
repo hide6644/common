@@ -23,7 +23,7 @@ import common.service.UserManager;
 import common.service.UserService;
 
 @Service("userManager")
-@WebService(serviceName = "UserService", endpointInterface = "org.appfuse.service.UserService")
+@WebService(serviceName = "UserService", endpointInterface = "common.service.UserService")
 public class UserManagerImpl extends GenericManagerImpl<User, Long> implements UserManager, UserService {
 
     private PasswordEncoder passwordEncoder;
