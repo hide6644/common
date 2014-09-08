@@ -82,8 +82,12 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
         criteria.setMaxResults(limit);
 
         User user = (User) searchCondition;
-        criteria.add(Restrictions.like("username", "%" + user.getUsername() + "%"));
-        criteria.add(Restrictions.like("email", "%" + user.getEmail() + "%"));
+        if (user.getUsername() != null) {
+            criteria.add(Restrictions.like("username", "%" + user.getUsername() + "%"));
+        }
+        if (user.getEmail() != null) {
+            criteria.add(Restrictions.like("email", "%" + user.getEmail() + "%"));
+        }
         criteria.addOrder(Order.asc("username"));
 
         return criteria.list();
@@ -94,8 +98,12 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
         criteria.setProjection(Projections.rowCount());
 
         User user = (User) searchCondition;
-        criteria.add(Restrictions.like("username", "%" + user.getUsername() + "%"));
-        criteria.add(Restrictions.like("email", "%" + user.getEmail() + "%"));
+        if (user.getUsername() != null) {
+            criteria.add(Restrictions.like("username", "%" + user.getUsername() + "%"));
+        }
+        if (user.getEmail() != null) {
+            criteria.add(Restrictions.like("email", "%" + user.getEmail() + "%"));
+        }
 
         return (Long) criteria.uniqueResult();
     }
