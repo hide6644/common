@@ -18,20 +18,18 @@ public class CsvViewResolver extends UrlBasedViewResolver {
         setViewClass(CsvView.class);
     }
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see org.springframework.web.servlet.view.UrlBasedViewResolver#requiredViewClass()
+    /**
+     * {@inheritDoc}
      */
+    @Override
     protected Class<CsvView> requiredViewClass() {
         return CsvView.class;
     }
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see org.springframework.web.servlet.view.UrlBasedViewResolver#canHandle(java.lang.String, java.util.Locale)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     protected boolean canHandle(String viewName, Locale locale) {
         return viewName.indexOf("csv/") > 0 && super.canHandle(viewName, locale);
     }

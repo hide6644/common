@@ -2,6 +2,7 @@ package common.validator.constraints.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -9,13 +10,12 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.ConfigurablePropertyAccessor;
 import org.springframework.beans.PropertyAccessorFactory;
 
+import common.Constants;
 import common.validator.constraints.CompareStrings;
 import common.validator.constraints.ComparisonMode;
 
 /**
  * 入力値の一致、不一致をチェックする実装クラス.
- *
- * @author hide6644
  */
 public class CompareStringsValidator implements ConstraintValidator<CompareStrings, Object> {
 
@@ -25,21 +25,19 @@ public class CompareStringsValidator implements ConstraintValidator<CompareStrin
     /** 比較モード */
     private ComparisonMode comparisonMode;
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void initialize(CompareStrings constraintAnnotation) {
         propertyNames = constraintAnnotation.propertyNames();
         comparisonMode = constraintAnnotation.comparisonMode();
     }
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see javax.validation.ConstraintValidator#isValid(java.lang.Object, javax.validation.ConstraintValidatorContext)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public boolean isValid(Object target, ConstraintValidatorContext context) {
         List<String> propertyValues = new ArrayList<String>(propertyNames.length);
         ConfigurablePropertyAccessor fieldAccessor = PropertyAccessorFactory.forDirectFieldAccess(target);
@@ -48,14 +46,58 @@ public class CompareStringsValidator implements ConstraintValidator<CompareStrin
             propertyValues.add((String) fieldAccessor.getPropertyValue(propertyNames[i]));
         }
 
-        boolean isValid = ConstraintValidatorHelper.isValid(propertyValues, comparisonMode);
+        boolean isValid = ConstraintValidatorUtil.isValid(propertyValues, comparisonMode);
 
         if (!isValid) {
-            String message = ConstraintValidatorHelper.resolveMessage(context.getDefaultConstraintMessageTemplate(), target, propertyNames, comparisonMode);
+            String message = resolveMessage(context.getDefaultConstraintMessageTemplate(), target, propertyNames);
 
             context.buildConstraintViolationWithTemplate(message).addPropertyNode(propertyNames[0]).addConstraintViolation().disableDefaultConstraintViolation();
         }
 
         return isValid;
+    }
+
+    /**
+     * エラーメッセージにフィールド名を連結する.
+     *
+     * @param message
+     *            エラーメッセージ
+     * @param target
+     *            チェックしたクラス
+     * @param propertyNames
+     *            チェックしたフィールド名のリスト
+     * @return 連結したエラーメッセージ
+     */
+    private String resolveMessage(String message, Object target, String[] propertyNames) {
+        String className = target.getClass().getSimpleName().toLowerCase();
+        List<String> propertyNameList = new ArrayList<String>();
+
+        for (String propertyName : propertyNames) {
+            propertyNameList.add(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString(className + "." + propertyName));
+        }
+
+        return concatPropertyNames(propertyNameList).append(message).toString();
+    }
+
+    /**
+     * フィールド名を連結する.
+     *
+     * @param propertyNames
+     *            フィールド名のリスト
+     * @return 連結したフィールド名
+     */
+    private StringBuilder concatPropertyNames(List<String> propertyNames) {
+        StringBuilder builder = new StringBuilder();
+        builder.append('"');
+
+        for (String propertyName : propertyNames) {
+            builder.append(propertyName);
+            builder.append(", ");
+        }
+
+        builder.delete(builder.length() - 2, builder.length());
+        builder.append('"');
+
+        return builder;
     }
 }

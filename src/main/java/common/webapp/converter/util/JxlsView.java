@@ -19,19 +19,16 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
 
 /**
  * Excelファイルを作成するクラス.
- *
- * @author hide6644
  */
 public class JxlsView extends AbstractUrlBasedView {
 
     /** 拡張子 */
     private static final String EXTENSION = ".xls";
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see org.springframework.web.servlet.view.AbstractView#renderMergedOutputModel(java.util.Map, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     protected final void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
         HSSFWorkbook workbook = createWorkbook(request);
         buildExcelDocument(model, workbook);
@@ -45,6 +42,7 @@ public class JxlsView extends AbstractUrlBasedView {
      *            {@link HttpServletRequest}
      * @return Excelファイルオブジェクト
      * @throws IOException
+     *             {@link IOException}
      */
     private HSSFWorkbook createWorkbook(HttpServletRequest request) throws IOException {
         if (getUrl() != null) {
@@ -62,6 +60,7 @@ public class JxlsView extends AbstractUrlBasedView {
      * @param response
      *            {@link HttpServletResponse}
      * @throws IOException
+     *             {@link IOException}
      */
     private void doRender(HSSFWorkbook workbook, HttpServletResponse response) throws IOException {
         ServletOutputStream out = response.getOutputStream();
@@ -77,6 +76,7 @@ public class JxlsView extends AbstractUrlBasedView {
      *            {@link HttpServletRequest}
      * @return Excelファイルオブジェクト
      * @throws IOException
+     *             {@link IOException}
      */
     protected HSSFWorkbook getTemplateSource(String url, HttpServletRequest request) throws IOException {
         LocalizedResourceHelper helper = new LocalizedResourceHelper(getApplicationContext());
@@ -90,7 +90,7 @@ public class JxlsView extends AbstractUrlBasedView {
      * Excelドキュメントを作成する.
      *
      * @param model
-     *            画面汎用値保持モデル
+     *            出力用Map
      * @param workbook
      *            Excelファイルオブジェクト
      */

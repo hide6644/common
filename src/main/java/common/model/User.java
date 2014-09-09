@@ -1,16 +1,17 @@
 package common.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -26,6 +27,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.validator.constraints.Email;
@@ -37,31 +39,45 @@ import org.springframework.security.core.userdetails.UserDetails;
 import common.validator.constraints.BasicLatin;
 import common.validator.constraints.CompareStrings;
 import common.validator.constraints.ComparisonMode;
+import common.validator.constraints.UniqueKey;
 
+/**
+ * ユーザ.
+ */
 @Entity
 @Table(name = "app_user")
 @Indexed
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @CompareStrings.List({ @CompareStrings(propertyNames = { "confirmPassword", "password" }, comparisonMode = ComparisonMode.EQUAL) })
+@UniqueKey.List(value = { @UniqueKey(columnNames = { "username" }), @UniqueKey(columnNames = { "email" }) })
 public class User extends BaseObject implements Serializable, UserDetails {
 
+    /** ID */
+    private Long id;
+
+    /** ユーザ名 */
     private String username;
 
+    /** パスワード */
     private String password;
 
+    /** パスワード(確認用) */
     private String confirmPassword;
 
+    /** 名前 */
     private String firstName;
 
+    /** 名字 */
     private String lastName;
 
+    /** ｅメール */
     private String email;
 
-    private Set<Role> roles = new HashSet<Role>();
-
+    /** 有効 */
     private boolean enabled;
 
+    /** ロックアウト */
     private boolean accountLocked;
 
     /** 有効期限切れ日時 */
@@ -70,33 +86,98 @@ public class User extends BaseObject implements Serializable, UserDetails {
     /** 要再認証日時 */
     private Date credentialsExpiredDate;
 
-    /** 認証失敗回数 */
-    private Integer badCredentialsCount;
+    /** 権限 */
+    private Set<Role> roles = new HashSet<Role>();
 
+    /**
+     * デフォルト・コンストラクタ
+     */
     public User() {
     }
 
+    /**
+     * コンストラクタ
+     *
+     * @param username
+     *            ユーザ名
+     */
     public User(String username) {
         this.username = username;
     }
 
+    /**
+     * IDを取得する.
+     *
+     * @return ID
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @DocumentId
+    @XmlTransient
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * IDを設定する.
+     *
+     * @param id
+     *            ID
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @NotEmpty
     @BasicLatin
     @Length(min = 6, max = 16)
     @Column(nullable = false, length = 16, unique = true)
     @Field
+    @Override
     public String getUsername() {
         return username;
     }
 
+    /**
+     * ユーザ名を設定する.
+     *
+     * @param username
+     *            ユーザ名
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @NotEmpty
     @Length(min = 6, max = 80)
     @Column(nullable = false, length = 80)
     @XmlTransient
+    @Override
     public String getPassword() {
         return password;
     }
 
+    /**
+     * パスワードを設定する.
+     *
+     * @param password
+     *            パスワード
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * パスワード(確認用)を取得する.
+     *
+     * @return パスワード(確認用)
+     */
     @Length(max = 80, message = "{common.validator.constraints.MaxLength.message}")
     @Transient
     @XmlTransient
@@ -104,6 +185,21 @@ public class User extends BaseObject implements Serializable, UserDetails {
         return confirmPassword;
     }
 
+    /**
+     * パスワード(確認用)を設定する.
+     *
+     * @param confirmPassword
+     *            パスワード(確認用)
+     */
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    /**
+     * 名前を取得する.
+     *
+     * @return 名前
+     */
     @NotEmpty
     @Length(max = 64, message = "{common.validator.constraints.MaxLength.message}")
     @Column(name = "first_name", nullable = false, length = 64)
@@ -112,6 +208,21 @@ public class User extends BaseObject implements Serializable, UserDetails {
         return firstName;
     }
 
+    /**
+     * 名前を設定する.
+     *
+     * @param firstName
+     *            名前
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * 名字を取得する.
+     *
+     * @return 名字
+     */
     @Length(max = 64, message = "{common.validator.constraints.MaxLength.message}")
     @Column(name = "last_name", length = 64)
     @Field
@@ -119,6 +230,21 @@ public class User extends BaseObject implements Serializable, UserDetails {
         return lastName;
     }
 
+    /**
+     * 名字を設定する.
+     *
+     * @param lastName
+     *            名字
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    /**
+     * ｅメールを取得する.
+     *
+     * @return ｅメール
+     */
     @NotEmpty
     @Email
     @Length(max = 64, message = "{common.validator.constraints.MaxLength.message}")
@@ -128,76 +254,62 @@ public class User extends BaseObject implements Serializable, UserDetails {
         return email;
     }
 
-    @NotEmpty
-    @Valid
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
-    @JoinTable(
-            name = "user_role",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    public Set<Role> getRoles() {
-        return roles;
+    /**
+     * ｅメールを設定する.
+     *
+     * @param email
+     *            ｅメール
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    @Transient
-    public List<LabelValue> getRoleList() {
-        List<LabelValue> userRoles = new ArrayList<LabelValue>();
-
-        if (this.roles != null) {
-            for (Role role : roles) {
-                userRoles.add(new LabelValue(role.getName(), role.getName()));
-            }
-        }
-
-        return userRoles;
-    }
-
-    public void addRole(Role role) {
-        getRoles().add(role);
-    }
-
-    @Transient
-    public Set<GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> authorities = new LinkedHashSet<GrantedAuthority>();
-        authorities.addAll(roles);
-        return authorities;
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Column(name = "account_enabled")
+    @Override
     public boolean isEnabled() {
         return enabled;
     }
 
+    /**
+     * 有効を設定する.
+     *
+     * @param enabled
+     *            有効
+     */
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    /**
+     * ロックアウトを取得する.
+     *
+     * @return ロックアウト
+     */
     @Column(name = "account_locked", nullable = false)
     public boolean isAccountLocked() {
         return accountLocked;
     }
 
+    /**
+     * ロックアウトを設定する.
+     *
+     * @param accountLocked
+     *            ロックアウト
+     */
+    public void setAccountLocked(boolean accountLocked) {
+        this.accountLocked = accountLocked;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Transient
+    @Override
     public boolean isAccountNonLocked() {
         return !isAccountLocked();
-    }
-
-    @Transient
-    public boolean isAccountExpired() {
-        return accountExpiredDate != null && accountExpiredDate.getTime() < System.currentTimeMillis();
-    }
-
-    @Transient
-    public boolean isAccountNonExpired() {
-        return isAccountExpired();
-    }
-
-    @Transient
-    public boolean isCredentialsExpired() {
-        return credentialsExpiredDate != null && credentialsExpiredDate.getTime() < System.currentTimeMillis();
-    }
-
-    @Transient
-    public boolean isCredentialsNonExpired() {
-        return !isCredentialsExpired();
     }
 
     /**
@@ -211,62 +323,6 @@ public class User extends BaseObject implements Serializable, UserDetails {
     }
 
     /**
-     * 要再認証日時を取得する.
-     *
-     * @return 要再認証日時
-     */
-    @Column(name = "credentials_expired_date", nullable = false)
-    public Date getCredentialsExpiredDate() {
-        return credentialsExpiredDate == null ? null : (Date) credentialsExpiredDate.clone();
-    }
-
-    /**
-     * 認証失敗回数を取得する.
-     *
-     * @return 認証失敗回数
-     */
-    @Column(name = "bad_credentials_count")
-    public Integer getBadCredentialsCount() {
-        return badCredentialsCount;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public void setAccountLocked(boolean accountLocked) {
-        this.accountLocked = accountLocked;
-    }
-
-    /**
      * 有効期限切れ日時を設定する.
      *
      * @param accountExpiredDate
@@ -274,6 +330,25 @@ public class User extends BaseObject implements Serializable, UserDetails {
      */
     public void setAccountExpiredDate(Date accountExpiredDate) {
         this.accountExpiredDate = accountExpiredDate == null ? null : new Date(accountExpiredDate.getTime());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+   @Transient
+   @Override
+    public boolean isAccountNonExpired() {
+        return !(accountExpiredDate != null && accountExpiredDate.getTime() < System.currentTimeMillis());
+    }
+
+    /**
+     * 要再認証日時を取得する.
+     *
+     * @return 要再認証日時
+     */
+    @Column(name = "credentials_expired_date", nullable = false)
+    public Date getCredentialsExpiredDate() {
+        return credentialsExpiredDate == null ? null : (Date) credentialsExpiredDate.clone();
     }
 
     /**
@@ -287,18 +362,77 @@ public class User extends BaseObject implements Serializable, UserDetails {
     }
 
     /**
-     * 認証失敗回数を設定する.
-     *
-     * @param badCredentialsCount
-     *            認証失敗回数
+     * {@inheritDoc}
      */
-    public void setBadCredentialsCount(Integer badCredentialsCount) {
-        this.badCredentialsCount = badCredentialsCount;
+    @Transient
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return !(credentialsExpiredDate != null && credentialsExpiredDate.getTime() < System.currentTimeMillis());
+    }
+
+    /**
+     * 権限を取得する.
+     *
+     * @return 権限
+     */
+    @NotEmpty
+    @Valid
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    /**
+     * 権限を設定する.
+     *
+     * @param roles
+     *            権限
+     */
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    /**
+     * 権限を追加する.
+     *
+     * @param role
+     *            権限
+     */
+    public void addRole(Role role) {
+        getRoles().add(role);
+    }
+
+    /**
+     * 権限を削除する.
+     *
+     * @param role
+     *            権限
+     */
+    public void removeRole(Role role) {
+        getRoles().remove(role);
     }
 
     /**
      * {@inheritDoc}
      */
+    @Transient
+    @Override
+    public Set<GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> authorities = new LinkedHashSet<GrantedAuthority>();
+        authorities.addAll(roles);
+        return authorities;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -315,6 +449,7 @@ public class User extends BaseObject implements Serializable, UserDetails {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int hashCode() {
         return (username != null ? username.hashCode() : 0);
     }
@@ -322,12 +457,13 @@ public class User extends BaseObject implements Serializable, UserDetails {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String toString() {
         ToStringBuilder sb = new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
                 .append("username", username)
                 .append("enabled", enabled)
-                .append("accountExpired", isAccountExpired())
-                .append("credentialsExpired", isCredentialsExpired())
+                .append("accountExpired", !isAccountNonExpired())
+                .append("credentialsExpired", !isCredentialsNonExpired())
                 .append("accountLocked", accountLocked);
 
         if (roles != null) {

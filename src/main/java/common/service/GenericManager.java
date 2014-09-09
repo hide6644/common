@@ -5,6 +5,9 @@ import java.util.List;
 
 import common.model.PaginatedList;
 
+/**
+ * 一般的なロジックのインターフェース.
+ */
 public interface GenericManager<T, PK extends Serializable> {
 
     /**
@@ -75,7 +78,7 @@ public interface GenericManager<T, PK extends Serializable> {
      * 全てのインデックスを再作成する.
      *
      * @param async
-     *            true:非同期
+     *            true:非同期、false:同期
      */
     void reindexAll(boolean async);
 

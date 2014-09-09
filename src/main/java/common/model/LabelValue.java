@@ -3,6 +3,9 @@ package common.model;
 import java.io.Serializable;
 import java.util.Comparator;
 
+/**
+ * LabelとValueの保持するクラス.
+ */
 public class LabelValue implements Comparable<LabelValue>, Serializable {
 
     public static final Comparator<LabelValue> CASE_INSENSITIVE_ORDER = new Comparator<LabelValue>() {
@@ -14,30 +17,65 @@ public class LabelValue implements Comparable<LabelValue>, Serializable {
         }
     };
 
+    /** ラベル */
     private String label;
 
+    /** 値 */
     private String value;
 
+    /**
+     * デフォルト・コンストラクタ
+     */
     public LabelValue() {
     }
 
+    /**
+     * コンストラクタ
+     *
+     * @param label
+     *            ラベル
+     * @param value
+     *            値
+     */
     public LabelValue(String label, String value) {
         this.label = label;
         this.value = value;
     }
 
+    /**
+     * ラベルを取得する.
+     *
+     * @return ラベル
+     */
     public String getLabel() {
         return label;
     }
 
+    /**
+     * ラベルを設定する.
+     *
+     * @param label
+     *            ラベル
+     */
     public void setLabel(String label) {
         this.label = label;
     }
 
+    /**
+     * 値を取得する.
+     *
+     * @return 値
+     */
     public String getValue() {
         return value;
     }
 
+    /**
+     * 値を設定する.
+     *
+     * @param value
+     *            値
+     */
     public void setValue(String value) {
         this.value = value;
     }
@@ -45,6 +83,7 @@ public class LabelValue implements Comparable<LabelValue>, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int compareTo(LabelValue labelValue) {
         return label.compareTo(labelValue.getLabel());
     }
@@ -52,6 +91,7 @@ public class LabelValue implements Comparable<LabelValue>, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -68,6 +108,7 @@ public class LabelValue implements Comparable<LabelValue>, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int hashCode() {
         return (value != null ? value.hashCode() : 0);
     }

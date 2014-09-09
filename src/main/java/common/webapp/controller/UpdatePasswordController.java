@@ -16,23 +16,30 @@ import common.model.User;
 import common.service.UserManager;
 import common.webapp.util.RequestUtil;
 
-
 /**
  * パスワード変更処理クラス.
- *
- * @author hide6644
  */
 @Controller
 public class UpdatePasswordController extends BaseController {
 
+    /** パスワード回復用のURL */
     public static final String RECOVERY_PASSWORD_TEMPLATE = "/updatePassword?username={username}&token={token}";
 
     /** User処理クラス */
     @Autowired
     private UserManager userManager;
 
+    /**
+     * パスワード回復用のURLをメールで送信する.
+     *
+     * @param username
+     *            ユーザ名
+     * @param request
+     *            {@link HttpServletRequest}
+     * @return 遷移先jsp名
+     */
     @RequestMapping(value = "/requestRecoveryToken*", method = RequestMethod.GET)
-    public String requestRecoveryToken(@RequestParam(value = "username", required = true) final String username, final HttpServletRequest request) {
+    public String requestRecoveryToken(@RequestParam(value = "username", required = true) String username, HttpServletRequest request) {
         try {
             userManager.sendPasswordRecoveryEmail(username, RequestUtil.getAppURL(request) + RECOVERY_PASSWORD_TEMPLATE);
         } catch (final UsernameNotFoundException ignored) {
@@ -40,9 +47,20 @@ public class UpdatePasswordController extends BaseController {
         }
 
         saveFlashMessage(getText("updatePasswordForm.recoveryToken.sent"));
-        return "redirect:/";
+        return "redirect:/login";
     }
 
+    /**
+     * パスワード変更画面初期処理.
+     *
+     * @param username
+     *            ユーザ名
+     * @param token
+     *            トークン
+     * @param request
+     *            {@link HttpServletRequest}
+     * @return 遷移先画面設定
+     */
     @RequestMapping(value = "/updatePassword*", method = RequestMethod.GET)
     public ModelAndView showForm(@RequestParam(value = "username", required = false) String username, @RequestParam(value = "token", required = false) String token, HttpServletRequest request) {
         if (StringUtils.isBlank(username)) {
@@ -51,18 +69,32 @@ public class UpdatePasswordController extends BaseController {
 
         if (StringUtils.isNotBlank(token) && !userManager.isRecoveryTokenValid(username, token)) {
             saveFlashError(getText("updatePasswordForm.invalidToken"));
-            return new ModelAndView("redirect:/");
+            return new ModelAndView("redirect:/login");
         }
 
-        return new ModelAndView("updatePassword").addObject("username", username).addObject("token", token);
+        return new ModelAndView("password").addObject("username", username).addObject("token", token);
     }
 
+    /**
+     * パスワード変更画面保存処理.
+     *
+     * @param username
+     *            ユーザ名
+     * @param token
+     *            トークン
+     * @param currentPassword
+     *            現在のパスワード
+     * @param password
+     *            パスワード
+     * @param request
+     *            {@link HttpServletRequest}
+     * @return 遷移先画面設定
+     */
     @RequestMapping(value = "/updatePassword*", method = RequestMethod.POST)
     public ModelAndView onSubmit(@RequestParam(value = "username", required = true) String username, @RequestParam(value = "token", required = false) String token,
-            @RequestParam(value = "currentPassword", required = false) String currentPassword, @RequestParam(value = "password", required = true) String password, HttpServletRequest request)
-            throws Exception {
+            @RequestParam(value = "currentPassword", required = false) String currentPassword, @RequestParam(value = "password", required = true) String password, HttpServletRequest request) {
         if (StringUtils.isEmpty(password)) {
-            saveError(getText("errors.required", getText("updatePasswordForm.new") + getText("user.password")));
+            saveError(getText("errors.required", getText("updatePasswordForm.newPassword")));
             return showForm(username, null, request);
         }
 
@@ -80,17 +112,25 @@ public class UpdatePasswordController extends BaseController {
         }
 
         if (user != null) {
-            saveFlashMessage(getText("updated", 1));
+            saveFlashMessage(getText("updated"));
         } else {
             if (usingToken) {
                 saveFlashError(getText("updatePasswordForm.invalidToken"));
+                return new ModelAndView("redirect:/login");
             } else {
-                saveFlashError(getText("updatePasswordForm.invalidPassword"));
+                saveError(getText("updatePasswordForm.invalidPassword"));
                 return showForm(username, null, request);
             }
         }
 
-        return new ModelAndView("redirect:/");
+        if (usingToken) {
+            return new ModelAndView("redirect:/login");
+        } else {
+            if (!StringUtils.equals(request.getParameter("from"), "list")) {
+                return new ModelAndView("redirect:/user");
+            } else {
+                return new ModelAndView("redirect:/user?from=list");
+            }
+        }
     }
-
 }

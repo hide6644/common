@@ -14,8 +14,6 @@ import common.validator.constraints.impl.MaxFileSizeValidator;
 
 /**
  * アップロードファイルの容量をチェックする.
- *
- * @author hide6644
  */
 @Documented
 @Target({ ANNOTATION_TYPE, FIELD, METHOD })
@@ -32,11 +30,4 @@ public @interface MaxFileSize {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
-    @Documented
-    @Target( { TYPE  })
-    @Retention(RUNTIME)
-    @interface List {
-        MaxFileSize[] value();
-    }
 }

@@ -14,8 +14,6 @@ import javax.validation.constraints.Pattern;
 
 /**
  * 入力値が平仮名かチェックする.
- *
- * @author hide6644
  */
 @Documented
 @Constraint(validatedBy = {})
@@ -30,11 +28,4 @@ public @interface Hiragana {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
-    @Documented
-    @Target({ ANNOTATION_TYPE, FIELD, METHOD })
-    @Retention(RUNTIME)
-    @interface List {
-        Hiragana[] value();
-    }
 }

@@ -17,7 +17,7 @@
         <intercept-url pattern="/app/requestRecoveryToken*" access="permitAll" />
         <intercept-url pattern="/app/updatePassword*" access="permitAll" />
         <intercept-url pattern="/app/signup*" access="permitAll" />
-        <intercept-url pattern="/app/admin/**" access="hasRole('ADMIN')" />
+        <intercept-url pattern="/app/admin/**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/app/**" access="isAuthenticated()" />
 
         <logout logout-url="/logout" logout-success-url="/login" invalidate-session="true" delete-cookies="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />

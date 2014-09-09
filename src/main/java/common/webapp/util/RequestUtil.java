@@ -5,14 +5,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * cookie操作を行うUtilityクラス.
- *
- * @author hide6644
+ * cookie操作するUtilityクラス.
  */
 public final class RequestUtil {
 
     /**
-     * プライベート・コンストラクタ.<br />
+     * プライベート・コンストラクタ.
      * Utilityクラスはインスタンス化禁止.
      */
     private RequestUtil() {
@@ -21,14 +19,14 @@ public final class RequestUtil {
     /**
      * cookieを取得する.
      *
-     * @param request
-     *            {@link HttpServletRequest}
      * @param name
      *            cookie名
+     * @param request
+     *            {@link HttpServletRequest}
      *
      * @return cookieに保持されていた値
      */
-    public static Cookie getCookie(HttpServletRequest request, String name) {
+    public static Cookie getCookie(String name, HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         Cookie returnCookie = null;
 
@@ -49,16 +47,16 @@ public final class RequestUtil {
     /**
      * cookieを設定する.
      *
-     * @param response
-     *            {@link HttpServletResponse}
      * @param name
      *            cookie名
      * @param value
      *            cookieに保持する値
      * @param path
      *            設定するパス
+     * @param response
+     *            {@link HttpServletResponse}
      */
-    public static void setCookie(HttpServletResponse response, String name, String value, String path) {
+    public static void setCookie(String name, String value, String path, HttpServletResponse response) {
         Cookie cookie = new Cookie(name, value);
         cookie.setSecure(false);
         cookie.setPath(path);
@@ -70,14 +68,14 @@ public final class RequestUtil {
     /**
      * cookieを削除する.
      *
-     * @param response
-     *            {@link HttpServletResponse}
      * @param cookie
      *            cookie名
      * @param path
      *            設定するパス
+     * @param response
+     *            {@link HttpServletResponse}
      */
-    public static void deleteCookie(HttpServletResponse response, Cookie cookie, String path) {
+    public static void deleteCookie(Cookie cookie, String path, HttpServletResponse response) {
         if (cookie != null) {
             cookie.setMaxAge(0);
             cookie.setPath(path);

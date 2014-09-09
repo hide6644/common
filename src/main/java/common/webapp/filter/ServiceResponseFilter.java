@@ -18,16 +18,15 @@ import common.webapp.util.BrowserUtil;
  */
 public class ServiceResponseFilter extends OncePerRequestFilter {
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, javax.servlet.FilterChain)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String requestURI = request.getRequestURI();
 
         if (BrowserUtil.getBrowser(request) == BrowserUtil.BROWSER_UNKNOWN) {
-            // ブラウザを判別できない場合
+            // ブラウザを判別できない場合、ブラウザからのアクセスではない場合
         } else if (requestURI.indexOf(".csv") > 0) {
             response.setContentType("Application/Octet-Stream");
             response.setHeader("Content-Disposition", "attachment;filename=\"" + requestURI.substring(requestURI.lastIndexOf("/") + 1) + "\"");

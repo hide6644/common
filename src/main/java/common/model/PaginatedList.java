@@ -5,8 +5,6 @@ import java.util.List;
 
 /**
  * ページング処理情報保持クラス.
- *
- * @author hide6644
  */
 public final class PaginatedList<T> {
 

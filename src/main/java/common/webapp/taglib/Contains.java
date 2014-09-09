@@ -4,13 +4,11 @@ import java.util.Collection;
 
 /**
  * CollectionのcontainsをTag Librariesとして提供するUtilityクラス.
- *
- * @author hide6644
  */
 public class Contains {
 
     /**
-     * プライベート・コンストラクタ.<br />
+     * プライベート・コンストラクタ.
      * Utilityクラスはインスタンス化禁止.
      */
     private Contains() {

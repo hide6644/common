@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 public class Constants {
 
     /**
-     * プライベート・コンストラクタ.<br />
+     * プライベート・コンストラクタ.
      * このクラスはインスタンス化禁止.
      */
     private Constants() {
@@ -57,7 +57,7 @@ public class Constants {
     /** 日時フォーマット */
     public static final String DATE_TIME_FORMAT = ResourceBundle.getBundle(BUNDLE_KEY).getString("date.time.format");
 
-    /** 認証失敗可能回数 */
+    /** 認証失敗制限数 */
     public static final int LOGIN_FAILURE_UPPER_LIMIT = Integer.parseInt(ResourceBundle.getBundle(BUNDLE_KEY).getString("login.failure.upper.limit"));
 
     /** 有効期限切れ期間 */

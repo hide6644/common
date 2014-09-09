@@ -1,6 +1,5 @@
-${message}
-
 Username: ${user.username}
 
-${attention}
+${message}
+
 Login at: ${URL}

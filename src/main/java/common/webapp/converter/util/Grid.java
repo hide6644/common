@@ -8,8 +8,6 @@ import org.springframework.core.convert.ConversionService;
 
 /**
  * オブジェクトを配列に変換するクラス.
- *
- * @author hide6644
  */
 public class Grid {
 
@@ -74,6 +72,8 @@ public class Grid {
      * @param column
      *            列番号
      * @param clazz
+     *            変換する型
+     * @param <T>
      *            変換する型
      * @return プロパティ
      */

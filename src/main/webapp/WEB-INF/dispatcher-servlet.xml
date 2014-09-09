@@ -52,6 +52,6 @@
     <mvc:view-controller path="/top" view-name="top" />
     <mvc:view-controller path="/admin/top" view-name="admin/top" />
     <mvc:view-controller path="/admin/master/top" view-name="admin/master/top" />
-    <mvc:view-controller path="/admin/activeAccounts" view-name="admin/activeAccounts" />
+    <mvc:view-controller path="/admin/activeUsers" view-name="admin/activeUsers" />
 
 </beans>

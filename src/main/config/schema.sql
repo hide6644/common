@@ -13,7 +13,6 @@ create table app_user (
     account_locked boolean not null,
     account_expired_date date default null,
     credentials_expired_date date default null,
-    bad_credentials_count integer default 0,
     version integer not null,
     create_user varchar(16) default null,
     create_date timestamp default '0000-00-00 00:00:00',

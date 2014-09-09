@@ -1,6 +1,8 @@
-package common.service.impl;
+package common.service;
 
 import static org.junit.Assert.*;
+
+import java.util.Locale;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -9,20 +11,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.subethamail.wiser.Wiser;
 
 import common.model.User;
-import common.service.PasswordTokenManager;
-import common.service.UserManager;
 
-@ContextConfiguration(locations = { "classpath:/common/service/applicationContext-resources.xml",
-        "classpath:/applicationContext-dao.xml", "classpath:/applicationContext-service.xml",
-        "classpath:/common/service/applicationContext-test.xml"
-})
-public class PasswordTokenManagerTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class PasswordTokenManagerTest extends BaseManagerTestCase {
 
     protected transient final Log log = LogFactory.getLog(getClass());
 
@@ -46,6 +41,7 @@ public class PasswordTokenManagerTest extends AbstractTransactionalJUnit4SpringC
 
     @Before
     public void onSetUp() {
+        LocaleContextHolder.setLocale(Locale.JAPANESE);
         smtpPort = smtpPort + (int) (Math.random() * 100);
         // change the port on the mailSender so it doesn't conflict with an
         // existing SMTP server on localhost

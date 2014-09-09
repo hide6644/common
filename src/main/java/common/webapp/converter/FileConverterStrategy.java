@@ -6,8 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * ファイル変換処理インターフェイス.
- *
- * @author hide6644
  */
 public interface FileConverterStrategy<T> {
 

@@ -9,8 +9,6 @@ import common.validator.constraints.MaxFileSize;
 
 /**
  * アップロードファイルの容量をチェックする実装クラス.
- *
- * @author hide6644
  */
 public class MaxFileSizeValidator implements ConstraintValidator<MaxFileSize, Object> {
 
@@ -20,11 +18,10 @@ public class MaxFileSizeValidator implements ConstraintValidator<MaxFileSize, Ob
     /** アップロードファイルの容量 */
     private int size;
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void initialize(MaxFileSize constraintAnnotation) {
         max = constraintAnnotation.max();
 
@@ -43,11 +40,10 @@ public class MaxFileSizeValidator implements ConstraintValidator<MaxFileSize, Ob
         }
     }
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see javax.validation.ConstraintValidator#isValid(java.lang.Object, javax.validation.ConstraintValidatorContext)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public boolean isValid(Object target, ConstraintValidatorContext context) {
         boolean isValid = true;
 

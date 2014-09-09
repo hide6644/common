@@ -3,6 +3,8 @@ package common.webapp.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -23,9 +25,7 @@ import common.model.User;
 import common.service.UserManager;
 
 /**
- * ユーザ画面処理クラス.
- *
- * @author hide6644
+ * ユーザ一覧処理クラス.
  */
 @Controller
 @SessionAttributes("searchUser")
@@ -36,22 +36,20 @@ public class UserListController extends BaseController {
     @Autowired
     private UserManager userManager;
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see
-     * common.web.controller.BaseController#initBinder(org.springframework.web.bind.WebDataBinder)
+    /**
+     * {@inheritDoc}
      */
     @InitBinder
+    @Override
     public void initBinder(WebDataBinder binder) {
         super.initBinder(binder);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(Constants.DATE_TIME_FORMAT), true));
     }
 
     /**
-     * 検索条件初期化
+     * 画面入力値保持モデル初期化
      *
-     * @return 画面入力値保持モデル
+     * @return ユーザ
      */
     @ModelAttribute("searchUser")
     public User getSearchUser() {
@@ -62,11 +60,9 @@ public class UserListController extends BaseController {
      * ユーザ一覧表示画面処理.
      *
      * @param user
-     *            画面入力値保持モデル
+     *            ユーザ
      * @param page
      *            表示ページ数
-     * @param model
-     *            画面汎用値保持モデル
      * @return 遷移先jsp名
      */
     @RequestMapping(method = RequestMethod.GET)
@@ -78,6 +74,37 @@ public class UserListController extends BaseController {
         Model model = new ExtendedModelMap();
         model.addAttribute("paginatedList", paginatedList);
 
-        return new ModelAndView("admin/master/userList", model.asMap());
+        return new ModelAndView("admin/master/users", model.asMap());
+    }
+
+    /**
+     * アカウント削除処理.
+     *
+     * @param userIds
+     *            ユーザID一覧
+     * @param request
+     *            {@link HttpServletRequest}
+     * @return 遷移先jsp名
+     */
+    @RequestMapping(method = RequestMethod.DELETE)
+    public String onSubmit(@RequestParam("userIds") String[] userIds, HttpServletRequest request) {
+        boolean logoutFlg = false;
+        String remoteUserId = String.valueOf(userManager.getUserByUsername(request.getRemoteUser()).getId());
+
+        for (int i = 0; i < userIds.length; i++) {
+            if (userIds[i].equals(remoteUserId)) {
+                logoutFlg = true;
+            }
+
+            userManager.removeUser(userIds[i]);
+            saveFlashMessage(getText("deleted"));
+        }
+
+        if (logoutFlg) {
+            // 自分自身を削除した場合は強制ログアウト
+            return "redirect:/logout";
+        } else {
+            return "redirect:/admin/master/users";
+        }
     }
 }

@@ -20,42 +20,40 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import common.model.User;
 
 /**
- * ログイン中のAccountを管理するクラス.
- *
- * @author hide6644
+ * ログイン中のユーザを管理するクラス.
  */
 public class CounterListener implements ServletContextListener, HttpSessionAttributeListener {
 
+    /** ユーザ数保存用の変数名 */
     public static final String COUNT_KEY = "LOGIN_USER_COUNTER";
 
+    /** ユーザ保存用の変数名 */
     public static final String USERS_KEY = "LOGIN_USERS";
 
+    /** セッションに保存されているSecurity Contextの変数名 */
     public static final String EVENT_KEY = HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void contextInitialized(ServletContextEvent sce) {
         sce.getServletContext().setAttribute(COUNT_KEY, 0);
         sce.getServletContext().setAttribute(USERS_KEY, new LinkedHashSet<User>());
     }
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void contextDestroyed(ServletContextEvent event) {
         LogFactory.release(Thread.currentThread().getContextClassLoader());
     }
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see javax.servlet.http.HttpSessionAttributeListener#attributeAdded(javax.servlet.http.HttpSessionBindingEvent)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void attributeAdded(HttpSessionBindingEvent event) {
         if (event.getName().equals(EVENT_KEY) && !isAnonymous()) {
             Authentication auth = ((SecurityContext) event.getValue()).getAuthentication();
@@ -66,11 +64,10 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
         }
     }
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see javax.servlet.http.HttpSessionAttributeListener#attributeRemoved(javax.servlet.http.HttpSessionBindingEvent)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void attributeRemoved(HttpSessionBindingEvent event) {
         if (event.getName().equals(EVENT_KEY) && !isAnonymous()) {
             Authentication auth = ((SecurityContext) event.getValue()).getAuthentication();
@@ -82,11 +79,10 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
         }
     }
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see javax.servlet.http.HttpSessionAttributeListener#attributeReplaced(javax.servlet.http.HttpSessionBindingEvent)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void attributeReplaced(HttpSessionBindingEvent event) {
         if (event.getName().equals(EVENT_KEY) && !isAnonymous()) {
             Authentication auth = ((SecurityContext) event.getValue()).getAuthentication();
@@ -127,7 +123,7 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
      * ログインユーザ一覧に追加する.
      *
      * @param user
-     *            画面入力値保持モデル
+     *            ユーザ
      * @param servletContext
      *            {@link ServletContext}
      */
@@ -146,7 +142,7 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
      * ログインユーザ一覧から削除する.
      *
      * @param user
-     *            画面入力値保持モデル
+     *            ユーザ
      * @param servletContext
      *            {@link ServletContext}
      */
@@ -161,9 +157,9 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
     }
 
     /**
-     * 匿名ユーザか.
+     * 匿名ユーザか確認する.
      *
-     * @return true 匿名ユーザ
+     * @return true:匿名ユーザ、false:認証済みユーザ
      */
     private boolean isAnonymous() {
         AuthenticationTrustResolver resolver = new AuthenticationTrustResolverImpl();

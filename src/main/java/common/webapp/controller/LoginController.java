@@ -1,20 +1,18 @@
 package common.webapp.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.ExtendedModelMap;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import common.service.UserManager;
 
 /**
  * ログイン処理クラス.
- *
- * @author hide6644
  */
 @Controller
 public class LoginController extends BaseController {
@@ -22,6 +20,20 @@ public class LoginController extends BaseController {
     /** User処理クラス */
     @Autowired
     private UserManager userManager;
+
+    /**
+     * ログイン画面初期処理.
+     *
+     * @return 遷移先jsp名
+     */
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public ModelAndView setupLogin() {
+        Model model = new ExtendedModelMap();
+        model.addAttribute("username", "");
+        model.addAttribute("password", "");
+
+        return new ModelAndView("login", model.asMap());
+    }
 
     /**
      * ログイン画面処理.
@@ -77,7 +89,7 @@ public class LoginController extends BaseController {
      */
     @RequestMapping(value = "login/accountExpired", method = RequestMethod.GET)
     public String accountExpired() {
-        saveFlashError(getText("loginForm.accountExpired", getText("login.failure.upper.limit")));
+        saveFlashError(getText("loginForm.accountExpired"));
 
         return "redirect:/login";
     }
@@ -85,17 +97,13 @@ public class LoginController extends BaseController {
     /**
      * パスワード有効期限切れ画面初期処理.
      *
-     * @param model
-     *            画面汎用値保持モデル
-     * @param request
-     *            {@link HttpServletRequest}
      * @return 遷移先jsp名
      */
     @RequestMapping(value = "login/credentialsExpired", method = RequestMethod.GET)
-    public String setupCredentialsExpired(ModelMap model, HttpServletRequest request) {
+    public String setupCredentialsExpired() {
         saveFlashError(getText("loginForm.credentialsExpired"));
 
-        return "redirect:/updatePassword";
+        return "redirect:/login";
     }
 
     /**

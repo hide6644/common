@@ -9,8 +9,9 @@ import javax.jws.WebService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,87 +23,89 @@ import common.service.PasswordTokenManager;
 import common.service.UserManager;
 import common.service.UserService;
 
+/**
+ * ユーザ処理の実装クラス.
+ */
 @Service("userManager")
 @WebService(serviceName = "UserService", endpointInterface = "common.service.UserService")
 public class UserManagerImpl extends GenericManagerImpl<User, Long> implements UserManager, UserService {
 
-    private PasswordEncoder passwordEncoder;
-
+    /** ユーザDAO */
     private UserDao userDao;
 
+    /** パスワードエンコーダー */
+    @Autowired(required = false)
+    @Qualifier("passwordEncoder")
+    private PasswordEncoder passwordEncoder;
+
+    /** メールを処理するクラス */
+    @Autowired(required = false)
     private MailEngine mailEngine;
 
-    private SimpleMailMessage message;
+    /** Simple Mailメッセージ */
+    @Autowired(required = false)
+    private SimpleMailMessage mailMessage;
 
+    /** パスワードトークン処理のクラス */
+    @Autowired(required = false)
     private PasswordTokenManager passwordTokenManager;
 
+    /** メッセージソースアクセサー */
+    private MessageSourceAccessor messages;
+
+    /** ユーザ本登録メールのテンプレート */
+    private String accountCreatedTemplate = "accountCreated.vm";
+
+    /** パスワード回復案内メールのテンプレート */
     private String passwordRecoveryTemplate = "passwordRecovery.vm";
 
+    /** パスワード更新メールのテンプレート */
     private String passwordUpdatedTemplate = "passwordUpdated.vm";
 
-    @Autowired
-    @Qualifier("passwordEncoder")
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    @Override
-    @Autowired
-    public void setUserDao(UserDao userDao) {
-        this.dao = userDao;
-        this.userDao = userDao;
-    }
-
-    @Autowired(required = false)
-    public void setMailEngine(MailEngine mailEngine) {
-        this.mailEngine = mailEngine;
-    }
-
-    @Autowired(required = false)
-    public void setMailMessage(SimpleMailMessage message) {
-        this.message = message;
-    }
-
-    @Autowired(required = false)
-    public void setPasswordTokenManager(PasswordTokenManager passwordTokenManager) {
-        this.passwordTokenManager = passwordTokenManager;
-    }
-
-    public void setPasswordRecoveryTemplate(String passwordRecoveryTemplate) {
-        this.passwordRecoveryTemplate = passwordRecoveryTemplate;
-    }
-
-    public void setPasswordUpdatedTemplate(String passwordUpdatedTemplate) {
-        this.passwordUpdatedTemplate = passwordUpdatedTemplate;
-    }
-
-    @Override
-    public User getUser(String userId) {
-        return userDao.get(new Long(userId));
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<User> getUsers() {
         return userDao.getAllDistinct();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public User getUser(String userId) {
+        return userDao.get(new Long(userId));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public User getUserByUsername(String username) {
+        return (User) userDao.loadUserByUsername(username);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User saveUser(User user) {
         if (user.getVersion() == null) {
-            // if new user, lowercase userId
             user.setUsername(user.getUsername().toLowerCase());
         }
 
-        // Get and prepare password management-related artifacts
         boolean passwordChanged = false;
+
         if (passwordEncoder != null) {
-            // Check whether we have to encrypt (or re-encrypt) the password
             if (user.getVersion() == null) {
-                // New user, always encrypt
                 passwordChanged = true;
             } else {
-                // Existing user, check password in DB
                 String currentPassword = userDao.getUserPassword(user.getId());
+                if (user.getPassword() == null) {
+                    user.setPassword(currentPassword);
+                    user.setConfirmPassword(user.getPassword());
+                }
                 if (currentPassword == null) {
                     passwordChanged = true;
                 } else {
@@ -112,7 +115,6 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
                 }
             }
 
-            // If password was changed (or new user), encrypt it
             if (passwordChanged) {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
                 user.setConfirmPassword(user.getPassword());
@@ -124,60 +126,109 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
         try {
             return userDao.saveUser(user);
         } catch (Exception e) {
-            throw new DBException("errors.insert", e);
+            user.setPassword(null);
+            user.setConfirmPassword(user.getPassword());
+            if (user.getVersion() == null) {
+                throw new DBException("errors.insert", e);
+            } else {
+                throw new DBException("errors.update", e);
+            }
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeUser(User user) {
         userDao.remove(user);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeUser(String userId) {
         userDao.remove(new Long(userId));
     }
 
-    @Override
-    public User getUserByUsername(String username) throws UsernameNotFoundException {
-        return (User) userDao.loadUserByUsername(username);
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<User> search(String searchTerm) {
         return super.search(searchTerm);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void sendSignupUserEmail(User user, String urlTemplate) {
+        String url = buildRecoveryPasswordUrl(user, urlTemplate);
+
+        sendUserEmail(user, accountCreatedTemplate, messages.getMessage("signupForm.email.subject"), messages.getMessage("signupForm.email.message"), url);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void sendCreatedUserEmail(User user, String urlTemplate) {
+        String url = buildRecoveryPasswordUrl(user, urlTemplate);
+
+        sendUserEmail(user, accountCreatedTemplate, messages.getMessage("userSaveForm.email.subject"), messages.getMessage("userSaveForm.email.message"), url);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String buildRecoveryPasswordUrl(User user, String urlTemplate) {
         String token = generateRecoveryToken(user);
         String username = user.getUsername();
+
         return StringUtils.replaceEach(urlTemplate, new String[] { "{username}", "{token}" }, new String[] { username, token });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String generateRecoveryToken(User user) {
         return passwordTokenManager.generateRecoveryToken(user);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isRecoveryTokenValid(String username, String token) {
         return isRecoveryTokenValid(getUserByUsername(username), token);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isRecoveryTokenValid(User user, String token) {
         return passwordTokenManager.isRecoveryTokenValid(user, token);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void sendPasswordRecoveryEmail(String username, String urlTemplate) {
         User user = getUserByUsername(username);
         String url = buildRecoveryPasswordUrl(user, urlTemplate);
 
-        sendUserEmail(user, passwordRecoveryTemplate, url);
+        sendUserEmail(user, passwordRecoveryTemplate, messages.getMessage("updatePasswordForm.email.subject"), messages.getMessage("updatePasswordForm.recovery.email.message"), url);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User updatePassword(String username, String currentPassword, String recoveryToken, String newPassword, String applicationUrl) {
         User user = getUserByUsername(username);
@@ -185,9 +236,8 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
         if (isRecoveryTokenValid(user, recoveryToken)) {
             user.setPassword(newPassword);
             user = saveUser(user);
-            passwordTokenManager.invalidateRecoveryToken(user, recoveryToken);
 
-            sendUserEmail(user, passwordUpdatedTemplate, applicationUrl);
+            sendUserEmail(user, passwordUpdatedTemplate, messages.getMessage("updatePasswordForm.email.subject"), messages.getMessage("updatePasswordForm.email.message"), applicationUrl);
 
             return user;
         } else if (StringUtils.isNotBlank(currentPassword)) {
@@ -197,17 +247,82 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
                 return user;
             }
         }
-        // or throw exception
+
         return null;
     }
 
-    private void sendUserEmail(User user, String template, String url) {
-        message.setTo(user.getEmail());
+    /**
+     * メールを送信する.
+     *
+     * @param user
+     *            ユーザ
+     * @param template
+     *            テンプレート
+     * @param subject
+     *            件名
+     * @param message
+     *            本文
+     * @param url
+     *            URL
+     */
+    private void sendUserEmail(User user, String template, String subject, String message, String url) {
+        mailMessage.setSubject("[" + messages.getMessage("webapp.name") + "] " + subject);
+        mailMessage.setTo(user.getEmail());
 
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("user", user);
-        model.put("applicationURL", url);
+        model.put("message", message);
+        model.put("URL", url);
 
-        mailEngine.sendMessage(message, template, model);
+        mailEngine.sendMessage(mailMessage, template, model);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Autowired
+    @Override
+    public void setUserDao(UserDao userDao) {
+        this.dao = userDao;
+        this.userDao = userDao;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    /**
+     * メッセージソースを設定する.
+     *
+     * @param messageSource
+     *            メッセージソース
+     */
+    @Autowired
+    public void setMessages(MessageSource messageSource) {
+        messages = new MessageSourceAccessor(messageSource);
+    }
+
+    /**
+     * パスワード回復案内メールのテンプレートを設定する.
+     *
+     * @param passwordRecoveryTemplate
+     *            パスワード回復案内メールのテンプレート
+     */
+    public void setPasswordRecoveryTemplate(String passwordRecoveryTemplate) {
+        this.passwordRecoveryTemplate = passwordRecoveryTemplate;
+    }
+
+    /**
+     * パスワード更新メールのテンプレートを設定する.
+     *
+     * @param passwordUpdatedTemplate
+     *            パスワード更新メールのテンプレート
+     */
+    public void setPasswordUpdatedTemplate(String passwordUpdatedTemplate) {
+        this.passwordUpdatedTemplate = passwordUpdatedTemplate;
     }
 }

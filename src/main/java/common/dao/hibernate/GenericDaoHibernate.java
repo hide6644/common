@@ -11,7 +11,6 @@ import javax.annotation.Resource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -64,15 +63,27 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
         this.sessionFactory = sessionFactory;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
+    @Override
     public List<T> getAll() {
         return getSession().createCriteria(persistentClass).list();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<T> getAllDistinct() {
         return new ArrayList<T>(new LinkedHashSet<T>(getAll()));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public T get(PK id) {
         @SuppressWarnings("unchecked")
         T entity = (T) getSession().byId(persistentClass).load(id);
@@ -85,26 +96,46 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
         return entity;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean exists(PK id) {
         return getSession().byId(persistentClass).load(id) != null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
+    @Override
     public T save(T object) {
         return (T) getSession().merge(object);
     }
 
-    public void remove(T object) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+   public void remove(T object) {
         getSession().delete(object);
     }
 
+   /**
+    * {@inheritDoc}
+    */
+    @Override
     public void remove(PK id) {
         Session sess = getSession();
         sess.delete(sess.byId(persistentClass).load(id));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
-    public List<T> findByNamedQuery(String queryName, Map<String, Object> queryParams) {
+    @Override
+   public List<T> findByNamedQuery(String queryName, Map<String, Object> queryParams) {
         Query namedQuery = getSession().getNamedQuery(queryName);
 
         if (queryParams != null) {
@@ -116,7 +147,11 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
         return namedQuery.list();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
+    @Override
     public List<T> search(String searchTerm) throws SearchException {
         Session sess = getSession();
         FullTextQuery hibQuery = Search.getFullTextSession(sess).createFullTextQuery(
@@ -125,19 +160,35 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
         return hibQuery.list();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<Facet> facet(String field, int maxCount) {
         return HibernateSearchTools.generateFacet(field, maxCount, persistentClass, getSession());
     }
 
+   /**
+    * {@inheritDoc}
+    */
+    @Override
     public void reindex() {
         HibernateSearchTools.reindex(persistentClass, getSessionFactory().getCurrentSession());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void reindexAll(boolean async) {
         HibernateSearchTools.reindexAll(async, getSessionFactory().getCurrentSession());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
+    @Override
     public List<T> getPaged(Class<?> searchClass, Object searchCondition, Integer offset, Integer limit) {
         Criteria criteria = getSession().createCriteria(searchClass);
         criteria.setFirstResult(offset);
@@ -146,6 +197,10 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
         return criteria.list();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public long getRecordCount(Class<?> searchClass, Object searchCondition) {
         Criteria criteria = getSession().createCriteria(searchClass);
         criteria.setProjection(Projections.rowCount());
@@ -178,9 +233,8 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
      * DBセッションを取得する.
      *
      * @return DBセッション
-     * @throws HibernateException
      */
-    public Session getSession() throws HibernateException {
+    public Session getSession() {
         Session sess = getSessionFactory().getCurrentSession();
 
         if (sess == null) {

@@ -55,7 +55,7 @@ public class DateUtilTest extends TestCase {
         if (log.isDebugEnabled()) {
             log.debug("entered 'testGetDateTime' method");
         }
-        String now = DateUtil.getTimeNow(new Date());
+        String now = DateUtil.getTime(new Date());
         assertTrue(now != null);
         log.debug(now);
     }

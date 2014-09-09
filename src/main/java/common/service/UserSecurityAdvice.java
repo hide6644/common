@@ -24,12 +24,21 @@ import common.Constants;
 import common.model.Role;
 import common.model.User;
 
+/**
+ * ユーザ処理のAdviceクラス.
+ */
 public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdvice {
 
+    /** "Access Denied" エラーメッセージ (not i18n-ized). */
     public static final String ACCESS_DENIED = "Access Denied: Only administrators are allowed to modify other users.";
 
+    /** ログ出力クラス */
     private final Log log = LogFactory.getLog(getClass());
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void before(Method method, Object[] args, Object target) throws Throwable {
         SecurityContext ctx = SecurityContextHolder.getContext();
 
@@ -48,35 +57,29 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
             User user = (User) args[0];
 
             AuthenticationTrustResolver resolver = new AuthenticationTrustResolverImpl();
-            // allow new users to signup - this is OK b/c Signup doesn't allow setting of roles
             boolean signupUser = resolver.isAnonymous(auth);
 
             if (!signupUser) {
-                UserManager userManager = (UserManager) target;
-                User currentUser = getCurrentUser(auth, userManager);
+                User currentUser = getCurrentUser(auth);
 
                 if (user.getId() != null && !user.getId().equals(currentUser.getId()) && !administrator) {
-                    log.warn("Access Denied: '" + currentUser.getUsername() + "' tried to modify '"
-                            + user.getUsername() + "'!");
+                    log.warn("Access Denied: '" + currentUser.getUsername() + "' tried to modify '" + user.getUsername() + "'!");
                     throw new AccessDeniedException(ACCESS_DENIED);
                 } else if (user.getId() != null && user.getId().equals(currentUser.getId()) && !administrator) {
-                    // get the list of roles the user is trying add
+                    // 入力されたユーザの権限
                     Set<String> userRoles = new HashSet<String>();
                     if (user.getRoles() != null) {
-                        for (Object o : user.getRoles()) {
-                            Role role = (Role) o;
+                        for (Role role : user.getRoles()) {
                             userRoles.add(role.getName());
                         }
                     }
 
-                    // get the list of roles the user currently has
+                    // ログインユーザの権限
                     Set<String> authorizedRoles = new HashSet<String>();
                     for (GrantedAuthority role : roles) {
                         authorizedRoles.add(role.getAuthority());
                     }
 
-                    // if they don't match - access denied
-                    // regular users aren't allowed to change their roles
                     if (!CollectionUtils.isEqualCollection(userRoles, authorizedRoles)) {
                         log.warn("Access Denied: '" + currentUser.getUsername() + "' tried to change their role(s)!");
                         throw new AccessDeniedException(ACCESS_DENIED);
@@ -90,19 +93,20 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void afterReturning(Object returnValue, Method method, Object[] args, Object target) throws Throwable {
         User user = (User) args[0];
 
         if (user.getVersion() != null) {
-            // reset the authentication object if current user
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             AuthenticationTrustResolver resolver = new AuthenticationTrustResolverImpl();
-            // allow new users to signup - this is OK b/c Signup doesn't allow setting of roles
             boolean signupUser = resolver.isAnonymous(auth);
 
             if (auth != null && !signupUser) {
-                UserManager userManager = (UserManager) target;
-                User currentUser = getCurrentUser(auth, userManager);
+                User currentUser = getCurrentUser(auth);
 
                 if (currentUser.getId().equals(user.getId())) {
                     auth = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
@@ -112,7 +116,14 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
         }
     }
 
-    private User getCurrentUser(Authentication auth, UserManager userManager) {
+    /**
+     * ログインユーザ情報を取得する.
+     *
+     * @param auth
+     *            認証情報
+     * @return ユーザ
+     */
+    public static User getCurrentUser(Authentication auth) {
         User currentUser = null;
 
         if (auth.getPrincipal() instanceof UserDetails) {

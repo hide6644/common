@@ -40,7 +40,7 @@ class HibernateSearchTools {
     private static final Log log = LogFactory.getLog(HibernateSearchTools.class);
 
     /**
-     * プライベート・コンストラクタ.<br />
+     * プライベート・コンストラクタ.
      * このクラスはインスタンス化禁止.
      */
     private HibernateSearchTools() {
@@ -120,7 +120,7 @@ class HibernateSearchTools {
      *            エンティティクラス
      * @param sess
      *            DBセッション
-     * @return
+     * @return ファセットのリスト
      */
     public static List<Facet> generateFacet(String field, int maxCount,
             @SuppressWarnings("rawtypes") Class searchedEntity, Session sess) {
@@ -166,7 +166,7 @@ class HibernateSearchTools {
      * 全てのインデックスを再作成する.
      *
      * @param async
-     *            true:非同期
+     *            true:非同期、false:同期
      * @param sess
      *            DBセッション
      */

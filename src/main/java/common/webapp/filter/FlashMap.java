@@ -13,9 +13,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
- * FlashMapクラス.
- *
- * @author hide6644
+ * FlashMap機能の実装クラス.
  */
 public final class FlashMap {
 
@@ -23,7 +21,7 @@ public final class FlashMap {
     static final String FLASH_MAP_ATTRIBUTE = FlashMap.class.getName();
 
     /**
-     * プライベート・コンストラクタ.<br />
+     * プライベート・コンストラクタ.
      * インスタンス化禁止.
      */
     private FlashMap() {

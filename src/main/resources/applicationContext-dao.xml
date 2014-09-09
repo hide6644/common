@@ -9,27 +9,28 @@
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
     <!-- Hibernate SessionFactory -->
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
-        destroy-method="destroy">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" destroy-method="destroy">
         <property name="dataSource" ref="dataSource" />
         <property name="configLocation" value="classpath:hibernate.cfg.xml" />
         <property name="hibernateProperties">
             <props>
+                <!--<prop name="hibernate.show_sql">true</prop>-->
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.query.substitutions">true 'Y', false 'N'</prop>
                 <prop key="hibernate.cache.use_second_level_cache">true</prop>
                 <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
                 <!-- Hibernate Search -->
-                <prop key="hibernate.search.default.indexBase">target/indexes</prop>
+                <prop key="hibernate.search.default.indexBase">${catalina.base}/indexes</prop>
                 <prop key="hibernate.search.default.directory_provider">filesystem</prop>
                 <prop key="hibernate.search.default.locking_strategy">simple</prop>
                 <prop key="hibernate.search.default.exclusive_index_use">true</prop>
                 <prop key="hibernate.search.lucene_version">LUCENE_36</prop>
                 <prop key="hibernate.search.analyzer">org.apache.lucene.analysis.en.EnglishAnalyzer</prop>
                 <prop key="hibernate.search.worker.batch_size">100</prop>
+                <!-- Hibernate Validator -->
+                <prop key="hibernate.validator.autoregister_listeners">false</prop>
+                <prop key="hibernate.validator.apply_to_ddl">false</prop>
             </props>
-            <!-- Turn batching off for better error messages under PostgreSQL -->
-            <!-- hibernate.jdbc.batch_size=0 -->
         </property>
     </bean>
 

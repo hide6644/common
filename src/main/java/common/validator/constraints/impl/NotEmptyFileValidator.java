@@ -9,24 +9,20 @@ import common.validator.constraints.NotEmptyFile;
 
 /**
  * アップロードファイルの存在をチェックする実装クラス.
- *
- * @author hide6644
  */
 public class NotEmptyFileValidator implements ConstraintValidator<NotEmptyFile, Object> {
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void initialize(NotEmptyFile constraintAnnotation) {
     }
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see javax.validation.ConstraintValidator#isValid(java.lang.Object, javax.validation.ConstraintValidatorContext)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public boolean isValid(Object target, ConstraintValidatorContext context) {
         boolean isValid = true;
 

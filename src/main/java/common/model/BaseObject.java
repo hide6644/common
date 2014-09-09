@@ -3,9 +3,6 @@ package common.model;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -14,16 +11,12 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.hibernate.search.annotations.DocumentId;
 
 /**
  * エンティティの基底クラス.
  */
 @MappedSuperclass
 public abstract class BaseObject {
-
-    /** ID */
-    private Long id;
 
     /** 更新回数 */
     private Integer version;
@@ -39,29 +32,6 @@ public abstract class BaseObject {
 
     /** 更新日時 */
     private Date updateDate;
-
-    /**
-     * IDを取得する.
-     *
-     * @return ID
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @DocumentId
-    @XmlTransient
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * IDを設定する.
-     *
-     * @param id
-     *            ID
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     /**
      * 更新回数を取得する.
@@ -203,16 +173,19 @@ public abstract class BaseObject {
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract int hashCode();
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract boolean equals(Object obj);
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }

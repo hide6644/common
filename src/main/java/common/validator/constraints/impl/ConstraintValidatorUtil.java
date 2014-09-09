@@ -4,13 +4,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.Set;
 
-import common.Constants;
 import common.validator.constraints.ComparisonMode;
 
-public class ConstraintValidatorHelper {
+/**
+ * 値の一致、不一致を判定するUtilityクラス.
+ */
+public class ConstraintValidatorUtil {
+
+    /**
+     * プライベート・コンストラクタ.
+     * Utilityクラスはインスタンス化禁止.
+     */
+    private ConstraintValidatorUtil() {
+    }
 
     /**
      * 判定する.
@@ -61,31 +69,5 @@ public class ConstraintValidatorHelper {
         }
 
         return values;
-    }
-
-    public static String resolveMessage(String message, Object target, String[] propertyNames, ComparisonMode comparisonMode) {
-        String className = target.getClass().getSimpleName().toLowerCase();
-        List<String> propertyNameList = new ArrayList<String>();
-
-        for (String propertyName : propertyNames) {
-            propertyNameList.add(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString(className + "." + propertyName));
-        }
-
-        return concatPropertyNames(propertyNameList).append(message).toString();
-    }
-
-    private static StringBuilder concatPropertyNames(List<String> propertyNames) {
-        StringBuilder builder = new StringBuilder();
-        builder.append('"');
-
-        for (String propertyName : propertyNames) {
-            builder.append(propertyName);
-            builder.append(", ");
-        }
-
-        builder.delete(builder.length() - 2, builder.length());
-        builder.append('"');
-
-        return builder;
     }
 }

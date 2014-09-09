@@ -14,8 +14,6 @@ import common.validator.constraints.impl.NotEmptyFileValidator;
 
 /**
  * アップロードファイルの存在をチェックする.
- *
- * @author hide6644
  */
 @Documented
 @Target({ ANNOTATION_TYPE, FIELD, METHOD })
@@ -28,11 +26,4 @@ public @interface NotEmptyFile {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
-    @Documented
-    @Target( { TYPE  })
-    @Retention(RUNTIME)
-    @interface List {
-        NotEmptyFile[] value();
-    }
 }

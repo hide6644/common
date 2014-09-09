@@ -17,32 +17,72 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
+/**
+ * メールを処理するクラス.
+ */
 public class MailEngine {
 
+    /** ログ出力クラス */
     private final Log log = LogFactory.getLog(getClass());
 
+    /** メール送信処理クラス */
     private MailSender mailSender;
 
+    /** テンプレートエンジン */
     private VelocityEngine velocityEngine;
 
+    /** デフォルトの送信者 */
     private String defaultFrom;
 
-    public void setMailSender(MailSender mailSender) {
-        this.mailSender = mailSender;
+    /**
+     * メッセージを送信する.
+     *
+     * @param recipients
+     *            宛先
+     * @param sender
+     *            送信者
+     * @param resource
+     *            添付ファイル
+     * @param bodyText
+     *            本文
+     * @param subject
+     *            件名
+     * @param attachmentName
+     *            添付ファイル名
+     * @throws MessagingException
+     *             {@link MessagingException}
+     */
+    public void sendMessage(String[] recipients, String sender, ClassPathResource resource, String bodyText, String subject, String attachmentName) throws MessagingException {
+        MimeMessage message = ((JavaMailSenderImpl) mailSender).createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setTo(recipients);
+
+        // 送信者が設定されていなかった場合
+        if (sender == null) {
+            helper.setFrom(defaultFrom);
+        } else {
+            helper.setFrom(sender);
+        }
+
+        helper.setText(bodyText);
+        helper.setSubject(subject);
+
+        helper.addAttachment(attachmentName, resource);
+
+        ((JavaMailSenderImpl) mailSender).send(message);
     }
 
-    public MailSender getMailSender() {
-        return mailSender;
-    }
-
-    public void setVelocityEngine(VelocityEngine velocityEngine) {
-        this.velocityEngine = velocityEngine;
-    }
-
-    public void setFrom(String from) {
-        this.defaultFrom = from;
-    }
-
+    /**
+     * メッセージを送信する.
+     *
+     * @param msg
+     *            Simple Mailメッセージモデル
+     * @param templateName
+     *            テンプレート
+     * @param model
+     *            入力値
+     */
     public void sendMessage(SimpleMailMessage msg, String templateName, Map<String, Object> model) {
         String result = null;
 
@@ -57,6 +97,14 @@ public class MailEngine {
         send(msg);
     }
 
+    /**
+     * メッセージを送信する.
+     *
+     * @param msg
+     *            Simple Mailメッセージ
+     * @throws MailException
+     *             {@link MailException}
+     */
     public void send(SimpleMailMessage msg) throws MailException {
         try {
             mailSender.send(msg);
@@ -66,27 +114,33 @@ public class MailEngine {
         }
     }
 
-    public void sendMessage(String[] recipients, String sender, ClassPathResource resource, String bodyText,
-            String subject, String attachmentName) throws MessagingException {
-        MimeMessage message = ((JavaMailSenderImpl) mailSender).createMimeMessage();
+    /**
+     * メール送信処理クラスを設定する.
+     *
+     * @param mailSender
+     *            メール送信処理クラス
+     */
+    public void setMailSender(MailSender mailSender) {
+        this.mailSender = mailSender;
+    }
 
-        // use the true flag to indicate you need a multipart message
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+    /**
+     * テンプレートエンジンを設定する.
+     *
+     * @param velocityEngine
+     *            テンプレートエンジン
+     */
+    public void setVelocityEngine(VelocityEngine velocityEngine) {
+        this.velocityEngine = velocityEngine;
+    }
 
-        helper.setTo(recipients);
-
-        // use the default sending if no sender specified
-        if (sender == null) {
-            helper.setFrom(defaultFrom);
-        } else {
-            helper.setFrom(sender);
-        }
-
-        helper.setText(bodyText);
-        helper.setSubject(subject);
-
-        helper.addAttachment(attachmentName, resource);
-
-        ((JavaMailSenderImpl) mailSender).send(message);
+    /**
+     * 送信者を設定する.
+     *
+     * @param from
+     *            送信者
+     */
+    public void setFrom(String from) {
+        this.defaultFrom = from;
     }
 }

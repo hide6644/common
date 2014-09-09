@@ -16,8 +16,6 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -28,29 +26,26 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import common.exception.DBCheckException;
 import common.exception.DBException;
 import common.service.MailEngine;
-import common.service.util.SecurityUtil;
 import common.service.util.ValidateUtil;
 import common.webapp.filter.FlashMap;
 
 /**
- * 画面処理クラスの基底クラス.
- *
- * @author hide6644
+ * 画面処理の基底クラス.
  */
 public abstract class BaseController {
 
-    /** ログ処理クラス */
+    /** ログ出力クラス */
     protected final transient Log log = LogFactory.getLog(getClass());
 
     /** メッセージソースアクセサー */
     protected MessageSourceAccessor messages;
 
     /** メールを送信するクラス */
-    @Autowired
+    @Autowired(required = false)
     protected MailEngine mailEngine;
 
     /** Simple Mailメッセージモデル */
-    @Autowired
+    @Autowired(required = false)
     protected SimpleMailMessage mailMessage;
 
     /**
@@ -81,7 +76,7 @@ public abstract class BaseController {
      * FlashMapに例外からのエラーメッセージを設定する.
      *
      * @param e
-     *            例外クラス
+     *            データベース例外
      */
     protected void saveFlashError(DBException e) {
         saveFlashError(getText(e.getMessage()));
@@ -111,7 +106,7 @@ public abstract class BaseController {
      * 例外からエラーメッセージを設定する.
      *
      * @param e
-     *            例外クラス
+     *            実行時例外
      */
     protected void saveError(RuntimeException e) {
         saveError(getText(e.getMessage()));
@@ -128,7 +123,7 @@ public abstract class BaseController {
     }
 
     /**
-     * Requestの指定されたキーに要素を追加する.
+     * Requestに要素を追加する.
      *
      * @param key
      *            キー
@@ -149,25 +144,12 @@ public abstract class BaseController {
     }
 
     /**
-     * Requestの指定されたキーに要素を追加する.
-     *
-     * @param key
-     *            キー
-     * @param list
-     *            要素リスト
-     */
-    protected void save(String key, List<String> list) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        request.setAttribute(key, list);
-    }
-
-    /**
      * 例外を入力値チェックに設定する.
      *
      * @param result
      *            入力値チェック結果
      * @param e
-     *            例外クラス
+     *            データベース例外
      */
     protected void rejectValue(BindingResult result, DBException e) {
         if (e instanceof DBCheckException) {
@@ -209,16 +191,6 @@ public abstract class BaseController {
      */
     protected String getText(String msgKey, Object... args) {
         return messages.getMessage(msgKey, args, Locale.getDefault());
-    }
-
-    /**
-     * ログインユーザ名を取得する.
-     *
-     * @return ログインユーザ名
-     */
-    protected String getLoginUsername() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth == null ? "" : SecurityUtil.getCurrentAccount(auth).getUsername();
     }
 
     /**

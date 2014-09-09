@@ -12,17 +12,14 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
- * FlashMapの設定をするクラス.
- *
- * @author hide6644
+ * FlashMapクラスをFilterChainに設定するクラス.
  */
 public class FlashMapFilter extends OncePerRequestFilter {
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, javax.servlet.FilterChain)
+    /**
+     * {@inheritDoc}
      */
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
 

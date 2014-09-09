@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * エラーメッセージのUtilityクラス.
+ */
 public class ValidateUtil {
 
     /** エラーを表示するフィールド名を設定するキー文字列 */
@@ -18,7 +21,7 @@ public class ValidateUtil {
     public static final String ARGS = "args";
 
     /**
-     * プライベート・コンストラクタ.<br />
+     * プライベート・コンストラクタ.
      * Utilityクラスはインスタンス化禁止.
      */
     private ValidateUtil() {

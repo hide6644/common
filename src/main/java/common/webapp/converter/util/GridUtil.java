@@ -10,13 +10,11 @@ import org.springframework.format.support.FormattingConversionServiceFactoryBean
 
 /**
  * オブジェクトと配列を相互変換するUtilityクラス.
- *
- * @author hide6644
  */
 public class GridUtil {
 
     /**
-     * プライベート・コンストラクタ.<br />
+     * プライベート・コンストラクタ.
      * Utilityクラスはインスタンス化禁止.
      */
     private GridUtil() {

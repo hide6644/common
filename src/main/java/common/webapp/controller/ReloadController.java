@@ -10,13 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import common.webapp.controller.BaseController;
 import common.webapp.listener.StartupListener;
 
 /**
  * 再読込処理クラス.
- *
- * @author hide6644
  */
 @Controller
 public class ReloadController extends BaseController {
@@ -25,7 +22,7 @@ public class ReloadController extends BaseController {
     private StartupListener startupListener;
 
     /**
-     * マスタを再読み込し、プルダウンリストを生成する. <br />
+     * マスタを再読み込し、プルダウンリストを生成する.
      * リファー情報を取得し、遷移元の画面へリダイレクトする.
      *
      * @param request
@@ -33,6 +30,7 @@ public class ReloadController extends BaseController {
      * @param response
      *            {@link HttpServletResponse}
      * @throws IOException
+     *             {@link IOException}
      */
     @RequestMapping(value = "admin/reload", method = RequestMethod.GET)
     public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {

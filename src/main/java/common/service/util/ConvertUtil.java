@@ -14,13 +14,28 @@ import org.apache.commons.logging.LogFactory;
 
 import common.model.LabelValue;
 
+/**
+ * オブジェクト変換のUtilityクラス.
+ */
 public final class ConvertUtil {
 
+    /** ログ出力クラス */
     private static final Log log = LogFactory.getLog(ConvertUtil.class);
 
+    /**
+     * プライベート・コンストラクタ.
+     * Utilityクラスはインスタンス化禁止.
+     */
     private ConvertUtil() {
     }
 
+    /**
+     * 指定の引数を変換する.
+     *
+     * @param rb
+     *            リソースバンドル
+     * @return マップオブジェクト
+     */
     public static Map<String, String> convertBundleToMap(ResourceBundle rb) {
         Map<String, String> map = new HashMap<String, String>();
 
@@ -33,6 +48,13 @@ public final class ConvertUtil {
         return map;
     }
 
+    /**
+     * 指定の引数を変換する.
+     *
+     * @param list
+     *            リストオブジェクト
+     * @return マップオブジェクト
+     */
     public static Map<String, String> convertListToMap(List<LabelValue> list) {
         Map<String, String> map = new LinkedHashMap<String, String>();
 
@@ -43,6 +65,13 @@ public final class ConvertUtil {
         return map;
     }
 
+    /**
+     * 指定の引数を変換する.
+     *
+     * @param rb
+     *            リソースバンドル
+     * @return プロパティー
+     */
     public static Properties convertBundleToProperties(ResourceBundle rb) {
         Properties props = new Properties();
 
@@ -54,6 +83,15 @@ public final class ConvertUtil {
         return props;
     }
 
+    /**
+     * 指定の引数を変換する.
+     *
+     * @param obj
+     *            オブジェクト
+     * @param rb
+     *            リソースバンドル
+     * @return 引数に指定されたオブジェクト
+     */
     public static Object populateObject(Object obj, ResourceBundle rb) {
         try {
             BeanUtils.copyProperties(obj, convertBundleToMap(rb));

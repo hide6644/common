@@ -19,9 +19,15 @@ import org.springframework.stereotype.Repository;
 import common.dao.UserDao;
 import common.model.User;
 
+/**
+ * ユーザDAOクラス.
+ */
 @Repository("userDao")
 public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements UserDao, UserDetailsService {
 
+    /**
+     * デフォルト・コンストラクタ
+     */
     public UserDaoHibernate() {
         super(User.class);
     }
@@ -30,6 +36,7 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
+    @Override
     public List<User> getUsers() {
         return getSession().createQuery("from User u order by upper(u.username)").list();
     }
@@ -37,6 +44,7 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public User saveUser(User user) {
         if (log.isDebugEnabled()) {
             log.debug("user's id: " + user.getId());
@@ -48,6 +56,9 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
         return user;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User save(User user) {
         return this.saveUser(user);
@@ -56,7 +67,8 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
     /**
      * {@inheritDoc}
      */
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    @Override
+    public UserDetails loadUserByUsername(String username) {
         List<?> users = getSession().createCriteria(User.class).add(Restrictions.eq("username", username)).list();
 
         if (users == null || users.isEmpty()) {
@@ -69,13 +81,18 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getUserPassword(Long id) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(SessionFactoryUtils.getDataSource(getSessionFactory()));
         Table table = AnnotationUtils.findAnnotation(User.class, Table.class);
         return jdbcTemplate.queryForObject("select password from " + table.name() + " where id=?", String.class, id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
+    @Override
     public List<User> getPaged(Class<?> searchClass, Object searchCondition, Integer offset, Integer limit) {
         Criteria criteria = getSession().createCriteria(searchClass);
         criteria.setFirstResult(offset);
@@ -93,6 +110,10 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
         return criteria.list();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public long getRecordCount(Class<?> searchClass, Object searchCondition) {
         Criteria criteria = getSession().createCriteria(searchClass);
         criteria.setProjection(Projections.rowCount());

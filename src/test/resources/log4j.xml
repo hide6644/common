@@ -9,6 +9,14 @@
         </layout>
     </appender>
 
+    <logger name="org.apache.velocity">
+        <level value="FATAL" />
+    </logger>
+
+    <logger name="common">
+        <level value="DEBUG" />
+    </logger>
+
     <root>
         <level value="INFO" />
         <appender-ref ref="CONSOLE" />

@@ -5,14 +5,12 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * ブラウザの判定を行うUtilityクラス.
- *
- * @author hide6644
+ * ブラウザの判定するUtilityクラス.
  */
 public class BrowserUtil {
 
     /**
-     * プライベート・コンストラクタ.<br />
+     * プライベート・コンストラクタ.
      * Utilityクラスはインスタンス化禁止.
      */
     private BrowserUtil() {

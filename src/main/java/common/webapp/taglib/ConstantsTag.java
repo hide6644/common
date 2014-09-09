@@ -13,12 +13,8 @@ import common.Constants;
 
 /**
  * ConstantsクラスをTag Librariesとして提供するクラス.
- *
- * @author hide6644
  */
 public class ConstantsTag extends TagSupport {
-
-    private static final long serialVersionUID = 1L;
 
     /** 変数をJSPに公開するクラス */
     private String clazz = Constants.class.getName();
@@ -39,11 +35,10 @@ public class ConstantsTag extends TagSupport {
         SCOPES.put("application", PageContext.APPLICATION_SCOPE);
     }
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see javax.servlet.jsp.tagext.TagSupport#doStartTag()
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public int doStartTag() throws JspException {
         Class<?> c = null;
         int toScope = PageContext.PAGE_SCOPE;
@@ -84,11 +79,10 @@ public class ConstantsTag extends TagSupport {
         return SKIP_BODY;
     }
 
-    /*
-     * (非 Javadoc)
-     *
-     * @see javax.servlet.jsp.tagext.TagSupport#release()
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void release() {
         super.release();
         clazz = null;
@@ -97,12 +91,13 @@ public class ConstantsTag extends TagSupport {
     }
 
     /**
-     * JSPに公開する範囲を対応するPageContext定値に変換する.
+     * JSPに公開する範囲をPageContext定値に変換する.
      *
      * @param scopeName
      *            JSPに公開する範囲
      * @return PageContext定値
      * @throws JspException
+     *             {@link JspException}
      */
     public int getScope(String scopeName) throws JspException {
         Integer scope = (Integer) SCOPES.get(scopeName.toLowerCase());

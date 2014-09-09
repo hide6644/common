@@ -9,8 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * XMLファイルを解析するクラス.
- *
- * @author hide6644
  */
 public class XmlFileReader {
 
@@ -23,7 +21,9 @@ public class XmlFileReader {
      *            アップロードファイル
      * @return XMLファイル解析結果
      * @throws JAXBException
+     *             {@link JAXBException}
      * @throws IOException
+     *             {@link IOException}
      */
     public Object read(JAXBContext context, MultipartFile multipartFile) throws JAXBException, IOException {
         return context.createUnmarshaller().unmarshal(multipartFile.getInputStream());

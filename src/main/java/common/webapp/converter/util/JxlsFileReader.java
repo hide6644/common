@@ -18,8 +18,6 @@ import org.xml.sax.SAXException;
 
 /**
  * XLSファイルを解析するクラス.
- *
- * @author hide6644
  */
 public class JxlsFileReader {
 
@@ -34,8 +32,11 @@ public class JxlsFileReader {
      *            抽出した値を設定するオブジェクトを格納したMap
      * @return XLSファイル解析結果
      * @throws InvalidFormatException
+     *             {@link InvalidFormatException}
      * @throws IOException
+     *             {@link IOException}
      * @throws SAXException
+     *             {@link SAXException}
      */
     public XLSReadStatus read(Resource templateFile, MultipartFile file, Map<?, ?> model) throws InvalidFormatException, IOException, SAXException {
         InputStream inputXML = null;

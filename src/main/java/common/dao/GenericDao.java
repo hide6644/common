@@ -14,14 +14,14 @@ public interface GenericDao<T, PK extends Serializable> {
     /**
      * すべてのオブジェクトを取得する.
      *
-     * @return モデル一覧
+     * @return オブジェクト一覧
      */
     List<T> getAll();
 
     /**
      * 重複を除くすべてのオブジェクトを取得する.
      *
-     * @return 重複を除くモデル一覧
+     * @return 重複を除くオブジェクト一覧
      */
     List<T> getAllDistinct();
 
@@ -39,7 +39,7 @@ public interface GenericDao<T, PK extends Serializable> {
      *
      * @param id
      *            主キー項目
-     * @return オブジェクト
+     * @return true:存在する、false:存在しない
      */
     boolean exists(PK id);
 
@@ -93,7 +93,7 @@ public interface GenericDao<T, PK extends Serializable> {
      *
      * @param field
      *            対象となる項目
-     * @param max
+     * @param maxCount
      *            ファセットの最大件数
      * @return ファセットのリスト
      */
@@ -123,7 +123,7 @@ public interface GenericDao<T, PK extends Serializable> {
      *            開始位置
      * @param limit
      *            取得数
-     * @return 職種一覧
+     * @return 検索結果のオブジェクトのリスト
      */
     List<T> getPaged(Class<?> searchClass, Object searchCondition, Integer offset, Integer limit);
 

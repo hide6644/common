@@ -11,15 +11,29 @@ import common.dao.GenericDao;
 import common.model.PaginatedList;
 import common.service.GenericManager;
 
+/**
+ * 一般的なロジッククラス.
+ */
 public class GenericManagerImpl<T, PK extends Serializable> implements GenericManager<T, PK> {
 
+    /** ログ出力クラス */
     protected final Log log = LogFactory.getLog(getClass());
 
+    /** 一般的なCRUD DAO */
     protected GenericDao<T, PK> dao;
 
+    /**
+     * デフォルト・コンストラクタ
+     */
     public GenericManagerImpl() {
     }
 
+    /**
+     * コンストラクタ
+     *
+     * @param genericDao
+     *            一般的なCRUD DAO
+     */
     public GenericManagerImpl(GenericDao<T, PK> genericDao) {
         this.dao = genericDao;
     }
@@ -27,6 +41,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<T> getAll() {
         return dao.getAll();
     }
@@ -34,6 +49,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
     /**
      * {@inheritDoc}
      */
+    @Override
     public T get(PK id) {
         return dao.get(id);
     }
@@ -41,6 +57,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean exists(PK id) {
         return dao.exists(id);
     }
@@ -48,6 +65,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
     /**
      * {@inheritDoc}
      */
+    @Override
     public T save(T object) {
         return dao.save(object);
     }
@@ -55,6 +73,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
     /**
      * {@inheritDoc}
      */
+    @Override
     public void remove(T object) {
         dao.remove(object);
     }
@@ -62,6 +81,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
     /**
      * {@inheritDoc}
      */
+    @Override
     public void remove(PK id) {
         dao.remove(id);
     }
@@ -69,6 +89,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<T> search(String q) {
         if (q == null || "".equals(q.trim())) {
             return getAll();
@@ -80,6 +101,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
     /**
      * {@inheritDoc}
      */
+    @Override
     public void reindex() {
         dao.reindex();
     }
@@ -87,6 +109,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
     /**
      * {@inheritDoc}
      */
+    @Override
     public void reindexAll(boolean async) {
         dao.reindexAll(async);
     }
@@ -94,6 +117,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<T> getPaged(Class<?> searchClass, PaginatedList<T> paginatedList) {
         paginatedList.setAllRecordCount(dao.getRecordCount(searchClass, paginatedList.getSearchCondition()));
 
@@ -101,7 +125,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
             return new ArrayList<T>();
         }
 
-        // 指定されたページ数よりページ総数が小さかった場合
+        // 指定されたページ数より、ページ総数が小さかった場合
         if (paginatedList.getCurrentPageNumber() > paginatedList.getAllPageCount()) {
             paginatedList.setCurrentPageNumber(paginatedList.getAllPageCount());
         }

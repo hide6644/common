@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * データベースアプリケーション例外.<br />
+ * データベースアプリケーション例外.
  * アプリ仕様上問題があるデータを処理した場合に発生させる例外.
  *
  * @author hide6644

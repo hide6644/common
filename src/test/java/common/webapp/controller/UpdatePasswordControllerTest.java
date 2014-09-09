@@ -44,7 +44,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         MockHttpServletRequest request = newGet("/updatePassword");
         request.addParameter("username", username);
         ModelAndView mav = c.showForm(username, null, request);
-        assertEquals("updatePassword", mav.getViewName());
+        assertEquals("password", mav.getViewName());
     }
 
     @Test
@@ -56,7 +56,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         request.addParameter("username", username);
         request.addParameter("token", token);
         ModelAndView mav = c.showForm(username, token, request);
-        assertEquals("updatePassword", mav.getViewName());
+        assertEquals("password", mav.getViewName());
     }
 
     @Test
@@ -131,6 +131,5 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         request.addParameter("password", password);
         c.onSubmit(username, null, currentPassword, password, request);
         assertNull(FlashMap.get("flash_info_messages"));
-        assertNotNull(FlashMap.get("flash_error_messages"));
     }
 }

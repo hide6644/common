@@ -1,16 +1,11 @@
 package common.webapp.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.EncoderException;
-import org.apache.commons.codec.net.URLCodec;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,8 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import common.Constants;
 import common.exception.DBException;
@@ -31,12 +24,12 @@ import common.service.UserManager;
 import common.webapp.util.RequestUtil;
 
 /**
- * ユーザ登録画面処理クラス.
- *
- * @author hide6644
+ * ユーザ登録処理クラス.
  */
 @Controller
 public class SignupController extends BaseController {
+
+    public static final String SIGNUP_TEMPLATE = "/signupComplete?username={username}&token={token}";
 
     /** User処理クラス */
     @Autowired
@@ -49,8 +42,7 @@ public class SignupController extends BaseController {
     /**
      * ユーザ登録画面初期処理.
      *
-     * @param model
-     *            画面汎用値保持モデル
+     * @return ユーザ
      */
     @ModelAttribute
     @RequestMapping(value = "signup", method = RequestMethod.GET)
@@ -67,10 +59,12 @@ public class SignupController extends BaseController {
      *            画面入力値保持モデル
      * @param result
      *            エラーチェック結果
+     * @param request
+     *            {@link HttpServletRequest}
      * @return 遷移先jsp名
      */
     @RequestMapping(value = "signup", method = RequestMethod.POST)
-    public String onSubmit(@Valid User user, BindingResult result) {
+    public String onSubmit(@Valid User user, BindingResult result, HttpServletRequest request) {
         if (result.hasErrors()) {
             return "signup";
         }
@@ -82,7 +76,7 @@ public class SignupController extends BaseController {
 
         try {
             userManager.saveUser(user);
-            saveFlashMessage(getText("signupForm.provisional"));
+            saveFlashMessage(getText("signupForm.provisional.message"));
         } catch (DBException e) {
             rejectValue(result, e);
 
@@ -90,32 +84,7 @@ public class SignupController extends BaseController {
         }
 
         // 登録完了メールを送信する
-        mailMessage.setSubject("[" + getText("webapp.name") + "] " + getText("signupForm.email.subject"));
-        mailMessage.setTo(user.getEmail());
-
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.put("user", user);
-        model.put("message", getText("signupForm.email.message"));
-        model.put("attention", getText("signupForm.email.attention"));
-
-        try {
-            StringBuilder msg = new StringBuilder();
-            msg.append(RequestUtil.getAppURL(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()));
-            URLCodec codec = new URLCodec();
-            msg.append("/signupComplete?username=").append(codec.encode(user.getUsername()));
-            msg.append("&key=").append(codec.encode(user.getPassword()));
-            model.put("URL", msg.toString());
-
-            mailEngine.sendMessage(mailMessage, "accountCreated.vm", model);
-        } catch (MailException e) {
-            if (log.isWarnEnabled()) {
-                log.warn(e);
-            }
-
-            saveFlashError(getText("errors.send.email"));
-        } catch (EncoderException e) {
-            log.error(e);
-        }
+        userManager.sendSignupUserEmail(user, RequestUtil.getAppURL(request) + SIGNUP_TEMPLATE);
 
         return "redirect:/login";
     }
@@ -125,17 +94,17 @@ public class SignupController extends BaseController {
      *
      * @param username
      *            ユーザ名
-     * @param key
-     *            ユーザ認証用キー
+     * @param token
+     *            ユーザ認証用トークン
      * @return 遷移先jsp名
      */
     @RequestMapping(value = "signupComplete", method = RequestMethod.GET)
-    public String complete(@RequestParam("username") String username, @RequestParam("key") String key) {
+    public String complete(@RequestParam("username") String username, @RequestParam("token") String token) {
         try {
-            User user = userManager.getUser(username);
-            URLCodec codec = new URLCodec();
+            User user = userManager.getUserByUsername(username);
 
-            if (!user.getPassword().equals(codec.decode(key))) {
+            if (StringUtils.isNotBlank(token) && !userManager.isRecoveryTokenValid(username, token)) {
+                saveFlashError(getText("signupForm.invalidToken"));
                 return "redirect:/login";
             }
 
@@ -144,15 +113,12 @@ public class SignupController extends BaseController {
             auth.setDetails(user);
             SecurityContextHolder.getContext().setAuthentication(auth);
 
+            user.setConfirmPassword(user.getPassword());
             user.setEnabled(true);
 
             userManager.saveUser(user);
-            saveFlashMessage(getText("signupForm.complete"));
+            saveFlashMessage(getText("signupForm.complete.message"));
         } catch (DBException e) {
-            log.error(e);
-
-            return "redirect:/login";
-        } catch (DecoderException e) {
             log.error(e);
 
             return "redirect:/login";

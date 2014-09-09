@@ -14,8 +14,6 @@ import common.validator.constraints.impl.CompareStringsValidator;
 
 /**
  * 入力値の一致、不一致をチェックする.
- *
- * @author hide6644
  */
 @Documented
 @Target({ TYPE })

@@ -14,13 +14,16 @@ import org.springframework.stereotype.Component;
 import common.model.User;
 import common.service.PasswordTokenManager;
 
+/**
+ * パスワードトークン処理の実装クラス.
+ */
 @Component("passwordTokenManager")
 public class PasswordTokenManagerImpl implements PasswordTokenManager {
 
+    /** 有効期限日付のフォーマット */
     private SimpleDateFormat expirationTimeFormat = new SimpleDateFormat("yyyyMMddHHmm");
 
-    private int expirationTimeTokenLength = expirationTimeFormat.toPattern().length();
-
+    /** パスワードエンコーダー */
     @Qualifier("passwordTokenEncoder")
     @Autowired
     private PasswordEncoder passwordTokenEncoder;
@@ -32,7 +35,7 @@ public class PasswordTokenManagerImpl implements PasswordTokenManager {
     public String generateRecoveryToken(User user) {
         if (user != null) {
             String tokenSource = getTokenSource(user);
-            String expirationTimeStamp = expirationTimeFormat.format(getExpirationTime());
+            String expirationTimeStamp = expirationTimeFormat.format(DateUtils.addDays(new Date(), 1));
             return expirationTimeStamp + passwordTokenEncoder.encode(expirationTimeStamp + tokenSource);
         }
 
@@ -45,8 +48,8 @@ public class PasswordTokenManagerImpl implements PasswordTokenManager {
     @Override
     public boolean isRecoveryTokenValid(User user, String token) {
         if (user != null && token != null) {
-            String expirationTimeStamp = getTimestamp(token);
-            String tokenWithoutTimestamp = getTokenWithoutTimestamp(token);
+            String expirationTimeStamp = StringUtils.substring(token, 0, expirationTimeFormat.toPattern().length());
+            String tokenWithoutTimestamp = StringUtils.substring(token, expirationTimeFormat.toPattern().length(), token.length());
             String tokenSource = expirationTimeStamp + getTokenSource(user);
             Date expirationTime = parseTimestamp(expirationTimeStamp);
 
@@ -57,38 +60,27 @@ public class PasswordTokenManagerImpl implements PasswordTokenManager {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void invalidateRecoveryToken(User user, String token) {
-        // NOP
-    }
-
-    /**
-     * Return tokens expiration time, now + 1 day.
+     * トークン生成の元となる文字列を取得する.
      *
-     * @return
+     * @param user
+     *            ユーザ
+     * @return トークン生成の元となる文字列
      */
-    private Date getExpirationTime() {
-        return DateUtils.addDays(new Date(), 1);
-    }
-
-    private String getTimestamp(String token) {
-        return StringUtils.substring(token, 0, expirationTimeTokenLength);
-    }
-
     private String getTokenSource(User user) {
         return user.getEmail() + user.getVersion() + user.getPassword();
     }
 
-    private String getTokenWithoutTimestamp(String token) {
-        return StringUtils.substring(token, expirationTimeTokenLength, token.length());
-    }
-
+    /**
+     * 文字列から日付型に変換する.
+     *
+     * @param timestamp
+     *            日付文字列
+     * @return 日付型
+     */
     private Date parseTimestamp(String timestamp) {
         try {
             return expirationTimeFormat.parse(timestamp);
-        } catch (final ParseException e) {
+        } catch (ParseException e) {
             return null;
         }
     }

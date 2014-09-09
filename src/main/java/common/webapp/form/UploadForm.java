@@ -10,12 +10,8 @@ import common.validator.constraints.NotEmptyFile;
 
 /**
  * アップロードファイルの情報を保持するクラス.
- *
- * @author hide6644
  */
 public class UploadForm implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     /** ファイル種別 */
     @NotEmpty
