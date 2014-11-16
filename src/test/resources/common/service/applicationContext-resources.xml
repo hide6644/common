@@ -7,6 +7,7 @@
         <property name="locations">
             <list>
                 <value>classpath:jdbc.properties</value>
+                <value>classpath:mail.properties</value>
             </list>
         </property>
     </bean>
@@ -17,4 +18,13 @@
         <property name="username" value="${jdbc.username}" />
         <property name="password" value="${jdbc.password}" />
     </bean>
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>ApplicationResources</value>
+            </list>
+        </property>
+    </bean>
+
 </beans>
