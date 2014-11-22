@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
@@ -89,7 +90,12 @@ public class UserListController extends BaseController {
     @RequestMapping(method = RequestMethod.DELETE)
     public String onSubmit(@RequestParam("userIds") String[] userIds, HttpServletRequest request) {
         boolean logoutFlg = false;
-        String remoteUserId = String.valueOf(userManager.getUserByUsername(request.getRemoteUser()).getId());
+        String remoteUserId = null;
+        try {
+            remoteUserId = String.valueOf(userManager.getUserByUsername(request.getRemoteUser()).getId());
+        } catch (UsernameNotFoundException e) {
+            remoteUserId = "";
+        }
 
         for (int i = 0; i < userIds.length; i++) {
             if (userIds[i].equals(remoteUserId)) {
