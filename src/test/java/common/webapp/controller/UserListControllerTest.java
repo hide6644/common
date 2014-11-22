@@ -26,10 +26,6 @@ public class UserListControllerTest extends BaseControllerTestCase {
     @Autowired
     private UserListController c;
 
-    private User user;
-
-    private MockHttpServletRequest request;
-
     @Test
     public void testHandleRequest() throws Exception {
         ModelAndView mav = c.handleRequest(new User(), null);
@@ -41,7 +37,6 @@ public class UserListControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testSearch() throws Exception {
-        // reindex before searching
         UserManager userManager = (UserManager) applicationContext.getBean("userManager");
         userManager.reindex();
 
@@ -57,9 +52,9 @@ public class UserListControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testRemove() throws Exception {
-        request = newGet("/userform.html");
+        MockHttpServletRequest request = newGet("/userform.html");
 
-        user = new User();
+        User user = new User();
         user.setId(-2L);
 
         Set<Role> roles = new HashSet<Role>();

@@ -14,14 +14,15 @@ import common.model.Role;
 import common.model.User;
 
 public class UserDaoTest extends BaseDaoTestCase {
+
     @Autowired
     private UserDao dao;
+
     @Autowired
     private RoleDao rdao;
 
     @Test(expected = DataAccessException.class)
     public void testGetUserInvalid() throws Exception {
-        // should throw DataAccessException
         dao.get(1000L);
     }
 
@@ -51,7 +52,6 @@ public class UserDaoTest extends BaseDaoTestCase {
 
         user = dao.get(-1L);
 
-        // verify that violation occurs when adding new user with same username
         User user2 = new User();
         user2.setConfirmPassword(user.getPassword());
         user2.setEmail(user.getEmail());
@@ -61,7 +61,6 @@ public class UserDaoTest extends BaseDaoTestCase {
         user2.setRoles(user.getRoles());
         user2.setUsername(user.getUsername());
 
-        // should throw DataIntegrityViolationException
         dao.saveUser(user2);
     }
 
@@ -79,7 +78,6 @@ public class UserDaoTest extends BaseDaoTestCase {
         user = dao.get(-1L);
         assertEquals(2, user.getRoles().size());
 
-        //add the same role twice - should result in no additional role
         user.addRole(role);
         dao.saveUser(user);
         flush();
@@ -118,7 +116,6 @@ public class UserDaoTest extends BaseDaoTestCase {
         dao.remove(user);
         flush();
 
-        // should throw DataAccessException
         dao.get(user.getId());
     }
 
@@ -136,7 +133,6 @@ public class UserDaoTest extends BaseDaoTestCase {
 
     @Test
     public void testUserSearch() throws Exception {
-        // reindex all the data
         dao.reindex();
 
         List<User> found = dao.search("admin");
@@ -144,7 +140,6 @@ public class UserDaoTest extends BaseDaoTestCase {
         User user = found.get(0);
         assertEquals("admin", user.getFirstName());
 
-        // test mirroring
         user = dao.get(-2L);
         user.setConfirmPassword(user.getPassword());
         user.setFirstName("MattX");
@@ -152,7 +147,6 @@ public class UserDaoTest extends BaseDaoTestCase {
         flush();
         flushSearchIndexes();
 
-        // now verify it is reflected in the index
         found = dao.search("MattX");
         assertEquals(1, found.size());
         user = found.get(0);

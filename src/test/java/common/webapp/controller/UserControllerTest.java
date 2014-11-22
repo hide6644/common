@@ -20,25 +20,21 @@ public class UserControllerTest extends BaseControllerTestCase {
     @Autowired
     private UserController c = null;
 
-    private MockHttpServletRequest request;
-
-    private User user;
-
     @Test
     public void testAdd() throws Exception {
         log.debug("testing add new user...");
-        request = newGet("/userform.html");
+        MockHttpServletRequest request = newGet("/userform.html");
         request.addParameter("method", "Add");
         request.addUserRole(Constants.ADMIN_ROLE);
 
-        user = c.showForm(request, new MockHttpServletResponse());
+        User user = c.showForm(request, new MockHttpServletResponse());
         assertNull(user.getUsername());
     }
 
     @Test
     public void testAddWithoutPermission() throws Exception {
         log.debug("testing add new user...");
-        request = newGet("/userform.html");
+        MockHttpServletRequest request = newGet("/userform.html");
         request.addParameter("method", "Add");
 
         try {
@@ -52,8 +48,8 @@ public class UserControllerTest extends BaseControllerTestCase {
     @Test
     public void testEdit() throws Exception {
         log.debug("testing edit...");
-        request = newGet("/userform.html");
-        request.addParameter("userId", "-1"); // regular user
+        MockHttpServletRequest request = newGet("/userform.html");
+        request.addParameter("userId", "-1");
         request.addUserRole(Constants.ADMIN_ROLE);
 
         User user = c.showForm(request, new MockHttpServletResponse());
@@ -63,8 +59,8 @@ public class UserControllerTest extends BaseControllerTestCase {
     @Test
     public void testEditWithoutPermission() throws Exception {
         log.debug("testing edit...");
-        request = newGet("/userform.html");
-        request.addParameter("userId", "-2"); // regular user
+        MockHttpServletRequest request = newGet("/userform.html");
+        request.addParameter("userId", "-2");
 
         try {
             c.showForm(request, new MockHttpServletResponse());
@@ -77,18 +73,16 @@ public class UserControllerTest extends BaseControllerTestCase {
     @Test
     public void testEditProfile() throws Exception {
         log.debug("testing edit profile...");
-        request = newGet("/userform.html");
+        MockHttpServletRequest request = newGet("/userform.html");
         request.setRemoteUser("normaluser");
 
-        user = c.showForm(request, new MockHttpServletResponse());
+        User user = c.showForm(request, new MockHttpServletResponse());
         assertEquals("user", user.getFirstName());
     }
 
     @Test
     public void testSave() throws Exception {
-        request = newPost("/userform.html");
-        // set updated properties first since adding them later will
-        // result in multiple parameters with the same name getting sent
+        MockHttpServletRequest request = newPost("/userform.html");
         User user = ((UserManager) applicationContext.getBean("userManager")).getUser("-1");
         user.setConfirmPassword(user.getPassword());
         user.setLastName("Updated Last Name");

@@ -4,8 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,8 +11,6 @@ import common.Constants;
 import common.model.User;
 
 public class UserManagerTest extends BaseManagerTestCase {
-
-    private Log log = LogFactory.getLog(getClass());
 
     @Autowired
     private UserManager mgr;

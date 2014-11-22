@@ -18,8 +18,6 @@ public class SignupControllerTest extends BaseControllerTestCase {
     @Autowired
     private SignupController c = null;
 
-    private MockHttpServletRequest request;
-
     @Test
     public void testDisplayForm() throws Exception {
         User user = c.showForm();
@@ -28,7 +26,7 @@ public class SignupControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testSignupUser() throws Exception {
-        request = newGet("/userform.html");
+        MockHttpServletRequest request = newGet("/userform.html");
 
         User user = new User();
         user.setUsername("self-registered");
@@ -38,17 +36,16 @@ public class SignupControllerTest extends BaseControllerTestCase {
         user.setLastName("Last");
         user.setEmail("self-registered@localhost");
 
-        // start SMTP Server
         Wiser wiser = new Wiser();
         wiser.setPort(getSmtpPort());
         wiser.start();
         BindingResult errors = new DataBinder(user).getBindingResult();
         c.onSubmit(user, errors, request);
         assertFalse("errors returned in model", errors.hasErrors());
-        // verify an account information e-mail was sent
+
         wiser.stop();
         assertTrue(wiser.getMessages().size() == 1);
-        // verify that success messages are in the request
+
         assertNotNull(FlashMap.get("flash_info_messages"));
         SecurityContextHolder.getContext().setAuthentication(null);
     }

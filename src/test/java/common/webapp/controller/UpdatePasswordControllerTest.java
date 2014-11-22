@@ -26,15 +26,15 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         String username = "administrator";
         MockHttpServletRequest request = newGet("/updatePassword");
         request.addParameter("username", username);
-        // start SMTP Server
+
         Wiser wiser = new Wiser();
         wiser.setPort(getSmtpPort());
         wiser.start();
         c.requestRecoveryToken(username, request);
-        // verify an account information e-mail was sent
+
         wiser.stop();
         assertTrue(wiser.getMessages().size() == 1);
-        // verify that success messages are in the session
+
         assertNotNull(FlashMap.get("flash_info_messages"));
     }
 

@@ -17,8 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
 @ContextConfiguration(locations = { "classpath:/common/dao/applicationContext-resources.xml",
-        "classpath:/applicationContext-dao.xml", "classpath*:/applicationContext.xml",
-        "classpath:**/applicationContext*.xml" })
+        "classpath:/common/dao/applicationContext-dao.xml", "classpath*:/applicationContext.xml" })
 public abstract class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTests {
 
     protected transient final Log log = LogFactory.getLog(getClass());

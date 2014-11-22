@@ -41,7 +41,6 @@ public class UserSecurityAdviceTest {
 
     @Before
     public void setUp() throws Exception {
-        // store initial security context for later restoration
         initialSecurityContext = SecurityContextHolder.getContext();
 
         SecurityContext context = new SecurityContextImpl();
@@ -50,8 +49,7 @@ public class UserSecurityAdviceTest {
         user.setPassword("password");
         user.addRole(new Role(Constants.USER_ROLE));
 
-        UsernamePasswordAuthenticationToken token =
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
         token.setDetails(user);
         context.setAuthentication(token);
         SecurityContextHolder.setContext(context);
@@ -86,8 +84,7 @@ public class UserSecurityAdviceTest {
         user.setId(2L);
         user.setPassword("password");
         user.addRole(new Role(Constants.ADMIN_ROLE));
-        UsernamePasswordAuthenticationToken token =
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
         token.setDetails(user);
         securityContext.setAuthentication(token);
         SecurityContextHolder.setContext(securityContext);
@@ -155,8 +152,7 @@ public class UserSecurityAdviceTest {
         user1.setId(1L);
         user1.setPassword("password");
         user1.addRole(new Role(Constants.ADMIN_ROLE));
-        UsernamePasswordAuthenticationToken token =
-                new UsernamePasswordAuthenticationToken(user1.getUsername(), user1.getPassword(), user1.getAuthorities());
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user1.getUsername(), user1.getPassword(), user1.getAuthorities());
         token.setDetails(user1);
         securityContext.setAuthentication(token);
         SecurityContextHolder.setContext(securityContext);
