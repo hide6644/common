@@ -13,7 +13,7 @@ import javax.validation.Payload;
 import common.validator.constraints.impl.UniqueKeyValidator;
 
 /**
- * ユニークかチェックする.
+ * ユニークか確認する.
  */
 @Documented
 @Target({ TYPE })
@@ -21,6 +21,7 @@ import common.validator.constraints.impl.UniqueKeyValidator;
 @Constraint(validatedBy = { UniqueKeyValidator.class })
 public @interface UniqueKey {
 
+    /** 確認対象の列名 */
     String[] columnNames();
 
     String message() default "{common.validator.constraints.UniqueKey.message}";

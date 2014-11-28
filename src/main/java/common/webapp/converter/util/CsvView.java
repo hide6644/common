@@ -27,8 +27,6 @@ import common.Constants;
 
 /**
  * CSVファイルを作成するクラス.
- *
- * @author hide6644
  */
 public class CsvView extends AbstractUrlBasedView {
 

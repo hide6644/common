@@ -100,9 +100,9 @@ public class LabelValue implements Comparable<LabelValue>, Serializable {
             return false;
         }
 
-        final LabelValue labelValue = (LabelValue) o;
+        LabelValue labelValue = (LabelValue) o;
 
-        return !(value != null ? !value.equals(labelValue.value) : labelValue.value != null);
+        return value != null ? value.equals(labelValue.value) : labelValue.value == null;
     }
 
     /**
@@ -110,6 +110,6 @@ public class LabelValue implements Comparable<LabelValue>, Serializable {
      */
     @Override
     public int hashCode() {
-        return (value != null ? value.hashCode() : 0);
+        return value != null ? value.hashCode() : 0;
     }
 }

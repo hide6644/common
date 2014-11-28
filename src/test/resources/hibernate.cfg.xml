@@ -4,7 +4,5 @@
 
 <hibernate-configuration>
     <session-factory>
-        <mapping class="common.model.User" />
-        <mapping class="common.model.Role" />
     </session-factory>
 </hibernate-configuration>

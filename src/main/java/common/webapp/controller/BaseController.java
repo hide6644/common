@@ -26,8 +26,8 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import common.exception.DBCheckException;
 import common.exception.DBException;
 import common.service.MailEngine;
-import common.service.util.ValidateUtil;
 import common.webapp.filter.FlashMap;
+import common.webapp.util.ValidateUtil;
 
 /**
  * 画面処理の基底クラス.

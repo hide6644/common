@@ -1,4 +1,4 @@
-package common.service.util;
+package common.webapp.util;
 
 import java.io.Serializable;
 import java.util.ArrayList;

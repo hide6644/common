@@ -13,8 +13,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
@@ -143,9 +141,9 @@ public class Role extends BaseObject implements Serializable, GrantedAuthority {
             return false;
         }
 
-        final Role role = (Role) o;
+        Role role = (Role) o;
 
-        return !(name != null ? !name.equals(role.name) : role.name != null);
+        return name != null ? name.equals(role.name) : role.name == null;
     }
 
     /**
@@ -153,14 +151,6 @@ public class Role extends BaseObject implements Serializable, GrantedAuthority {
      */
     @Override
     public int hashCode() {
-        return (name != null ? name.hashCode() : 0);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE).append(name).toString();
+        return name != null ? name.hashCode() : 0;
     }
 }

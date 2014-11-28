@@ -54,7 +54,7 @@ public class ConstraintValidatorUtil {
      * @param propertyValues
      *            比較を行うプロパティ名
      * @param ignoreCase
-     *            true:大文字小文字を区別しない
+     *            true:大文字小文字を区別しない、false:大文字小文字を区別する
      * @return 比較を行うプロパティ名
      */
     private static List<String> changePropertyValues(Collection<String> propertyValues, boolean ignoreCase) {

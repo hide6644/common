@@ -5,8 +5,6 @@ import org.springframework.beans.TypeMismatchException;
 
 /**
  * CSVファイルを解析するクラス.
- *
- * @author hide6644
  */
 public class CsvFileReader {
 

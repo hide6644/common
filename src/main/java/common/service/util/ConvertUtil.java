@@ -96,7 +96,6 @@ public final class ConvertUtil {
         try {
             BeanUtils.copyProperties(obj, convertBundleToMap(rb));
         } catch (Exception e) {
-            e.printStackTrace();
             log.error("Exception occurred populating object: " + e.getMessage());
         }
 
