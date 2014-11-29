@@ -1,11 +1,7 @@
 package common.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,7 +17,7 @@ import common.service.PasswordTokenManager;
 public class PasswordTokenManagerImpl implements PasswordTokenManager {
 
     /** 有効期限日付のフォーマット */
-    private SimpleDateFormat expirationTimeFormat = new SimpleDateFormat("yyyyMMddHHmm");
+    public static final String EXPIRATION_TIME_FORMAT = "yyyyMMddHHmm";
 
     /** パスワードエンコーダー */
     @Qualifier("passwordTokenEncoder")
@@ -35,7 +31,7 @@ public class PasswordTokenManagerImpl implements PasswordTokenManager {
     public String generateRecoveryToken(User user) {
         if (user != null) {
             String tokenSource = getTokenSource(user);
-            String expirationTimeStamp = expirationTimeFormat.format(DateUtils.addDays(new Date(), 1));
+            String expirationTimeStamp = new DateTime().plusDays(1).toString(EXPIRATION_TIME_FORMAT);
             return expirationTimeStamp + passwordTokenEncoder.encode(expirationTimeStamp + tokenSource);
         }
 
@@ -48,12 +44,12 @@ public class PasswordTokenManagerImpl implements PasswordTokenManager {
     @Override
     public boolean isRecoveryTokenValid(User user, String token) {
         if (user != null && token != null) {
-            String expirationTimeStamp = StringUtils.substring(token, 0, expirationTimeFormat.toPattern().length());
-            String tokenWithoutTimestamp = StringUtils.substring(token, expirationTimeFormat.toPattern().length(), token.length());
+            String expirationTimeStamp = token.substring(0, EXPIRATION_TIME_FORMAT.length());
+            String tokenWithoutTimestamp = token.substring(EXPIRATION_TIME_FORMAT.length());
             String tokenSource = expirationTimeStamp + getTokenSource(user);
-            Date expirationTime = parseTimestamp(expirationTimeStamp);
+            DateTime expirationTime = parseTimestamp(expirationTimeStamp);
 
-            return expirationTime != null && expirationTime.after(new Date()) && passwordTokenEncoder.matches(tokenSource, tokenWithoutTimestamp);
+            return expirationTime != null && expirationTime.isAfterNow() && passwordTokenEncoder.matches(tokenSource, tokenWithoutTimestamp);
         }
 
         return false;
@@ -77,10 +73,10 @@ public class PasswordTokenManagerImpl implements PasswordTokenManager {
      *            日付文字列
      * @return 日付型
      */
-    private Date parseTimestamp(String timestamp) {
+    private DateTime parseTimestamp(String timestamp) {
         try {
-            return expirationTimeFormat.parse(timestamp);
-        } catch (ParseException e) {
+            return DateTimeFormat.forPattern(EXPIRATION_TIME_FORMAT).parseDateTime(timestamp);
+        } catch (IllegalArgumentException e) {
             return null;
         }
     }

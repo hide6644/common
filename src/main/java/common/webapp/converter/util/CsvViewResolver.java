@@ -6,8 +6,6 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 /**
  * View名に「csv/」が含まれていた場合、ViewResolverにCsvViewを使用するように設定するクラス.
- *
- * @author hide6644
  */
 public class CsvViewResolver extends UrlBasedViewResolver {
 

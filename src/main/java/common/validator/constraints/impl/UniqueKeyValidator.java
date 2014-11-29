@@ -17,11 +17,11 @@ import org.springframework.beans.PropertyAccessorFactory;
 import common.validator.constraints.UniqueKey;
 
 /**
- * ユニークかチェックする実装クラス.
+ * ユニークか確認する実装クラス.
  */
 public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Serializable> {
 
-    /** ユニークを確認する列名 */
+    /** 確認対象の列名 */
     private String[] columnNames;
 
     /** DBセッション生成クラス */

@@ -19,7 +19,7 @@ import common.validator.constraints.ComparisonMode;
  */
 public class CompareStringsValidator implements ConstraintValidator<CompareStrings, Object> {
 
-    /** 比較するプロパティ */
+    /** 比較対象のプロパティ名 */
     private String[] propertyNames;
 
     /** 比較モード */

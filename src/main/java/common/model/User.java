@@ -23,8 +23,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.search.annotations.DocumentId;
@@ -441,9 +439,9 @@ public class User extends BaseObject implements Serializable, UserDetails {
             return false;
         }
 
-        final User user = (User) o;
+        User user = (User) o;
 
-        return !(username != null ? !username.equals(user.getUsername()) : user.getUsername() != null);
+        return username != null ? username.equals(user.getUsername()) : user.getUsername() == null;
     }
 
     /**
@@ -451,37 +449,6 @@ public class User extends BaseObject implements Serializable, UserDetails {
      */
     @Override
     public int hashCode() {
-        return (username != null ? username.hashCode() : 0);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        ToStringBuilder sb = new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
-                .append("username", username)
-                .append("enabled", enabled)
-                .append("accountExpired", !isAccountNonExpired())
-                .append("credentialsExpired", !isCredentialsNonExpired())
-                .append("accountLocked", accountLocked);
-
-        if (roles != null) {
-            sb.append("Granted Authorities: ");
-            boolean flag = false;
-
-            for (Role role : roles) {
-                if (flag) {
-                    sb.append(", ");
-                }
-
-                sb.append(role.toString());
-                flag = true;
-            }
-        } else {
-            sb.append("No Granted Authorities");
-        }
-
-        return sb.toString();
+        return username != null ? username.hashCode() : 0;
     }
 }

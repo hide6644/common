@@ -73,9 +73,9 @@ public class StartupListener implements ServletContextListener {
             log.error("I/O Exception reading manifest: " + e.getMessage());
         }
 
-        // WARにバージョン番号が指定されていれば、それをブラウザにキャッシュを破棄させる事に使用する
-        // そうでなければ、開発バージョンであると仮定し、ランダムな番号を生成し、
-        // それをブラウザにキャッシュを破棄させる事に使用する
+        // ブラウザのキャッシュを破棄させるために、バージョン番号をページに埋め込む
+        // WARにバージョン番号が指定されていれば、それを使用する
+        // そうでなければ、開発バージョンであると仮定し、ランダムな番号を生成する
         if (appVersion == null || appVersion.contains("SNAPSHOT")) {
             appVersion = "" + new Random().nextInt(100000);
         }

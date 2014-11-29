@@ -13,8 +13,6 @@ import common.webapp.util.BrowserUtil;
 
 /**
  * ダウンロードダイアログを表示するクラス.
- *
- * @author hide6644
  */
 public class ServiceResponseFilter extends OncePerRequestFilter {
 
