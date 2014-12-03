@@ -1,6 +1,6 @@
 <%@ include file="/includes/taglibs.jsp"%>
-                <div class="nav-collapse collapse">
-                    <ul class="nav">
+                <div class="collapse navbar-collapse" id="navbar">
+                    <ul class="nav navbar-nav">
 <c:if test="${empty pageContext.request.remoteUser}">
                         <li class="active">
                             <a href="<c:url value='/login' />"><fmt:message key="loginForm.heading" /></a>
@@ -10,7 +10,7 @@
                         <li class="<c:if test="${currentMenu eq 'topForm'}">active</c:if>">
                             <a href="<c:url value="/top" />"><fmt:message key="topForm.title" /></a>
                         </li>
-                        <li class="<c:if test="${currentMenu eq 'accountSaveForm'}">active</c:if>">
+                        <li class="<c:if test="${currentMenu eq 'userSaveForm'}">active</c:if>">
                             <a href="<c:url value="/user" />"><fmt:message key="user" /><fmt:message key="button.edit" /></a>
                         </li>
 </sec:authorize>

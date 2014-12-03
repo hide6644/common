@@ -9,6 +9,7 @@
     <http pattern="/includes/**" security="none" />
     <http pattern="/scripts/**" security="none" />
     <http pattern="/styles/**" security="none" />
+    <http pattern="/assets/**" security="none" />
 
     <http entry-point-ref="authenticationEntryPoint" use-expressions="true">
         <custom-filter position="FORM_LOGIN_FILTER" ref="authenticationFilter" />

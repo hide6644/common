@@ -3,7 +3,7 @@
     <title><fmt:message key="updatePasswordForm.title" /></title>
 </head>
 
-<div class="span3">
+<div class="col-sm-3">
     <h3><fmt:message key="updatePasswordForm.heading" /></h3>
 <c:choose>
     <c:when test="${not empty token}">
@@ -14,12 +14,14 @@
     </c:otherwise>
 </c:choose>
 </div>
-<div class="span6">
+<div class="col-sm-5">
 <form method="post" id="updatePassword" action="<c:url value='/updatePassword' />" class="well" autocomplete="off">
     <input type="hidden" name="from" value="<c:out value="${param.from}" escapeXml="true" />" />
 
     <div class="form-group">
-        <label class="control-label"><fmt:message key="user.username" /> <span class="required">*</span></label>
+        <label class="control-label">
+            <fmt:message key="user.username" /> <span class="required">*</span>
+        </label>
         <input type="text" name="username" class="form-control" id="username" value="<c:out value="${username}" escapeXml="true" />" readonly>
     </div>
 <c:choose>
@@ -28,23 +30,27 @@
 </c:when>
 <c:otherwise>
     <div class="form-group">
-    	<label class="control-label"><fmt:message key="updatePasswordForm.currentPassword" /> <span class="required">*</span></label>
+        <label class="control-label">
+            <fmt:message key="updatePasswordForm.currentPassword" /> <span class="required">*</span>
+        </label>
         <input type="password" class="form-control" name="currentPassword" id="currentPassword">
     </div>
 </c:otherwise>
 </c:choose>
     <div class="form-group">
-    	<label class="control-label"><fmt:message key="updatePasswordForm.newPassword" /> <span class="required">*</span></label>
+        <label class="control-label">
+            <fmt:message key="updatePasswordForm.newPassword" /> <span class="required">*</span>
+        </label>
         <input type="password" class="form-control" name="password" id="password">
     </div>
     <fieldset class="form-actions">
         <button type="submit" class="btn btn-primary">
             <i class="icon-ok icon-white"></i> <fmt:message key="button.edit" />
         </button>
-        <button type="reset" class="btn">
+        <button type="reset" class="btn btn-default">
             <i class="icon-refresh"></i> <fmt:message key="button.reset" />
         </button>
-        <button type="button" class="btn" id="button_cancel">
+        <button type="button" class="btn btn-default" id="button_cancel">
             <i class="icon-remove"></i> <fmt:message key="button.cancel" />
         </button>
     </fieldset>

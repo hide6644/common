@@ -1,6 +1,6 @@
 <%@ include file="/includes/taglibs.jsp"%>
-<div class="row-fluid">
-<div class="span6">
+<div class="row">
+<div class="col-sm-6">
 <c:choose>
 <c:when test="${paginatedList.allPageCount == 0}">
     <fmt:message key="paging.no_items_found" />
@@ -19,9 +19,9 @@
 </c:otherwise>
 </c:choose>
 </div>
+<div class="col-sm-6">
 <c:if test="${paginatedList.allPageCount > 0}">
-<div class="span6 pagination pagination-right">
-<ul>
+<ul class="pagination pagination-sm pull-right">
 <c:choose>
 <c:when test="${paginatedList.existPrePage}">
     <li><a href="./?page=1"><fmt:message key="button.first" /></a></li>
@@ -53,6 +53,6 @@
 </c:otherwise>
 </c:choose>
 </ul>
-</div>
 </c:if>
+</div>
 </div>

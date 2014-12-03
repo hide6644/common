@@ -4,41 +4,24 @@
     <meta name="menu" content="admin.topForm" />
 </head>
 
-<div class="span10">
     <h3><fmt:message key="userForm.heading" /></h3>
 
-<div class="row-fluid">
-<form:form modelAttribute="searchUser" action="users" method="get">
-    <div class="span3">
-        <label for="username">
-            <fmt:message key="user.username" />
-        </label>
-        <form:input path="username" />
-    </div>
-    <div class="span3">
-        <label for="email">
-            <fmt:message key="user.email" />
-        </label>
-        <form:input path="email" />
-    </div>
+<form:form modelAttribute="searchUser" action="users" method="get" class="form-inline">
+    <input type="text" size="20" name="username" id="username" value="${param.username}" placeholder="<fmt:message key="user.username" />" class="form-control input-sm">
+    <input type="text" size="20" name="email" id="email" value="${param.email}" placeholder="<fmt:message key="user.email" />" class="form-control input-sm">
+    <button type="submit" class="btn btn-primary btn-sm">
+        <i class="icon-search"></i> <fmt:message key="button.search" />
+    </button>
+    <button type="button" class="btn btn-default btn-sm" id="button_clear">
+        <i class="icon-remove"></i> <fmt:message key="button.clear" />
+    </button>
 </form:form>
-</div>
-<div class="row-fluid">
-    <div class="span6">
-        <button type="submit" class="btn">
-            <i class="icon-search"></i> <fmt:message key="button.search" />
-        </button>
-        <button type="button" class="btn" id="button_clear">
-            <i class="icon-remove"></i> <fmt:message key="button.clear" />
-        </button>
-    </div>
-</div>
 
 <%@ include file="/includes/pagelinks.jsp"%>
 
 <form:form action="users" method="delete">
 <c:if test="${paginatedList.currentPage != null && fn:length(paginatedList.currentPage) > 0}">
-<table class="table table-striped table-condensed">
+<table class="table table-condensed table-striped table-hover">
 <thead>
     <tr>
         <th><input type="checkbox" id="toggle_checkAll" /></th>
@@ -59,24 +42,23 @@
 </tbody>
 </table>
 </c:if>
-    <fieldset class="form-actions">
+    <div class="form-group">
         <p>
-        <button type="button" class="btn" id="button_new" value="<c:url value="/user" />?method=Add&from=list">
+        <button type="button" class="btn btn-primary" id="button_new" value="<c:url value="/user" />?method=Add&from=list">
             <i class="icon-plus"></i> <fmt:message key="button.add" />
         </button>
-        <button type="button" class="btn" id="button_edit" value="<c:url value="/user" />?from=list&userId=">
+        <button type="button" class="btn btn-primary" id="button_edit" value="<c:url value="/user" />?from=list&userId=">
             <i class="icon-pencil"></i> <fmt:message key="button.edit" />
         </button>
-        <button type="submit" class="btn" id="button_delete">
+        <button type="submit" class="btn btn-warning" id="button_delete">
             <i class="icon-minus"></i> <fmt:message key="button.delete" />
         </button>
-        <button type="button" class="btn" id="button_cancel">
+        <button type="button" class="btn btn-default" id="button_cancel">
             <i class="icon-remove"></i> <fmt:message key="button.cancel" />
         </button>
         </p>
-    </fieldset>
+    </div>
 </form:form>
-</div>
 
 <c:set var="scripts" scope="request">
 <script type="text/javascript">
