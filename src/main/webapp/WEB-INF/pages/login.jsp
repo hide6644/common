@@ -6,34 +6,17 @@
 <body id="login">
 <form action="<c:url value='/login' />" method="post" class="form-signin">
     <h2 class="form-signin-heading">
-        <fmt:message key="loginForm.heading"/>
+        <fmt:message key="loginForm.heading" />
     </h2>
-<spring:bind path="username">
-    <fieldset class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-        <div class="controls">
-            <input type="text" name="username" id="username" class="input-block-level" placeholder="<fmt:message key='loginForm.username' />"  tabindex="1" />
-            <form:errors path="username" cssClass="help-inline" />
-        </div>
-    </fieldset>
-</spring:bind>
-<spring:bind path="password">
-    <fieldset class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-        <div class="controls">
-            <input type="password" name="password" id="password" class="input-block-level" placeholder="<fmt:message key='loginForm.password' />"  tabindex="2" />
-            <form:errors path="password" cssClass="help-inline" />
-        </div>
-    </fieldset>
-</spring:bind>
+    <input type="text" name="username" id="username" class="form-control" placeholder="<fmt:message key='loginForm.username' />"  tabindex="1" />
+    <input type="password" name="password" id="password" class="form-control" placeholder="<fmt:message key='loginForm.password' />"  tabindex="2" />
     <label class="checkbox">
         <input type="checkbox" name="_spring_security_remember_me" id="rememberMe" tabindex="3" />
         <fmt:message key="loginForm.rememberMe" />
     </label>
     <p>
-        <button type="submit" class="btn btn-large btn-primary" tabindex="4">
+        <button type="submit" class="btn btn-lg btn-primary btn-block" tabindex="4">
             <fmt:message key="button.login" />
-        </button>
-        <button type="reset" class="btn btn-large" tabindex="5">
-            <fmt:message key="button.reset" />
         </button>
     </p>
     <p>

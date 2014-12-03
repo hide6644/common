@@ -22,17 +22,16 @@
 </c:choose>
 <c:choose>
 <c:when test="${param.from eq 'list'}">
-<div class="span3"></div>
+<div class="col-sm-2"></div>
 </c:when>
 <c:otherwise>
-<div class="span3">
+<div class="col-sm-2">
     <h3><fmt:message key="userSaveForm.heading" /></h3>
     <p><fmt:message key="userSaveForm.message" /></p>
 </div>
 </c:otherwise>
 </c:choose>
-<div class="span6">
-<fieldset>
+<div class="col-sm-7">
     <fieldset id="legend">
 <c:choose>
 <c:when test="${method eq 'post'}">
@@ -45,160 +44,142 @@
 </c:otherwise>
 </c:choose>
     </fieldset>
-<form:form modelAttribute="user" method="${method}" cssClass="form-horizontal">
+<form:form modelAttribute="user" method="${method}" autocomplete="off" cssClass="well">
     <form:hidden path="id" />
     <form:hidden path="version" />
 <c:choose>
 <c:when test="${method eq 'post'}">
 <spring:bind path="user.username">
-    <fieldset class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+    <div class="form-group${(not empty status.errorMessage) ? ' has-error' : ''}">
         <label for="username" class="control-label">
             <fmt:message key="user.username" /> <span class="required">*</span>
         </label>
-        <div class="controls">
-            <form:input path="username" cssClass="input-medium" />
-            <form:errors path="username" cssClass="help-inline" />
-        </div>
-    </fieldset>
+        <form:input path="username" cssClass="form-control" />
+        <form:errors path="username" cssClass="help-block" />
+    </div>
 </spring:bind>
 </c:when>
 <c:otherwise>
-    <fieldset class="control-group">
+    <div class="control-group">
         <label for="username" class="control-label">
             <fmt:message key="user.username" />
         </label>
-        <div class="controls">
-            <form:input path="username" readonly="true" cssClass="input-medium" />
-        </div>
-    </fieldset>
+        <form:input path="username" readonly="true" cssClass="form-control" />
+    </div>
 </c:otherwise>
 </c:choose>
 <c:choose>
 <c:when test="${method eq 'post'}">
+    <div class="row">
 <spring:bind path="user.password">
-    <fieldset class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-        <label for="password" class="control-label">
-            <fmt:message key="user.password" /> <span class="required">*</span>
-        </label>
-        <div class="controls">
-            <form:password path="password" showPassword="true" cssClass="input-medium" />
-            <form:errors path="password" cssClass="help-inline" />
+        <div class="col-sm-6 form-group${(not empty status.errorMessage) ? ' has-error' : ''}">
+            <label for="password" class="control-label">
+                <fmt:message key="user.password" /> <span class="required">*</span>
+            </label>
+            <form:password path="password" showPassword="true" cssClass="form-control" />
+            <form:errors path="password" cssClass="help-block" />
         </div>
-    </fieldset>
 </spring:bind>
 <spring:bind path="user.confirmPassword">
-    <fieldset class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-        <label for="confirmPassword" class="control-label">
-            <fmt:message key="user.confirmPassword" />
-        </label>
-        <div class="controls">
-            <form:password path="confirmPassword" showPassword="true" cssClass="input-medium" />
-            <form:errors path="confirmPassword" cssClass="help-inline" />
+        <div class="col-sm-6 form-group${(not empty status.errorMessage) ? ' has-error' : ''}">
+            <label for="confirmPassword" class="control-label">
+                <fmt:message key="user.confirmPassword" />
+            </label>
+            <form:password path="confirmPassword" showPassword="true" cssClass="form-control" />
+            <form:errors path="confirmPassword" cssClass="help-block" />
         </div>
-    </fieldset>
 </spring:bind>
+    </div>
 </c:when>
 <c:otherwise>
 <c:if test="${pageContext.request.remoteUser eq user.username}">
-    <fieldset class="control-group">
-        <div class="controls">
+    <span class="help-block">
 <c:choose>
 <c:when test="${param.from eq 'list'}">
-            <a href="<c:url value="/updatePassword" />?from=list"><fmt:message key="userSaveForm.password.request" /></a>
+        <a href="<c:url value="/updatePassword" />?from=list"><fmt:message key="userSaveForm.password.request" /></a>
 </c:when>
 <c:otherwise>
-            <a href="<c:url value="/updatePassword" />"><fmt:message key="userSaveForm.password.request" /></a>
+        <a href="<c:url value="/updatePassword" />"><fmt:message key="userSaveForm.password.request" /></a>
 </c:otherwise>
 </c:choose>
-        </div>
-    </fieldset>
+    </span>
 </c:if>
 </c:otherwise>
 </c:choose>
+    <div class="row">
 <spring:bind path="user.firstName">
-    <fieldset class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-        <label for="firstName" class="control-label">
-            <fmt:message key="user.firstName" /> <span class="required">*</span>
-        </label>
-        <div class="controls">
-            <form:input path="firstName" cssClass="input-large" />
-            <form:errors path="firstName" cssClass="help-inline" />
+        <div class="col-sm-6 form-group${(not empty status.errorMessage) ? ' has-error' : ''}">
+            <label for="firstName" class="control-label">
+                <fmt:message key="user.firstName" /> <span class="required">*</span>
+            </label>
+            <form:input path="firstName" cssClass="form-control" />
+            <form:errors path="firstName" cssClass="help-block" />
         </div>
-    </fieldset>
 </spring:bind>
 <spring:bind path="user.lastName">
-    <fieldset class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-        <label for="lastName" class="control-label">
-            <fmt:message key="user.lastName" />
-        </label>
-        <div class="controls">
-            <form:input path="lastName" cssClass="input-large" />
-            <form:errors path="lastName" cssClass="help-inline" />
+        <div class="col-sm-6 form-group${(not empty status.errorMessage) ? ' has-error' : ''}">
+            <label for="lastName" class="control-label">
+                <fmt:message key="user.lastName" />
+            </label>
+            <form:input path="lastName" cssClass="form-control" />
+            <form:errors path="lastName" cssClass="help-block" />
         </div>
-    </fieldset>
 </spring:bind>
+    </div>
 <spring:bind path="user.email">
-    <fieldset class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+    <div class="form-group${(not empty status.errorMessage) ? ' has-error' : ''}">
         <label for="email" class="control-label">
             <fmt:message key="user.email" /> <span class="required">*</span>
         </label>
-        <div class="controls">
-            <form:input path="email" cssClass="input-xlarge" />
-            <form:errors path="email" cssClass="help-inline" />
-        </div>
-    </fieldset>
+        <form:input path="email" cssClass="form-control" />
+        <form:errors path="email" cssClass="help-block" />
+    </div>
 </spring:bind>
 <c:choose>
 <c:when test="${param.from eq 'list' or method eq 'post'}">
-    <fieldset class="control-group">
+    <div class="form-group">
         <label class="control-label"><fmt:message key="userForm.accountSettings"/></label>
-        <div class="controls">
-            <label class="checkbox inline">
-                <form:checkbox path="enabled" />
-                <fmt:message key="user.enabled" />
-            </label>
-            <label class="checkbox inline">
-                <form:checkbox path="accountLocked" />
-                <fmt:message key="user.accountLocked" />
-            </label>
-        </div>
-    </fieldset>
-<spring:bind path="user.accountExpiredDate">
-    <fieldset class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-        <label for="accountExpiredDate" class="control-label">
-            <fmt:message key="user.accountExpiredDate" />
+        <label class="checkbox-inline">
+            <form:checkbox path="enabled" />
+            <fmt:message key="user.enabled" />
         </label>
-        <div class="controls">
-            <form:input path="accountExpiredDate" cssClass="text" cssErrorClass="text error" placeholder="${DATE_TIME_FORMAT}" />
-            <form:errors path="accountExpiredDate" cssClass="help-inline" />
+        <label class="checkbox-inline">
+            <form:checkbox path="accountLocked" />
+            <fmt:message key="user.accountLocked" />
+        </label>
+    </div>
+    <div class="row">
+<spring:bind path="user.accountExpiredDate">
+        <div class="col-sm-6 form-group${(not empty status.errorMessage) ? ' has-error' : ''}">
+            <label for="accountExpiredDate" class="control-label">
+                <fmt:message key="user.accountExpiredDate" />
+            </label>
+            <form:input path="accountExpiredDate" cssClass="form-control" placeholder="${DATE_TIME_FORMAT}" />
+            <form:errors path="accountExpiredDate" cssClass="help-block" />
         </div>
-    </fieldset>
 </spring:bind>
 <spring:bind path="user.credentialsExpiredDate">
-    <fieldset class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-        <label for="credentialsExpiredDate" class="control-label">
-            <fmt:message key="user.credentialsExpiredDate" />
-        </label>
-        <div class="controls">
-            <form:input path="credentialsExpiredDate" cssClass="text" cssErrorClass="text error" placeholder="${DATE_TIME_FORMAT}" />
-            <form:errors path="credentialsExpiredDate" cssClass="help-inline" />
+        <div class="col-sm-6 form-group${(not empty status.errorMessage) ? ' has-error' : ''}">
+            <label for="credentialsExpiredDate" class="control-label">
+                <fmt:message key="user.credentialsExpiredDate" />
+            </label>
+            <form:input path="credentialsExpiredDate" cssClass="form-control" placeholder="${DATE_TIME_FORMAT}" />
+            <form:errors path="credentialsExpiredDate" cssClass="help-block" />
         </div>
-    </fieldset>
 </spring:bind>
+    </div>
 <spring:bind path="user.roles">
-    <fieldset class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+    <div class="form-group">
         <label for="roles" class="control-label">
             <fmt:message key="userForm.assignRoles" />
         </label>
-        <div class="controls">
-            <select name="roles" multiple="multiple" class="input-xlarge">
+        <select name="roles" multiple="multiple" class="form-control">
 <c:forEach items="${availableRoles}" var="role">
-                <option value="${role.value}" ${fn:contains(user.roles, role.value) ? 'selected' : ''}>${role.label}</option>
+            <option value="${role.value}" ${fn:contains(user.roles, role.value) ? 'selected' : ''}>${role.label}</option>
 </c:forEach>
-            </select>
-            <form:errors path="roles" cssClass="help-inline" />
-        </div>
-    </fieldset>
+        </select>
+        <form:errors path="roles" cssClass="help-block" />
+    </div>
 </spring:bind>
 </c:when>
 <c:otherwise>
@@ -223,15 +204,14 @@
 </c:otherwise>
 </c:choose>
         </button>
-        <button type="reset" class="btn">
+        <button type="reset" class="btn btn-default">
             <i class="icon-refresh"></i> <fmt:message key="button.reset" />
         </button>
-        <button type="button" class="btn" id="button_cancel">
+        <button type="button" class="btn btn-default" id="button_cancel">
             <i class="icon-remove"></i> <fmt:message key="button.cancel" />
         </button>
     </fieldset>
 </form:form>
-</fieldset>
 </div>
 
 <c:set var="scripts" scope="request">
