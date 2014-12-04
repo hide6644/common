@@ -1,9 +1,11 @@
 <%@ include file="/includes/taglibs.jsp"%>
 <head>
     <title><fmt:message key="userForm.title" /></title>
-    <meta name="menu" content="admin.topForm" />
+    <meta name="menu" content="admin" />
+    <meta name="navlistMenu" content="userForm" />
 </head>
 
+<div class="col-sm-10">
     <h3><fmt:message key="userForm.heading" /></h3>
 
 <form:form modelAttribute="searchUser" action="users" method="get" class="form-inline">
@@ -59,6 +61,7 @@
         </p>
     </div>
 </form:form>
+</div>
 
 <c:set var="scripts" scope="request">
 <script type="text/javascript">

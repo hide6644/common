@@ -12,6 +12,7 @@
 </head>
 <body<decorator:getProperty property="body.id" writeEntireProperty="true" /><decorator:getProperty property="body.class" writeEntireProperty="true" />>
     <c:set var="currentMenu" scope="request"><decorator:getProperty property="meta.menu" /></c:set>
+    <c:set var="currentNavlistMenu" scope="request"><decorator:getProperty property="meta.navlistMenu" /></c:set>
 
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="navbar-header">
@@ -33,8 +34,9 @@
 <%@ include file="/includes/messages.jsp" %>
         <div class="row">
 <decorator:body />
-            <c:if test="${currentMenu eq 'admin.topForm'}">
+            <c:if test="${currentMenu eq 'admin'}">
                 <div class="col-sm-2">
+<%@ include file="/includes/navlistMenu.jsp" %>
                 </div>
             </c:if>
         </div>

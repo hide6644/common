@@ -15,13 +15,9 @@
                         </li>
 </sec:authorize>
 <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <li class="dropdown<c:if test="${currentMenu eq 'admin.topForm'}"> active</c:if>">
+                        <li class="dropdown<c:if test="${currentMenu eq 'admin'}"> active</c:if>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><fmt:message key="admin.topForm" /><span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li>
-                                    <a href="<c:url value='/admin/top' />"><fmt:message key="admin.topForm" /></a>
-                                </li>
-                                <li class="divider"></li>
                                 <li>
                                     <a href="<c:url value="/admin/master/top" />"><fmt:message key="admin.master.topForm" /></a>
                                 </li>

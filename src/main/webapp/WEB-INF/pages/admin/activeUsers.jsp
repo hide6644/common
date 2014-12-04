@@ -1,7 +1,8 @@
 <%@ include file="/includes/taglibs.jsp"%>
 <head>
     <title><fmt:message key="activeUsersForm.title"/></title>
-    <meta name="menu" content="admin.topForm" />
+    <meta name="menu" content="admin" />
+    <meta name="navlistMenu" content="activeUsersForm" />
 </head>
 
 <div class="col-sm-10">
