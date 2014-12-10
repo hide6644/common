@@ -9,8 +9,8 @@
     <h3><fmt:message key="userForm.heading" /></h3>
 
 <form:form modelAttribute="searchUser" action="users" method="get" class="form-inline">
-    <input type="text" size="20" name="username" id="username" value="${param.username}" placeholder="<fmt:message key="user.username" />" class="form-control input-sm">
-    <input type="text" size="20" name="email" id="email" value="${param.email}" placeholder="<fmt:message key="user.email" />" class="form-control input-sm">
+    <input type="text" size="20" name="username" id="username" value="${searchUser.username}" placeholder="<fmt:message key="user.username" />" class="form-control input-sm">
+    <input type="text" size="20" name="email" id="email" value="${searchUser.email}" placeholder="<fmt:message key="user.email" />" class="form-control input-sm">
     <button type="submit" class="btn btn-primary btn-sm">
         <i class="icon-search"></i> <fmt:message key="button.search" />
     </button>

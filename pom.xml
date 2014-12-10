@@ -5,14 +5,25 @@
 
     <groupId>common</groupId>
     <artifactId>common</artifactId>
+    <packaging>war</packaging>
     <name>common</name>
     <version>1.0.0</version>
+    <inceptionYear>2013</inceptionYear>
+    <url>https://github.com/hide6644/common</url>
+
+    <description>
+        Full-stack framework for building web applications on the JVM.
+    </description>
+
+    <prerequisites>
+        <maven>3.1.0</maven>
+    </prerequisites>
 
     <scm>
         <connection>scm:git:git@github.com:hide6644/crawler.git</connection>
         <developerConnection>scm:git:git@github.com:hide6644/crawler.git</developerConnection>
-        <tag>HEAD</tag>
         <url>https://github.com/hide6644/crawler.git</url>
+        <tag>HEAD</tag>
     </scm>
 
     <licenses>
@@ -31,8 +42,6 @@
             <timezone>+9</timezone>
         </developer>
     </developers>
-
-    <packaging>war</packaging>
 
     <build>
         <defaultGoal>install</defaultGoal>

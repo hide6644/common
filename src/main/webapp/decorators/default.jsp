@@ -23,29 +23,30 @@
             </button>
             <a class="navbar-brand" href="<c:url value='/' />"><fmt:message key="webapp.name" /></a>
         </div>
-<%@ include file="/includes/menu.jsp" %>
-        <c:if test="${pageContext.request.locale.language != 'en'}">
-            <div id="switchLocale"><a href="<c:url value='/?locale=en' />">
-                <fmt:message key="webapp.name" /> in English</a>
-            </div>
-        </c:if>
+        <%@ include file="/includes/menu.jsp" %>
+<c:if test="${pageContext.request.locale.language != 'en'}">
+        <div id="switchLocale"><a href="<c:url value='?locale=en' />">
+            <fmt:message key="webapp.name" /> in English</a>
+        </div>
+</c:if>
     </div>
     <div class="container" id="content">
-<%@ include file="/includes/messages.jsp" %>
+        <%@ include file="/includes/messages.jsp" %>
         <div class="row">
-<decorator:body />
-            <c:if test="${currentMenu eq 'admin'}">
-                <div class="col-sm-2">
-<%@ include file="/includes/navlistMenu.jsp" %>
-                </div>
-            </c:if>
+            <decorator:body />
+<c:if test="${currentMenu eq 'admin'}">
+            <div class="col-sm-2">
+                <%@ include file="/includes/navlistMenu.jsp" %>
+            </div>
+</c:if>
         </div>
     </div>
     <div id="footer" class="container navbar-fixed-bottom">
-        <span class="col-sm-6 text-left"><fmt:message key="webapp.version"/>
-            <c:if test="${pageContext.request.remoteUser != null}">
+        <span class="col-sm-6 text-left">
+            <fmt:message key="webapp.version" />
+<c:if test="${pageContext.request.remoteUser != null}">
             | <fmt:message key="user.status" /> ${pageContext.request.remoteUser}
-            </c:if>
+</c:if>
         </span>
         <span class="col-sm-6 text-right">
             &copy; <fmt:message key="copyright.year" /> <a href="<fmt:message key="company.url" />"><fmt:message key="company.name" /></a>

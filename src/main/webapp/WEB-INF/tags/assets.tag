@@ -66,21 +66,21 @@
 </c:set>
 
 <c:choose>
-    <c:when test="${sessionScope.debugAssets}">
-        <%-- web resources by type (css|js) --%>
-        <x:transform doc='<%= ((String)jspContext.getAttribute("xml")).replace(WRO_NAMESPACE, "") %>' xslt='<%= jspContext.getAttribute("xslt") %>'>
-            <x:param name="group"  value="${group}" />
-            <x:param name="type"  value="${type}" />
-        </x:transform>
-    </c:when>
-    <c:otherwise>
-        <c:choose>
-            <c:when test="${type == 'css'}">
-                <link rel="stylesheet" type="text/css" href="${base}/assets/v/${applicationScope.assetsVersion}/${group}.css" />
-            </c:when>
-            <c:otherwise>
-                <script type="text/javascript" src="${base}/assets/v/${applicationScope.assetsVersion}/${group}.js"></script>
-            </c:otherwise>
-        </c:choose>
-    </c:otherwise>
+<c:when test="${sessionScope.debugAssets}">
+<%-- web resources by type (css|js) --%>
+<x:transform doc='<%= ((String)jspContext.getAttribute("xml")).replace(WRO_NAMESPACE, "") %>' xslt='<%= jspContext.getAttribute("xslt") %>'>
+    <x:param name="group"  value="${group}" />
+    <x:param name="type"  value="${type}" />
+</x:transform>
+</c:when>
+<c:otherwise>
+<c:choose>
+<c:when test="${type == 'css'}">
+    <link rel="stylesheet" type="text/css" href="${base}/assets/v/${applicationScope.assetsVersion}/${group}.css" />
+</c:when>
+<c:otherwise>
+    <script type="text/javascript" src="${base}/assets/v/${applicationScope.assetsVersion}/${group}.js"></script>
+</c:otherwise>
+</c:choose>
+</c:otherwise>
 </c:choose>
