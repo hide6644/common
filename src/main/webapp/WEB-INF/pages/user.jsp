@@ -1,5 +1,4 @@
 <%@ include file="/includes/taglibs.jsp"%>
-<custom:constants var="DATE_TIME_FORMAT" />
 <head>
     <title><fmt:message key="userSaveForm.title" /></title>
 <c:choose>
@@ -11,6 +10,7 @@
 </c:otherwise>
 </c:choose>
 </head>
+<c:set var="dateTimeFormat" scope="request"><fmt:message key="date.time.format" /></c:set>
 
 <c:choose>
 <c:when test="${param.method eq 'Add'}">
@@ -154,7 +154,7 @@
             <label for="accountExpiredDate" class="control-label">
                 <fmt:message key="user.accountExpiredDate" />
             </label>
-            <form:input path="accountExpiredDate" cssClass="form-control" placeholder="${DATE_TIME_FORMAT}" />
+            <form:input path="accountExpiredDate" cssClass="form-control" placeholder="${dateTimeFormat}" />
             <form:errors path="accountExpiredDate" cssClass="help-block" />
         </div>
 </spring:bind>
@@ -163,7 +163,7 @@
             <label for="credentialsExpiredDate" class="control-label">
                 <fmt:message key="user.credentialsExpiredDate" />
             </label>
-            <form:input path="credentialsExpiredDate" cssClass="form-control" placeholder="${DATE_TIME_FORMAT}" />
+            <form:input path="credentialsExpiredDate" cssClass="form-control" placeholder="${dateTimeFormat}" />
             <form:errors path="credentialsExpiredDate" cssClass="help-block" />
         </div>
 </spring:bind>

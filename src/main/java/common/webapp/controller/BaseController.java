@@ -3,7 +3,6 @@ package common.webapp.controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -177,7 +176,7 @@ public abstract class BaseController {
      * @return メッセージ
      */
     protected String getText(String msgKey) {
-        return getText(msgKey, "");
+        return messages.getMessage(msgKey);
     }
 
     /**
@@ -189,8 +188,8 @@ public abstract class BaseController {
      *            引数
      * @return メッセージ
      */
-    protected String getText(String msgKey, Object... args) {
-        return messages.getMessage(msgKey, args, Locale.getDefault());
+    protected String getText(String msgKey, Object... arg) {
+        return messages.getMessage(msgKey, arg);
     }
 
     /**

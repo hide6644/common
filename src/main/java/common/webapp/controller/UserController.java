@@ -53,7 +53,7 @@ public class UserController extends BaseController {
     @Override
     public void initBinder(WebDataBinder binder) {
         super.initBinder(binder);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(Constants.DATE_TIME_FORMAT), true));
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(getText("date.time.format")), true));
     }
 
     /**
