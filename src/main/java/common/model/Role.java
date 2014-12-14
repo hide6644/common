@@ -83,7 +83,7 @@ public class Role extends BaseObject implements Serializable, GrantedAuthority {
      *
      * @return 名称
      */
-    @Length(max = 16, message = "{common.validator.constraints.MaxLength.message}")
+    @Length(max = 16)
     @Column(length = 16)
     public String getName() {
         return name;
@@ -104,7 +104,7 @@ public class Role extends BaseObject implements Serializable, GrantedAuthority {
      *
      * @return 説明
      */
-    @Length(max = 64, message = "{common.validator.constraints.MaxLength.message}")
+    @Length(max = 64)
     @Column(length = 64)
     public String getDescription() {
         return description;

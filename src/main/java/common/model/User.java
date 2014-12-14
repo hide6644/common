@@ -176,7 +176,7 @@ public class User extends BaseObject implements Serializable, UserDetails {
      *
      * @return パスワード(確認用)
      */
-    @Length(max = 80, message = "{common.validator.constraints.MaxLength.message}")
+    @Length(max = 80)
     @Transient
     @XmlTransient
     public String getConfirmPassword() {
@@ -199,7 +199,7 @@ public class User extends BaseObject implements Serializable, UserDetails {
      * @return 名前
      */
     @NotEmpty
-    @Length(max = 64, message = "{common.validator.constraints.MaxLength.message}")
+    @Length(max = 64)
     @Column(name = "first_name", nullable = false, length = 64)
     @Field
     public String getFirstName() {
@@ -221,7 +221,7 @@ public class User extends BaseObject implements Serializable, UserDetails {
      *
      * @return 名字
      */
-    @Length(max = 64, message = "{common.validator.constraints.MaxLength.message}")
+    @Length(max = 64)
     @Column(name = "last_name", length = 64)
     @Field
     public String getLastName() {
@@ -245,7 +245,7 @@ public class User extends BaseObject implements Serializable, UserDetails {
      */
     @NotEmpty
     @Email
-    @Length(max = 64, message = "{common.validator.constraints.MaxLength.message}")
+    @Length(max = 64)
     @Column(nullable = false, length = 64, unique = true)
     @Field
     public String getEmail() {
