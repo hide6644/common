@@ -218,6 +218,12 @@
 <script type="text/javascript">
 <!--
 $(function() {
+    $('#accountExpiredDate').datetimepicker({
+        lang : '${pageContext.request.locale.language}'
+    });
+    $('#credentialsExpiredDate').datetimepicker({
+        lang : '${pageContext.request.locale.language}'
+    });
     $('#button_cancel').click(function() {
         $(location).attr('href', '<c:choose><c:when test="${param.from eq 'list'}"><c:url value="/admin/master/users" /></c:when><c:otherwise><c:url value="/top" /></c:otherwise></c:choose>');
     });

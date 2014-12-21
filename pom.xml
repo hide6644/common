@@ -201,13 +201,13 @@
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
-            <artifactId>bootstrap-datepicker</artifactId>
-            <version>${bootstrap-datepicker.version}</version>
+            <artifactId>bootswatch</artifactId>
+            <version>${bootswatch.version}</version>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
-            <artifactId>bootswatch</artifactId>
-            <version>${bootswatch.version}</version>
+            <artifactId>datetimepicker</artifactId>
+            <version>${datetimepicker.version}</version>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
@@ -497,7 +497,6 @@
         <jdbc.validationQuery><![CDATA[SELECT 1 + 1]]></jdbc.validationQuery>
 
         <bootstrap.version>3.3.1</bootstrap.version>
-        <bootstrap-datepicker.version>1.3.0-3</bootstrap-datepicker.version>
         <bootswatch.version>3.2.0+4</bootswatch.version>
         <classmate.version>1.1.0</classmate.version>
         <commons.beanutils.version>1.9.2</commons.beanutils.version>
@@ -512,6 +511,7 @@
         <commons.lang.version>2.6</commons.lang.version>
         <commons.lang3.version>3.3.2</commons.lang3.version>
         <commons.pool.version>1.6</commons.pool.version>
+        <datetimepicker.version>2.3.4</datetimepicker.version>
         <ehcache.version>2.9.0</ehcache.version>
         <hibernate.version>4.3.7.Final</hibernate.version>
         <hibernate.search.version>4.5.1.Final</hibernate.search.version>
