@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/javascript" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <!--
 var checkAll = function(selectAll, ids) {
     var flag = true;
@@ -26,9 +25,9 @@ $(function() {
     $('#button_edit').click(function() {
         var ids = $(':checked[name$=Ids]');
         if (ids.size() == 0) {
-            alert('<fmt:message key="button.choose"><fmt:param><fmt:message key="button.editTarget" /></fmt:param></fmt:message>');
+            alert('<fmt:message key="button.choose"><fmt:param><fmt:message key="button.edit_target" /></fmt:param></fmt:message>');
         } else if (ids.size() > 1) {
-            alert('<fmt:message key="button.noMoreChoose"><fmt:param><fmt:message key="button.editTarget" /></fmt:param></fmt:message>');
+            alert('<fmt:message key="button.no_more_choose"><fmt:param><fmt:message key="button.edit_target" /></fmt:param></fmt:message>');
         } else {
             $(location).attr('href', $('#button_edit').val() + ids.attr({ checked: 'checked' }).val());
         }
@@ -36,7 +35,7 @@ $(function() {
 
     $('#button_delete').click(function() {
         if ($(':checked[name$=Ids]').size() == 0) {
-            alert('<fmt:message key="button.choose"><fmt:param><fmt:message key="button.deleteTarget" /></fmt:param></fmt:message>');
+            alert('<fmt:message key="button.choose"><fmt:param><fmt:message key="button.delete_target" /></fmt:param></fmt:message>');
             return false;
         } else {
             return true;

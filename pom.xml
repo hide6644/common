@@ -20,9 +20,9 @@
     </prerequisites>
 
     <scm>
-        <connection>scm:git:git@github.com:hide6644/crawler.git</connection>
-        <developerConnection>scm:git:git@github.com:hide6644/crawler.git</developerConnection>
-        <url>https://github.com/hide6644/crawler.git</url>
+        <connection>scm:git:git@github.com:hide6644/common.git</connection>
+        <developerConnection>scm:git:git@github.com:hide6644/common.git</developerConnection>
+        <url>https://github.com/hide6644/common.git</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -543,7 +543,7 @@
         <opencsv.version>2.3</opencsv.version>
         <sitemesh.version>2.4.2</sitemesh.version>
         <slf4j.version>1.7.7</slf4j.version>
-        <spring.version>4.1.2.RELEASE</spring.version>
+        <spring.version>4.1.3.RELEASE</spring.version>
         <spring.security.version>3.2.5.RELEASE</spring.security.version>
         <subethasmtp.version>3.1.7</subethasmtp.version>
         <urlrewritefilter.version>4.0.4</urlrewritefilter.version>
