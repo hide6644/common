@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE workbook>
+<workbook>
+    <worksheet name="Sheet1">
+        <section startRow="0" endRow="0" />
+        <loop startRow="1" endRow="1" items="Users" var="user" varType="common.model.User">
+            <section startRow="1" endRow="1">
+                <mapping row="1" col="0">user.username</mapping>
+                <mapping row="1" col="1">user.password</mapping>
+                <mapping row="1" col="2">user.firstName</mapping>
+                <mapping row="1" col="3">user.lastName</mapping>
+                <mapping row="1" col="4">user.email</mapping>
+            </section>
+            <loopbreakcondition>
+                <rowcheck offset="0"/>
+                <rowcheck offset="1"/>
+            </loopbreakcondition>
+        </loop>
+    </worksheet>
+</workbook>

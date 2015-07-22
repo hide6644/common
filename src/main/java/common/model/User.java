@@ -155,7 +155,6 @@ public class User extends BaseObject implements Serializable, UserDetails {
     @NotEmpty
     @Length(min = 6, max = 80)
     @Column(nullable = false, length = 80)
-    @XmlTransient
     @Override
     public String getPassword() {
         return password;

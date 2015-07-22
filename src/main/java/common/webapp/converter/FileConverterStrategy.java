@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * ファイル変換処理インターフェイス.
  */
-public interface FileConverterStrategy<T> {
+public interface FileConverterStrategy {
 
     /** ファイルタイプ(XML) */
     public static final String FILE_TYPE_XML = "1";
@@ -25,5 +25,9 @@ public interface FileConverterStrategy<T> {
      *            アップロードファイル
      * @return 保持クラス一覧
      */
-    public abstract List<T> convert(MultipartFile multipartFile);
+    public abstract List<?> convert(MultipartFile multipartFile);
+
+    public Class<?> getClazz();
+
+    public void setClazz(Class<?> clazz);
 }

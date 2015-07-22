@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -20,8 +21,8 @@ import org.springframework.format.Formatter;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.AbstractUrlBasedView;
 
-import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.CSVWriter;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 
 import common.Constants;
 
@@ -37,7 +38,7 @@ public class CsvView extends AbstractUrlBasedView {
      * {@inheritDoc}
      */
     @Override
-    protected final void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected final void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, IOException {
         List<String[]> csv = null;
 
         if (getUrl() != null) {

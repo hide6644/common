@@ -59,6 +59,40 @@
             <i class="icon-remove"></i> <fmt:message key="button.cancel" />
         </button>
         </p>
+        <p>
+        <button type="button" class="btn btn-default" id="button_upload">
+            <i class="icon-arrow-up"></i> <fmt:message key="button.upload" />
+        </button>
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#downloadModal" id="button_download">
+            <i class="icon-arrow-down"></i> <fmt:message key="button.download" />
+        </button>
+        </p>
+    </div>
+    <div id="downloadModal" class="modal" role="dialog" aria-labelledby="downloadModalLabel" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="downloadModalLabel"><fmt:message key="fileType" /></h4>
+                </div>
+                <div class="modal-body">
+                    <fmt:message key="fileType.message" />
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" id="dialog_download_xml">
+                        <fmt:message key="fileType.xml" /><fmt:message key="button.download" />
+                    </a>
+                    <a href="#" class="btn btn-default" id="dialog_download_xls">
+                        <fmt:message key="fileType.xls" /><fmt:message key="button.download" />
+                    </a>
+                    <a href="#" class="btn btn-default" id="dialog_download_csv">
+                        <fmt:message key="fileType.csv" /><fmt:message key="button.download" />
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </form:form>
 </div>
@@ -74,6 +108,22 @@ $(function() {
 
     $('#button_cancel').click(function() {
         $(location).attr('href', '<c:url value="/admin/master/top" />');
+    });
+
+    $('#button_upload').click(function() {
+        $(location).attr('href', '<c:url value="/admin/master/uploadUsers" />');
+    });
+
+    $('#dialog_download_csv').click(function() {
+        $(location).attr('href', '<c:url value="/admin/master/users.csv" />');
+    });
+
+    $('#dialog_download_xls').click(function() {
+        $(location).attr('href', '<c:url value="/admin/master/users.xls" />');
+    });
+
+    $('#dialog_download_xml').click(function() {
+        $(location).attr('href', '<c:url value="/admin/master/users.xml" />');
     });
 });
 //-->

@@ -3,24 +3,48 @@
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
-    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
-        <param name="Threshold" value="INFO" />
+    <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+        <param name="Threshold" value="info"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d %p [%t] %c{1}.%M(%L) | %m%n" />
         </layout>
     </appender>
 
-    <logger name="org.apache.velocity">
-        <level value="FATAL" />
-    </logger>
+    <appender name="infolog" class="org.apache.log4j.RollingFileAppender">
+        <param name="Threshold" value="info" />
+        <param name="File" value="${catalina.base}/logs/common/info.log" />
+        <param name="MaxFileSize" value="1MB" />
+        <param name="MaxBackupIndex" value="10" />
+        <param name="Append" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %p - %C.%M | %m%n" />
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelMatchFilter">
+            <param name="LevelToMatch" value="info" />
+            <param name="AcceptOnMatch" value="true" />
+        </filter>
+        <filter class="org.apache.log4j.varia.DenyAllFilter" />
+    </appender>
 
-    <logger name="common">
-        <level value="DEBUG" />
+    <appender name="errorlog" class="org.apache.log4j.RollingFileAppender">
+        <param name="Threshold" value="error" />
+        <param name="File" value="${catalina.base}/logs/common/error.log" />
+        <param name="MaxFileSize" value="1MB" />
+        <param name="MaxBackupIndex" value="10" />
+        <param name="Append" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %p - [%t] %C.%M(%F:%L) | %m%n" />
+        </layout>
+    </appender>
+
+    <logger name="org.apache.velocity">
+        <level value="fatal" />
     </logger>
 
     <root>
-        <level value="INFO" />
-        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="stdout" />
+        <appender-ref ref="infolog" />
+        <appender-ref ref="errorlog" />
     </root>
 
 </log4j:configuration>

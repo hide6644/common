@@ -1,17 +1,15 @@
 package common.webapp.converter.util;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import net.sf.jxls.reader.ReaderBuilder;
-import net.sf.jxls.reader.ReaderConfig;
-import net.sf.jxls.reader.XLSReadStatus;
-import net.sf.jxls.reader.XLSReader;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.jxls.reader.ReaderBuilder;
+import org.jxls.reader.ReaderConfig;
+import org.jxls.reader.XLSReadStatus;
+import org.jxls.reader.XLSReader;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
@@ -44,10 +42,10 @@ public class JxlsFileReader {
 
         try {
             ReaderConfig.getInstance().setSkipErrors(true);
-            inputXML = new BufferedInputStream(templateFile.getInputStream());
+            inputXML = templateFile.getInputStream();
             XLSReader mainReader = ReaderBuilder.buildFromXML(inputXML);
 
-            inputXLS = new BufferedInputStream(file.getInputStream());
+            inputXLS = file.getInputStream();
 
             return mainReader.read(inputXLS, model);
         } finally {
