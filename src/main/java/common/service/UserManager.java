@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import common.dao.UserDao;
 import common.model.User;
+import common.webapp.form.UploadForm;
 
 /**
  * ユーザ処理のインターフェース.
@@ -61,6 +62,32 @@ public interface UserManager extends GenericManager<User, Long> {
      *            ID
      */
     void removeUser(String userId);
+
+    /**
+     * アップロードする.
+     *
+     * @param uploadForm
+     *            アップロードファイルの情報
+     */
+    void uploadUser(UploadForm uploadForm);
+
+    /**
+     * 指定されたアップロードユーザを永続化する.
+     *
+     * @param user
+     *            ユーザ
+     * @return 永続化されたユーザ
+     */
+    User saveUploadUser(User user);
+
+    /**
+     * 指定された新規登録ユーザを永続化する.
+     *
+     * @param user
+     *            ユーザ
+     * @return 永続化されたユーザ
+     */
+    User saveSignupUser(User user);
 
     /**
      * ユーザ本登録用のURLをメールで送信する.

@@ -15,8 +15,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import net.sf.ehcache.CacheManager;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
@@ -28,7 +26,10 @@ import common.model.LabelValue;
 import common.model.User;
 import common.service.GenericManager;
 import common.service.RoleManager;
-import common.webapp.converter.FileConverterStrategy;
+import common.webapp.converter.CsvFileConverter;
+import common.webapp.converter.XlsFileConverter;
+import common.webapp.converter.XmlFileConverter;
+import net.sf.ehcache.CacheManager;
 
 /**
  * アプリケーション初期化処理を実行するクラス.
@@ -101,9 +102,9 @@ public class StartupListener implements ServletContextListener {
      */
     public static void setupContext(ServletContext context) {
         List<LabelValue> fileTypeList = new ArrayList<LabelValue>();
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xml"), FileConverterStrategy.FILE_TYPE_XML));
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xls"), FileConverterStrategy.FILE_TYPE_XLS));
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.csv"), FileConverterStrategy.FILE_TYPE_CSV));
+        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xml"), XmlFileConverter.FILE_TYPE));
+        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xls"), XlsFileConverter.FILE_TYPE));
+        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.csv"), CsvFileConverter.FILE_TYPE));
         context.setAttribute("fileTypeList", fileTypeList);
 
         ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);

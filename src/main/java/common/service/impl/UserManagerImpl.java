@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.jws.WebService;
+import javax.validation.Validator;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
@@ -15,13 +17,17 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import common.Constants;
 import common.dao.UserDao;
 import common.exception.DBException;
 import common.model.User;
 import common.service.MailEngine;
 import common.service.PasswordTokenManager;
+import common.service.RoleManager;
 import common.service.UserManager;
 import common.service.UserService;
+import common.webapp.converter.UserConverterFactory;
+import common.webapp.form.UploadForm;
 
 /**
  * ユーザ処理の実装クラス.
@@ -49,6 +55,14 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
     /** パスワードトークン処理のクラス */
     @Autowired(required = false)
     private PasswordTokenManager passwordTokenManager;
+
+    /** Role処理クラス */
+    @Autowired
+    private RoleManager roleManager;
+
+    /** 検証ツールクラス */
+    @Autowired
+    private Validator validator;
 
     /** メッセージソースアクセサー */
     private MessageSourceAccessor messages;
@@ -158,6 +172,53 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
     @Override
     public List<User> search(String searchTerm) {
         return super.search(searchTerm);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void uploadUser(UploadForm uploadForm) {
+        @SuppressWarnings("unchecked")
+        List<User> userList = (List<User>) UserConverterFactory.createConverter(uploadForm.getFileType()).convert(uploadForm.getFileData());
+
+        for (User user : userList) {
+            if (saveUploadUser(user) != null) {
+                uploadForm.setCount(uploadForm.getCount() + 1);
+            } else {
+                // エラー有りの場合
+                uploadForm.addErrorNo(uploadForm.getCount() + uploadForm.getErrorNo().size() + 1);
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public User saveUploadUser(User user) {
+        user.setConfirmPassword(user.getPassword());
+
+        // エラーチェック
+        if (validator.validate(user).size() > 0) {
+            return null;
+        } else {
+            return saveSignupUser(user);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public User saveSignupUser(User user) {
+        // デフォルトの要再認証日時を設定する
+        user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
+        // 新規登録時は権限を一般で設定する
+        user.getRoles().clear();
+        user.addRole(roleManager.getRole(Constants.USER_ROLE));
+
+        return saveUser(user);
     }
 
     /**

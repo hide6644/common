@@ -17,8 +17,21 @@ import common.webapp.converter.util.XmlFileReader;
  */
 public class XmlFileConverter implements FileConverterStrategy {
 
+    /** ファイルタイプ(XML) */
+    public static final String FILE_TYPE = "1";
+
     /** 保持クラス */
     private Class<?> clazz;
+
+    /**
+     * コンストラクタ.
+     *
+     * @param clazz
+     *            保持クラス
+     */
+    public XmlFileConverter(Class<?> clazz) {
+        this.clazz = clazz;
+    }
 
     /**
      * {@inheritDoc}
@@ -32,21 +45,5 @@ public class XmlFileConverter implements FileConverterStrategy {
         } catch (JAXBException e) {
             throw new FileException("errors.convert", e);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Class<?> getClazz() {
-        return clazz;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setClazz(Class<?> clazz) {
-        this.clazz = clazz;
     }
 }

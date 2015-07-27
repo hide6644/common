@@ -68,16 +68,16 @@ public abstract class BaseController {
      *            エラーメッセージ
      */
     protected void saveFlashError(String error) {
-        FlashMap.add("flash_error_messages", error);
+        saveFlash("flash_error_messages", error);
     }
 
     /**
      * FlashMapに例外からのエラーメッセージを設定する.
      *
      * @param e
-     *            データベース例外
+     *            実行時例外
      */
-    protected void saveFlashError(DBException e) {
+    protected void saveFlashError(RuntimeException e) {
         saveFlashError(getText(e.getMessage()));
     }
 
@@ -88,7 +88,19 @@ public abstract class BaseController {
      *            メッセージ
      */
     protected void saveFlashMessage(String message) {
-        FlashMap.add("flash_info_messages", message);
+        saveFlash("flash_info_messages", message);
+    }
+
+    /**
+     * FlashMapにメッセージを設定する.
+     *
+     * @param key
+     *            キー
+     * @param message
+     *            メッセージ
+     */
+    protected void saveFlash(String key, String message) {
+        FlashMap.add(key, message);
     }
 
     /**

@@ -5,7 +5,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.opencsv.CSVReader;
@@ -19,11 +21,21 @@ import common.webapp.converter.util.CsvFileReader;
  */
 public class CsvFileConverter implements FileConverterStrategy {
 
+    /** ファイルタイプ(CSV) */
+    public static final String FILE_TYPE = "3";
+
     /** 保持クラス */
     private Class<?> clazz;
 
-    /** ヘッダー情報 */
-    private String[] header;
+    /**
+     * コンストラクタ.
+     *
+     * @param clazz
+     *            保持クラス
+     */
+    public CsvFileConverter(Class<?> clazz) {
+        this.clazz = clazz;
+    }
 
     /**
      * {@inheritDoc}
@@ -34,7 +46,7 @@ public class CsvFileConverter implements FileConverterStrategy {
 
         try {
             List<Object> beanList = new ArrayList<Object>();
-            CsvFileReader csvFileReader = new CsvFileReader(header);
+            CsvFileReader csvFileReader = new CsvFileReader(FileUtils.readFileToString(new ClassPathResource(clazz.getSimpleName() + ".csv", getClass()).getFile(), Constants.ENCODING).split(","));
             reader = new CSVReader(new InputStreamReader(multipartFile.getInputStream(), Constants.ENCODING), ',', '"', 1);
 
             for (String[] line : reader.readAll()) {
@@ -56,29 +68,5 @@ public class CsvFileConverter implements FileConverterStrategy {
         } finally {
             IOUtils.closeQuietly(reader);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Class<?> getClazz() {
-        return clazz;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setClazz(Class<?> clazz) {
-        this.clazz = clazz;
-    }
-
-    public String[] getHeader() {
-        return header;
-    }
-
-    public void setHeader(String[] header) {
-        this.header = header;
     }
 }

@@ -20,8 +20,21 @@ import common.webapp.converter.util.JxlsFileReader;
  */
 public class XlsFileConverter implements FileConverterStrategy {
 
+    /** ファイルタイプ(XLS) */
+    public static final String FILE_TYPE = "2";
+
     /** 保持クラス */
     private Class<?> clazz;
+
+    /**
+     * コンストラクタ.
+     *
+     * @param clazz
+     *            保持クラス
+     */
+    public XlsFileConverter(Class<?> clazz) {
+        this.clazz = clazz;
+    }
 
     /**
      * {@inheritDoc}
@@ -49,21 +62,5 @@ public class XlsFileConverter implements FileConverterStrategy {
         } catch (SAXException e) {
             throw new FileException("errors.convert", e);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Class<?> getClazz() {
-        return clazz;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setClazz(Class<?> clazz) {
-        this.clazz = clazz;
     }
 }

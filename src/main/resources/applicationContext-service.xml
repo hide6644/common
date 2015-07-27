@@ -9,7 +9,7 @@
     default-lazy-init="true">
 
     <!-- =================================================================== -->
-    <!-- AOP: Configuration and Aspects -->
+    <!-- AOP: Configuration and Aspects                                      -->
     <!-- =================================================================== -->
     <aop:config>
         <aop:advisor id="userManagerTx" advice-ref="userManagerTxAdvice" pointcut="execution(* *..service.UserManager.*(..))" order="0" />
@@ -27,7 +27,7 @@
     <context:annotation-config />
 
     <!-- Activates scanning of @Service -->
-    <context:component-scan base-package="common" />
+    <context:component-scan base-package="common.service,common.validator" />
 
     <tx:advice id="txAdvice">
         <tx:attributes>
@@ -43,8 +43,10 @@
 
     <bean id="userSecurityAdvice" class="common.service.UserSecurityAdvice" />
 
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
     <!-- =================================================================== -->
-    <!-- Mail: Sender and Velocity configuration -->
+    <!-- Mail: Sender and Velocity configuration                             -->
     <!-- =================================================================== -->
     <bean id="mailEngine" class="common.service.MailEngine">
         <property name="mailSender" ref="mailSender" />
@@ -75,8 +77,8 @@
     </bean>
 
     <!-- =================================================================== -->
-    <!-- Security class from Spring Security - used to configure Password -->
-    <!-- Encryption in UserManagerImpl. Can override in security.xml. -->
+    <!-- Security class from Spring Security - used to configure Password    -->
+    <!-- Encryption in UserManagerImpl. Can override in security.xml.        -->
     <!-- =================================================================== -->
     <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 

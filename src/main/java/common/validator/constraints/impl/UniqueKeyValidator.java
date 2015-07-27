@@ -13,12 +13,14 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;
+import org.springframework.stereotype.Component;
 
 import common.validator.constraints.UniqueKey;
 
 /**
  * ユニークか確認する実装クラス.
  */
+@Component
 public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Serializable> {
 
     /** 確認対象の列名 */
