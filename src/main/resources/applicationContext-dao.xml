@@ -22,7 +22,7 @@
                 <prop key="hibernate.search.default.directory_provider">filesystem</prop>
                 <prop key="hibernate.search.default.locking_strategy">simple</prop>
                 <prop key="hibernate.search.default.exclusive_index_use">true</prop>
-                <prop key="hibernate.search.lucene_version">LUCENE_36</prop>
+                <prop key="hibernate.search.lucene_version">LUCENE_CURRENT</prop>
                 <prop key="hibernate.search.analyzer">org.apache.lucene.analysis.en.EnglishAnalyzer</prop>
                 <prop key="hibernate.search.worker.batch_size">100</prop>
                 <!-- Hibernate Validator -->

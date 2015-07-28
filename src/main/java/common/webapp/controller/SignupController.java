@@ -90,22 +90,18 @@ public class SignupController extends BaseController {
     @RequestMapping(value = "signupComplete", method = RequestMethod.GET)
     public String complete(@RequestParam("username") String username, @RequestParam("token") String token) {
         try {
-            User user = userManager.getUserByUsername(username);
-
             if (StringUtils.isNotBlank(token) && !userManager.isRecoveryTokenValid(username, token)) {
                 saveFlashError(getText("signupForm.invalidToken"));
                 return "redirect:/login";
             }
 
+            User user = userManager.getUserByUsername(username);
             // 登録した"username"、"password"でログイン処理を行う
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
             auth.setDetails(user);
             SecurityContextHolder.getContext().setAuthentication(auth);
 
-            user.setConfirmPassword(user.getPassword());
-            user.setEnabled(true);
-
-            userManager.saveUser(user);
+            userManager.enableUser(user);
             saveFlashMessage(getText("signupForm.complete.message"));
         } catch (DBException e) {
             log.error(e);

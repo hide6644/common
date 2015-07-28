@@ -3,7 +3,6 @@ package common.webapp.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
@@ -109,22 +108,16 @@ public class UserListController extends BaseController {
     @RequestMapping(method = RequestMethod.DELETE)
     public String onSubmit(@RequestParam("userIds") String[] userIds, HttpServletRequest request) {
         boolean logoutFlg = false;
-        String remoteUserId = null;
-
-        try {
-            remoteUserId = String.valueOf(userManager.getUserByUsername(request.getRemoteUser()).getId());
-        } catch (UsernameNotFoundException e) {
-            remoteUserId = "";
-        }
 
         for (int i = 0; i < userIds.length; i++) {
-            if (userIds[i].equals(remoteUserId)) {
+            if (userIds[i].equals(String.valueOf(userManager.getUserByUsername(request.getRemoteUser()).getId()))) {
                 logoutFlg = true;
             }
 
             userManager.removeUser(userIds[i]);
-            saveFlashMessage(getText("deleted"));
         }
+
+        saveFlashMessage(getText("deleted"));
 
         if (logoutFlg) {
             // 自分自身を削除した場合は強制ログアウト

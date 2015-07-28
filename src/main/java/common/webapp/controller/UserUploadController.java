@@ -52,7 +52,7 @@ public class UserUploadController extends BaseController {
         }
 
         try {
-            userManager.uploadUser(uploadForm);
+            userManager.uploadUsers(uploadForm);
         } catch (FileException e) {
             saveError(e);
             return "admin/master/uploadUsers";

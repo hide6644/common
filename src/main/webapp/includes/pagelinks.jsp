@@ -24,8 +24,8 @@
 <ul class="pagination pagination-sm pull-right">
 <c:choose>
 <c:when test="${paginatedList.existPrePage}">
-    <li><a href="./?page=1"><fmt:message key="button.first" /></a></li>
-    <li><a href="./?page=${paginatedList.prePageNumber}"><fmt:message key="button.previous" /></a></li>
+    <li><a href="?page=1"><fmt:message key="button.first" /></a></li>
+    <li><a href="?page=${paginatedList.prePageNumber}"><fmt:message key="button.previous" /></a></li>
 </c:when>
 <c:otherwise>
     <li class="disabled"><a href="#"><fmt:message key="button.first" /></a></li>
@@ -38,14 +38,14 @@
     <li class="active"><a href="#">${index}</a></li>
 </c:when>
 <c:otherwise>
-    <li><a href="./?page=${index}">${index}</a></li>
+    <li><a href="?page=${index}">${index}</a></li>
 </c:otherwise>
 </c:choose>
 </c:forEach>
 <c:choose>
 <c:when test="${paginatedList.existNextPage}">
-    <li><a href="./?page=${paginatedList.nextPageNumber}"><fmt:message key="button.next" /></a></li>
-    <li><a href="./?page=${paginatedList.allPageCount}"><fmt:message key="button.last" /></a></li>
+    <li><a href="?page=${paginatedList.nextPageNumber}"><fmt:message key="button.next" /></a></li>
+    <li><a href="?page=${paginatedList.allPageCount}"><fmt:message key="button.last" /></a></li>
 </c:when>
 <c:otherwise>
     <li class="disabled"><a href="#"><fmt:message key="button.next" /></a></li>

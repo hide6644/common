@@ -3,6 +3,7 @@ package common.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.jws.WebService;
 import javax.validation.Validator;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import common.Constants;
 import common.dao.UserDao;
 import common.exception.DBException;
+import common.model.Role;
 import common.model.User;
 import common.service.MailEngine;
 import common.service.PasswordTokenManager;
@@ -178,7 +180,7 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
      * {@inheritDoc}
      */
     @Override
-    public void uploadUser(UploadForm uploadForm) {
+    public void uploadUsers(UploadForm uploadForm) {
         @SuppressWarnings("unchecked")
         List<User> userList = (List<User>) UserConverterFactory.createConverter(uploadForm.getFileType()).convert(uploadForm.getFileData());
 
@@ -197,13 +199,19 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
      */
     @Override
     public User saveUploadUser(User user) {
+        // デフォルトの要再認証日時を設定する
+        user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
+        // 新規登録時は権限を一般で設定する
+        user.getRoles().clear();
+        user.addRole(roleManager.getRole(Constants.USER_ROLE));
         user.setConfirmPassword(user.getPassword());
+        user.setEnabled(true);
 
         // エラーチェック
         if (validator.validate(user).size() > 0) {
             return null;
         } else {
-            return saveSignupUser(user);
+            return saveUser(user);
         }
     }
 
@@ -217,6 +225,17 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
         // 新規登録時は権限を一般で設定する
         user.getRoles().clear();
         user.addRole(roleManager.getRole(Constants.USER_ROLE));
+
+        return saveUser(user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public User enableUser(User user) {
+        user.setConfirmPassword(user.getPassword());
+        user.setEnabled(true);
 
         return saveUser(user);
     }
@@ -310,6 +329,21 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
         }
 
         return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void activateRoles(User user) {
+        Set<Role> userRoles = user.getRoles();
+
+        if (userRoles != null) {
+            for (Role role : userRoles) {
+                user.removeRole(role);
+                user.addRole(roleManager.getRole(role.getName()));
+            }
+        }
     }
 
     /**
