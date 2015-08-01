@@ -1,6 +1,7 @@
 package common.service.impl;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -336,14 +337,13 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
      */
     @Override
     public void activateRoles(User user) {
-        Set<Role> userRoles = user.getRoles();
+        Set<Role> userRoles = new HashSet<Role>();
 
-        if (userRoles != null) {
-            for (Role role : userRoles) {
-                user.removeRole(role);
-                user.addRole(roleManager.getRole(role.getName()));
-            }
+        for (Role role : user.getRoles()) {
+            userRoles.add(roleManager.getRole(role.getName()));
         }
+
+        user.setRoles(userRoles);
     }
 
     /**
