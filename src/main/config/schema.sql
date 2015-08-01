@@ -41,7 +41,5 @@ create table user_role (
     primary key (
         user_id,
         role_id
-    ),
-    foreign key (user_id) references app_user (id),
-    foreign key (role_id) references role (id)
+    )
 ) engine = InnoDB default character set utf8;
