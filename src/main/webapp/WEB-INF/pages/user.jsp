@@ -175,7 +175,7 @@
         </label>
         <select name="roles" multiple="multiple" class="form-control">
 <c:forEach items="${availableRoles}" var="role">
-            <option value="${role.value}" ${fn:contains(user.roles, role.value) ? 'selected' : ''}>${role.label}</option>
+            <option value="${role.value}" ${fn:contains(user.roleList, role) ? 'selected' : ''}>${role.label}</option>
 </c:forEach>
         </select>
         <form:errors path="roles" cssClass="help-block" />
