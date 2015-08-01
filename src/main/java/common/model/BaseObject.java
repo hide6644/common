@@ -9,9 +9,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-
 /**
  * エンティティの基底クラス.
  */
@@ -181,12 +178,4 @@ public abstract class BaseObject {
      */
     @Override
     public abstract boolean equals(Object obj);
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
 }

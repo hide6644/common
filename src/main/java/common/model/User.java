@@ -1,9 +1,11 @@
 package common.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -23,8 +25,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
@@ -44,6 +46,7 @@ import common.validator.constraints.UniqueKey;
  */
 @Entity
 @Table(name = "app_user")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Indexed
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
@@ -375,11 +378,10 @@ public class User extends BaseObject implements Serializable, UserDetails {
     @NotEmpty
     @Valid
     @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
     @JoinTable(
             name = "user_role",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = @JoinColumn(name = "role_id")
+            joinColumns = { @JoinColumn(name = "user_id", nullable = false) },
+            inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false)
     )
     public Set<Role> getRoles() {
         return roles;
@@ -393,6 +395,24 @@ public class User extends BaseObject implements Serializable, UserDetails {
      */
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    /**
+     * 権限の表示用リストを取得する.
+     *
+     * @return 権限の表示用リスト
+     */
+    @Transient
+    public List<LabelValue> getRoleList() {
+        List<LabelValue> userRoles = new ArrayList<LabelValue>();
+
+        if (this.roles != null) {
+            for (Role role : roles) {
+                userRoles.add(new LabelValue(role.getDescription(), role.getName()));
+            }
+        }
+
+        return userRoles;
     }
 
     /**
