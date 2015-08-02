@@ -3,23 +3,19 @@
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
-    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+    <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+        <param name="Threshold" value="error"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d %p [%t] %c{1}.%M(%L) | %m%n" />
         </layout>
     </appender>
 
     <logger name="org.apache.velocity">
-        <level value="FATAL" />
-    </logger>
-
-    <logger name="common">
-        <level value="DEBUG" />
+        <level value="fatal" />
     </logger>
 
     <root>
-        <level value="INFO" />
-        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="stdout" />
     </root>
 
 </log4j:configuration>

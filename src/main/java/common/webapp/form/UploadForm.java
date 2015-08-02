@@ -1,6 +1,8 @@
 package common.webapp.form;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -21,6 +23,12 @@ public class UploadForm implements Serializable {
     @NotEmptyFile
     @MaxFileSize(max = 2)
     private CommonsMultipartFile fileData;
+
+    /** 件数 */
+    private int count;
+
+    /** 取り込みエラーの行番号 */
+    List<Integer> errorNo = new ArrayList<Integer>();
 
     /**
      * ファイル種別を取得する.
@@ -58,5 +66,53 @@ public class UploadForm implements Serializable {
      */
     public void setFileData(CommonsMultipartFile fileData) {
         this.fileData = fileData;
+    }
+
+    /**
+     * 件数を取得する.
+     *
+     * @return 件数
+     */
+    public int getCount() {
+        return count;
+    }
+
+    /**
+     * 件数を設定する.
+     *
+     * @param count
+     *            件数
+     */
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    /**
+     * 取り込みエラーの行番号を取得する.
+     *
+     * @return 取り込みエラーの行番号
+     */
+    public List<Integer> getErrorNo() {
+        return errorNo;
+    }
+
+    /**
+     * 取り込みエラーの行番号を設定する.
+     *
+     * @param errorNo
+     *            取り込みエラーの行番号
+     */
+    public void setErrorNo(List<Integer> errorNo) {
+        this.errorNo = errorNo;
+    }
+
+    /**
+     * 取り込みエラーの行番号を追加する.
+     *
+     * @param rowNo
+     *            行番号
+     */
+    public void addErrorNo(Integer rowNo) {
+        getErrorNo().add(rowNo);
     }
 }

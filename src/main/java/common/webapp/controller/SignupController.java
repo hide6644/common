@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +18,6 @@ import common.Constants;
 import common.exception.DBException;
 import common.model.Role;
 import common.model.User;
-import common.service.RoleManager;
 import common.service.UserManager;
 import common.webapp.util.RequestUtil;
 
@@ -34,10 +32,6 @@ public class SignupController extends BaseController {
     /** User処理クラス */
     @Autowired
     private UserManager userManager;
-
-    /** Role処理クラス */
-    @Autowired
-    private RoleManager roleManager;
 
     /**
      * ユーザ登録画面初期処理.
@@ -69,13 +63,8 @@ public class SignupController extends BaseController {
             return "signup";
         }
 
-        user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
-        // 新規登録時は権限を一般で設定する
-        user.getRoles().clear();
-        user.addRole(roleManager.getRole(Constants.USER_ROLE));
-
         try {
-            userManager.saveUser(user);
+            userManager.saveSignupUser(user);
             saveFlashMessage(getText("signupForm.provisional.message"));
         } catch (DBException e) {
             rejectValue(result, e);
@@ -101,22 +90,18 @@ public class SignupController extends BaseController {
     @RequestMapping(value = "signupComplete", method = RequestMethod.GET)
     public String complete(@RequestParam("username") String username, @RequestParam("token") String token) {
         try {
-            User user = userManager.getUserByUsername(username);
-
             if (StringUtils.isNotBlank(token) && !userManager.isRecoveryTokenValid(username, token)) {
                 saveFlashError(getText("signupForm.invalidToken"));
                 return "redirect:/login";
             }
 
+            User user = userManager.getUserByUsername(username);
             // 登録した"username"、"password"でログイン処理を行う
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
             auth.setDetails(user);
             SecurityContextHolder.getContext().setAuthentication(auth);
 
-            user.setConfirmPassword(user.getPassword());
-            user.setEnabled(true);
-
-            userManager.saveUser(user);
+            userManager.enableUser(user);
             saveFlashMessage(getText("signupForm.complete.message"));
         } catch (DBException e) {
             log.error(e);

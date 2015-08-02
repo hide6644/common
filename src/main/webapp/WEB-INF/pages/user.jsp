@@ -1,5 +1,4 @@
 <%@ include file="/includes/taglibs.jsp"%>
-<custom:constants var="DATE_TIME_FORMAT" />
 <head>
     <title><fmt:message key="userSaveForm.title" /></title>
 <c:choose>
@@ -11,6 +10,7 @@
 </c:otherwise>
 </c:choose>
 </head>
+<c:set var="dateTimeFormat" scope="request"><fmt:message key="date.time.format" /></c:set>
 
 <c:choose>
 <c:when test="${param.method eq 'Add'}">
@@ -154,7 +154,7 @@
             <label for="accountExpiredDate" class="control-label">
                 <fmt:message key="user.accountExpiredDate" />
             </label>
-            <form:input path="accountExpiredDate" cssClass="form-control" placeholder="${DATE_TIME_FORMAT}" />
+            <form:input path="accountExpiredDate" cssClass="form-control" placeholder="${dateTimeFormat}" />
             <form:errors path="accountExpiredDate" cssClass="help-block" />
         </div>
 </spring:bind>
@@ -163,7 +163,7 @@
             <label for="credentialsExpiredDate" class="control-label">
                 <fmt:message key="user.credentialsExpiredDate" />
             </label>
-            <form:input path="credentialsExpiredDate" cssClass="form-control" placeholder="${DATE_TIME_FORMAT}" />
+            <form:input path="credentialsExpiredDate" cssClass="form-control" placeholder="${dateTimeFormat}" />
             <form:errors path="credentialsExpiredDate" cssClass="help-block" />
         </div>
 </spring:bind>
@@ -175,7 +175,7 @@
         </label>
         <select name="roles" multiple="multiple" class="form-control">
 <c:forEach items="${availableRoles}" var="role">
-            <option value="${role.value}" ${fn:contains(user.roles, role.value) ? 'selected' : ''}>${role.label}</option>
+            <option value="${role.value}" ${fn:contains(user.roleList, role) ? 'selected' : ''}>${role.label}</option>
 </c:forEach>
         </select>
         <form:errors path="roles" cssClass="help-block" />
@@ -218,6 +218,12 @@
 <script type="text/javascript">
 <!--
 $(function() {
+    $('#accountExpiredDate').datetimepicker({
+        lang : '${pageContext.request.locale.language}'
+    });
+    $('#credentialsExpiredDate').datetimepicker({
+        lang : '${pageContext.request.locale.language}'
+    });
     $('#button_cancel').click(function() {
         $(location).attr('href', '<c:choose><c:when test="${param.from eq 'list'}"><c:url value="/admin/master/users" /></c:when><c:otherwise><c:url value="/top" /></c:otherwise></c:choose>');
     });

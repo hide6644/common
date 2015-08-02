@@ -5,14 +5,25 @@
 
     <groupId>common</groupId>
     <artifactId>common</artifactId>
+    <packaging>war</packaging>
     <name>common</name>
     <version>1.0.0</version>
+    <inceptionYear>2013</inceptionYear>
+    <url>https://github.com/hide6644/common</url>
+
+    <description>
+        Full-stack framework for building web applications on the JVM.
+    </description>
+
+    <prerequisites>
+        <maven>3.1.0</maven>
+    </prerequisites>
 
     <scm>
-        <connection>scm:git:git@github.com:hide6644/crawler.git</connection>
-        <developerConnection>scm:git:git@github.com:hide6644/crawler.git</developerConnection>
+        <connection>scm:git:git@github.com:hide6644/common.git</connection>
+        <developerConnection>scm:git:git@github.com:hide6644/common.git</developerConnection>
+        <url>https://github.com/hide6644/common.git</url>
         <tag>HEAD</tag>
-        <url>https://github.com/hide6644/crawler.git</url>
     </scm>
 
     <licenses>
@@ -31,8 +42,6 @@
             <timezone>+9</timezone>
         </developer>
     </developers>
-
-    <packaging>war</packaging>
 
     <build>
         <defaultGoal>install</defaultGoal>
@@ -84,11 +93,6 @@
                 <version>${commons.digester.version}</version>
             </dependency>
             <dependency>
-                <groupId>commons-pool</groupId>
-                <artifactId>commons-pool</artifactId>
-                <version>${commons.pool.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.apache.xmlbeans</groupId>
                 <artifactId>xmlbeans</artifactId>
                 <version>${xmlbeans.version}</version>
@@ -99,6 +103,11 @@
                 <version>${jboss.logging.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.jboss.logging</groupId>
+                <artifactId>jboss-logging-annotations</artifactId>
+                <version>${jboss.logging.annotations.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
@@ -107,11 +116,6 @@
                 <groupId>xml-apis</groupId>
                 <artifactId>xml-apis</artifactId>
                 <version>${xml-apis.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.webjars</groupId>
-                <artifactId>bootstrap</artifactId>
-                <version>${bootstrap.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.webjars</groupId>
@@ -159,29 +163,44 @@
             <version>${ehcache.version}</version>
         </dependency>
         <dependency>
-            <groupId>net.sf.jxls</groupId>
-            <artifactId>jxls-core</artifactId>
+            <groupId>org.jxls</groupId>
+            <artifactId>jxls</artifactId>
             <version>${jxls.version}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>net.sf.jxls</groupId>
+            <groupId>org.jxls</groupId>
+            <artifactId>jxls-poi</artifactId>
+            <version>${jxls.poi.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.jxls</groupId>
             <artifactId>jxls-reader</artifactId>
-            <version>${jxls.version}</version>
+            <version>${jxls.reader.version}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-digester3</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>net.sf.opencsv</groupId>
+            <groupId>com.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>${opencsv.version}</version>
         </dependency>
@@ -192,13 +211,18 @@
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
-            <artifactId>bootstrap-datepicker</artifactId>
-            <version>${bootstrap-datepicker.version}</version>
+            <artifactId>bootstrap</artifactId>
+            <version>${bootstrap.version}</version>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootswatch</artifactId>
             <version>${bootswatch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>datetimepicker</artifactId>
+            <version>${datetimepicker.version}</version>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
@@ -249,22 +273,6 @@
             <version>${commons.codec.version}</version>
         </dependency>
         <dependency>
-            <groupId>commons-dbcp</groupId>
-            <artifactId>commons-dbcp</artifactId>
-            <version>${commons.dbcp.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-dbcp2</artifactId>
-            <version>${commons.dbcp2.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-digester3</artifactId>
             <version>${commons.digester3.version}</version>
@@ -312,12 +320,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
             <version>${spring.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -328,6 +330,17 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -349,12 +362,6 @@
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
             <optional>true</optional>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -402,10 +409,6 @@
                     <artifactId>solr-analysis-extras</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>org.hibernate</groupId>
                     <artifactId>hibernate-core</artifactId>
                 </exclusion>
@@ -432,7 +435,12 @@
         </dependency>
         <dependency>
             <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-kuromoji</artifactId>
+            <artifactId>lucene-analyzers-kuromoji</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-queryparser</artifactId>
             <version>${lucene.version}</version>
         </dependency>
 
@@ -478,7 +486,7 @@
         <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
         <jdbc.groupId>mysql</jdbc.groupId>
         <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
-        <jdbc.version>5.1.33</jdbc.version>
+        <jdbc.version>5.1.36</jdbc.version>
         <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
         <jdbc.url>
             <![CDATA[jdbc:mysql://disconnect.no-ip.org/common?createDatabaseIfNotExist=true&amp;zeroDateTimeBehavior=convertToNull&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true]]>
@@ -487,53 +495,53 @@
         <jdbc.password />
         <jdbc.validationQuery><![CDATA[SELECT 1 + 1]]></jdbc.validationQuery>
 
-        <bootstrap.version>3.3.1</bootstrap.version>
-        <bootstrap-datepicker.version>1.3.0-3</bootstrap-datepicker.version>
-        <bootswatch.version>3.2.0+4</bootswatch.version>
-        <classmate.version>1.1.0</classmate.version>
+        <bootstrap.version>3.3.5</bootstrap.version>
+        <bootswatch.version>3.3.4+1</bootswatch.version>
+        <classmate.version>1.2.0</classmate.version>
         <commons.beanutils.version>1.9.2</commons.beanutils.version>
         <commons.codec.version>1.10</commons.codec.version>
-        <commons.dbcp.version>1.4</commons.dbcp.version>
-        <commons.dbcp2.version>2.0.1</commons.dbcp2.version>
         <commons.digester.version>2.1</commons.digester.version>
         <commons.digester3.version>3.2</commons.digester3.version>
         <commons.fileupload.version>1.3.1</commons.fileupload.version>
         <commons.io.version>2.4</commons.io.version>
         <commons.jexl.version>2.1.1</commons.jexl.version>
         <commons.lang.version>2.6</commons.lang.version>
-        <commons.lang3.version>3.3.2</commons.lang3.version>
-        <commons.pool.version>1.6</commons.pool.version>
-        <ehcache.version>2.9.0</ehcache.version>
-        <hibernate.version>4.3.7.Final</hibernate.version>
-        <hibernate.search.version>4.5.1.Final</hibernate.search.version>
-        <hibernate.validator.version>5.1.3.Final</hibernate.validator.version>
+        <commons.lang3.version>3.4</commons.lang3.version>
+        <datetimepicker.version>2.3.4</datetimepicker.version>
+        <ehcache.version>2.10.0</ehcache.version>
+        <hibernate.version>4.3.10.Final</hibernate.version>
+        <hibernate.search.version>5.3.0.Final</hibernate.search.version>
+        <hibernate.validator.version>5.2.0.Final</hibernate.validator.version>
         <javax.el-api.version>2.2.5</javax.el-api.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <javax.servlet.jsp-api.version>2.3.1</javax.servlet.jsp-api.version>
         <jsr311-api.version>1.1.1</jsr311-api.version>
         <jstl.version>1.2</jstl.version>
         <jboss.logging.version>3.1.4.GA</jboss.logging.version>
-        <joda.time.version>2.5</joda.time.version>
-        <jquery.version>1.11.1</jquery.version>
+        <jboss.logging.annotations.version>1.2.1.Final</jboss.logging.annotations.version>
+        <joda.time.version>2.8.1</joda.time.version>
+        <jquery.version>1.11.3</jquery.version>
         <jquery-cookie.version>1.4.1-1</jquery-cookie.version>
-        <junit.version>4.11</junit.version>
-        <jxls.version>1.0.6</jxls.version>
-        <lucene.version>3.6.2</lucene.version>
-        <mockito.version>1.10.8</mockito.version>
-        <opencsv.version>2.3</opencsv.version>
+        <junit.version>4.12</junit.version>
+        <jxls.version>2.1.0</jxls.version>
+        <jxls.poi.version>1.0.4</jxls.poi.version>
+        <jxls.reader.version>2.0.0</jxls.reader.version>
+        <lucene.version>4.10.4</lucene.version>
+        <mockito.version>1.10.19</mockito.version>
+        <opencsv.version>3.4</opencsv.version>
         <sitemesh.version>2.4.2</sitemesh.version>
-        <slf4j.version>1.7.7</slf4j.version>
-        <spring.version>4.1.2.RELEASE</spring.version>
-        <spring.security.version>3.2.5.RELEASE</spring.security.version>
+        <slf4j.version>1.7.12</slf4j.version>
+        <spring.version>4.1.7.RELEASE</spring.version>
+        <spring.security.version>3.2.7.RELEASE</spring.security.version>
         <subethasmtp.version>3.1.7</subethasmtp.version>
         <urlrewritefilter.version>4.0.4</urlrewritefilter.version>
         <velocity.version>1.7</velocity.version>
         <xml-apis.version>1.4.01</xml-apis.version>
         <xmlbeans.version>2.6.0</xmlbeans.version>
-        <wro4j-core.version>1.7.7</wro4j-core.version>
+        <wro4j-core.version>1.7.8</wro4j-core.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <copyright.year>2013-2014</copyright.year>
+        <copyright.year>2013-2015</copyright.year>
     </properties>
 
 </project>

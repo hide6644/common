@@ -3,7 +3,6 @@ package common.webapp.controller;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +26,6 @@ import common.Constants;
 import common.exception.DBException;
 import common.model.Role;
 import common.model.User;
-import common.service.RoleManager;
 import common.service.UserManager;
 import common.webapp.util.RequestUtil;
 
@@ -42,10 +40,6 @@ public class UserController extends BaseController {
     @Autowired
     private UserManager userManager;
 
-    /** Role処理クラス */
-    @Autowired
-    private RoleManager roleManager;
-
     /**
      * {@inheritDoc}
      */
@@ -53,7 +47,7 @@ public class UserController extends BaseController {
     @Override
     public void initBinder(WebDataBinder binder) {
         super.initBinder(binder);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(Constants.DATE_TIME_FORMAT), true));
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(getText("date.time.format")), true));
     }
 
     /**
@@ -121,14 +115,7 @@ public class UserController extends BaseController {
         }
 
         if (request.isUserInRole(Constants.ADMIN_ROLE)) {
-            Set<Role> userRoles = user.getRoles();
-
-            if (userRoles != null) {
-                for (Role role : userRoles) {
-                    user.removeRole(role);
-                    user.addRole(roleManager.getRole(role.getName()));
-                }
-            }
+            userManager.activateRoles(user);
         } else {
             User cleanUser = userManager.getUserByUsername(request.getRemoteUser());
             user.setRoles(cleanUser.getRoles());

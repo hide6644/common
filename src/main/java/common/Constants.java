@@ -18,6 +18,8 @@ public class Constants {
 
     public static final String CONFIG = "appConfig";
 
+    public static final String PREFERRED_LOCALE_KEY = "common.LOCALE";
+
     /** アプリケーションで使われるResourceBundleの名前 */
     public static final String BUNDLE_KEY = "ApplicationResources";
 
@@ -50,12 +52,6 @@ public class Constants {
 
     /** ログインユーザの使用可能な権限を設定するキー文字列 */
     public static final String AVAILABLE_ROLES = "availableRoles";
-
-    /** 日付フォーマット */
-    public static final String DATE_FORMAT = ResourceBundle.getBundle(BUNDLE_KEY).getString("date.format");
-
-    /** 日時フォーマット */
-    public static final String DATE_TIME_FORMAT = ResourceBundle.getBundle(BUNDLE_KEY).getString("date.time.format");
 
     /** 認証失敗制限数 */
     public static final int LOGIN_FAILURE_UPPER_LIMIT = Integer.parseInt(ResourceBundle.getBundle(BUNDLE_KEY).getString("login.failure.upper.limit"));

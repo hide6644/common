@@ -11,8 +11,8 @@ create table app_user (
     email varchar(64) not null,
     account_enabled boolean not null,
     account_locked boolean not null,
-    account_expired_date date default null,
-    credentials_expired_date date default null,
+    account_expired_date datetime default null,
+    credentials_expired_date datetime default null,
     version integer not null,
     create_user varchar(16) default null,
     create_date timestamp default '0000-00-00 00:00:00',
@@ -41,7 +41,5 @@ create table user_role (
     primary key (
         user_id,
         role_id
-    ),
-    foreign key (user_id) references app_user (id),
-    foreign key (role_id) references role (id)
+    )
 ) engine = InnoDB default character set utf8;

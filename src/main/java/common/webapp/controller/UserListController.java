@@ -1,28 +1,22 @@
 package common.webapp.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import common.Constants;
 import common.model.PaginatedList;
 import common.model.User;
+import common.model.Users;
 import common.service.UserManager;
 
 /**
@@ -38,16 +32,6 @@ public class UserListController extends BaseController {
     private UserManager userManager;
 
     /**
-     * {@inheritDoc}
-     */
-    @InitBinder
-    @Override
-    public void initBinder(WebDataBinder binder) {
-        super.initBinder(binder);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(Constants.DATE_TIME_FORMAT), true));
-    }
-
-    /**
      * 画面入力値保持モデル初期化
      *
      * @return ユーザ
@@ -55,6 +39,40 @@ public class UserListController extends BaseController {
     @ModelAttribute("searchUser")
     public User getSearchUser() {
         return new User();
+    }
+
+    /**
+     * ユーザ一覧検索CSV出力処理.
+     *
+     * @return ユーザ一覧
+     */
+    @RequestMapping(value = "/admin/master/users*.csv", method = RequestMethod.GET)
+    public ModelAndView setupCsvList() {
+        Model model = new ExtendedModelMap();
+        model.addAttribute("csv", userManager.getAll());
+        return new ModelAndView("admin/master/csv/users", model.asMap());
+    }
+
+    /**
+     * ユーザ一覧検索XLS出力処理.
+     *
+     * @return ユーザ一覧
+     */
+    @RequestMapping(value = "/admin/master/users*.xls", method = RequestMethod.GET)
+    public ModelAndView setupXlsList() {
+        Model model = new ExtendedModelMap();
+        model.addAttribute("users", userManager.getAll());
+        return new ModelAndView("admin/master/jxls/users", model.asMap());
+    }
+
+    /**
+     * ユーザ一覧検索XML出力処理.
+     *
+     * @return ユーザ一覧
+     */
+    @RequestMapping(value = "/admin/master/users*.xml", method = RequestMethod.GET)
+    public @ResponseBody Users setupXmlList() {
+        return new Users(userManager.getAll());
     }
 
     /**
@@ -90,21 +108,16 @@ public class UserListController extends BaseController {
     @RequestMapping(method = RequestMethod.DELETE)
     public String onSubmit(@RequestParam("userIds") String[] userIds, HttpServletRequest request) {
         boolean logoutFlg = false;
-        String remoteUserId = null;
-        try {
-            remoteUserId = String.valueOf(userManager.getUserByUsername(request.getRemoteUser()).getId());
-        } catch (UsernameNotFoundException e) {
-            remoteUserId = "";
-        }
 
         for (int i = 0; i < userIds.length; i++) {
-            if (userIds[i].equals(remoteUserId)) {
+            if (userIds[i].equals(String.valueOf(userManager.getUserByUsername(request.getRemoteUser()).getId()))) {
                 logoutFlg = true;
             }
 
             userManager.removeUser(userIds[i]);
-            saveFlashMessage(getText("deleted"));
         }
+
+        saveFlashMessage(getText("deleted"));
 
         if (logoutFlg) {
             // 自分自身を削除した場合は強制ログアウト

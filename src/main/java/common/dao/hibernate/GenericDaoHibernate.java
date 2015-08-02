@@ -2,6 +2,7 @@ package common.dao.hibernate;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -133,14 +134,19 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
    public List<T> findByNamedQuery(String queryName, Map<String, Object> queryParams) {
         Query namedQuery = getSession().getNamedQuery(queryName);
 
         if (queryParams != null) {
             for (String s : queryParams.keySet()) {
-                namedQuery.setParameter(s, queryParams.get(s));
+                Object val = queryParams.get(s);
+                if (val instanceof Collection) {
+                    namedQuery.setParameterList(s, (Collection) val);
+                } else {
+                    namedQuery.setParameter(s, val);
+                }
             }
         }
 

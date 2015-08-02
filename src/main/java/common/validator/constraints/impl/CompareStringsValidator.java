@@ -76,7 +76,7 @@ public class CompareStringsValidator implements ConstraintValidator<CompareStrin
             propertyNameList.add(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString(className + "." + propertyName));
         }
 
-        return concatPropertyNames(propertyNameList).append(message).toString();
+        return message + concatPropertyNames(propertyNameList);
     }
 
     /**
@@ -88,7 +88,7 @@ public class CompareStringsValidator implements ConstraintValidator<CompareStrin
      */
     private StringBuilder concatPropertyNames(List<String> propertyNames) {
         StringBuilder builder = new StringBuilder();
-        builder.append('"');
+        builder.append('(');
 
         for (String propertyName : propertyNames) {
             builder.append(propertyName);
@@ -96,7 +96,7 @@ public class CompareStringsValidator implements ConstraintValidator<CompareStrin
         }
 
         builder.delete(builder.length() - 2, builder.length());
-        builder.append('"');
+        builder.append(')');
 
         return builder;
     }

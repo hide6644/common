@@ -1,6 +1,5 @@
 package common.webapp.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
@@ -9,17 +8,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import common.service.UserManager;
-
 /**
  * ログイン処理クラス.
  */
 @Controller
 public class LoginController extends BaseController {
-
-    /** User処理クラス */
-    @Autowired
-    private UserManager userManager;
 
     /**
      * ログイン画面初期処理.
