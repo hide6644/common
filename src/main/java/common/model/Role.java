@@ -1,16 +1,12 @@
 package common.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -45,9 +41,6 @@ public class Role extends BaseObject implements Serializable, GrantedAuthority {
 
     /** 説明 */
     private String description;
-
-    /** ユーザ */
-    private Set<User> users = new HashSet<User>();
 
     /**
      * デフォルト・コンストラクタ
@@ -137,26 +130,6 @@ public class Role extends BaseObject implements Serializable, GrantedAuthority {
     @Override
     public String getAuthority() {
         return getName();
-    }
-
-    /**
-     * ユーザを取得する.
-     *
-     * @return ユーザ
-     */
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    /**
-     * ユーザを設定する.
-     *
-     * @param users
-     *            ユーザ
-     */
-    public void setUsers(Set<User> users) {
-        this.users = users;
     }
 
     /**

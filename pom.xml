@@ -523,7 +523,7 @@
         <jquery.version>1.11.3</jquery.version>
         <jquery-cookie.version>1.4.1-1</jquery-cookie.version>
         <junit.version>4.12</junit.version>
-        <jxls.version>2.1.0</jxls.version>
+        <jxls.version>2.2.1</jxls.version>
         <jxls.poi.version>1.0.4</jxls.poi.version>
         <jxls.reader.version>2.0.0</jxls.reader.version>
         <lucene.version>4.10.4</lucene.version>
