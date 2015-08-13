@@ -13,13 +13,21 @@
         <property name="dataSource" ref="dataSource" />
         <property name="hibernateProperties">
             <props>
+                <prop key="hibernate.connection.provider_class">com.zaxxer.hikari.hibernate.HikariConnectionProvider</prop>
+                <prop key="hibernate.hikari.dataSourceClassName">${dataSource.dataSourceClassName}</prop>
+                <prop key="hibernate.hikari.dataSource.url">${dataSource.url}</prop>
+                <prop key="hibernate.hikari.dataSource.user">${dataSource.username}</prop>
+                <prop key="hibernate.hikari.dataSource.password">${dataSource.password}</prop>
+                <prop key="hibernate.hikari.dataSource.cachePrepStmts">${dataSource.cachePrepStmts}</prop>
+                <prop key="hibernate.hikari.dataSource.prepStmtCacheSize">${dataSource.prepStmtCacheSize}</prop>
+                <prop key="hibernate.hikari.dataSource.prepStmtCacheSqlLimit">${dataSource.prepStmtCacheSqlLimit}</prop>
+                <prop key="hibernate.hikari.maximumPoolSize">${dataSource.maximumPoolSize}</prop>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.query.substitutions">true 'Y', false 'N'</prop>
                 <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
                 <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
                 <prop key="hibernate.cache.use_query_cache">true</prop>
                 <prop key="hibernate.cache.use_second_level_cache">true</prop>
-                <prop key="hibernate.jdbc.batch_size">30</prop>
                 <prop key="hibernate.show_sql">false</prop>
                 <!-- Hibernate Search -->
                 <prop key="hibernate.search.default.indexBase">${catalina.base}/indexes</prop>

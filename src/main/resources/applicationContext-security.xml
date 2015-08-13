@@ -22,7 +22,6 @@
         <intercept-url pattern="/app/**" access="isAuthenticated()" />
 
         <logout logout-url="/logout" logout-success-url="/login" invalidate-session="true" delete-cookies="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
-        <remember-me user-service-ref="userDao" key="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
     </http>
 
     <beans:bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
@@ -54,8 +53,8 @@
     </beans:bean>
 
     <beans:bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
-        <beans:property name="userDetailsService" ref="userDao" />
         <beans:property name="key" value="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
+        <beans:property name="userDetailsService" ref="userDao" />
     </beans:bean>
 
     <global-method-security>

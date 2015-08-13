@@ -131,6 +131,11 @@
             <artifactId>${jdbc.artifactId}</artifactId>
             <version>${jdbc.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${HikariCP.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>javax.el</groupId>
@@ -509,9 +514,10 @@
         <commons.lang3.version>3.4</commons.lang3.version>
         <datetimepicker.version>2.3.4</datetimepicker.version>
         <ehcache.version>2.10.0</ehcache.version>
-        <hibernate.version>4.3.10.Final</hibernate.version>
+        <hibernate.version>4.3.11.Final</hibernate.version>
         <hibernate.search.version>5.3.0.Final</hibernate.search.version>
-        <hibernate.validator.version>5.2.0.Final</hibernate.validator.version>
+        <hibernate.validator.version>5.2.1.Final</hibernate.validator.version>
+        <HikariCP.version>2.4.0</HikariCP.version>
         <javax.el-api.version>2.2.5</javax.el-api.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <javax.servlet.jsp-api.version>2.3.1</javax.servlet.jsp-api.version>
@@ -531,8 +537,8 @@
         <opencsv.version>3.4</opencsv.version>
         <sitemesh.version>2.4.2</sitemesh.version>
         <slf4j.version>1.7.12</slf4j.version>
-        <spring.version>4.1.7.RELEASE</spring.version>
-        <spring.security.version>3.2.7.RELEASE</spring.security.version>
+        <spring.version>4.2.0.RELEASE</spring.version>
+        <spring.security.version>3.2.8.RELEASE</spring.security.version>
         <subethasmtp.version>3.1.7</subethasmtp.version>
         <urlrewritefilter.version>4.0.4</urlrewritefilter.version>
         <velocity.version>1.7</velocity.version>

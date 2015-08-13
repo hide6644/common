@@ -9,6 +9,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.BeanWrapper;
@@ -43,12 +44,7 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Serial
      */
     @Override
     public boolean isValid(Serializable target, ConstraintValidatorContext context) {
-        if (sessionFactory == null) {
-            return true;
-        }
-
-        Criteria criteria = buildCriteria(target);
-        boolean isValid = criteria == null ? true : criteria.list().size() == 0;
+        boolean isValid = isValidCriteria(target);
 
         if (!isValid) {
             context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()).addPropertyNode(columnNames[0]).addConstraintViolation().disableDefaultConstraintViolation();
@@ -62,11 +58,16 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Serial
      *
      * @param target
      *            検索対象
-     * @return 検索クエリ
+     * @return true:検索結果無し、false:検索結果有り
      */
-    private Criteria buildCriteria(Serializable target) {
+    private boolean isValidCriteria(Serializable target) {
+        if (sessionFactory == null) {
+            return true;
+        }
+
         BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(target);
-        Criteria criteria = sessionFactory.openSession().createCriteria(target.getClass());
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(target.getClass());
         boolean nullFlag = true;
 
         for (int i = 0; i < columnNames.length; i++) {
@@ -79,7 +80,8 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Serial
         }
         // 検索対象のカラムが全てnullであった場合
         if (nullFlag) {
-            return null;
+            session.close();
+            return true;
         }
 
         for (PropertyDescriptor p : beanWrapper.getPropertyDescriptors()) {
@@ -92,6 +94,9 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Serial
             }
         }
 
-        return criteria;
+        boolean isValid = criteria.list().size() == 0;
+
+        session.close();
+        return isValid;
     }
 }

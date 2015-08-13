@@ -12,10 +12,6 @@
         <to type="redirect" last="true">%{context-path}/$1</to>
     </rule>
     <rule>
-        <from>/j_security_check</from>
-        <to last="true">/j_security_check</to>
-    </rule>
-    <rule>
         <from>/logout*</from>
         <to last="true">/logout</to>
     </rule>
