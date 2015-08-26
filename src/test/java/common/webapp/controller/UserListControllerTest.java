@@ -53,6 +53,7 @@ public class UserListControllerTest extends BaseControllerTestCase {
     @Test
     public void testRemove() throws Exception {
         MockHttpServletRequest request = newGet("/userform.html");
+        request.setRemoteUser("administrator");
 
         User user = new User();
         user.setId(-2L);
