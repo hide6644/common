@@ -136,7 +136,7 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-   public List<T> findByNamedQuery(String queryName, Map<String, Object> queryParams) {
+    public List<T> findByNamedQuery(String queryName, Map<String, Object> queryParams) {
         Query namedQuery = getSession().getNamedQuery(queryName);
 
         if (queryParams != null) {

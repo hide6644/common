@@ -60,7 +60,7 @@ public class RoleDaoTest extends BaseDaoTestCase {
     public void testFindByNamedQuery() {
         HashMap<String, Object> queryParams = new HashMap<String, Object>();
         queryParams.put("name", Constants.USER_ROLE);
-        List<Role> roles = dao.findByNamedQuery("findRoleByName", queryParams);
+        List<Role> roles = dao.findByNamedQuery(Role.FIND_BY_NAME, queryParams);
         assertNotNull(roles);
         assertTrue(roles.size() > 0);
     }

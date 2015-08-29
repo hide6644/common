@@ -50,8 +50,20 @@ import common.validator.constraints.UniqueKey;
 @Indexed
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
-@CompareStrings.List({ @CompareStrings(propertyNames = { "confirmPassword", "password" }, comparisonMode = ComparisonMode.EQUAL) })
-@UniqueKey.List(value = { @UniqueKey(columnNames = { "username" }), @UniqueKey(columnNames = { "email" }) })
+@CompareStrings.List({
+    @CompareStrings(
+        propertyNames = { "confirmPassword", "password" },
+        comparisonMode = ComparisonMode.EQUAL
+    )
+})
+@UniqueKey.List({
+    @UniqueKey(
+        columnNames = { "username" }
+    ),
+    @UniqueKey(
+        columnNames = { "email" }
+    )
+})
 public class User extends BaseObject implements Serializable, UserDetails {
 
     /** ID */

@@ -25,13 +25,16 @@ import org.springframework.security.core.GrantedAuthority;
 @Entity
 @Table(name = "role")
 @NamedQueries({
-        @NamedQuery(
-                name = "findRoleByName",
-                query = "from Role r where r.name = :name"
-        )
+    @NamedQuery(
+        name = Role.FIND_BY_NAME,
+        query = "from Role r where r.name = :name"
+    )
 })
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Role extends BaseObject implements Serializable, GrantedAuthority {
+
+    /** 権限を名称で検索するクエリ */
+    public static final String FIND_BY_NAME = "Role.findByName";
 
     /** ID */
     private Long id;
