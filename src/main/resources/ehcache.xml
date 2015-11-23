@@ -2,7 +2,7 @@
 <!DOCTYPE ehcache>
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <diskStore path="${catalina.base}/cache" />
+    <diskStore path="${catalina.base}/work/Cache/common" />
 
     <!--
     Mandatory Default Cache configuration. These settings will be applied to caches

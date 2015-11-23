@@ -316,6 +316,7 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
 
         if (isRecoveryTokenValid(user, recoveryToken)) {
             user.setPassword(newPassword);
+            user.setEnabled(true);
             user = saveUser(user);
 
             sendUserEmail(user, passwordUpdatedTemplate, messages.getMessage("updatePasswordForm.email.subject"), messages.getMessage("updatePasswordForm.email.message"), applicationUrl);
