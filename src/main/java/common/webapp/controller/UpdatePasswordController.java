@@ -47,7 +47,7 @@ public class UpdatePasswordController extends BaseController {
         }
 
         saveFlashMessage(getText("updatePasswordForm.recoveryToken.sent"));
-        return "redirect:/login";
+        return "redirect:/login.html";
     }
 
     /**
@@ -69,7 +69,7 @@ public class UpdatePasswordController extends BaseController {
 
         if (StringUtils.isNotBlank(token) && !userManager.isRecoveryTokenValid(username, token)) {
             saveFlashError(getText("updatePasswordForm.invalidToken"));
-            return new ModelAndView("redirect:/login");
+            return new ModelAndView("redirect:/login.html");
         }
 
         return new ModelAndView("password").addObject("username", username).addObject("token", token);
@@ -116,7 +116,7 @@ public class UpdatePasswordController extends BaseController {
         } else {
             if (usingToken) {
                 saveFlashError(getText("updatePasswordForm.invalidToken"));
-                return new ModelAndView("redirect:/login");
+                return new ModelAndView("redirect:/login.html");
             } else {
                 saveError(getText("updatePasswordForm.invalidPassword"));
                 return showForm(username, null, request);
@@ -124,7 +124,7 @@ public class UpdatePasswordController extends BaseController {
         }
 
         if (usingToken) {
-            return new ModelAndView("redirect:/login");
+            return new ModelAndView("redirect:/login.html");
         } else {
             if (!StringUtils.equals(request.getParameter("from"), "list")) {
                 return new ModelAndView("redirect:/user");

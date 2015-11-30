@@ -75,7 +75,7 @@ public class SignupController extends BaseController {
         // 登録完了メールを送信する
         userManager.sendSignupUserEmail(user, RequestUtil.getAppURL(request) + SIGNUP_TEMPLATE);
 
-        return "redirect:/login";
+        return "redirect:/login.html";
     }
 
     /**
@@ -92,7 +92,7 @@ public class SignupController extends BaseController {
         try {
             if (StringUtils.isNotBlank(token) && !userManager.isRecoveryTokenValid(username, token)) {
                 saveFlashError(getText("signupForm.invalidToken"));
-                return "redirect:/login";
+                return "redirect:/login.html";
             }
 
             User user = userManager.getUserByUsername(username);
@@ -106,7 +106,7 @@ public class SignupController extends BaseController {
         } catch (DBException e) {
             log.error(e);
 
-            return "redirect:/login";
+            return "redirect:/login.html";
         }
 
         return "redirect:/top";

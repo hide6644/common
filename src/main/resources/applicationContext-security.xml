@@ -11,7 +11,8 @@
     <http pattern="/styles/**" security="none" />
     <http pattern="/assets/**" security="none" />
 
-    <http entry-point-ref="authenticationEntryPoint" use-expressions="true">
+    <http entry-point-ref="authenticationEntryPoint">
+        <csrf disabled="true" />
         <custom-filter position="FORM_LOGIN_FILTER" ref="authenticationFilter" />
 
         <intercept-url pattern="/app/login*/**" access="permitAll" />
@@ -21,11 +22,12 @@
         <intercept-url pattern="/app/admin/**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/app/**" access="isAuthenticated()" />
 
-        <logout logout-url="/logout" logout-success-url="/login" invalidate-session="true" delete-cookies="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
+        <remember-me user-service-ref="userDao" key="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
+        <logout logout-url="/logout" logout-success-url="/login.html" invalidate-session="true" delete-cookies="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
     </http>
 
     <beans:bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-        <beans:property name="loginFormUrl" value="/login" />
+        <beans:constructor-arg value="/login.html" />
     </beans:bean>
 
     <beans:bean id="authenticationFilter" class="common.webapp.filter.ExtendedAuthenticationFilter">
@@ -53,8 +55,8 @@
     </beans:bean>
 
     <beans:bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
-        <beans:property name="key" value="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
-        <beans:property name="userDetailsService" ref="userDao" />
+        <beans:constructor-arg value="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
+        <beans:constructor-arg ref="userDao" />
     </beans:bean>
 
     <global-method-security>
