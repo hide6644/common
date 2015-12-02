@@ -86,8 +86,7 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
      */
     @Override
     public T get(PK id) {
-        @SuppressWarnings("unchecked")
-        T entity = (T) getSession().byId(persistentClass).load(id);
+        T entity = getSession().byId(persistentClass).load(id);
 
         if (entity == null) {
             log.warn("'" + persistentClass + "' object with id '" + id + "' not found...");

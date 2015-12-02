@@ -134,7 +134,7 @@ public abstract class BaseController {
     }
 
     /**
-     * Requestに要素を追加する.
+     * Request変数に要素を追加する.
      *
      * @param key
      *            キー
@@ -155,7 +155,7 @@ public abstract class BaseController {
     }
 
     /**
-     * 例外を入力値チェックに設定する.
+     * 例外を入力値チェックエラーに変換する.
      *
      * @param result
      *            入力値チェック結果

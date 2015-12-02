@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.FieldInfo;
+import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiFields;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
@@ -81,7 +82,7 @@ class HibernateSearchTools {
                 Collection<String> fieldNames = new HashSet<String>();
 
                 for (FieldInfo fieldInfo : MultiFields.getMergedFieldInfos(reader)) {
-                    if (fieldInfo.isIndexed()) {
+                    if (fieldInfo.getIndexOptions() != IndexOptions.NONE) {
                         fieldNames.add(fieldInfo.name);
                     }
                 }

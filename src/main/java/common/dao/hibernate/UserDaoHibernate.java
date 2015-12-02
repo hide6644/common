@@ -10,7 +10,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.orm.hibernate4.SessionFactoryUtils;
+import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -98,13 +98,8 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
         criteria.setFirstResult(offset);
         criteria.setMaxResults(limit);
 
-        User user = (User) searchCondition;
-        if (user.getUsername() != null) {
-            criteria.add(Restrictions.like("username", "%" + user.getUsername() + "%"));
-        }
-        if (user.getEmail() != null) {
-            criteria.add(Restrictions.like("email", "%" + user.getEmail() + "%"));
-        }
+        makeSearchCondition(criteria, searchCondition);
+
         criteria.addOrder(Order.asc("username"));
 
         return criteria.list();
@@ -118,14 +113,27 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
         Criteria criteria = getSession().createCriteria(searchClass);
         criteria.setProjection(Projections.rowCount());
 
+        makeSearchCondition(criteria, searchCondition);
+
+        return (Long) criteria.uniqueResult();
+    }
+
+    /**
+     * 検索条件を生成する.
+     *
+     * @param criteria
+     *            {@link Criteria}
+     * @param searchCondition
+     *            検索条件
+     */
+    private void makeSearchCondition(Criteria criteria, Object searchCondition) {
         User user = (User) searchCondition;
+
         if (user.getUsername() != null) {
             criteria.add(Restrictions.like("username", "%" + user.getUsername() + "%"));
         }
         if (user.getEmail() != null) {
             criteria.add(Restrictions.like("email", "%" + user.getEmail() + "%"));
         }
-
-        return (Long) criteria.uniqueResult();
     }
 }

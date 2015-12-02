@@ -40,7 +40,8 @@ public class LoginController extends BaseController {
      * @return 遷移先jsp名
      */
     @RequestMapping(value = "login.html", method = RequestMethod.POST)
-    public String login(@RequestParam(value = "_spring_security_remember_me", required = false) boolean rememberMeFlg, @RequestParam(value = "username", required = true) String username,
+    public String login(@RequestParam(value = "remember-me", required = false) boolean rememberMeFlg,
+            @RequestParam(value = "username", required = true) String username,
             @RequestParam(value = "password", required = true) String password) {
         String forwardString = "forward:/login?username=" + username + "&password=" + password;
 

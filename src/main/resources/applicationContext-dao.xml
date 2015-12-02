@@ -5,11 +5,11 @@
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
     default-lazy-init="true">
 
-    <bean class="org.springframework.orm.hibernate4.HibernateExceptionTranslator" />
+    <bean class="org.springframework.orm.hibernate5.HibernateExceptionTranslator" />
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
     <!-- Hibernate SessionFactory -->
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" destroy-method="destroy">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" destroy-method="destroy">
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.connection.provider_class">com.zaxxer.hikari.hibernate.HikariConnectionProvider</prop>
@@ -21,6 +21,7 @@
                 <prop key="hibernate.hikari.dataSource.prepStmtCacheSize">${dataSource.prepStmtCacheSize}</prop>
                 <prop key="hibernate.hikari.dataSource.prepStmtCacheSqlLimit">${dataSource.prepStmtCacheSqlLimit}</prop>
                 <prop key="hibernate.hikari.maximumPoolSize">${dataSource.maximumPoolSize}</prop>
+                <prop key="hibernate.id.new_generator_mappings">${hibernate.id}</prop>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.query.substitutions">true 'Y', false 'N'</prop>
                 <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
@@ -49,7 +50,7 @@
     </bean>
 
     <!-- Transaction manager for a single Hibernate SessionFactory -->
-    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 

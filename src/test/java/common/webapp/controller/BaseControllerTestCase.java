@@ -13,7 +13,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 @ContextConfiguration(
-        locations = { "classpath:/applicationContext-resources.xml", "classpath:/common/dao/applicationContext-dao.xml",
+        locations = { "classpath:/common/dao/applicationContext-resources.xml", "classpath:/common/dao/applicationContext-dao.xml",
                 "classpath:/applicationContext-service.xml", "classpath:/applicationContext-security.xml",
                 "classpath*:/applicationContext.xml",
                 "classpath:/common/webapp/controller/dispatcher-servlet.xml" })

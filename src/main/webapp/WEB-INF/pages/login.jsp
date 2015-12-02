@@ -11,7 +11,7 @@
     <input type="text" name="username" id="username" class="form-control" placeholder="<fmt:message key='loginForm.username' />"  tabindex="1" />
     <input type="password" name="password" id="password" class="form-control" placeholder="<fmt:message key='loginForm.password' />"  tabindex="2" />
     <label class="checkbox">
-        <input type="checkbox" name="_spring_security_remember_me" id="rememberMe" tabindex="3" />
+        <input type="checkbox" name="remember-me" id="rememberMe" tabindex="3" />
         <fmt:message key="loginForm.rememberMe" />
     </label>
     <p>
