@@ -513,7 +513,6 @@
         </jdbc.url>
         <jdbc.username>common</jdbc.username>
         <jdbc.password />
-        <jdbc.validationQuery><![CDATA[SELECT 1 + 1]]></jdbc.validationQuery>
 
         <bootstrap.version>3.3.6</bootstrap.version>
         <bootswatch.version>3.3.5+4</bootswatch.version>

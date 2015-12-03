@@ -53,7 +53,8 @@ import common.validator.constraints.UniqueKey;
 @CompareStrings.List({
     @CompareStrings(
         propertyNames = { "confirmPassword", "password" },
-        comparisonMode = ComparisonMode.EQUAL
+        comparisonMode = ComparisonMode.EQUAL,
+        message = "{common.validator.constraints.confirmPassword.message}"
     )
 })
 @UniqueKey.List({
