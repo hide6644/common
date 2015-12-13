@@ -13,14 +13,6 @@
 <c:set var="dateTimeFormat" scope="request"><fmt:message key="date.time.format" /></c:set>
 
 <c:choose>
-<c:when test="${param.method eq 'Add'}">
-    <c:set var="method" value="post" />
-</c:when>
-<c:otherwise>
-    <c:set var="method" value="put" />
-</c:otherwise>
-</c:choose>
-<c:choose>
 <c:when test="${param.from eq 'list'}">
 <div class="col-sm-2"></div>
 </c:when>
@@ -34,21 +26,19 @@
 <div class="col-sm-7">
     <fieldset id="legend">
 <c:choose>
-<c:when test="${method eq 'post'}">
+<c:when test="${param.method eq 'Add'}">
         <legend><fmt:message key="button.add" /></legend>
-        <c:set var="method" value="post" />
 </c:when>
 <c:otherwise>
         <legend><fmt:message key="button.edit" /></legend>
-        <c:set var="method" value="put" />
 </c:otherwise>
 </c:choose>
     </fieldset>
-<form:form modelAttribute="user" method="${method}" autocomplete="off" cssClass="well">
+<form:form modelAttribute="user" method="post" autocomplete="off" cssClass="well">
     <form:hidden path="id" />
     <form:hidden path="version" />
 <c:choose>
-<c:when test="${method eq 'post'}">
+<c:when test="${param.method eq 'Add'}">
 <spring:bind path="user.username">
     <div class="form-group${(not empty status.errorMessage) ? ' has-error' : ''}">
         <label for="username" class="control-label">
@@ -69,7 +59,7 @@
 </c:otherwise>
 </c:choose>
 <c:choose>
-<c:when test="${method eq 'post'}">
+<c:when test="${param.method eq 'Add'}">
     <div class="row">
 <spring:bind path="user.password">
         <div class="col-sm-6 form-group${(not empty status.errorMessage) ? ' has-error' : ''}">
@@ -136,7 +126,7 @@
     </div>
 </spring:bind>
 <c:choose>
-<c:when test="${param.from eq 'list' or method eq 'post'}">
+<c:when test="${param.from eq 'list' or param.method eq 'Add'}">
     <div class="form-group">
         <label class="control-label"><fmt:message key="userForm.accountSettings"/></label>
         <label class="checkbox-inline">
@@ -196,7 +186,7 @@
         <button type="submit" class="btn btn-primary">
             <i class="icon-ok icon-white"></i>
 <c:choose>
-<c:when test="${method eq 'post'}">
+<c:when test="${param.method eq 'Add'}">
             <fmt:message key="button.add" />
 </c:when>
 <c:otherwise>

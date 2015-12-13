@@ -12,8 +12,6 @@ import java.util.Map;
  */
 public class DBCheckException extends DBException {
 
-    private static final long serialVersionUID = 1L;
-
     /** エラーメッセージ一覧 */
     List<Map<String, Serializable>> errors;
 

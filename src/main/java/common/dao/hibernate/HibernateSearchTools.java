@@ -91,7 +91,7 @@ class HibernateSearchTools {
                 String[] fnames = fieldNames.toArray(new String[0]);
                 String[] queries = new String[fnames.length];
 
-                for (int i = 0; i < queries.length; ++i) {
+                for (int i = 0; i < queries.length; i++) {
                     queries[i] = searchTerm;
                 }
 
