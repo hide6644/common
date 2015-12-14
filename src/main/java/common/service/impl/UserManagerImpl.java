@@ -1,10 +1,9 @@
 package common.service.impl;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.jws.WebService;
 import javax.validation.Validator;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 import common.Constants;
 import common.dao.UserDao;
 import common.exception.DBException;
-import common.model.Role;
 import common.model.User;
 import common.service.MailEngine;
 import common.service.PasswordTokenManager;
@@ -185,14 +183,14 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
         @SuppressWarnings("unchecked")
         List<User> userList = (List<User>) UserConverterFactory.createConverter(uploadForm.getFileType()).convert(uploadForm.getFileData());
 
-        for (User user : userList) {
+        userList.forEach(user -> {
             if (saveUploadUser(user) != null) {
                 uploadForm.setCount(uploadForm.getCount() + 1);
             } else {
                 // エラー有りの場合
                 uploadForm.addErrorNo(uploadForm.getCount() + uploadForm.getErrorNo().size() + 1);
             }
-        }
+        });
     }
 
     /**
@@ -338,13 +336,7 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
      */
     @Override
     public void activateRoles(User user) {
-        Set<Role> userRoles = new HashSet<Role>();
-
-        for (Role role : user.getRoles()) {
-            userRoles.add(roleManager.getRole(role.getName()));
-        }
-
-        user.setRoles(userRoles);
+        user.setRoles(user.getRoles().stream().map(role -> roleManager.getRole(role.getName())).collect(Collectors.toSet()));
     }
 
     /**

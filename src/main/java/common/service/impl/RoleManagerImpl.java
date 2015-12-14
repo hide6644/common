@@ -2,6 +2,8 @@ package common.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,15 +55,8 @@ public class RoleManagerImpl extends GenericManagerImpl<Role, Long> implements R
      */
     @Override
     public List<LabelValue> getLabelValues() {
-        List<LabelValue> list = new ArrayList<LabelValue>();
-        List<Role> roles = dao.getAll();
-
-        if (roles != null) {
-            for (Role role : roles) {
-                list.add(new LabelValue(role.getDescription(), role.getName()));
-            }
-        }
-
-        return list;
+        return Optional.ofNullable(dao.getAll()).orElseGet(ArrayList::new).stream()
+                .map(role -> new LabelValue(role.getDescription(), role.getName()))
+                .collect(Collectors.toList());
     }
 }

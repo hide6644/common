@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
@@ -139,14 +140,13 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
         Query namedQuery = getSession().getNamedQuery(queryName);
 
         if (queryParams != null) {
-            for (String s : queryParams.keySet()) {
-                Object val = queryParams.get(s);
+            queryParams.forEach((key, val) -> {
                 if (val instanceof Collection) {
-                    namedQuery.setParameterList(s, (Collection) val);
+                    namedQuery.setParameterList(key, (Collection) val);
                 } else {
-                    namedQuery.setParameter(s, val);
+                    namedQuery.setParameter(key, val);
                 }
-            }
+            });
         }
 
         return namedQuery.list();
@@ -240,12 +240,7 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
      * @return DBセッション
      */
     public Session getSession() {
-        Session sess = getSessionFactory().getCurrentSession();
-
-        if (sess == null) {
-            sess = getSessionFactory().openSession();
-        }
-
-        return sess;
+        return Optional.ofNullable(getSessionFactory().getCurrentSession())
+                .orElseGet(() -> getSessionFactory().openSession());
     }
 }
