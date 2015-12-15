@@ -184,7 +184,8 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
         List<User> userList = (List<User>) UserConverterFactory.createConverter(uploadForm.getFileType()).convert(uploadForm.getFileData());
 
         userList.forEach(user -> {
-            if (saveUploadUser(user) != null) {
+            if (checkUploadUser(user)) {
+                saveUser(user);
                 uploadForm.setCount(uploadForm.getCount() + 1);
             } else {
                 // エラー有りの場合
@@ -194,10 +195,13 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
     }
 
     /**
-     * {@inheritDoc}
+     * アップロードファイルのエラーチェックを行う.
+     *
+     * @param user
+     *            ユーザ
+     * @return true:エラーなし、false:エラーあり
      */
-    @Override
-    public User saveUploadUser(User user) {
+    private boolean checkUploadUser(User user) {
         // デフォルトの要再認証日時を設定する
         user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
         // 新規登録時は権限を一般で設定する
@@ -207,11 +211,7 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
         user.setEnabled(true);
 
         // エラーチェック
-        if (validator.validate(user).size() > 0) {
-            return null;
-        } else {
-            return saveUser(user);
-        }
+        return validator.validate(user).size() == 0;
     }
 
     /**

@@ -75,18 +75,16 @@ public class UserController extends BaseController {
 
         String userId = request.getParameter("userId");
 
-        User user = null;
         if (userId == null && !isAdd(request)) {
-            user = userManager.getUserByUsername(request.getRemoteUser());
+            return userManager.getUserByUsername(request.getRemoteUser());
         } else if (!StringUtils.isBlank(userId) && !"".equals(request.getParameter("version"))) {
-            user = userManager.getUser(userId);
+            return userManager.getUser(userId);
         } else {
-            user = new User();
+            User user = new User();
             user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
             user.addRole(new Role(Constants.USER_ROLE));
+            return user;
         }
-
-        return user;
     }
 
     /**

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.InvalidPropertyException;
 import org.springframework.format.Formatter;
 import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 
@@ -41,11 +40,7 @@ public class GridUtil {
             String[] line = new String[grid.columns()];
 
             for (int col = 0; col < grid.columns(); col++) {
-                try {
-                    line[col] = grid.get(row, col, String.class);
-                } catch (InvalidPropertyException e) {
-                    line[col] = "";
-                }
+                line[col] = grid.get(row, col, String.class);
             }
 
             result.add(line);
