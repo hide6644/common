@@ -126,10 +126,10 @@ public class UpdatePasswordController extends BaseController {
         if (usingToken) {
             return new ModelAndView("redirect:/login.html");
         } else {
-            if (!StringUtils.equals(request.getParameter("from"), "list")) {
-                return new ModelAndView("redirect:/user");
-            } else {
+            if (StringUtils.equals(request.getParameter("from"), "list")) {
                 return new ModelAndView("redirect:/user?from=list");
+            } else {
+                return new ModelAndView("redirect:/user");
             }
         }
     }

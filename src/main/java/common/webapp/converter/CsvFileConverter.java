@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -64,6 +65,8 @@ public class CsvFileConverter implements FileConverterStrategy {
         } catch (InstantiationException e) {
             throw new FileException("errors.convert", e);
         } catch (IllegalAccessException e) {
+            throw new FileException("errors.convert", e);
+        } catch (TypeMismatchException e) {
             throw new FileException("errors.convert", e);
         } finally {
             IOUtils.closeQuietly(reader);

@@ -1,7 +1,6 @@
 package common.webapp.converter.util;
 
 import org.springframework.beans.BeanWrapperImpl;
-import org.springframework.beans.TypeMismatchException;
 
 /**
  * CSVファイルを解析するクラス.
@@ -38,11 +37,7 @@ public class CsvFileReader {
 
         for (int i = 0; i < props.length; i++) {
             if (line[i] != null && line[i].trim().length() > 0) {
-                try {
-                    beanWrapper.setPropertyValue(props[i], line[i].trim());
-                } catch (TypeMismatchException e) {
-                    // 変換できない場合、スキップする
-                }
+                beanWrapper.setPropertyValue(props[i], line[i].trim());
             }
         }
 

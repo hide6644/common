@@ -72,15 +72,6 @@ public interface UserManager extends GenericManager<User, Long> {
     void uploadUsers(UploadForm uploadForm);
 
     /**
-     * 指定されたアップロードユーザを永続化する.
-     *
-     * @param user
-     *            ユーザ
-     * @return 永続化されたユーザ
-     */
-    User saveUploadUser(User user);
-
-    /**
      * 指定された新規登録ユーザを永続化する.
      *
      * @param user
