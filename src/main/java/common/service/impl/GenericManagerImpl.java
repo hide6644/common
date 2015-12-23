@@ -91,7 +91,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
      */
     @Override
     public List<T> search(String q) {
-        if (q == null || "".equals(q.trim())) {
+        if (q == null || q.trim().length() == 0) {
             return getAll();
         }
 

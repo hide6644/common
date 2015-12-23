@@ -57,7 +57,7 @@ class HibernateSearchTools {
      *            DBセッション
      * @return 全文検索クエリ
      */
-    public static Query generateQuery(String searchTerm, @SuppressWarnings("rawtypes") Class searchedEntity, Session sess) {
+    public static Query generateQuery(String searchTerm, Class<?> searchedEntity, Session sess) {
         Query query = null;
 
         if (searchTerm.equals("*")) {
@@ -121,7 +121,7 @@ class HibernateSearchTools {
      *            DBセッション
      * @return ファセットのリスト
      */
-    public static List<Facet> generateFacet(String field, int maxCount, @SuppressWarnings("rawtypes") Class searchedEntity, Session sess) {
+    public static List<Facet> generateFacet(String field, int maxCount, Class<?> searchedEntity, Session sess) {
         FullTextSession txtSession = Search.getFullTextSession(sess);
         SearchFactory searchFactory = txtSession.getSearchFactory();
         QueryBuilder builder = searchFactory.buildQueryBuilder().forEntity(searchedEntity).get();
@@ -147,7 +147,7 @@ class HibernateSearchTools {
      * @param sess
      *            DBセッション
      */
-    public static void reindex(@SuppressWarnings("rawtypes") Class clazz, Session sess) {
+    public static void reindex(Class<?> clazz, Session sess) {
         FullTextSession txtSession = Search.getFullTextSession(sess);
         MassIndexer massIndexer = txtSession.createIndexer(clazz);
 

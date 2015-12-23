@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * ブラウザの判定するUtilityクラス.
  */
-public class BrowserUtil {
+public final class BrowserUtil {
 
     /**
      * プライベート・コンストラクタ.

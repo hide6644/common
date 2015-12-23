@@ -69,7 +69,7 @@ public final class RequestUtil {
      * cookieを削除する.
      *
      * @param cookie
-     *            cookie名
+     *            {@link Cookie}
      * @param path
      *            設定するパス
      * @param response

@@ -28,7 +28,7 @@ public class RoleDaoHibernate extends GenericDaoHibernate<Role, Long> implements
     public Role getRoleByName(String name) {
         List<?> roles = getSession().createCriteria(Role.class).add(Restrictions.eq("name", name)).list();
 
-        if (roles.isEmpty()) {
+        if (roles == null || roles.isEmpty()) {
             return null;
         } else {
             return (Role) roles.get(0);

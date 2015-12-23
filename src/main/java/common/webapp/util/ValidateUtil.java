@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * エラーメッセージのUtilityクラス.
  */
-public class ValidateUtil {
+public final class ValidateUtil {
 
     /** エラーを表示するフィールド名を設定するキー文字列 */
     public static final String FILED_NAME = "filedName";
