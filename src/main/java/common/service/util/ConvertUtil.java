@@ -9,8 +9,8 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import common.model.LabelValue;
 
@@ -20,7 +20,7 @@ import common.model.LabelValue;
 public final class ConvertUtil {
 
     /** ログ出力クラス */
-    private static final Log log = LogFactory.getLog(ConvertUtil.class);
+    private static final Logger log = LogManager.getLogger(ConvertUtil.class);
 
     /**
      * プライベート・コンストラクタ.

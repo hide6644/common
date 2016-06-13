@@ -83,14 +83,14 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.fasterxml</groupId>
-                <artifactId>classmate</artifactId>
-                <version>${classmate.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>commons-digester</groupId>
                 <artifactId>commons-digester</artifactId>
                 <version>${commons.digester.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>${mail.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.javassist</groupId>
@@ -106,11 +106,6 @@
                 <groupId>org.jboss</groupId>
                 <artifactId>jandex</artifactId>
                 <version>${jandex.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.logging</groupId>
-                <artifactId>jboss-logging-annotations</artifactId>
-                <version>${jboss.logging.annotations.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -184,7 +179,11 @@
             <exclusions>
                 <exclusion>
                     <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-classic</artifactId>
+                    <artifactId>logback-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jcl-over-slf4j</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -194,8 +193,8 @@
             <version>${jxls.poi.version}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-classic</artifactId>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jcl-over-slf4j</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -205,12 +204,12 @@
             <version>${jxls.reader.version}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-classic</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>org.apache.commons</groupId>
                     <artifactId>commons-digester3</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jcl-over-slf4j</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -268,6 +267,11 @@
             <groupId>ro.isdc.wro4j</groupId>
             <artifactId>wro4j-core</artifactId>
             <version>${wro4j-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>velocity-tools</groupId>
+            <artifactId>velocity-tools-generic</artifactId>
+            <version>${velocity.tools.version}</version>
         </dependency>
 
         <!-- Commons -->
@@ -406,14 +410,18 @@
             <version>${spring.security.version}</version>
         </dependency>
 
-        <!-- Hibernate Framework -->
+        <!-- Hibernate Search -->
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
+            <artifactId>hibernate-hikaricp</artifactId>
             <version>${hibernate.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.zaxxer</groupId>
+                    <artifactId>HikariCP-java6</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-
-        <!-- Hibernate Search -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-search-orm</artifactId>
@@ -422,14 +430,6 @@
                 <exclusion>
                     <groupId>org.apache.solr</groupId>
                     <artifactId>solr-analysis-extras</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.hibernate.common</groupId>
-                    <artifactId>hibernate-commons-annotations</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -486,14 +486,19 @@
 
         <!-- Logging -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>${slf4j.version}</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-1.2-api</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j.version}</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-jcl</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
     </dependencies>
 
@@ -501,7 +506,7 @@
         <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
         <jdbc.groupId>mysql</jdbc.groupId>
         <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
-        <jdbc.version>5.1.37</jdbc.version>
+        <jdbc.version>5.1.39</jdbc.version>
         <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
         <jdbc.url>
             <![CDATA[jdbc:mysql://localhost/common?createDatabaseIfNotExist=true&amp;zeroDateTimeBehavior=convertToNull&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true]]>
@@ -511,51 +516,52 @@
 
         <bootstrap.version>3.3.6</bootstrap.version>
         <bootswatch.version>3.3.5+4</bootswatch.version>
-        <classmate.version>1.3.1</classmate.version>
         <commons.beanutils.version>1.9.2</commons.beanutils.version>
         <commons.codec.version>1.10</commons.codec.version>
         <commons.digester.version>2.1</commons.digester.version>
         <commons.digester3.version>3.2</commons.digester3.version>
-        <commons.fileupload.version>1.3.1</commons.fileupload.version>
-        <commons.io.version>2.4</commons.io.version>
+        <commons.fileupload.version>1.3.2</commons.fileupload.version>
+        <commons.io.version>2.5</commons.io.version>
         <commons.jexl.version>2.1.1</commons.jexl.version>
         <commons.lang.version>2.6</commons.lang.version>
         <commons.lang3.version>3.4</commons.lang3.version>
         <datetimepicker.version>2.3.4</datetimepicker.version>
-        <ehcache.version>2.10.1</ehcache.version>
-        <hibernate.version>5.0.6.Final</hibernate.version>
-        <hibernate.search.version>5.5.2.Final</hibernate.search.version>
-        <hibernate.validator.version>5.2.2.Final</hibernate.validator.version>
-        <HikariCP.version>2.4.3</HikariCP.version>
-        <jandex.version>2.0.1.Final</jandex.version>
+        <ehcache.version>2.10.2</ehcache.version>
+        <hibernate.version>5.0.9.Final</hibernate.version>
+        <hibernate.search.version>5.5.3.Final</hibernate.search.version>
+        <hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
+        <HikariCP.version>2.4.6</HikariCP.version>
+        <jandex.version>2.0.2.Final</jandex.version>
         <javassist.version>3.20.0-GA</javassist.version>
-        <javax.el-api.version>2.2.5</javax.el-api.version>
+        <javax.el-api.version>3.0.0</javax.el-api.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <javax.servlet.jsp-api.version>2.3.1</javax.servlet.jsp-api.version>
-        <jboss.logging.annotations.version>2.0.1.Final</jboss.logging.annotations.version>
-        <joda.time.version>2.9.1</joda.time.version>
-        <jquery.version>1.11.3</jquery.version>
+        <joda.time.version>2.9.4</joda.time.version>
+        <jquery.version>1.12.4</jquery.version>
         <jquery-cookie.version>1.4.1-1</jquery-cookie.version>
         <jsr311-api.version>1.1.1</jsr311-api.version>
         <jta.version>1.1</jta.version>
         <junit.version>4.12</junit.version>
-        <jxls.version>2.2.8</jxls.version>
-        <jxls.poi.version>1.0.7</jxls.poi.version>
-        <jxls.reader.version>2.0.1</jxls.reader.version>
+        <jxls.version>2.2.9</jxls.version>
+        <jxls.poi.version>1.0.11</jxls.poi.version>
+        <jxls.reader.version>2.0.2</jxls.reader.version>
+        <log4j.version>2.6</log4j.version>
         <lucene.version>5.3.1</lucene.version>
+        <mail.version>1.4.7</mail.version>
         <mockito.version>1.10.19</mockito.version>
-        <opencsv.version>3.6</opencsv.version>
+        <opencsv.version>3.8</opencsv.version>
         <sitemesh.version>2.4.2</sitemesh.version>
-        <slf4j.version>1.7.13</slf4j.version>
-        <spring.version>4.2.4.RELEASE</spring.version>
-        <spring.security.version>4.0.3.RELEASE</spring.security.version>
+        <slf4j.version>1.7.21</slf4j.version>
+        <spring.version>4.2.6.RELEASE</spring.version>
+        <spring.security.version>4.1.0.RELEASE</spring.security.version>
         <subethasmtp.version>3.1.7</subethasmtp.version>
         <taglibs-standard.version>1.2.5</taglibs-standard.version>
         <urlrewritefilter.version>4.0.4</urlrewritefilter.version>
         <velocity.version>1.7</velocity.version>
+        <velocity.tools.version>1.4</velocity.tools.version>
         <xml-apis.version>1.4.01</xml-apis.version>
         <xmlbeans.version>2.6.0</xmlbeans.version>
-        <wro4j-core.version>1.7.9</wro4j-core.version>
+        <wro4j-core.version>1.8.0</wro4j-core.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <copyright.year>2013-2016</copyright.year>

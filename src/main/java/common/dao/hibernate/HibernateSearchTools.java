@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.FieldInfo;
@@ -37,7 +37,7 @@ import common.dao.SearchException;
 class HibernateSearchTools {
 
     /** ログ出力クラス */
-    private static final Log log = LogFactory.getLog(HibernateSearchTools.class);
+    private static final Logger log = LogManager.getLogger(HibernateSearchTools.class);
 
     /**
      * プライベート・コンストラクタ.

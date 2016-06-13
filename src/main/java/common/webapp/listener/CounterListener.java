@@ -9,7 +9,6 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
 
-import org.apache.commons.logging.LogFactory;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.core.Authentication;
@@ -47,7 +46,6 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
      */
     @Override
     public void contextDestroyed(ServletContextEvent event) {
-        LogFactory.release(Thread.currentThread().getContextClassLoader());
     }
 
     /**

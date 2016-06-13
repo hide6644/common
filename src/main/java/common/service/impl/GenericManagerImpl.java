@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import common.dao.GenericDao;
 import common.model.PaginatedList;
@@ -17,7 +17,7 @@ import common.service.GenericManager;
 public class GenericManagerImpl<T, PK extends Serializable> implements GenericManager<T, PK> {
 
     /** ログ出力クラス */
-    protected final Log log = LogFactory.getLog(getClass());
+    protected final Logger log = LogManager.getLogger(getClass());
 
     /** 一般的なCRUD DAO */
     protected GenericDao<T, PK> dao;

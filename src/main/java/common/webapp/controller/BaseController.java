@@ -7,8 +7,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -34,7 +34,7 @@ import common.webapp.util.ValidateUtil;
 public abstract class BaseController {
 
     /** ログ出力クラス */
-    protected final transient Log log = LogFactory.getLog(getClass());
+    protected final transient Logger log = LogManager.getLogger(getClass());
 
     /** メッセージソースアクセサー */
     protected MessageSourceAccessor messages;
@@ -200,8 +200,8 @@ public abstract class BaseController {
      *            引数
      * @return メッセージ
      */
-    protected String getText(String msgKey, Object... arg) {
-        return messages.getMessage(msgKey, arg);
+    protected String getText(String msgKey, Object... args) {
+        return messages.getMessage(msgKey, args);
     }
 
     /**

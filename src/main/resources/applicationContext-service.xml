@@ -31,7 +31,7 @@
 
     <tx:advice id="txAdvice">
         <tx:attributes>
-            <tx:method name="*" />
+            <tx:method name="*" rollback-for="DBException" />
         </tx:attributes>
     </tx:advice>
 

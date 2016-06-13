@@ -5,8 +5,8 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -15,7 +15,7 @@ import common.service.util.ConvertUtil;
 @RunWith(MockitoJUnitRunner.class)
 public abstract class BaseManagerMockTestCase {
 
-    protected transient final Log log = LogFactory.getLog(getClass());
+    protected final transient Logger log = LogManager.getLogger(getClass());
 
     protected ResourceBundle rb;
 

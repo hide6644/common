@@ -6,8 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.aop.AfterReturningAdvice;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.security.access.AccessDeniedException;
@@ -33,7 +33,7 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
     public static final String ACCESS_DENIED = "Access Denied: Only administrators are allowed to modify other users.";
 
     /** ログ出力クラス */
-    private final Log log = LogFactory.getLog(getClass());
+    private final Logger log = LogManager.getLogger(getClass());
 
     /**
      * {@inheritDoc}

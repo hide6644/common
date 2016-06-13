@@ -12,7 +12,7 @@
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" destroy-method="destroy">
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.connection.provider_class">com.zaxxer.hikari.hibernate.HikariConnectionProvider</prop>
+                <prop key="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</prop>
                 <prop key="hibernate.hikari.dataSourceClassName">${dataSource.dataSourceClassName}</prop>
                 <prop key="hibernate.hikari.dataSource.url">${dataSource.url}</prop>
                 <prop key="hibernate.hikari.dataSource.user">${dataSource.username}</prop>

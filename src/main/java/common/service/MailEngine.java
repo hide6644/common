@@ -5,8 +5,8 @@ import java.util.Map;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.VelocityException;
 import org.springframework.core.io.ClassPathResource;
@@ -23,7 +23,7 @@ import org.springframework.ui.velocity.VelocityEngineUtils;
 public class MailEngine {
 
     /** ログ出力クラス */
-    private final Log log = LogFactory.getLog(getClass());
+    private final Logger log = LogManager.getLogger(getClass());
 
     /** メール送信処理クラス */
     private MailSender mailSender;

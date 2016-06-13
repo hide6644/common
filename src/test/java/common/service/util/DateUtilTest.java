@@ -4,15 +4,15 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 
-import junit.framework.TestCase;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.i18n.LocaleContextHolder;
+
+import junit.framework.TestCase;
 
 public class DateUtilTest extends TestCase {
 
-    private final Log log = LogFactory.getLog(DateUtilTest.class);
+    private final Logger log = LogManager.getLogger(getClass());
 
     public DateUtilTest(String name) {
         super(name);

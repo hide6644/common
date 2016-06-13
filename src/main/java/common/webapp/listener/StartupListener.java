@@ -15,8 +15,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -38,7 +38,7 @@ import net.sf.ehcache.CacheManager;
 public class StartupListener implements ServletContextListener {
 
     /** ログ出力クラス */
-    private static final Log log = LogFactory.getLog(StartupListener.class);
+    private static final Logger log = LogManager.getLogger(StartupListener.class);
 
     /**
      * {@inheritDoc}
@@ -91,7 +91,6 @@ public class StartupListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         CacheManager.getInstance().shutdown();
-        LogFactory.release(Thread.currentThread().getContextClassLoader());
     }
 
     /**

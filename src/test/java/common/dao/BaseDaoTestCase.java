@@ -7,8 +7,8 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.search.Search;
 import org.springframework.beans.BeansException;
@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
         "classpath:/common/dao/applicationContext-dao.xml", "classpath*:/applicationContext.xml" })
 public abstract class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTests {
 
-    protected transient final Log log = LogFactory.getLog(getClass());
+    protected final transient Logger log = LogManager.getLogger(getClass());
 
     protected ResourceBundle rb;
 

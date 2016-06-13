@@ -10,8 +10,8 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -33,7 +33,7 @@ import common.dao.SearchException;
 public class GenericDaoHibernate<T, PK extends Serializable> implements GenericDao<T, PK> {
 
     /** ログ出力クラス */
-    protected final Log log = LogFactory.getLog(getClass());
+    protected final Logger log = LogManager.getLogger(getClass());
 
     /** エンティティクラス */
     private Class<T> persistentClass;

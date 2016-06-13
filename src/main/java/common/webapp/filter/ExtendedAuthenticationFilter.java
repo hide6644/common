@@ -6,8 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,7 +27,7 @@ import common.service.UserManager;
 public class ExtendedAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     /** ログ出力クラス */
-    private final transient Log log = LogFactory.getLog(getClass());
+    private final transient Logger log = LogManager.getLogger(getClass());
 
     /** ユーザ処理クラス */
     @Autowired

@@ -1,7 +1,7 @@
 package common.webapp.controller;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -19,7 +19,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
                 "classpath:/common/webapp/controller/dispatcher-servlet.xml" })
 public abstract class BaseControllerTestCase extends AbstractTransactionalJUnit4SpringContextTests {
 
-    protected transient final Log log = LogFactory.getLog(getClass());
+    protected transient final Logger log = LogManager.getLogger(getClass());
 
     private int smtpPort = 25250;
 

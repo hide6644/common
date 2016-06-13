@@ -5,8 +5,8 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
@@ -18,7 +18,7 @@ import common.service.util.ConvertUtil;
 })
 public abstract class BaseManagerTestCase extends AbstractTransactionalJUnit4SpringContextTests {
 
-    protected transient final Log log = LogFactory.getLog(getClass());
+    protected final transient Logger log = LogManager.getLogger(getClass());
 
     protected ResourceBundle rb;
 

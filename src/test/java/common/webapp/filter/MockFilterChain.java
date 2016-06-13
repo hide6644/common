@@ -10,12 +10,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MockFilterChain implements FilterChain {
 
-    private final Log log = LogFactory.getLog(MockFilterChain.class);
+    private final Logger log = LogManager.getLogger(getClass());
 
     private String forwardURL;
 
