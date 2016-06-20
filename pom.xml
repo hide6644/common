@@ -16,7 +16,7 @@
     </description>
 
     <prerequisites>
-        <maven>3.1.0</maven>
+        <maven>3.3.9</maven>
     </prerequisites>
 
     <scm>
@@ -64,7 +64,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.5.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
