@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE wro>
+
 <groups xmlns="http://www.isdc.ro/wro">
     <group name="main">
         <css>classpath:META-INF/resources/webjars/bootswatch/3.3.5+4/spacelab/bootstrap.min.css</css>
