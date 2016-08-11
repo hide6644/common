@@ -7,15 +7,16 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.exception.VelocityException;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.ui.velocity.VelocityEngineUtils;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 
 /**
  * メールを処理するクラス.
@@ -29,7 +30,7 @@ public class MailEngine {
     private MailSender mailSender;
 
     /** テンプレートエンジン */
-    private VelocityEngine velocityEngine;
+    private Configuration freemarkerConfiguration;;
 
     /** デフォルトの送信者 */
     private String defaultFrom;
@@ -87,8 +88,9 @@ public class MailEngine {
         String result = null;
 
         try {
-            result = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, templateName, "UTF-8", model);
-        } catch (VelocityException e) {
+            Template template = freemarkerConfiguration.getTemplate(templateName);
+            result = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+        } catch (Exception e) {
             e.printStackTrace();
             log.error(e.getMessage());
         }
@@ -127,11 +129,11 @@ public class MailEngine {
     /**
      * テンプレートエンジンを設定する.
      *
-     * @param velocityEngine
+     * @param freemarkerConfiguration
      *            テンプレートエンジン
      */
-    public void setVelocityEngine(VelocityEngine velocityEngine) {
-        this.velocityEngine = velocityEngine;
+    public void setFreemarkerConfiguration(Configuration freemarkerConfiguration) {
+        this.freemarkerConfiguration = freemarkerConfiguration;
     }
 
     /**

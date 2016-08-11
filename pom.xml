@@ -224,9 +224,9 @@
             <version>${taglibs-standard.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
-            <version>${velocity.version}</version>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>${freemarker.version}</version>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
@@ -267,11 +267,6 @@
             <groupId>ro.isdc.wro4j</groupId>
             <artifactId>wro4j-core</artifactId>
             <version>${wro4j-core.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>velocity-tools</groupId>
-            <artifactId>velocity-tools-generic</artifactId>
-            <version>${velocity.tools.version}</version>
         </dependency>
 
         <!-- Commons -->
@@ -449,6 +444,11 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-analyzers-kuromoji</artifactId>
             <version>${lucene.version}</version>
@@ -527,8 +527,9 @@
         <commons.lang3.version>3.4</commons.lang3.version>
         <datetimepicker.version>2.3.4</datetimepicker.version>
         <ehcache.version>2.10.2</ehcache.version>
+        <freemarker.version>2.3.23</freemarker.version>
         <hibernate.version>5.0.9.Final</hibernate.version>
-        <hibernate.search.version>5.5.3.Final</hibernate.search.version>
+        <hibernate.search.version>5.5.4.Final</hibernate.search.version>
         <hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
         <HikariCP.version>2.4.6</HikariCP.version>
         <jandex.version>2.0.2.Final</jandex.version>
@@ -552,13 +553,11 @@
         <opencsv.version>3.8</opencsv.version>
         <sitemesh.version>2.4.2</sitemesh.version>
         <slf4j.version>1.7.21</slf4j.version>
-        <spring.version>4.2.6.RELEASE</spring.version>
+        <spring.version>4.3.1.RELEASE</spring.version>
         <spring.security.version>4.1.0.RELEASE</spring.security.version>
         <subethasmtp.version>3.1.7</subethasmtp.version>
         <taglibs-standard.version>1.2.5</taglibs-standard.version>
         <urlrewritefilter.version>4.0.4</urlrewritefilter.version>
-        <velocity.version>1.7</velocity.version>
-        <velocity.tools.version>1.4</velocity.tools.version>
         <xml-apis.version>1.4.01</xml-apis.version>
         <xmlbeans.version>2.6.0</xmlbeans.version>
         <wro4j-core.version>1.8.0</wro4j-core.version>

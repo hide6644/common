@@ -69,13 +69,13 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
     private MessageSourceAccessor messages;
 
     /** ユーザ本登録メールのテンプレート */
-    private String accountCreatedTemplate = "accountCreated.vm";
+    private String accountCreatedTemplate = "accountCreated.ftl";
 
     /** パスワード回復案内メールのテンプレート */
-    private String passwordRecoveryTemplate = "passwordRecovery.vm";
+    private String passwordRecoveryTemplate = "passwordRecovery.ftl";
 
     /** パスワード更新メールのテンプレート */
-    private String passwordUpdatedTemplate = "passwordUpdated.vm";
+    private String passwordUpdatedTemplate = "passwordUpdated.ftl";
 
     /**
      * {@inheritDoc}

@@ -17,9 +17,6 @@
         <Root level="info">
             <AppenderRef ref="stdout" />
         </Root>
-        <Logger name="org.apache.velocity" level="fatal" additivity="false">
-            <AppenderRef ref="stdout" />
-        </Logger>
         <Logger name="ro.isdc.wro" level="warn" additivity="false">
             <AppenderRef ref="stdout" />
         </Logger>
