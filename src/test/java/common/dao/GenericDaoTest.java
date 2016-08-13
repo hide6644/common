@@ -2,24 +2,27 @@ package common.dao;
 
 import static org.junit.Assert.*;
 
-import org.hibernate.SessionFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import common.dao.hibernate.GenericDaoHibernate;
+import common.dao.jpa.GenericDaoJpa;
 import common.model.User;
 
 public class GenericDaoTest extends BaseDaoTestCase {
 
     GenericDao<User, Long> genericDao;
 
-    @Autowired
-    SessionFactory sessionFactory;
+    public static final String PERSISTENCE_UNIT_NAME = "ApplicationEntityManager";
+
+    @PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
+    protected EntityManager entityManager;
 
     @Before
     public void setUp() {
-        genericDao = new GenericDaoHibernate<User, Long>(User.class, sessionFactory);
+        genericDao = new GenericDaoJpa<User, Long>(User.class, entityManager);
     }
 
     @Test
