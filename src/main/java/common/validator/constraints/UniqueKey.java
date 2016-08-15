@@ -21,7 +21,7 @@ import common.validator.constraints.impl.UniqueKeyValidator;
 @Constraint(validatedBy = { UniqueKeyValidator.class })
 public @interface UniqueKey {
 
-    /** 確認対象の列名 */
+    /** @return 確認対象の列名 */
     String[] columnNames();
 
     String message() default "{common.validator.constraints.UniqueKey.message}";
