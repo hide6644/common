@@ -2,8 +2,6 @@ package common.dao.jpa;
 
 import java.util.List;
 
-import javax.persistence.Query;
-
 import org.springframework.stereotype.Repository;
 
 import common.dao.RoleDao;
@@ -27,9 +25,7 @@ public class RoleDaoJpa extends GenericDaoJpa<Role, Long> implements RoleDao {
      */
     @Override
     public Role getRoleByName(String name) {
-        Query q = getEntityManager().createQuery("select r from Role r where r.name = ?");
-        q.setParameter(1, name);
-        List<?> roles = q.getResultList();
+        List<?> roles = getEntityManager().createNamedQuery(Role.FIND_BY_NAME).setParameter("name", name).getResultList();
 
         if (roles == null || roles.isEmpty()) {
             return null;

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import javax.jws.WebService;
 import javax.validation.Validator;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
