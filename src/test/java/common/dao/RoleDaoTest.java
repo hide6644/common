@@ -33,7 +33,6 @@ public class RoleDaoTest extends BaseDaoTestCase {
         Role role = dao.getRoleByName("ROLE_USER");
         role.setDescription("test descr");
         dao.save(role);
-        flush();
 
         role = dao.getRoleByName("ROLE_USER");
         assertEquals("test descr", role.getDescription());
@@ -44,13 +43,11 @@ public class RoleDaoTest extends BaseDaoTestCase {
         Role role = new Role("testrole");
         role.setDescription("new role descr");
         dao.save(role);
-        flush();
 
         role = dao.getRoleByName("testrole");
         assertNotNull(role.getDescription());
 
         dao.removeRole("testrole");
-        flush();
 
         role = dao.getRoleByName("testrole");
         assertNull(role);

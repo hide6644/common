@@ -6,13 +6,12 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.SessionFactory;
-import org.hibernate.search.Search;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
@@ -20,12 +19,14 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
         "classpath:/common/dao/applicationContext-dao.xml", "classpath*:/applicationContext.xml" })
 public abstract class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTests {
 
+    public static final String PERSISTENCE_UNIT_NAME = "ApplicationEntityManager";
+
     protected final transient Logger log = LogManager.getLogger(getClass());
 
     protected ResourceBundle rb;
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    @PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
+    protected EntityManager entityManager;
 
     public BaseDaoTestCase() {
         String className = this.getClass().getName();
@@ -48,13 +49,5 @@ public abstract class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringC
         BeanUtils.copyProperties(obj, map);
 
         return obj;
-    }
-
-    protected void flush() throws BeansException {
-        sessionFactory.getCurrentSession().flush();
-    }
-
-    public void flushSearchIndexes() {
-        Search.getFullTextSession(sessionFactory.getCurrentSession()).flushToIndexes();
     }
 }

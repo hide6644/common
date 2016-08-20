@@ -72,9 +72,7 @@ public class UserDaoJpa extends GenericDaoJpa<User, Long> implements UserDao, Us
      */
     @Override
     public User saveUser(User user) {
-        User u = super.save(user);
-        getEntityManager().flush();
-        return u;
+        return entityManager.merge(user);
     }
 
     /**
@@ -106,6 +104,7 @@ public class UserDaoJpa extends GenericDaoJpa<User, Long> implements UserDao, Us
         List<Predicate> preds = makeSearchCondition(builder, root, searchCondition);
 
         criteriaQuery.where(builder.and(preds.toArray(new Predicate[]{})));
+        criteriaQuery.orderBy(builder.asc(root.get("username")));
 
         Query query = entityManager.createQuery(criteriaQuery);
 

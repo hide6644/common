@@ -3,27 +3,21 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:context="http://www.springframework.org/schema/context"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd"
     default-lazy-init="true">
 
-    <bean class="org.springframework.orm.hibernate5.HibernateExceptionTranslator" />
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
-    <!-- Hibernate SessionFactory -->
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" destroy-method="destroy">
-        <property name="dataSource" ref="dataSource" />
-        <property name="hibernateProperties">
+    <!-- EntityManagerFactory -->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitManager" ref="persistenceUnitManager" />
+        <property name="jpaProperties">
             <props>
-                <prop key="hibernate.connection.provider_class">com.zaxxer.hikari.hibernate.HikariConnectionProvider</prop>
-                <prop key="hibernate.hikari.dataSourceClassName">${dataSource.dataSourceClassName}</prop>
-                <prop key="hibernate.hikari.dataSource.url">${dataSource.url}</prop>
-                <prop key="hibernate.hikari.dataSource.user">${dataSource.username}</prop>
-                <prop key="hibernate.hikari.dataSource.password">${dataSource.password}</prop>
                 <prop key="hibernate.hikari.dataSource.cachePrepStmts">${dataSource.cachePrepStmts}</prop>
                 <prop key="hibernate.hikari.dataSource.prepStmtCacheSize">${dataSource.prepStmtCacheSize}</prop>
                 <prop key="hibernate.hikari.dataSource.prepStmtCacheSqlLimit">${dataSource.prepStmtCacheSqlLimit}</prop>
-                <prop key="hibernate.hikari.maximumPoolSize">${dataSource.maximumPoolSize}</prop>
                 <prop key="hibernate.id.new_generator_mappings">${hibernate.id}</prop>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.query.substitutions">true 'Y', false 'N'</prop>
@@ -33,7 +27,7 @@
                 <prop key="hibernate.cache.use_second_level_cache">true</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <!-- Hibernate Search -->
-                <prop key="hibernate.search.default.indexBase">${workspace_loc:target/indexes}</prop>
+                <prop key="hibernate.search.default.indexBase">${catalina.base}/work/Indexes/common</prop>
                 <prop key="hibernate.search.default.directory_provider">filesystem</prop>
                 <prop key="hibernate.search.default.locking_strategy">simple</prop>
                 <prop key="hibernate.search.default.exclusive_index_use">true</prop>
@@ -45,16 +39,23 @@
                 <prop key="hibernate.validator.apply_to_ddl">false</prop>
             </props>
         </property>
-        <property name="packagesToScan">
-            <list>
-                <value>common/model</value>
-            </list>
-        </property>
     </bean>
 
-    <!-- Transaction manager for a single Hibernate SessionFactory -->
-    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
+    <bean id="persistenceUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+        <property name="persistenceXmlLocations">
+            <list>
+                <value>classpath:META-INF/persistence.xml</value>
+            </list>
+        </property>
+        <property name="defaultDataSource" ref="dataSource" />
+    </bean>
+
+    <!-- Needed so the @PersistenceUnit annotation is recognized -->
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+    <!-- Transaction manager for a single EntityManagerFactory (alternative to JTA) -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
     <!-- Activates scanning of @Autowired -->

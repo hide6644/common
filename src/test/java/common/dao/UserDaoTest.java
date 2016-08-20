@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.jpa.JpaSystemException;
 
 import common.Constants;
 import common.model.Role;
@@ -43,12 +43,11 @@ public class UserDaoTest extends BaseDaoTestCase {
         log.debug("password: " + password);
     }
 
-    @Test(expected = DataIntegrityViolationException.class)
+    @Test(expected = JpaSystemException.class)
     public void testUpdateUser() throws Exception {
         User user = dao.get(-1L);
 
         dao.saveUser(user);
-        flush();
 
         user = dao.get(-1L);
 
@@ -73,21 +72,18 @@ public class UserDaoTest extends BaseDaoTestCase {
         user.addRole(role);
         user.setConfirmPassword(user.getPassword());
         dao.saveUser(user);
-        flush();
 
         user = dao.get(-1L);
         assertEquals(2, user.getRoles().size());
 
         user.addRole(role);
         dao.saveUser(user);
-        flush();
 
         user = dao.get(-1L);
         assertEquals("more than 2 roles", 2, user.getRoles().size());
 
         user.getRoles().remove(role);
         dao.saveUser(user);
-        flush();
 
         user = dao.get(-1L);
         assertEquals(1, user.getRoles().size());
@@ -107,14 +103,12 @@ public class UserDaoTest extends BaseDaoTestCase {
         user.addRole(role);
 
         user = dao.saveUser(user);
-        flush();
 
         assertNotNull(user.getId());
         user = dao.get(user.getId());
         assertEquals("testpass", user.getPassword());
 
         dao.remove(user);
-        flush();
 
         dao.get(user.getId());
     }
@@ -144,8 +138,7 @@ public class UserDaoTest extends BaseDaoTestCase {
         user.setConfirmPassword(user.getPassword());
         user.setFirstName("MattX");
         dao.saveUser(user);
-        flush();
-        flushSearchIndexes();
+        dao.reindex();
 
         found = dao.search("MattX");
         assertEquals(1, found.size());

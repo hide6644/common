@@ -3,6 +3,7 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
 
     <persistence-unit name="ApplicationEntityManager" transaction-type="RESOURCE_LOCAL">
+        <validation-mode>NONE</validation-mode>
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <class>common.model.User</class>
         <class>common.model.Role</class>

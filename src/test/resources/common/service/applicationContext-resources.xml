@@ -17,11 +17,12 @@
         </property>
     </bean>
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${jdbc.driverClassName}" />
-        <property name="url" value="${jdbc.url}" />
-        <property name="username" value="${jdbc.username}" />
-        <property name="password" value="${jdbc.password}" />
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <property name="driverClassName" value="${dataSource.dataSourceClassName}" />
+        <property name="jdbcUrl" value="${dataSource.url}" />
+        <property name="username" value="${dataSource.username}" />
+        <property name="password" value="${dataSource.password}" />
+        <property name="maximumPoolSize" value="${dataSource.maximumPoolSize}" />
     </bean>
 
     <!-- ========================= RESOURCE DEFINITIONS ========================= -->

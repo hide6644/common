@@ -1,22 +1,27 @@
 package common.validator.constraints.impl;
 
+import static common.dao.jpa.GenericDaoJpa.*;
+
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.annotation.Resource;
+import javax.persistence.EntityManager;
 import javax.persistence.Id;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.stereotype.Component;
 
-import common.validator.constraints.UniqueKey;
+import common.validator.constraints.UniqueKey;;
 
 /**
  * ユニークか確認する実装クラス.
@@ -27,9 +32,9 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Serial
     /** 確認対象の列名 */
     private String[] columnNames;
 
-    /** DBセッション生成クラス */
-    @Resource
-    private SessionFactory sessionFactory;
+    /** Entity Managerクラス */
+    @PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
+    protected EntityManager entityManager;
 
     /**
      * {@inheritDoc}
@@ -61,26 +66,28 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Serial
      * @return true:検索結果無し、false:検索結果有り
      */
     private boolean isValidCriteria(Serializable target) {
-        if (sessionFactory == null) {
+        if (entityManager == null) {
             return true;
         }
 
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
+        Root<?> root = criteriaQuery.from(target.getClass());
+        List<Predicate> preds = new ArrayList<>();
+
         BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(target);
-        Session session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(target.getClass());
         boolean nullFlag = true;
 
         for (int i = 0; i < columnNames.length; i++) {
             Object propertyValue = beanWrapper.getPropertyValue(columnNames[i]);
 
             if (propertyValue != null) {
-                criteria.add(Restrictions.eq(columnNames[i], propertyValue));
+                preds.add(builder.equal(root.get(columnNames[i]), propertyValue));
                 nullFlag = false;
             }
         }
         // 検索対象のカラムが全てnullであった場合
         if (nullFlag) {
-            session.close();
             return true;
         }
 
@@ -89,14 +96,14 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Serial
                 Object propertyValue = beanWrapper.getPropertyValue(p.getName());
 
                 if (propertyValue != null) {
-                    criteria.add(Restrictions.ne(p.getName(), propertyValue));
+                    preds.add(builder.notEqual(root.get(p.getName()), propertyValue));
                 }
             }
         }
 
-        boolean isValid = criteria.list().size() == 0;
+        criteriaQuery.select(builder.count(root));
+        criteriaQuery.where(builder.and(preds.toArray(new Predicate[] {})));
 
-        session.close();
-        return isValid;
+        return entityManager.createQuery(criteriaQuery).getSingleResult() == 0;
     }
 }

@@ -330,7 +330,7 @@ public class User extends BaseObject implements Serializable, UserDetails {
      *
      * @return 有効期限切れ日時
      */
-    @Column(name = "account_expired_date", nullable = false)
+    @Column(name = "account_expired_date")
     public Date getAccountExpiredDate() {
         return accountExpiredDate == null ? null : (Date) accountExpiredDate.clone();
     }
@@ -359,7 +359,7 @@ public class User extends BaseObject implements Serializable, UserDetails {
      *
      * @return 要再認証日時
      */
-    @Column(name = "credentials_expired_date", nullable = false)
+    @Column(name = "credentials_expired_date")
     public Date getCredentialsExpiredDate() {
         return credentialsExpiredDate == null ? null : (Date) credentialsExpiredDate.clone();
     }
