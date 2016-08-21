@@ -27,8 +27,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
@@ -60,6 +62,7 @@ import common.validator.constraints.UniqueKey;
 })
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Indexed
+@Analyzer(impl = JapaneseAnalyzer.class)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @CompareStrings.List({

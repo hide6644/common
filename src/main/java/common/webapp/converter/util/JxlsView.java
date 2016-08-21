@@ -16,6 +16,7 @@ import org.jxls.builder.AreaBuilder;
 import org.jxls.builder.xls.XlsCommentAreaBuilder;
 import org.jxls.common.CellRef;
 import org.jxls.common.Context;
+import org.jxls.expression.JexlExpressionEvaluator;
 import org.jxls.transform.Transformer;
 import org.jxls.util.TransformerFactory;
 import org.springframework.core.io.Resource;
@@ -44,6 +45,7 @@ public class JxlsView extends AbstractUrlBasedView {
             os = response.getOutputStream();
 
             Transformer transformer = TransformerFactory.createTransformer(is, os);
+            ((JexlExpressionEvaluator) transformer.getTransformationConfig().getExpressionEvaluator()).getJexlEngine().setSilent(true);
             AreaBuilder areaBuilder = new XlsCommentAreaBuilder(transformer);
             List<Area> xlsAreaList = areaBuilder.build();
             Area xlsArea = xlsAreaList.get(0);
