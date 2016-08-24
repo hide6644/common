@@ -51,9 +51,7 @@ public class JxlsView extends AbstractUrlBasedView {
             Area xlsArea = xlsAreaList.get(0);
             Context context = new Context();
 
-            for (Map.Entry<String, Object> mode : model.entrySet()) {
-                context.putVar(mode.getKey(), mode.getValue());
-            }
+            model.entrySet().forEach(mode -> context.putVar(mode.getKey(), mode.getValue()));
 
             xlsArea.applyAt(new CellRef("Sheet1!A1"), context);
             transformer.write();

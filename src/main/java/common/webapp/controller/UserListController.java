@@ -1,5 +1,7 @@
 package common.webapp.controller;
 
+import java.util.Arrays;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,15 +109,9 @@ public class UserListController extends BaseController {
      */
     @RequestMapping(method = RequestMethod.DELETE)
     public String onSubmit(@RequestParam("userIds") String[] userIds, HttpServletRequest request) {
-        boolean logoutFlg = false;
+        boolean logoutFlg = Arrays.stream(userIds).anyMatch(userId -> userId.equals(String.valueOf(userManager.getUserByUsername(request.getRemoteUser()).getId())));
 
-        for (int i = 0; i < userIds.length; i++) {
-            if (userIds[i].equals(String.valueOf(userManager.getUserByUsername(request.getRemoteUser()).getId()))) {
-                logoutFlg = true;
-            }
-
-            userManager.removeUser(userIds[i]);
-        }
+        Arrays.stream(userIds).forEach(userId -> userManager.removeUser(userId));
 
         saveFlashMessage(getText("deleted"));
 

@@ -1,5 +1,7 @@
 package common.webapp.util;
 
+import java.util.Arrays;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,20 +30,12 @@ public final class RequestUtil {
      */
     public static Cookie getCookie(String name, HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-        Cookie returnCookie = null;
 
         if (cookies == null) {
-            return returnCookie;
+            return null;
         }
 
-        for (final Cookie thisCookie : cookies) {
-            if (thisCookie.getName().equals(name) && !"".equals(thisCookie.getValue())) {
-                returnCookie = thisCookie;
-                break;
-            }
-        }
-
-        return returnCookie;
+        return Arrays.stream(cookies).filter(cookie -> cookie.getName().equals(name) && !"".equals(cookie.getValue())).findFirst().get();
     }
 
     /**

@@ -68,7 +68,9 @@ public class UserDaoJpa extends GenericDaoJpa<User, Long> implements UserDao, Us
      */
     @Override
     public User saveUser(User user) {
-        return entityManager.merge(user);
+        user = entityManager.merge(user);
+        entityManager.flush();
+        return user;
     }
 
     /**
