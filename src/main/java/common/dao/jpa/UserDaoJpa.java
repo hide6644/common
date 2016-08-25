@@ -56,7 +56,7 @@ public class UserDaoJpa extends GenericDaoJpa<User, Long> implements UserDao, Us
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List<?> users = getEntityManager().createNamedQuery(User.FIND_BY_USERNAME).setParameter("username", username).getResultList();
 
-        if (users == null || users.isEmpty()) {
+        if (users.isEmpty()) {
             throw new UsernameNotFoundException("user '" + username + "' not found...");
         } else {
             return (UserDetails) users.get(0);

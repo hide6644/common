@@ -1,12 +1,13 @@
 package common.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -438,15 +439,9 @@ public class User extends BaseObject implements Serializable, UserDetails {
      */
     @Transient
     public List<LabelValue> getRoleList() {
-        List<LabelValue> userRoles = new ArrayList<LabelValue>();
-
-        if (this.roles != null) {
-            for (Role role : roles) {
-                userRoles.add(new LabelValue(role.getDescription(), role.getName()));
-            }
-        }
-
-        return userRoles;
+        return Optional.ofNullable(roles).orElseGet(HashSet::new).stream()
+                .map(role -> new LabelValue(role.getDescription(), role.getName()))
+                .collect(Collectors.toList());
     }
 
     /**

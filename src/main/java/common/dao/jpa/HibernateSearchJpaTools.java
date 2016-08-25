@@ -1,5 +1,6 @@
 package common.dao.jpa;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -86,10 +87,7 @@ class HibernateSearchJpaTools {
                     .toArray(new String[0]);
 
             String[] queries = new String[fnames.length];
-
-            for (int i = 0; i < queries.length; ++i) {
-                queries[i] = searchTerm;
-            }
+            Arrays.fill(queries, searchTerm);
 
             return MultiFieldQueryParser.parse(queries, fnames, analyzer);
         } catch (ParseException e) {

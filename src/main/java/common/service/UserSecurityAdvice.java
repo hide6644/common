@@ -1,9 +1,9 @@
 package common.service;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
@@ -15,13 +15,11 @@ import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import common.Constants;
-import common.model.Role;
 import common.model.User;
 
 /**
@@ -44,18 +42,11 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
 
         if (ctx.getAuthentication() != null) {
             Authentication auth = ctx.getAuthentication();
-            boolean administrator = false;
-            Collection<? extends GrantedAuthority> roles = auth.getAuthorities();
 
-            for (GrantedAuthority role : roles) {
-                if (role.getAuthority().equals(Constants.ADMIN_ROLE)) {
-                    administrator = true;
-                    break;
-                }
-            }
+            boolean administrator = auth.getAuthorities().stream()
+                    .anyMatch(role -> role.getAuthority().equals(Constants.ADMIN_ROLE));
 
             User user = (User) args[0];
-
             AuthenticationTrustResolver resolver = new AuthenticationTrustResolverImpl();
             boolean signupUser = resolver.isAnonymous(auth);
 
@@ -67,18 +58,12 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
                     throw new AccessDeniedException(ACCESS_DENIED);
                 } else if (user.getId() != null && user.getId().equals(currentUser.getId()) && !administrator) {
                     // 入力されたユーザの権限
-                    Set<String> userRoles = new HashSet<String>();
-                    if (user.getRoles() != null) {
-                        for (Role role : user.getRoles()) {
-                            userRoles.add(role.getName());
-                        }
-                    }
+                    Set<String> userRoles = Optional.ofNullable(user.getRoles()).map(roles -> roles.stream()
+                            .map(role -> role.getName()).collect(Collectors.toSet())).get();
 
                     // ログインユーザの権限
-                    Set<String> authorizedRoles = new HashSet<String>();
-                    for (GrantedAuthority role : roles) {
-                        authorizedRoles.add(role.getAuthority());
-                    }
+                    Set<String> authorizedRoles = auth.getAuthorities().stream()
+                            .map(role -> role.getAuthority()).collect(Collectors.toSet());
 
                     if (!CollectionUtils.isEqualCollection(userRoles, authorizedRoles)) {
                         log.warn("Access Denied: '" + currentUser.getUsername() + "' tried to change their role(s)!");

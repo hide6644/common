@@ -109,7 +109,8 @@ public class UserListController extends BaseController {
      */
     @RequestMapping(method = RequestMethod.DELETE)
     public String onSubmit(@RequestParam("userIds") String[] userIds, HttpServletRequest request) {
-        boolean logoutFlg = Arrays.stream(userIds).anyMatch(userId -> userId.equals(String.valueOf(userManager.getUserByUsername(request.getRemoteUser()).getId())));
+        boolean logoutFlg = Arrays.stream(userIds)
+                .anyMatch(userId -> userId.equals(String.valueOf(userManager.getUserByUsername(request.getRemoteUser()).getId())));
 
         Arrays.stream(userIds).forEach(userId -> userManager.removeUser(userId));
 
