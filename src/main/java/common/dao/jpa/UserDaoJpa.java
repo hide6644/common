@@ -77,14 +77,6 @@ public class UserDaoJpa extends GenericDaoJpa<User, Long> implements UserDao, Us
      * {@inheritDoc}
      */
     @Override
-    public User save(User user) {
-        return this.saveUser(user);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public String getUserPassword(Long id) {
         Table table = AnnotationUtils.findAnnotation(User.class, Table.class);
         return new JdbcTemplate(dataSource).queryForObject("select password from " + table.name() + " where id = ?", String.class, id);

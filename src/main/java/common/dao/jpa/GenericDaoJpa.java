@@ -50,7 +50,7 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
      * @param persistentClass
      *            エンティティクラス
      */
-    public GenericDaoJpa(final Class<T> persistentClass) {
+    public GenericDaoJpa(Class<T> persistentClass) {
         this.persistentClass = persistentClass;
         defaultAnalyzer = new StandardAnalyzer();
     }
@@ -63,7 +63,7 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
      * @param entityManager
      *            Entity Managerクラス
      */
-    public GenericDaoJpa(final Class<T> persistentClass, EntityManager entityManager) {
+    public GenericDaoJpa(Class<T> persistentClass, EntityManager entityManager) {
         this.persistentClass = persistentClass;
         this.entityManager = entityManager;
         defaultAnalyzer = new StandardAnalyzer();
@@ -135,7 +135,7 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
      */
     @Override
     public void remove(PK id) {
-        entityManager.remove(this.get(id));
+        entityManager.remove(get(id));
     }
 
     /**
@@ -193,7 +193,10 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
     @SuppressWarnings("unchecked")
     @Override
     public List<T> getPaged(Class<?> searchClass, Object searchCondition, Integer offset, Integer limit) {
-        Query query = entityManager.createQuery(entityManager.getCriteriaBuilder().createQuery(searchClass));
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<?> criteriaQuery = builder.createQuery(searchClass);
+        criteriaQuery.from((Class<?>) searchClass);
+        Query query = entityManager.createQuery(criteriaQuery);
 
         query.setFirstResult(offset);
         query.setMaxResults(limit);

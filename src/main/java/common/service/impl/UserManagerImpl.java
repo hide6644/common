@@ -171,8 +171,8 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
      * {@inheritDoc}
      */
     @Override
-    public List<User> search(String searchTerm) {
-        return super.search(searchTerm);
+    public List<User> searchUser(String searchTerm) {
+        return search(searchTerm);
     }
 
     /**

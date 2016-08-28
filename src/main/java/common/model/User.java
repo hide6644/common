@@ -31,9 +31,12 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Facet;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Fields;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -238,7 +241,11 @@ public class User extends BaseObject implements Serializable, UserDetails {
     @NotEmpty
     @Length(max = 64)
     @Column(name = "first_name", nullable = false, length = 64)
-    @Field
+    @Fields({
+            @Field,
+            @Field(name = "firstNameFacet", analyze = Analyze.NO)
+    })
+    @Facet(forField = "firstNameFacet")
     public String getFirstName() {
         return firstName;
     }
@@ -260,7 +267,11 @@ public class User extends BaseObject implements Serializable, UserDetails {
      */
     @Length(max = 64)
     @Column(name = "last_name", length = 64)
-    @Field
+    @Fields({
+            @Field,
+            @Field(name = "lastNameFacet", analyze = Analyze.NO)
+    })
+    @Facet(forField = "lastNameFacet")
     public String getLastName() {
         return lastName;
     }

@@ -64,6 +64,14 @@ public interface UserManager extends GenericManager<User, Long> {
     void removeUser(String userId);
 
     /**
+     * 指定された条件でユーザを検索する.
+     *
+     * @param searchTerm
+     *            検索条件
+     */
+    List<User> searchUser(String searchTerm);
+
+    /**
      * アップロードする.
      *
      * @param uploadForm
