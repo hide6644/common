@@ -224,18 +224,14 @@ public final class PaginatedList<T> {
      * @return ページリンク一覧
      */
     public List<Integer> getPageNumberList() {
-        List<Integer> resultList = new ArrayList<Integer>();
-        for (int i = currentPageNumber - pageRangeSize; i < currentPageNumber; i++) {
-            if (i < 1) {
-                continue;
-            }
+        List<Integer> resultList = new ArrayList<>();
+        for (int i = currentPageNumber - pageRangeSize; i > 0 && i < currentPageNumber; i++) {
             resultList.add(i);
         }
 
         resultList.add(currentPageNumber);
 
-        int endPageNumber = (currentPageNumber + pageRangeSize);
-        for (int i = currentPageNumber + 1; i <= endPageNumber && i <= getAllPageCount(); i++) {
+        for (int i = currentPageNumber + 1; i <= currentPageNumber + pageRangeSize && i <= getAllPageCount(); i++) {
             resultList.add(i);
         }
 

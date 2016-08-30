@@ -37,10 +37,9 @@ public final class ConvertUtil {
      * @return マップオブジェクト
      */
     public static Map<String, String> convertBundleToMap(ResourceBundle rb) {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
 
-        Enumeration<String> keys = rb.getKeys();
-        while (keys.hasMoreElements()) {
+        for (Enumeration<String> keys = rb.getKeys(); keys.hasMoreElements();) {
             String key = keys.nextElement();
             map.put(key, rb.getString(key));
         }

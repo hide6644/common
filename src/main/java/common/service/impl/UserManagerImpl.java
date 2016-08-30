@@ -357,7 +357,7 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
         mailMessage.setSubject("[" + messages.getMessage("webapp.name") + "] " + subject);
         mailMessage.setTo(user.getEmail());
 
-        Map<String, Object> model = new HashMap<String, Object>();
+        Map<String, Object> model = new HashMap<>();
         model.put("user", user);
         model.put("message", message);
         model.put("URL", url);
