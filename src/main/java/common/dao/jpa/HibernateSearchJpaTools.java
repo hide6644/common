@@ -63,7 +63,7 @@ class HibernateSearchJpaTools {
         IndexReader reader = null;
 
         try {
-            FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(entityManager);
+            FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
             Analyzer analyzer = null;
 
             if (searchedEntity == null) {
