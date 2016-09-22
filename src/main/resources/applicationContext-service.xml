@@ -50,7 +50,7 @@
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
     <!-- =================================================================== -->
-    <!-- Mail: Sender and Velocity configuration                             -->
+    <!-- Mail: Sender and FreeMarker configuration                             -->
     <!-- =================================================================== -->
     <bean id="mailEngine" class="common.service.MailEngine">
         <property name="mailSender" ref="mailSender" />

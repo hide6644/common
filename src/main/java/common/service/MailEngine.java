@@ -8,7 +8,7 @@ import javax.mail.internet.MimeMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.mail.MailException;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -42,18 +42,18 @@ public class MailEngine {
      *            宛先
      * @param sender
      *            送信者
-     * @param resource
-     *            添付ファイル
      * @param bodyText
      *            本文
      * @param subject
      *            件名
      * @param attachmentName
      *            添付ファイル名
+     * @param resource
+     *            添付ファイル
      * @throws MessagingException
      *             {@link MessagingException}
      */
-    public void sendMessage(String[] recipients, String sender, ClassPathResource resource, String bodyText, String subject, String attachmentName) throws MessagingException {
+    public void sendMessage(String[] recipients, String sender, String bodyText, String subject, String attachmentName, ClassPathResource resource) throws MessagingException {
         MimeMessage message = ((JavaMailSenderImpl) mailSender).createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
@@ -84,36 +84,55 @@ public class MailEngine {
      * @param model
      *            入力値
      */
-    public void sendMessage(SimpleMailMessage msg, String templateName, Map<String, Object> model) {
+    public void sendMessage(SimpleMailMessage simpleMailMessage, String templateName, Map<String, Object> model) {
         String result = null;
 
         try {
             Template template = freemarkerConfiguration.getTemplate(templateName);
             result = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
         } catch (Exception e) {
-            e.printStackTrace();
             log.error(e.getMessage());
         }
 
-        msg.setText(result);
-        send(msg);
+        simpleMailMessage.setText(result);
+        send(simpleMailMessage);
     }
 
     /**
      * メッセージを送信する.
      *
-     * @param msg
+     * @param simpleMailMessage
      *            Simple Mailメッセージ
-     * @throws MailException
-     *             {@link MailException}
+     * @param bodyText
+     *            本文
+     * @param attachmentFilePath
+     *            添付ファイルのパス
+     * @throws MessagingException
+     *             {@link MessagingException}
      */
-    public void send(SimpleMailMessage msg) throws MailException {
-        try {
-            mailSender.send(msg);
-        } catch (MailException ex) {
-            log.error(ex.getMessage());
-            throw ex;
-        }
+    public void send(SimpleMailMessage simpleMailMessage, String bodyText, String attachmentFilePath) throws MessagingException {
+        MimeMessage message = ((JavaMailSenderImpl) mailSender).createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setTo(simpleMailMessage.getTo());
+        helper.setFrom(simpleMailMessage.getFrom());
+        helper.setSubject(simpleMailMessage.getSubject());
+        helper.setText(bodyText);
+
+        FileSystemResource file = new FileSystemResource(attachmentFilePath);
+        helper.addAttachment(file.getFilename(), file);
+
+        ((JavaMailSenderImpl) mailSender).send(message);
+    }
+
+    /**
+     * メッセージを送信する.
+     *
+     * @param simpleMailMessage
+     *            Simple Mailメッセージ
+     */
+    public void send(SimpleMailMessage simpleMailMessage) {
+        mailSender.send(simpleMailMessage);
     }
 
     /**

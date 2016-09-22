@@ -5,8 +5,8 @@
     <persistence-unit name="ApplicationEntityManager" transaction-type="RESOURCE_LOCAL">
         <validation-mode>NONE</validation-mode>
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>common.model.User</class>
         <class>common.model.Role</class>
+        <class>common.model.User</class>
     </persistence-unit>
 
 </persistence>

@@ -27,7 +27,7 @@
                 <prop key="hibernate.cache.use_second_level_cache">true</prop>
                 <prop key="hibernate.show_sql">false</prop>
                 <!-- Hibernate Search -->
-                <prop key="hibernate.search.default.indexBase">${catalina.base}/work/Indexes/common</prop>
+                <prop key="hibernate.search.default.indexBase">${hibernate.search.indexBase}</prop>
                 <prop key="hibernate.search.default.directory_provider">filesystem</prop>
                 <prop key="hibernate.search.default.locking_strategy">simple</prop>
                 <prop key="hibernate.search.default.exclusive_index_use">true</prop>

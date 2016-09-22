@@ -3,7 +3,7 @@
 
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <diskStore path="${catalina.base}/work/Cache/common" />
+    <diskStore path="${catalina.base}/work/Cache" />
 
     <defaultCache
         maxEntriesLocalHeap="10000"

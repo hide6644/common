@@ -24,6 +24,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import common.Constants;
 import common.model.LabelValue;
 import common.service.RoleManager;
+import common.service.UserManager;
 import common.webapp.converter.CsvFileConverter;
 import common.webapp.converter.XlsFileConverter;
 import common.webapp.converter.XmlFileConverter;
@@ -106,9 +107,8 @@ public class StartupListener implements ServletContextListener {
 
         ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
 
-        RoleManager mgr = (RoleManager) ctx.getBean("roleManager");
-        context.setAttribute(Constants.AVAILABLE_ROLES, mgr.getLabelValues());
+        context.setAttribute(Constants.AVAILABLE_ROLES, ((RoleManager) ctx.getBean("roleManager")).getLabelValues());
 
-        mgr.reindexAll(false);
+        ((UserManager) ctx.getBean("userManager")).reindex();
     }
 }
