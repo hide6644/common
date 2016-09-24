@@ -2,11 +2,11 @@ package common.service.util;
 
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.logging.log4j.LogManager;
@@ -37,10 +37,9 @@ public final class ConvertUtil {
      * @return マップオブジェクト
      */
     public static Map<String, String> convertBundleToMap(ResourceBundle rb) {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
 
-        Enumeration<String> keys = rb.getKeys();
-        while (keys.hasMoreElements()) {
+        for (Enumeration<String> keys = rb.getKeys(); keys.hasMoreElements();) {
             String key = keys.nextElement();
             map.put(key, rb.getString(key));
         }
@@ -56,13 +55,7 @@ public final class ConvertUtil {
      * @return マップオブジェクト
      */
     public static Map<String, String> convertListToMap(List<LabelValue> list) {
-        Map<String, String> map = new LinkedHashMap<String, String>();
-
-        for (LabelValue option : list) {
-            map.put(option.getLabel(), option.getValue());
-        }
-
-        return map;
+        return list.stream().collect(Collectors.toMap(LabelValue::getLabel, LabelValue::getValue));
     }
 
     /**

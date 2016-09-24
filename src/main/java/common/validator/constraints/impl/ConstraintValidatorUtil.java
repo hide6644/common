@@ -1,10 +1,8 @@
 package common.validator.constraints.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import common.validator.constraints.ComparisonMode;
 
@@ -29,20 +27,18 @@ public class ConstraintValidatorUtil {
      *            比較モード
      * @return 比較結果
      */
-    public static boolean isValid(Collection<String> propertyValues, ComparisonMode comparisonMode) {
+    public static boolean isValid(List<String> propertyValues, ComparisonMode comparisonMode) {
         boolean ignoreCase = false;
 
         switch (comparisonMode) {
         case EQUAL_IGNORE_CASE:
             ignoreCase = true;
         case EQUAL:
-            Set<String> uniqueValues = new HashSet<String>(changePropertyValues(propertyValues, ignoreCase));
-            return uniqueValues.size() == 1 ? true : false;
+            return changePropertyValues(propertyValues, ignoreCase).size() == 1 ? true : false;
         case NOT_EQUAL_IGNORE_CASE:
             ignoreCase = true;
         case NOT_EQUAL:
-            Set<String> allValues = new HashSet<String>(changePropertyValues(propertyValues, ignoreCase));
-            return allValues.size() == propertyValues.size() ? true : false;
+            return changePropertyValues(propertyValues, ignoreCase).size() == propertyValues.size() ? true : false;
         }
 
         return true;
@@ -57,17 +53,7 @@ public class ConstraintValidatorUtil {
      *            true:大文字小文字を区別しない、false:大文字小文字を区別する
      * @return 比較を行うプロパティ名
      */
-    private static List<String> changePropertyValues(Collection<String> propertyValues, boolean ignoreCase) {
-        List<String> values = new ArrayList<String>(propertyValues.size());
-
-        for (String propertyValue : propertyValues) {
-            if (ignoreCase) {
-                values.add(propertyValue.toLowerCase());
-            } else {
-                values.add(propertyValue);
-            }
-        }
-
-        return values;
+    private static Set<String> changePropertyValues(List<String> propertyValues, boolean ignoreCase) {
+        return propertyValues.stream().map(propertyValue -> ignoreCase ? propertyValue.toLowerCase() : propertyValue).collect(Collectors.toSet());
     }
 }

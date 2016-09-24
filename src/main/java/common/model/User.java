@@ -1,12 +1,13 @@
 package common.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.Valid;
@@ -25,10 +28,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Facet;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Fields;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -46,8 +54,19 @@ import common.validator.constraints.UniqueKey;
  */
 @Entity
 @Table(name = "app_user")
+@NamedQueries({
+    @NamedQuery(
+        name = User.GET_ALL,
+        query = "from User u order by upper(username)"
+    ),
+    @NamedQuery(
+        name = User.FIND_BY_USERNAME,
+        query = "from User u where username = :username"
+    )
+})
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Indexed
+@Analyzer(impl = JapaneseAnalyzer.class)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @CompareStrings.List({
@@ -66,6 +85,12 @@ import common.validator.constraints.UniqueKey;
     )
 })
 public class User extends BaseObject implements Serializable, UserDetails {
+
+    /** 全件検索するクエリ */
+    public static final String GET_ALL = "User.getAll";
+
+    /** ユーザをユーザ名で検索するクエリ */
+    public static final String FIND_BY_USERNAME = "User.findByUsername";
 
     /** ID */
     private Long id;
@@ -216,7 +241,11 @@ public class User extends BaseObject implements Serializable, UserDetails {
     @NotEmpty
     @Length(max = 64)
     @Column(name = "first_name", nullable = false, length = 64)
-    @Field
+    @Fields({
+            @Field,
+            @Field(name = "firstNameFacet", analyze = Analyze.NO)
+    })
+    @Facet(forField = "firstNameFacet")
     public String getFirstName() {
         return firstName;
     }
@@ -238,7 +267,11 @@ public class User extends BaseObject implements Serializable, UserDetails {
      */
     @Length(max = 64)
     @Column(name = "last_name", length = 64)
-    @Field
+    @Fields({
+            @Field,
+            @Field(name = "lastNameFacet", analyze = Analyze.NO)
+    })
+    @Facet(forField = "lastNameFacet")
     public String getLastName() {
         return lastName;
     }
@@ -330,7 +363,7 @@ public class User extends BaseObject implements Serializable, UserDetails {
      *
      * @return 有効期限切れ日時
      */
-    @Column(name = "account_expired_date", nullable = false)
+    @Column(name = "account_expired_date")
     public Date getAccountExpiredDate() {
         return accountExpiredDate == null ? null : (Date) accountExpiredDate.clone();
     }
@@ -359,7 +392,7 @@ public class User extends BaseObject implements Serializable, UserDetails {
      *
      * @return 要再認証日時
      */
-    @Column(name = "credentials_expired_date", nullable = false)
+    @Column(name = "credentials_expired_date")
     public Date getCredentialsExpiredDate() {
         return credentialsExpiredDate == null ? null : (Date) credentialsExpiredDate.clone();
     }
@@ -417,15 +450,9 @@ public class User extends BaseObject implements Serializable, UserDetails {
      */
     @Transient
     public List<LabelValue> getRoleList() {
-        List<LabelValue> userRoles = new ArrayList<LabelValue>();
-
-        if (this.roles != null) {
-            for (Role role : roles) {
-                userRoles.add(new LabelValue(role.getDescription(), role.getName()));
-            }
-        }
-
-        return userRoles;
+        return Optional.ofNullable(roles).orElseGet(HashSet::new).stream()
+                .map(role -> new LabelValue(role.getDescription(), role.getName()))
+                .collect(Collectors.toList());
     }
 
     /**

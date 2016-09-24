@@ -84,11 +84,11 @@ public class MailEngineTest extends BaseManagerTestCase {
         // a null from should work
         mailEngine.sendMessage(new String[] {
                 "foo@bar.com"
-        }, null, cpResource, emailBody, emailSubject, ATTACHMENT_NAME);
+        }, null, emailBody, emailSubject, ATTACHMENT_NAME, cpResource);
 
         mailEngine.sendMessage(new String[] {
                 "foo@bar.com"
-        }, mailMessage.getFrom(), cpResource, emailBody, emailSubject, ATTACHMENT_NAME);
+        }, mailMessage.getFrom(), emailBody, emailSubject, ATTACHMENT_NAME, cpResource);
 
         wiser.stop();
         // one without and one with from

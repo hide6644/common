@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import javax.jws.WebService;
 import javax.validation.Validator;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -171,8 +171,8 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
      * {@inheritDoc}
      */
     @Override
-    public List<User> search(String searchTerm) {
-        return super.search(searchTerm);
+    public List<User> searchUser(String searchTerm) {
+        return search(searchTerm);
     }
 
     /**
@@ -357,7 +357,7 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
         mailMessage.setSubject("[" + messages.getMessage("webapp.name") + "] " + subject);
         mailMessage.setTo(user.getEmail());
 
-        Map<String, Object> model = new HashMap<String, Object>();
+        Map<String, Object> model = new HashMap<>();
         model.put("user", user);
         model.put("message", message);
         model.put("URL", url);

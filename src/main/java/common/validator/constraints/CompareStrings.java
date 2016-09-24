@@ -21,10 +21,10 @@ import common.validator.constraints.impl.CompareStringsValidator;
 @Constraint(validatedBy = CompareStringsValidator.class)
 public @interface CompareStrings {
 
-    /** 比較対象のプロパティ名 */
+    /** @return 比較対象のプロパティ名 */
     String[] propertyNames();
 
-    /** 比較方法 */
+    /** @return 比較方法 */
     ComparisonMode comparisonMode();
 
     String message() default "{common.validator.constraints.Equal.message}";

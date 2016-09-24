@@ -62,9 +62,7 @@ public class UserUploadController extends BaseController {
             saveFlashMessage(getText("uploaded", String.valueOf(uploadForm.getCount())));
         }
 
-        for (Integer rowNo : uploadForm.getErrorNo()) {
-            saveFlash("errors_upload_list", getText("errors.upload", String.valueOf(rowNo)));
-        }
+        uploadForm.getErrorNo().forEach(rowNo -> saveFlash("errors_upload_list", getText("errors.upload", String.valueOf(rowNo))));
 
         return "redirect:/admin/master/uploadUsers";
     }

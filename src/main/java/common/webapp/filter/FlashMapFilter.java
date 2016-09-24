@@ -28,11 +28,8 @@ public class FlashMapFilter extends OncePerRequestFilter {
             Map<String, Object> flash = (Map<String, Object>) session.getAttribute(FlashMap.FLASH_MAP_ATTRIBUTE);
 
             if (flash != null) {
-                for (Map.Entry<String, Object> entry : flash.entrySet()) {
-                    if (request.getAttribute(entry.getKey()) == null) {
-                        request.setAttribute(entry.getKey(), entry.getValue());
-                    }
-                }
+                flash.entrySet().stream().filter(entry -> request.getAttribute(entry.getKey()) == null)
+                        .forEach(entry -> request.setAttribute(entry.getKey(), entry.getValue()));
 
                 session.removeAttribute(FlashMap.FLASH_MAP_ATTRIBUTE);
             }

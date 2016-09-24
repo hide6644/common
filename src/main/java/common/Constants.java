@@ -20,7 +20,7 @@ public class Constants {
 
     public static final String PREFERRED_LOCALE_KEY = "common.LOCALE";
 
-    /** アプリケーションで使われるResourceBundleの名前 */
+    /** ResourceBundleの名前 */
     public static final String BUNDLE_KEY = "ApplicationResources";
 
     /** アプリケーション名 */

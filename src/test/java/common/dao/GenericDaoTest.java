@@ -2,6 +2,8 @@ package common.dao;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -30,5 +32,21 @@ public class GenericDaoTest extends BaseDaoTestCase {
         User user = genericDao.get(-2L);
         assertNotNull(user);
         assertEquals("normaluser", user.getUsername());
+    }
+
+    @Test
+    public void getAll() {
+        List<User> userList = genericDao.getAll();
+        assertEquals(2, userList.size());
+
+        List<User> userDistinctList = genericDao.getAllDistinct();
+        assertEquals(2, userDistinctList.size());
+    }
+
+    @Test
+    public void getPaged() {
+        List<User> userList = genericDao.getPaged(User.class, null, 1, 1);
+        assertEquals(1, userList.size());
+        assertEquals(2, genericDao.getRecordCount(User.class, null));
     }
 }

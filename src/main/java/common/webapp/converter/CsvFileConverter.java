@@ -2,8 +2,8 @@ package common.webapp.converter;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -46,25 +46,23 @@ public class CsvFileConverter implements FileConverterStrategy {
         CSVReader reader = null;
 
         try {
-            List<Object> beanList = new ArrayList<Object>();
-            CsvFileReader csvFileReader = new CsvFileReader(FileUtils.readFileToString(new ClassPathResource(clazz.getSimpleName() + ".csv", getClass()).getFile(), Constants.ENCODING).split(","));
             reader = new CSVReader(new InputStreamReader(multipartFile.getInputStream(), Constants.ENCODING), ',', '"', 1);
 
-            for (String[] line : reader.readAll()) {
-                Object object = csvFileReader.read(clazz.newInstance(), line);
-                beanList.add(object);
-            }
-
-            return beanList;
+            return reader.readAll().stream().map(line -> {
+                try {
+                    CsvFileReader csvFileReader = new CsvFileReader(FileUtils.readFileToString(new ClassPathResource(clazz.getSimpleName() + ".csv", getClass()).getFile(), Constants.ENCODING).split(","));
+                    return csvFileReader.read(clazz.newInstance(), line);
+                } catch (IOException e) {
+                    throw new FileException("errors.io", e);
+                } catch (InstantiationException | IllegalAccessException e) {
+                    throw new FileException("errors.convert", e);
+                }
+            }).collect(Collectors.toList());
         } catch (IOException e) {
             throw new FileException("errors.io", e);
         } catch (IllegalArgumentException e) {
             throw new FileException("errors.convert", e);
         } catch (IndexOutOfBoundsException e) {
-            throw new FileException("errors.convert", e);
-        } catch (InstantiationException e) {
-            throw new FileException("errors.convert", e);
-        } catch (IllegalAccessException e) {
             throw new FileException("errors.convert", e);
         } catch (TypeMismatchException e) {
             throw new FileException("errors.convert", e);

@@ -27,7 +27,7 @@ import org.springframework.security.core.GrantedAuthority;
 @NamedQueries({
     @NamedQuery(
         name = Role.FIND_BY_NAME,
-        query = "from Role r where r.name = :name"
+        query = "from Role r where name = :name"
     )
 })
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

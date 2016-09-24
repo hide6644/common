@@ -8,14 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -104,12 +103,8 @@ public class UserController extends BaseController {
      */
     @RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
     public String onSubmit(@ModelAttribute("user") @Valid User user, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (result.hasErrors()) {
-            for (FieldError error : result.getFieldErrors()) {
-                if (!error.getField().equals("password")) {
-                    return "user";
-                }
-            }
+        if (result.hasErrors() && result.getFieldErrors().stream().anyMatch(error -> !error.getField().equals("password"))) {
+            return "user";
         }
 
         if (request.isUserInRole(Constants.ADMIN_ROLE)) {

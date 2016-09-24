@@ -1,7 +1,7 @@
 package common.validator.constraints.impl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -37,14 +37,8 @@ public class CompareStringsValidator implements ConstraintValidator<CompareStrin
      */
     @Override
     public boolean isValid(Object target, ConstraintValidatorContext context) {
-        List<String> propertyValues = new ArrayList<String>(propertyNames.length);
         ConfigurablePropertyAccessor fieldAccessor = PropertyAccessorFactory.forDirectFieldAccess(target);
-
-        for (int i = 0; i < propertyNames.length; i++) {
-            propertyValues.add((String) fieldAccessor.getPropertyValue(propertyNames[i]));
-        }
-
-        boolean isValid = ConstraintValidatorUtil.isValid(propertyValues, comparisonMode);
+        boolean isValid = ConstraintValidatorUtil.isValid(Arrays.stream(propertyNames).map(propertyName -> (String) fieldAccessor.getPropertyValue(propertyName)).collect(Collectors.toList()), comparisonMode);
 
         if (!isValid) {
             context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()).addPropertyNode(propertyNames[0]).addConstraintViolation().disableDefaultConstraintViolation();

@@ -45,25 +45,21 @@ public class UserDaoJpa extends GenericDaoJpa<User, Long> implements UserDao, Us
     @SuppressWarnings("unchecked")
     @Override
     public List<User> getUsers() {
-        Query q = getEntityManager().createQuery("select u from User u order by upper(u.username)");
-        return q.getResultList();
+        return getEntityManager().createNamedQuery(User.GET_ALL).getResultList();
     }
 
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Query q = getEntityManager().createQuery("select u from User u where username = ?");
-        q.setParameter(1, username);
-        List<User> users = q.getResultList();
+        List<?> users = getEntityManager().createNamedQuery(User.FIND_BY_USERNAME).setParameter("username", username).getResultList();
 
-        if (users == null || users.isEmpty()) {
+        if (users.isEmpty()) {
             throw new UsernameNotFoundException("user '" + username + "' not found...");
         } else {
-            return users.get(0);
+            return (UserDetails) users.get(0);
         }
     }
 
@@ -72,17 +68,9 @@ public class UserDaoJpa extends GenericDaoJpa<User, Long> implements UserDao, Us
      */
     @Override
     public User saveUser(User user) {
-        User u = super.save(user);
-        getEntityManager().flush();
-        return u;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public User save(User user) {
-        return this.saveUser(user);
+        user = entityManager.merge(user);
+        entityManager.flush();
+        return user;
     }
 
     /**
@@ -106,6 +94,7 @@ public class UserDaoJpa extends GenericDaoJpa<User, Long> implements UserDao, Us
         List<Predicate> preds = makeSearchCondition(builder, root, searchCondition);
 
         criteriaQuery.where(builder.and(preds.toArray(new Predicate[]{})));
+        criteriaQuery.orderBy(builder.asc(root.get("username")));
 
         Query query = entityManager.createQuery(criteriaQuery);
 

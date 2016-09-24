@@ -1,9 +1,7 @@
 package common.webapp.controller;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -164,7 +162,7 @@ public abstract class BaseController {
      */
     protected void rejectValue(BindingResult result, DBException e) {
         if (e instanceof DBCheckException) {
-            for (Map<String, Serializable> error : ((DBCheckException) e).getAllErrors()) {
+            ((DBCheckException) e).getAllErrors().forEach(error -> {
                 String filedName = (String) error.get(ValidateUtil.FILED_NAME);
                 String massage = (String) error.get(ValidateUtil.MESSAGE);
                 Object[] args = (Object[]) error.get(ValidateUtil.ARGS);
@@ -174,7 +172,8 @@ public abstract class BaseController {
                 } else {
                     saveError(getText(massage, args));
                 }
-            }
+
+            });
         } else {
             saveError(e);
         }

@@ -21,10 +21,10 @@ import common.validator.constraints.impl.MaxFileSizeValidator;
 @Constraint(validatedBy = MaxFileSizeValidator.class)
 public @interface MaxFileSize {
 
-    /** 最大値 */
+    /** @return 最大値 */
     int max();
 
-    /** 単位 */
+    /** @return 単位 */
     String unitSign() default "M";
 
     String message() default "{common.validator.constraints.MaxFileSize.message}";

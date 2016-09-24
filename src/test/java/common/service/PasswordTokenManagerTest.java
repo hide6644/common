@@ -45,7 +45,6 @@ public class PasswordTokenManagerTest extends BaseManagerTestCase {
     @Test
     public void testConsumeRecoveryToken() throws Exception {
         User user = userManager.getUserByUsername("normaluser");
-        Integer version = user.getVersion();
 
         String token = passwordTokenManager.generateRecoveryToken(user);
         Assert.assertNotNull(token);
@@ -55,12 +54,11 @@ public class PasswordTokenManagerTest extends BaseManagerTestCase {
         wiser.setPort(smtpPort);
         wiser.start();
 
-        userManager.updatePassword(user.getUsername(), null, token, "pass", "");
+        user = userManager.updatePassword(user.getUsername(), null, token, "pass", "");
 
         wiser.stop();
         assertTrue(wiser.getMessages().size() == 1);
 
-        Assert.assertTrue(user.getVersion() > version);
         Assert.assertFalse(passwordTokenManager.isRecoveryTokenValid(user, token));
     }
 }

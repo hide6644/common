@@ -3,8 +3,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:context="http://www.springframework.org/schema/context"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd"
     default-lazy-init="true">
 
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
@@ -14,15 +15,9 @@
         <property name="persistenceUnitManager" ref="persistenceUnitManager" />
         <property name="jpaProperties">
             <props>
-                <prop key="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</prop>
-                <prop key="hibernate.hikari.dataSourceClassName">${dataSource.dataSourceClassName}</prop>
-                <prop key="hibernate.hikari.dataSource.url">${dataSource.url}</prop>
-                <prop key="hibernate.hikari.dataSource.user">${dataSource.username}</prop>
-                <prop key="hibernate.hikari.dataSource.password">${dataSource.password}</prop>
                 <prop key="hibernate.hikari.dataSource.cachePrepStmts">${dataSource.cachePrepStmts}</prop>
                 <prop key="hibernate.hikari.dataSource.prepStmtCacheSize">${dataSource.prepStmtCacheSize}</prop>
                 <prop key="hibernate.hikari.dataSource.prepStmtCacheSqlLimit">${dataSource.prepStmtCacheSqlLimit}</prop>
-                <prop key="hibernate.hikari.maximumPoolSize">${dataSource.maximumPoolSize}</prop>
                 <prop key="hibernate.id.new_generator_mappings">${hibernate.id}</prop>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.query.substitutions">true 'Y', false 'N'</prop>
@@ -32,7 +27,7 @@
                 <prop key="hibernate.cache.use_second_level_cache">true</prop>
                 <prop key="hibernate.show_sql">false</prop>
                 <!-- Hibernate Search -->
-                <prop key="hibernate.search.default.indexBase">${catalina.base}/work/Indexes/common</prop>
+                <prop key="hibernate.search.default.indexBase">${hibernate.search.indexBase}</prop>
                 <prop key="hibernate.search.default.directory_provider">filesystem</prop>
                 <prop key="hibernate.search.default.locking_strategy">simple</prop>
                 <prop key="hibernate.search.default.exclusive_index_use">true</prop>
@@ -53,13 +48,6 @@
             </list>
         </property>
         <property name="defaultDataSource" ref="dataSource" />
-    </bean>
-
-    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
-        <property name="driverClassName" value="${dataSource.dataSourceClassName}" />
-        <property name="jdbcUrl" value="${dataSource.url}" />
-        <property name="username" value="${dataSource.username}" />
-        <property name="password" value="${dataSource.password}" />
     </bean>
 
     <!-- Needed so the @PersistenceUnit annotation is recognized -->

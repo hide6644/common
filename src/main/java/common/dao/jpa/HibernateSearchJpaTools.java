@@ -1,15 +1,17 @@
 package common.dao.jpa;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import javax.persistence.EntityManager;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.index.FieldInfo;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiFields;
@@ -53,53 +55,48 @@ class HibernateSearchJpaTools {
      * @return 全文検索クエリ
      */
     public static Query generateQuery(String searchTerm, Class<?> searchedEntity, EntityManager entityManager, Analyzer defaultAnalyzer) {
-        Query qry = null;
-
         if (searchTerm.equals("*")) {
-            qry = new MatchAllDocsQuery();
-        } else {
-            IndexReaderAccessor readerAccessor = null;
-            IndexReader reader = null;
+            return new MatchAllDocsQuery();
+        }
 
-            try {
-                FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(entityManager);
-                Analyzer analyzer;
+        IndexReaderAccessor readerAccessor = null;
+        IndexReader reader = null;
 
-                if (searchedEntity == null) {
-                    analyzer = defaultAnalyzer;
-                } else {
-                    analyzer = fullTextEntityManager.getSearchFactory().getAnalyzer(searchedEntity);
-                }
+        try {
+            FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+            Analyzer analyzer = null;
 
-                SearchFactory searchFactory = fullTextEntityManager.getSearchFactory();
-                readerAccessor = searchFactory.getIndexReaderAccessor();
-                reader = readerAccessor.open(searchedEntity);
-                Collection<String> fieldNames = new HashSet<String>();
+            if (searchedEntity == null) {
+                analyzer = defaultAnalyzer;
+            } else {
+                analyzer = fullTextEntityManager.getSearchFactory().getAnalyzer(searchedEntity);
+            }
 
-                for (FieldInfo fieldInfo : MultiFields.getMergedFieldInfos(reader)) {
-                    if (fieldInfo.getIndexOptions() != IndexOptions.NONE) {
-                        fieldNames.add(fieldInfo.name);
-                    }
-                }
+            SearchFactory searchFactory = fullTextEntityManager.getSearchFactory();
+            readerAccessor = searchFactory.getIndexReaderAccessor();
+            reader = readerAccessor.open(searchedEntity);
 
-                fieldNames.remove("_hibernate_class");
-                String[] fnames = fieldNames.toArray(new String[0]);
-                String[] queries = new String[fnames.length];
+            String[] fnames = StreamSupport.stream(
+                    Spliterators.spliteratorUnknownSize(
+                            MultiFields.getMergedFieldInfos(reader).iterator(), Spliterator.ORDERED),
+                    false)
+                    .filter(fieldInfo -> fieldInfo.getIndexOptions() != IndexOptions.NONE)
+                    .filter(fieldInfo -> !fieldInfo.name.equals("_hibernate_class"))
+                    .map(fieldInfo -> fieldInfo.name)
+                    .collect(Collectors.toSet())
+                    .toArray(new String[0]);
 
-                for (int i = 0; i < queries.length; ++i) {
-                    queries[i] = searchTerm;
-                }
+            String[] queries = new String[fnames.length];
+            Arrays.fill(queries, searchTerm);
 
-                qry = MultiFieldQueryParser.parse(queries, fnames, analyzer);
-            } catch (ParseException e) {
-                throw new SearchException(e);
-            } finally {
-                if (readerAccessor != null && reader != null) {
-                    readerAccessor.close(reader);
-                }
+            return MultiFieldQueryParser.parse(queries, fnames, analyzer);
+        } catch (ParseException e) {
+            throw new SearchException(e);
+        } finally {
+            if (readerAccessor != null && reader != null) {
+                readerAccessor.close(reader);
             }
         }
-        return qry;
     }
 
 
