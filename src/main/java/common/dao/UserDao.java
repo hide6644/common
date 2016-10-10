@@ -11,7 +11,7 @@ import common.model.User;
 /**
  * ユーザDAOインターフェイス.
  */
-public interface UserDao extends GenericDao<User, Long> {
+public interface UserDao extends PaginatedDao<User, Long> {
 
     /**
      * 指定されたユーザ名のユーザ情報を取得する.

@@ -35,7 +35,7 @@ import common.webapp.form.UploadForm;
  */
 @Service("userManager")
 @WebService(serviceName = "UserService", endpointInterface = "common.service.UserService")
-public class UserManagerImpl extends GenericManagerImpl<User, Long> implements UserManager, UserService {
+public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements UserManager, UserService {
 
     /** ユーザDAO */
     private UserDao userDao;
@@ -372,6 +372,7 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
     @Override
     public void setUserDao(UserDao userDao) {
         this.dao = userDao;
+        this.paginatedDao = userDao;
         this.userDao = userDao;
     }
 

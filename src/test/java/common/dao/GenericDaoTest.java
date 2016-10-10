@@ -10,12 +10,12 @@ import javax.persistence.PersistenceContext;
 import org.junit.Before;
 import org.junit.Test;
 
-import common.dao.jpa.GenericDaoJpa;
+import common.dao.jpa.PaginatedDaoJpa;
 import common.model.User;
 
 public class GenericDaoTest extends BaseDaoTestCase {
 
-    GenericDao<User, Long> genericDao;
+    PaginatedDao<User, Long> paginatedDao;
 
     public static final String PERSISTENCE_UNIT_NAME = "ApplicationEntityManager";
 
@@ -24,29 +24,29 @@ public class GenericDaoTest extends BaseDaoTestCase {
 
     @Before
     public void setUp() {
-        genericDao = new GenericDaoJpa<User, Long>(User.class, entityManager);
+        paginatedDao = new PaginatedDaoJpa<User, Long>(User.class, entityManager);
     }
 
     @Test
     public void getUser() {
-        User user = genericDao.get(-2L);
+        User user = paginatedDao.get(-2L);
         assertNotNull(user);
         assertEquals("normaluser", user.getUsername());
     }
 
     @Test
     public void getAll() {
-        List<User> userList = genericDao.getAll();
+        List<User> userList = paginatedDao.getAll();
         assertEquals(2, userList.size());
 
-        List<User> userDistinctList = genericDao.getAllDistinct();
+        List<User> userDistinctList = paginatedDao.getAllDistinct();
         assertEquals(2, userDistinctList.size());
     }
 
     @Test
     public void getPaged() {
-        List<User> userList = genericDao.getPaged(User.class, null, 1, 1);
+        List<User> userList = paginatedDao.getList(null, 1, 1);
         assertEquals(1, userList.size());
-        assertEquals(2, genericDao.getRecordCount(User.class, null));
+        assertEquals(2, paginatedDao.getCount(null));
     }
 }

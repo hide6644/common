@@ -1,14 +1,12 @@
 package common.service.impl;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import common.dao.GenericDao;
-import common.model.PaginatedList;
 import common.service.GenericManager;
 
 /**
@@ -112,24 +110,5 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
     @Override
     public void reindexAll(boolean async) {
         dao.reindexAll(async);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<T> getPaged(Class<?> searchClass, PaginatedList<T> paginatedList) {
-        paginatedList.setAllRecordCount(dao.getRecordCount(searchClass, paginatedList.getSearchCondition()));
-
-        if (paginatedList.getAllRecordCount() == 0) {
-            return new ArrayList<T>();
-        }
-
-        // 指定されたページ数より、ページ総数が小さかった場合
-        if (paginatedList.getCurrentPageNumber() > paginatedList.getAllPageCount()) {
-            paginatedList.setCurrentPageNumber(paginatedList.getAllPageCount());
-        }
-
-        return dao.getPaged(searchClass, paginatedList.getSearchCondition(), paginatedList.getCurrentStartRecordNumber(), paginatedList.getPageSize());
     }
 }

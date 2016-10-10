@@ -11,7 +11,7 @@ import common.webapp.form.UploadForm;
 /**
  * ユーザ処理のインターフェース.
  */
-public interface UserManager extends GenericManager<User, Long> {
+public interface UserManager extends PaginatedManager<User, Long> {
 
     /**
      * 全ユーザを取得する.

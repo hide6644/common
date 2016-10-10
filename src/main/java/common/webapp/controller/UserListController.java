@@ -90,7 +90,7 @@ public class UserListController extends BaseController {
     public ModelAndView handleRequest(@ModelAttribute("searchUser") User user, @RequestParam(value = "page", required = false) Integer page) {
         PaginatedList<User> paginatedList = new PaginatedList<User>(page);
         paginatedList.setSearchCondition(user);
-        paginatedList.setCurrentPage(userManager.getPaged(User.class, paginatedList));
+        userManager.createList(paginatedList);
 
         Model model = new ExtendedModelMap();
         model.addAttribute("paginatedList", paginatedList);

@@ -25,7 +25,7 @@ public class RoleDaoJpa extends GenericDaoJpa<Role, Long> implements RoleDao {
      */
     @Override
     public Role getRoleByName(String name) {
-        List<?> roles = getEntityManager().createNamedQuery(Role.FIND_BY_NAME).setParameter("name", name).getResultList();
+        List<?> roles = entityManager.createNamedQuery(Role.FIND_BY_NAME).setParameter("name", name).getResultList();
 
         if (roles.isEmpty()) {
             return null;
@@ -39,6 +39,6 @@ public class RoleDaoJpa extends GenericDaoJpa<Role, Long> implements RoleDao {
      */
     @Override
     public void removeRole(String name) {
-        getEntityManager().remove(getRoleByName(name));
+        entityManager.remove(getRoleByName(name));
     }
 }

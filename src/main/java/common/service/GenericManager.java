@@ -3,8 +3,6 @@ package common.service;
 import java.io.Serializable;
 import java.util.List;
 
-import common.model.PaginatedList;
-
 /**
  * 一般的なロジックのインターフェース.
  */
@@ -81,15 +79,4 @@ public interface GenericManager<T, PK extends Serializable> {
      *            true:非同期、false:同期
      */
     void reindexAll(boolean async);
-
-    /**
-     * オブジェクトをページング処理して取得する.
-     *
-     * @param searchClass
-     *            検索オブジェクト
-     * @param paginatedList
-     *            ページング情報保持モデル
-     * @return ページング処理された分類一覧
-     */
-    List<T> getPaged(Class<?> searchClass, PaginatedList<T> paginatedList);
 }
