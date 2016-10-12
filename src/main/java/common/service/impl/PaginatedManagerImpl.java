@@ -12,7 +12,7 @@ import common.service.PaginatedManager;
  */
 public class PaginatedManagerImpl<T, PK extends Serializable> extends GenericManagerImpl<T, PK> implements PaginatedManager<T, PK> {
 
-    /** Paged CRUD DAO */
+    /** Paginated List DAO */
     protected PaginatedDao<T, PK> paginatedDao;
 
     /**

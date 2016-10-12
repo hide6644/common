@@ -41,10 +41,9 @@ public class UserDaoJpa extends PaginatedDaoJpa<User, Long> implements UserDao, 
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
     public List<User> getUsers() {
-        return entityManager.createNamedQuery(User.GET_ALL).getResultList();
+        return entityManager.createNamedQuery(User.GET_ALL, persistentClass).getResultList();
     }
 
     /**
@@ -53,12 +52,12 @@ public class UserDaoJpa extends PaginatedDaoJpa<User, Long> implements UserDao, 
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        List<?> users = entityManager.createNamedQuery(User.FIND_BY_USERNAME).setParameter("username", username).getResultList();
+        List<User> users = entityManager.createNamedQuery(User.FIND_BY_USERNAME, persistentClass).setParameter("username", username).getResultList();
 
         if (users.isEmpty()) {
             throw new UsernameNotFoundException("user '" + username + "' not found...");
         } else {
-            return (UserDetails) users.get(0);
+            return users.get(0);
         }
     }
 

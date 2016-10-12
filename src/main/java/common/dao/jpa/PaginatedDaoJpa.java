@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
+import org.hibernate.search.jpa.FullTextQuery;
+import org.hibernate.search.jpa.Search;
 
 import common.dao.PaginatedDao;
 
@@ -41,9 +44,23 @@ public class PaginatedDaoJpa<T, PK extends Serializable> extends GenericDaoJpa<T
     }
 
     /**
+     * 検索条件を生成する.
+     *
+     * @param builder
+     *            {@link CriteriaBuilder}
+     * @param root
+     *            {@link Root}
+     * @param searchCondition
+     *            検索条件
+     * @return 検索条件
+     */
+    protected List<Predicate> makeSearchCondition(CriteriaBuilder builder, Root<T> root, Object searchCondition) {
+        return  new ArrayList<>();
+    }
+
+    /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
     public List<T> getList(Object searchCondition, Integer offset, Integer limit) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -54,7 +71,7 @@ public class PaginatedDaoJpa<T, PK extends Serializable> extends GenericDaoJpa<T
         criteriaQuery.where(builder.and(preds.toArray(new Predicate[]{})));
         criteriaQuery.orderBy(builder.asc(root.get("username")));
 
-        Query query = entityManager.createQuery(criteriaQuery);
+        TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
 
         query.setFirstResult(offset);
         query.setMaxResults(limit);
@@ -75,22 +92,30 @@ public class PaginatedDaoJpa<T, PK extends Serializable> extends GenericDaoJpa<T
         criteriaQuery.select(builder.count(root));
         criteriaQuery.where(builder.and(preds.toArray(new Predicate[]{})));
 
-
         return entityManager.createQuery(criteriaQuery).getSingleResult();
     }
 
     /**
-     * 検索条件を生成する.
-     *
-     * @param builder
-     *            {@link CriteriaBuilder}
-     * @param root
-     *            {@link Root}
-     * @param searchCondition
-     *            検索条件
-     * @return 検索条件
+     * {@inheritDoc}
      */
-    protected List<Predicate> makeSearchCondition(CriteriaBuilder builder, Root<T> root, Object searchCondition) {
-        return  new ArrayList<>();
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<T> searchList(String searchTerm, Integer offset, Integer limit) {
+        FullTextQuery query = Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchJpaTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass);
+
+        query.setFirstResult(offset);
+        query.setMaxResults(limit);
+
+        return query.getResultList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long searchCount(String searchTerm) {
+        FullTextQuery query = Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchJpaTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass);
+
+        return query.getResultSize();
     }
 }

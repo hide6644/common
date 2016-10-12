@@ -25,12 +25,12 @@ public class RoleDaoJpa extends GenericDaoJpa<Role, Long> implements RoleDao {
      */
     @Override
     public Role getRoleByName(String name) {
-        List<?> roles = entityManager.createNamedQuery(Role.FIND_BY_NAME).setParameter("name", name).getResultList();
+        List<Role> roles = entityManager.createNamedQuery(Role.FIND_BY_NAME, persistentClass).setParameter("name", name).getResultList();
 
         if (roles.isEmpty()) {
             return null;
         } else {
-            return (Role) roles.get(0);
+            return roles.get(0);
         }
     }
 
