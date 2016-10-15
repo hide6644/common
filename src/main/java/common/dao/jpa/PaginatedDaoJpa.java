@@ -1,18 +1,25 @@
 package common.dao.jpa;
 
+import java.beans.PropertyDescriptor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.EntityManager;
+import javax.persistence.Id;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.PropertyAccessorFactory;
+import org.springframework.core.convert.TypeDescriptor;
 
 import common.dao.PaginatedDao;
 
@@ -51,11 +58,52 @@ public class PaginatedDaoJpa<T, PK extends Serializable> extends GenericDaoJpa<T
      * @param root
      *            {@link Root}
      * @param searchCondition
-     *            検索条件
+     *            検索オブジェクト
      * @return 検索条件
      */
-    protected List<Predicate> makeSearchCondition(CriteriaBuilder builder, Root<T> root, Object searchCondition) {
-        return  new ArrayList<>();
+    protected Predicate makeSearchCondition(CriteriaBuilder builder, Root<T> root, Object searchCondition) {
+        List<Predicate> preds = new ArrayList<>();
+        BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(searchCondition);
+
+        for (PropertyDescriptor propertyDesc : beanWrapper.getPropertyDescriptors()) {
+            TypeDescriptor typeDesc = beanWrapper.getPropertyTypeDescriptor(propertyDesc.getName());
+
+            if (typeDesc.getAnnotation(Column.class) != null) {
+                Object value = beanWrapper.getPropertyValue(propertyDesc.getName());
+
+                if (value != null) {
+                    preds.add(builder.equal(root.get(propertyDesc.getName()), value));
+                }
+            }
+        }
+
+        return builder.and(preds.toArray(new Predicate[]{}));
+    }
+
+    /**
+     * ソート条件を生成する.
+     *
+     * @param builder
+     *            {@link CriteriaBuilder}
+     * @param root
+     *            {@link Root}
+     * @param searchCondition
+     *            検索オブジェクト
+     * @return ソート条件
+     */
+    protected List<Order> makeOrder(CriteriaBuilder builder, Root<T> root, Object searchCondition) {
+        List<Order> columns = new ArrayList<>();
+        BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(searchCondition);
+
+        for (PropertyDescriptor propertyDesc : beanWrapper.getPropertyDescriptors()) {
+            TypeDescriptor typeDesc = beanWrapper.getPropertyTypeDescriptor(propertyDesc.getName());
+
+            if (typeDesc.getAnnotation(Id.class) != null) {
+                columns.add(builder.asc(root.get(propertyDesc.getName())));
+            }
+        }
+
+        return columns;
     }
 
     /**
@@ -66,10 +114,11 @@ public class PaginatedDaoJpa<T, PK extends Serializable> extends GenericDaoJpa<T
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(persistentClass);
         Root<T> root = criteriaQuery.from(persistentClass);
-        List<Predicate> preds = makeSearchCondition(builder, root, searchCondition);
 
-        criteriaQuery.where(builder.and(preds.toArray(new Predicate[]{})));
-        criteriaQuery.orderBy(builder.asc(root.get("username")));
+        if (searchCondition != null) {
+            criteriaQuery.where(makeSearchCondition(builder, root, searchCondition));
+            criteriaQuery.orderBy(makeOrder(builder, root, searchCondition));
+        }
 
         TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
 
@@ -87,10 +136,12 @@ public class PaginatedDaoJpa<T, PK extends Serializable> extends GenericDaoJpa<T
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
         Root<T> root = criteriaQuery.from(persistentClass);
-        List<Predicate> preds = makeSearchCondition(builder, root, searchCondition);
 
         criteriaQuery.select(builder.count(root));
-        criteriaQuery.where(builder.and(preds.toArray(new Predicate[]{})));
+
+        if (searchCondition != null) {
+            criteriaQuery.where(makeSearchCondition(builder, root, searchCondition));
+        }
 
         return entityManager.createQuery(criteriaQuery).getSingleResult();
     }

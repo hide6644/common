@@ -34,7 +34,7 @@ public class GridUtil {
         factoryBean.afterPropertiesSet();
         grid.setConversionService(factoryBean.getObject());
 
-        List<String[]> result = new ArrayList<String[]>();
+        List<String[]> result = new ArrayList<>();
 
         for (int row = 0; row < grid.rows(); row++) {
             String[] line = new String[grid.columns()];

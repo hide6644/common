@@ -33,7 +33,7 @@ public class Grid {
      */
     public Grid(List<?> beanList, String... props) {
         beanWrapper = new BeanWrapperImpl();
-        this.beanList = new ArrayList<Object>(beanList);
+        this.beanList = new ArrayList<>(beanList);
         this.props = props;
     }
 

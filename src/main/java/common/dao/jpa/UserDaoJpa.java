@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Table;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.sql.DataSource;
@@ -84,7 +85,7 @@ public class UserDaoJpa extends PaginatedDaoJpa<User, Long> implements UserDao, 
      * {@inheritDoc}
      */
     @Override
-    protected List<Predicate> makeSearchCondition(CriteriaBuilder builder, Root<User> root, Object searchCondition) {
+    protected Predicate makeSearchCondition(CriteriaBuilder builder, Root<User> root, Object searchCondition) {
         User user = (User) searchCondition;
         List<Predicate> preds = new ArrayList<>();
 
@@ -95,6 +96,17 @@ public class UserDaoJpa extends PaginatedDaoJpa<User, Long> implements UserDao, 
             preds.add(builder.like(root.get("email"), "%" + user.getEmail() + "%"));
         }
 
-        return preds;
+        return builder.and(preds.toArray(new Predicate[]{}));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected List<Order> makeOrder(CriteriaBuilder builder, Root<User> root, Object searchCondition) {
+        List<Order> columns = new ArrayList<>();
+        columns.add(builder.asc(root.get("username")));
+
+        return columns;
     }
 }
