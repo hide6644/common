@@ -12,9 +12,6 @@ import java.util.stream.Collectors;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -33,7 +30,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Facet;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Fields;
@@ -92,9 +88,6 @@ public class User extends BaseObject implements Serializable, UserDetails {
     /** ユーザをユーザ名で検索するクエリ */
     public static final String FIND_BY_USERNAME = "User.findByUsername";
 
-    /** ID */
-    private Long id;
-
     /** ユーザ名 */
     private String username;
 
@@ -142,29 +135,6 @@ public class User extends BaseObject implements Serializable, UserDetails {
      */
     public User(String username) {
         this.username = username;
-    }
-
-    /**
-     * IDを取得する.
-     *
-     * @return ID
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @DocumentId
-    @XmlTransient
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * IDを設定する.
-     *
-     * @param id
-     *            ID
-     */
-    public void setId(Long id) {
-        this.id = id;
     }
 
     /**
