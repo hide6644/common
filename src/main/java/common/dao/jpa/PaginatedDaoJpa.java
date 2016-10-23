@@ -1,9 +1,9 @@
 package common.dao.jpa;
 
-import java.beans.PropertyDescriptor;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.EntityManager;
@@ -19,7 +19,6 @@ import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;
-import org.springframework.core.convert.TypeDescriptor;
 
 import common.dao.PaginatedDao;
 
@@ -62,22 +61,15 @@ public class PaginatedDaoJpa<T, PK extends Serializable> extends GenericDaoJpa<T
      * @return 検索条件
      */
     protected Predicate makeSearchCondition(CriteriaBuilder builder, Root<T> root, Object searchCondition) {
-        List<Predicate> preds = new ArrayList<>();
         BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(searchCondition);
 
-        for (PropertyDescriptor propertyDesc : beanWrapper.getPropertyDescriptors()) {
-            TypeDescriptor typeDesc = beanWrapper.getPropertyTypeDescriptor(propertyDesc.getName());
-
-            if (typeDesc.getAnnotation(Column.class) != null) {
-                Object value = beanWrapper.getPropertyValue(propertyDesc.getName());
-
-                if (value != null) {
-                    preds.add(builder.equal(root.get(propertyDesc.getName()), value));
-                }
-            }
-        }
-
-        return builder.and(preds.toArray(new Predicate[]{}));
+        return builder.and(
+                Arrays.stream(beanWrapper.getPropertyDescriptors())
+                        .filter(propertyDesc -> beanWrapper.getPropertyTypeDescriptor(propertyDesc.getName()).getAnnotation(Column.class) != null)
+                        .filter(propertyDesc -> beanWrapper.getPropertyValue(propertyDesc.getName()) != null)
+                        .map(propertyDesc -> builder.equal(root.get(propertyDesc.getName()), beanWrapper.getPropertyValue(propertyDesc.getName())))
+                        .collect(Collectors.toList())
+                        .toArray(new Predicate[0]));
     }
 
     /**
@@ -92,18 +84,12 @@ public class PaginatedDaoJpa<T, PK extends Serializable> extends GenericDaoJpa<T
      * @return ソート条件
      */
     protected List<Order> makeOrder(CriteriaBuilder builder, Root<T> root, Object searchCondition) {
-        List<Order> columns = new ArrayList<>();
         BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(searchCondition);
 
-        for (PropertyDescriptor propertyDesc : beanWrapper.getPropertyDescriptors()) {
-            TypeDescriptor typeDesc = beanWrapper.getPropertyTypeDescriptor(propertyDesc.getName());
-
-            if (typeDesc.getAnnotation(Id.class) != null) {
-                columns.add(builder.asc(root.get(propertyDesc.getName())));
-            }
-        }
-
-        return columns;
+        return Arrays.stream(beanWrapper.getPropertyDescriptors())
+                .filter(propertyDesc -> beanWrapper.getPropertyTypeDescriptor(propertyDesc.getName()).getAnnotation(Id.class) != null)
+                .map(propertyDesc -> builder.asc(root.get(propertyDesc.getName())))
+                .collect(Collectors.toList());
     }
 
     /**

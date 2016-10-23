@@ -96,7 +96,7 @@ public class UserDaoJpa extends PaginatedDaoJpa<User, Long> implements UserDao, 
             preds.add(builder.like(root.get("email"), "%" + user.getEmail() + "%"));
         }
 
-        return builder.and(preds.toArray(new Predicate[]{}));
+        return builder.and(preds.toArray(new Predicate[0]));
     }
 
     /**
