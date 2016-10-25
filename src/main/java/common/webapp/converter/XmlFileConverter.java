@@ -15,7 +15,7 @@ import common.webapp.converter.util.XmlFileReader;
 /**
  * XMLファイル変換処理の実装クラス.
  */
-public class XmlFileConverter implements FileConverterStrategy {
+public class XmlFileConverter<T> implements FileConverterStrategy<T> {
 
     /** ファイルタイプ(XML) */
     public static final String FILE_TYPE = "1";
@@ -36,10 +36,11 @@ public class XmlFileConverter implements FileConverterStrategy {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("unchecked")
     @Override
-    public List<?> convert(MultipartFile multipartFile) {
+    public List<T> convert(MultipartFile multipartFile) {
         try {
-            return ((BaseObjects<?>) new XmlFileReader().read(JAXBContext.newInstance(clazz), multipartFile)).getObjects();
+            return ((BaseObjects<T>) new XmlFileReader().read(JAXBContext.newInstance(clazz), multipartFile)).getObjects();
         } catch (IOException e) {
             throw new FileException("errors.io", e);
         } catch (JAXBException e) {

@@ -20,13 +20,13 @@ import common.webapp.converter.util.CsvFileReader;
 /**
  * CSVファイル変換処理の実装クラス.
  */
-public class CsvFileConverter implements FileConverterStrategy {
+public class CsvFileConverter<T> implements FileConverterStrategy<T> {
 
     /** ファイルタイプ(CSV) */
     public static final String FILE_TYPE = "3";
 
     /** 保持クラス */
-    private Class<?> clazz;
+    private Class<T> clazz;
 
     /**
      * コンストラクタ.
@@ -34,7 +34,7 @@ public class CsvFileConverter implements FileConverterStrategy {
      * @param clazz
      *            保持クラス
      */
-    public CsvFileConverter(Class<?> clazz) {
+    public CsvFileConverter(Class<T> clazz) {
         this.clazz = clazz;
     }
 
@@ -42,7 +42,7 @@ public class CsvFileConverter implements FileConverterStrategy {
      * {@inheritDoc}
      */
     @Override
-    public List<?> convert(MultipartFile multipartFile) {
+    public List<T> convert(MultipartFile multipartFile) {
         CSVReader reader = null;
 
         try {

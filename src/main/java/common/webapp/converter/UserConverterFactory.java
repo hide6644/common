@@ -12,15 +12,15 @@ public class UserConverterFactory {
     private UserConverterFactory () {
     }
 
-    public static  FileConverterStrategy createConverter(String fileType) {
-        FileConverterStrategy converter = null;
+    public static FileConverterStrategy<User> createConverter(String fileType) {
+        FileConverterStrategy<User> converter = null;
 
         if (fileType != null && fileType.equals(XmlFileConverter.FILE_TYPE)) {
-            converter = new XmlFileConverter(Users.class);
+            converter = new XmlFileConverter<>(Users.class);
         } else if (fileType != null && fileType.equals(XlsFileConverter.FILE_TYPE)) {
-            converter = new XlsFileConverter(Users.class);
+            converter = new XlsFileConverter<>(Users.class);
         } else if (fileType != null && fileType.equals(CsvFileConverter.FILE_TYPE)) {
-            converter = new CsvFileConverter(User.class);
+            converter = new CsvFileConverter<>(User.class);
         } else {
             throw new FileException("errors.fileType");
         }

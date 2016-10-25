@@ -119,7 +119,7 @@ $(function() {
     });
 
     $('#dialog_download_xls').click(function() {
-        $(location).attr('href', '<c:url value="/admin/master/users.xls" />');
+        $(location).attr('href', '<c:url value="/admin/master/users.xlsx" />');
     });
 
     $('#dialog_download_xml').click(function() {

@@ -29,7 +29,7 @@
     <!-- View Resolver for XLSs -->
     <bean class="common.webapp.converter.util.JxlsViewResolver">
         <property name="prefix" value="/WEB-INF/pages/" />
-        <property name="suffix" value=".xls" />
+        <property name="suffix" value=".xlsx" />
         <property name="order" value="2" />
     </bean>
 

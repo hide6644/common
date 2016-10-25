@@ -180,11 +180,18 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
      */
     @Override
     public void uploadUsers(UploadForm uploadForm) {
-        @SuppressWarnings("unchecked")
-        List<User> userList = (List<User>) UserConverterFactory.createConverter(uploadForm.getFileType()).convert(uploadForm.getFileData());
+        List<User> userList = UserConverterFactory.createConverter(uploadForm.getFileType()).convert(uploadForm.getFileData());
 
         userList.forEach(user -> {
-            if (checkUploadUser(user)) {
+            // デフォルトの要再認証日時を設定する
+            user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
+            // 新規登録時は権限を一般で設定する
+            user.getRoles().clear();
+            user.addRole(roleManager.getRole(Constants.USER_ROLE));
+            user.setConfirmPassword(user.getPassword());
+            user.setEnabled(true);
+
+            if (validator.validate(user).size() == 0) {
                 saveUser(user);
                 uploadForm.setCount(uploadForm.getCount() + 1);
             } else {
@@ -192,26 +199,6 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
                 uploadForm.addErrorNo(uploadForm.getCount() + uploadForm.getErrorNo().size() + 1);
             }
         });
-    }
-
-    /**
-     * アップロードファイルのエラーチェックを行う.
-     *
-     * @param user
-     *            ユーザ
-     * @return true:エラーなし、false:エラーあり
-     */
-    private boolean checkUploadUser(User user) {
-        // デフォルトの要再認証日時を設定する
-        user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
-        // 新規登録時は権限を一般で設定する
-        user.getRoles().clear();
-        user.addRole(roleManager.getRole(Constants.USER_ROLE));
-        user.setConfirmPassword(user.getPassword());
-        user.setEnabled(true);
-
-        // エラーチェック
-        return validator.validate(user).size() == 0;
     }
 
     /**

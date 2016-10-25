@@ -60,7 +60,7 @@ public class UserListController extends BaseController {
      *
      * @return ユーザ一覧
      */
-    @RequestMapping(value = "/admin/master/users*.xls", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/master/users*.xlsx", method = RequestMethod.GET)
     public ModelAndView setupXlsList() {
         Model model = new ExtendedModelMap();
         model.addAttribute("users", userManager.getAll());

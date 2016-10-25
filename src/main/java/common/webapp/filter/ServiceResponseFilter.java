@@ -28,7 +28,7 @@ public class ServiceResponseFilter extends OncePerRequestFilter {
         } else if (requestURI.indexOf(".csv") > 0) {
             response.setContentType("Application/Octet-Stream");
             response.setHeader("Content-Disposition", "attachment;filename=\"" + requestURI.substring(requestURI.lastIndexOf("/") + 1) + "\"");
-        } else if (requestURI.indexOf(".xls") > 0) {
+        } else if (requestURI.indexOf(".xlsx") > 0) {
             response.setContentType("application/vnd.ms-excel");
             response.setHeader("Content-Disposition", "attachment;filename=\"" + requestURI.substring(requestURI.lastIndexOf("/") + 1) + "\"");
         } else if (requestURI.indexOf(".xml") > 0) {

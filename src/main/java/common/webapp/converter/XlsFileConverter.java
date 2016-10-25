@@ -18,7 +18,7 @@ import common.webapp.converter.util.JxlsFileReader;
 /**
  * XLSファイル変換処理の実装クラス.
  */
-public class XlsFileConverter implements FileConverterStrategy {
+public class XlsFileConverter<T> implements FileConverterStrategy<T> {
 
     /** ファイルタイプ(XLS) */
     public static final String FILE_TYPE = "2";
@@ -40,10 +40,10 @@ public class XlsFileConverter implements FileConverterStrategy {
      * {@inheritDoc}
      */
     @Override
-    public List<?> convert(MultipartFile multipartFile) {
+    public List<T> convert(MultipartFile multipartFile) {
         String modelName = clazz.getSimpleName();
-        Map<String, List<Object>> model = new HashMap<String, List<Object>>();
-        model.put(modelName, new ArrayList<Object>());
+        Map<String, List<T>> model = new HashMap<>();
+        model.put(modelName, new ArrayList<>());
 
         try {
             if (new JxlsFileReader().read(new ClassPathResource(modelName + ".xml", getClass()), multipartFile, model).isStatusOK()) {

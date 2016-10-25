@@ -30,7 +30,7 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
 public class JxlsView extends AbstractUrlBasedView {
 
     /** 拡張子 */
-    private static final String EXTENSION = ".xls";
+    private static final String EXTENSION = ".xlsx";
 
     /**
      * {@inheritDoc}
