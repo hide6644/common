@@ -82,13 +82,13 @@
                 </div>
                 <div class="modal-footer">
                     <a href="#" class="btn btn-default" id="dialog_download_xml">
-                        <fmt:message key="fileType.xml" /><fmt:message key="button.download" />
+                        <fmt:message key="fileType.xml" />
                     </a>
                     <a href="#" class="btn btn-default" id="dialog_download_xls">
-                        <fmt:message key="fileType.xls" /><fmt:message key="button.download" />
+                        <fmt:message key="fileType.xls" />
                     </a>
                     <a href="#" class="btn btn-default" id="dialog_download_csv">
-                        <fmt:message key="fileType.csv" /><fmt:message key="button.download" />
+                        <fmt:message key="fileType.csv" />
                     </a>
                 </div>
             </div>

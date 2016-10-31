@@ -111,7 +111,9 @@
 
     <filter-mapping>
         <filter-name>serviceResponseFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>*.csv</url-pattern>
+        <url-pattern>*.xlsx</url-pattern>
+        <url-pattern>*.xml</url-pattern>
     </filter-mapping>
 
     <filter-mapping>

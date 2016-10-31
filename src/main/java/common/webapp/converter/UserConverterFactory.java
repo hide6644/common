@@ -4,14 +4,24 @@ import common.exception.FileException;
 import common.model.User;
 import common.model.Users;
 
+/**
+ * Userファイル変換処理クラスのインスタンスを生成する.
+ */
 public class UserConverterFactory {
 
     /**
      * プライベート・コンストラクタ.
      */
-    private UserConverterFactory () {
+    private UserConverterFactory() {
     }
 
+    /**
+     * ファイルタイプに合わせた、ファイル変換処理クラスのインスタンスを返却する.
+     *
+     * @param fileType
+     *            ファイルタイプ
+     * @return ファイル変換処理クラスのインスタンス
+     */
     public static FileConverterStrategy<User> createConverter(String fileType) {
         FileConverterStrategy<User> converter = null;
 
