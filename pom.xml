@@ -452,7 +452,7 @@
         <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
         <jdbc.groupId>mysql</jdbc.groupId>
         <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
-        <jdbc.version>5.1.39</jdbc.version>
+        <jdbc.version>5.1.40</jdbc.version>
         <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
         <jdbc.url>
             <![CDATA[jdbc:mysql://localhost/common?createDatabaseIfNotExist=true&amp;zeroDateTimeBehavior=convertToNull&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true]]>
@@ -472,10 +472,10 @@
         <datetimepicker.version>2.3.4</datetimepicker.version>
         <ehcache-core.version>2.6.11</ehcache-core.version>
         <freemarker.version>2.3.23</freemarker.version>
-        <hibernate.version>5.0.10.Final</hibernate.version>
-        <hibernate.search.version>5.5.4.Final</hibernate.search.version>
-        <hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
-        <HikariCP.version>2.4.7</HikariCP.version>
+        <hibernate.version>5.0.11.Final</hibernate.version>
+        <hibernate.search.version>5.5.5.Final</hibernate.search.version>
+        <hibernate.validator.version>5.3.0.Final</hibernate.validator.version>
+        <HikariCP.version>2.5.1</HikariCP.version>
         <jandex.version>2.0.3.Final</jandex.version>
         <javassist.version>3.20.0-GA</javassist.version>
         <javax.el-api.version>3.0.0</javax.el-api.version>
