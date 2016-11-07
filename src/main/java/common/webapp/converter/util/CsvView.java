@@ -104,6 +104,6 @@ public class CsvView extends AbstractUrlBasedView {
 
         Grid grid = new Grid((List<?>) model.get("csv"), template);
         csv.remove(rowCount - 1);
-        csv.addAll(GridUtil.toStringArray(grid, (Set<Formatter<?>>) model.get("formatters")));
+        csv.addAll(grid.toStringArray((Set<Formatter<?>>) model.get("formatters")));
     }
 }

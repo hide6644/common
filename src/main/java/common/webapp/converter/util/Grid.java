@@ -2,9 +2,11 @@ package common.webapp.converter.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.BeanWrapperImpl;
-import org.springframework.core.convert.ConversionService;
+import org.springframework.format.Formatter;
+import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 
 /**
  * オブジェクトを配列に変換するクラス.
@@ -13,9 +15,6 @@ public class Grid {
 
     /** Beanの機能を拡張するクラス */
     private BeanWrapperImpl beanWrapper;
-
-    /** 型変換サービス */
-    private ConversionService conversionService;
 
     /** オブジェクトリスト */
     private List<?> beanList;
@@ -38,7 +37,7 @@ public class Grid {
     }
 
     /**
-     * 指定されたプロパティを取得する.
+     * 指定された名称のプロパティを取得する.
      *
      * @param bean
      *            オブジェクト
@@ -46,66 +45,37 @@ public class Grid {
      *            プロパティ名
      * @return プロパティ
      */
-    public Object get(Object bean, String columnName) {
+    public Object getPropertyValue(Object bean, String columnName) {
         beanWrapper.setWrappedInstance(bean);
         return beanWrapper.getPropertyValue(columnName);
     }
 
     /**
-     * 指定された位置のプロパティを取得する.
+     * オブジェクトをString配列に変換する.
      *
-     * @param row
-     *            行番号
-     * @param column
-     *            列番号
-     * @return プロパティ
+     * @param grid
+     *            オブジェクトと配列を相互変換するクラス
+     * @param formatters
+     *            変換ルール
+     * @return 配列に変換されたオブジェクト
      */
-    public Object get(int row, int column) {
-        return get(beanList.get(row), props[column]);
-    }
+    public List<String[]> toStringArray(Set<Formatter<?>> formatters) {
+        FormattingConversionServiceFactoryBean factoryBean = new FormattingConversionServiceFactoryBean();
+        factoryBean.setFormatters(formatters);
+        factoryBean.afterPropertiesSet();
 
-    /**
-     * 指定された位置のプロパティを指定された型で取得する.
-     *
-     * @param row
-     *            行番号
-     * @param column
-     *            列番号
-     * @param clazz
-     *            変換する型
-     * @param <T>
-     *            変換する型
-     * @return プロパティ
-     */
-    public <T> T get(int row, int column, Class<T> clazz) {
-        return conversionService.convert(get(beanList.get(row), props[column]), clazz);
-    }
+        List<String[]> result = new ArrayList<>();
 
-    /**
-     * 行数を取得する.
-     *
-     * @return 行数
-     */
-    public int rows() {
-        return beanList.size();
-    }
+        for (int row = 0; row < beanList.size(); row++) {
+            String[] line = new String[props.length];
 
-    /**
-     * 列数を取得する.
-     *
-     * @return 列数
-     */
-    public int columns() {
-        return props.length;
-    }
+            for (int col = 0; col < props.length; col++) {
+                line[col] = factoryBean.getObject().convert(getPropertyValue(beanList.get(row), props[col]), String.class);
+            }
 
-    /**
-     * 型変換サービスを設定する.
-     *
-     * @param conversionService
-     *            型変換サービス
-     */
-    public void setConversionService(ConversionService conversionService) {
-        this.conversionService = conversionService;
+            result.add(line);
+        }
+
+        return result;
     }
 }
