@@ -51,13 +51,11 @@ public class Grid {
     }
 
     /**
-     * オブジェクトをString配列に変換する.
+     * オブジェクトリストをString配列に変換する.
      *
-     * @param grid
-     *            オブジェクトと配列を相互変換するクラス
      * @param formatters
      *            変換ルール
-     * @return 配列に変換されたオブジェクト
+     * @return 配列に変換されたオブジェクトリスト
      */
     public List<String[]> toStringArray(Set<Formatter<?>> formatters) {
         FormattingConversionServiceFactoryBean factoryBean = new FormattingConversionServiceFactoryBean();

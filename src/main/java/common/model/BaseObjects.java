@@ -11,9 +11,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @MappedSuperclass
 public abstract class BaseObjects<T> {
 
-    /** 件数 */
-    private int count;
-
     /** エンティティリスト */
     private List<T> objects;
 
@@ -31,7 +28,6 @@ public abstract class BaseObjects<T> {
      */
     public BaseObjects(List<T> objects) {
         this.objects = objects;
-        count = objects.size();
     }
 
     /**
@@ -40,17 +36,7 @@ public abstract class BaseObjects<T> {
      * @return 件数
      */
     public int getCount() {
-        return count;
-    }
-
-    /**
-     * 件数を設定する.
-     *
-     * @param count
-     *            件数
-     */
-    public void setCount(int count) {
-        this.count = count;
+        return objects.size();
     }
 
     /**
