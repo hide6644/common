@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
@@ -26,8 +25,6 @@ public class SignupControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testSignupUser() throws Exception {
-        MockHttpServletRequest request = newGet("/userform.html");
-
         User user = new User();
         user.setUsername("self-registered");
         user.setPassword("Password1");
@@ -40,7 +37,7 @@ public class SignupControllerTest extends BaseControllerTestCase {
         wiser.setPort(getSmtpPort());
         wiser.start();
         BindingResult errors = new DataBinder(user).getBindingResult();
-        c.onSubmit(user, errors, request);
+        c.onSubmit(user, errors);
         assertFalse("errors returned in model", errors.hasErrors());
 
         wiser.stop();

@@ -14,16 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import common.model.User;
 import common.service.UserManager;
-import common.webapp.util.RequestUtil;
 
 /**
  * パスワード変更処理クラス.
  */
 @Controller
 public class UpdatePasswordController extends BaseController {
-
-    /** パスワード回復用のURL */
-    public static final String RECOVERY_PASSWORD_TEMPLATE = "/updatePassword?username={username}&token={token}";
 
     /** User処理クラス */
     @Autowired
@@ -34,14 +30,12 @@ public class UpdatePasswordController extends BaseController {
      *
      * @param username
      *            ユーザ名
-     * @param request
-     *            {@link HttpServletRequest}
      * @return 遷移先jsp名
      */
     @RequestMapping(value = "/requestRecoveryToken*", method = RequestMethod.GET)
-    public String requestRecoveryToken(@RequestParam(value = "username", required = true) String username, HttpServletRequest request) {
+    public String requestRecoveryToken(@RequestParam(value = "username", required = true) String username) {
         try {
-            userManager.sendPasswordRecoveryEmail(username, RequestUtil.getAppURL(request) + RECOVERY_PASSWORD_TEMPLATE);
+            userManager.recoveryPassword(username);
         } catch (final UsernameNotFoundException ignored) {
             // lets ignore this
         }
@@ -102,13 +96,13 @@ public class UpdatePasswordController extends BaseController {
         boolean usingToken = StringUtils.isNotBlank(token);
 
         if (usingToken) {
-            user = userManager.updatePassword(username, null, token, password, RequestUtil.getAppURL(request));
+            user = userManager.updatePassword(username, null, token, password);
         } else {
             if (!username.equals(request.getRemoteUser())) {
                 throw new AccessDeniedException("You do not have permission to modify other users password.");
             }
 
-            user = userManager.updatePassword(username, currentPassword, null, password, RequestUtil.getAppURL(request));
+            user = userManager.updatePassword(username, currentPassword, null, password);
         }
 
         if (user != null) {

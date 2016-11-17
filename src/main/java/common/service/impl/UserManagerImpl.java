@@ -1,8 +1,6 @@
 package common.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.jws.WebService;
@@ -12,9 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.MessageSource;
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +17,11 @@ import common.Constants;
 import common.dao.UserDao;
 import common.exception.DBException;
 import common.model.User;
-import common.service.MailEngine;
 import common.service.PasswordTokenManager;
 import common.service.RoleManager;
 import common.service.UserManager;
 import common.service.UserService;
+import common.service.mail.UserMail;
 import common.webapp.converter.UserConverterFactory;
 import common.webapp.form.UploadForm;
 
@@ -45,14 +40,6 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
     @Qualifier("passwordEncoder")
     private PasswordEncoder passwordEncoder;
 
-    /** メールを処理するクラス */
-    @Autowired(required = false)
-    private MailEngine mailEngine;
-
-    /** Simple Mailメッセージ */
-    @Autowired(required = false)
-    private SimpleMailMessage mailMessage;
-
     /** パスワードトークン処理のクラス */
     @Autowired(required = false)
     private PasswordTokenManager passwordTokenManager;
@@ -61,21 +48,13 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
     @Autowired
     private RoleManager roleManager;
 
+    /** Userメール処理クラス */
+    @Autowired
+    private UserMail userMail;
+
     /** 検証ツールクラス */
     @Autowired
     private Validator validator;
-
-    /** メッセージソースアクセサー */
-    private MessageSourceAccessor messages;
-
-    /** ユーザ本登録メールのテンプレート */
-    private String accountCreatedTemplate = "accountCreated.ftl";
-
-    /** パスワード回復案内メールのテンプレート */
-    private String passwordRecoveryTemplate = "passwordRecovery.ftl";
-
-    /** パスワード更新メールのテンプレート */
-    private String passwordUpdatedTemplate = "passwordUpdated.ftl";
 
     /**
      * {@inheritDoc}
@@ -171,14 +150,6 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
      * {@inheritDoc}
      */
     @Override
-    public List<User> searchUser(String searchTerm) {
-        return search(searchTerm);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void uploadUsers(UploadForm uploadForm) {
         List<User> userList = UserConverterFactory.createConverter(uploadForm.getFileType()).convert(uploadForm.getFileData());
 
@@ -211,8 +182,12 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
         // 新規登録時は権限を一般で設定する
         user.getRoles().clear();
         user.addRole(roleManager.getRole(Constants.USER_ROLE));
+        user = saveUser(user);
 
-        return saveUser(user);
+        // 登録完了メールを送信する
+        userMail.sendSignupEmail(user);
+
+        return user;
     }
 
     /**
@@ -224,45 +199,6 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
         user.setEnabled(true);
 
         return saveUser(user);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void sendSignupUserEmail(User user, String urlTemplate) {
-        String url = buildRecoveryPasswordUrl(user, urlTemplate);
-
-        sendUserEmail(user, accountCreatedTemplate, messages.getMessage("signupForm.email.subject"), messages.getMessage("signupForm.email.message"), url);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void sendCreatedUserEmail(User user, String urlTemplate) {
-        String url = buildRecoveryPasswordUrl(user, urlTemplate);
-
-        sendUserEmail(user, accountCreatedTemplate, messages.getMessage("userSaveForm.email.subject"), messages.getMessage("userSaveForm.email.message"), url);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String buildRecoveryPasswordUrl(User user, String urlTemplate) {
-        String token = generateRecoveryToken(user);
-        String username = user.getUsername();
-
-        return StringUtils.replaceEach(urlTemplate, new String[] { "{username}", "{token}" }, new String[] { username, token });
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String generateRecoveryToken(User user) {
-        return passwordTokenManager.generateRecoveryToken(user);
     }
 
     /**
@@ -285,18 +221,15 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
      * {@inheritDoc}
      */
     @Override
-    public void sendPasswordRecoveryEmail(String username, String urlTemplate) {
-        User user = getUserByUsername(username);
-        String url = buildRecoveryPasswordUrl(user, urlTemplate);
-
-        sendUserEmail(user, passwordRecoveryTemplate, messages.getMessage("updatePasswordForm.email.subject"), messages.getMessage("updatePasswordForm.recovery.email.message"), url);
+    public void recoveryPassword(String username) {
+        userMail.sendPasswordRecoveryEmail(getUserByUsername(username));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public User updatePassword(String username, String currentPassword, String recoveryToken, String newPassword, String applicationUrl) {
+    public User updatePassword(String username, String currentPassword, String recoveryToken, String newPassword) {
         User user = getUserByUsername(username);
 
         if (isRecoveryTokenValid(user, recoveryToken)) {
@@ -304,7 +237,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
             user.setEnabled(true);
             user = saveUser(user);
 
-            sendUserEmail(user, passwordUpdatedTemplate, messages.getMessage("updatePasswordForm.email.subject"), messages.getMessage("updatePasswordForm.email.message"), applicationUrl);
+            userMail.sendUpdatePasswordEmail(user);
 
             return user;
         } else if (StringUtils.isNotBlank(currentPassword)) {
@@ -327,32 +260,6 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
     }
 
     /**
-     * メールを送信する.
-     *
-     * @param user
-     *            ユーザ
-     * @param template
-     *            テンプレート
-     * @param subject
-     *            件名
-     * @param message
-     *            本文
-     * @param url
-     *            URL
-     */
-    private void sendUserEmail(User user, String template, String subject, String message, String url) {
-        mailMessage.setSubject("[" + messages.getMessage("webapp.name") + "] " + subject);
-        mailMessage.setTo(user.getEmail());
-
-        Map<String, Object> model = new HashMap<>();
-        model.put("user", user);
-        model.put("message", message);
-        model.put("URL", url);
-
-        mailEngine.sendMessage(mailMessage, template, model);
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Autowired
@@ -369,36 +276,5 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
     @Override
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
-    }
-
-    /**
-     * メッセージソースを設定する.
-     *
-     * @param messageSource
-     *            メッセージソース
-     */
-    @Autowired
-    public void setMessages(MessageSource messageSource) {
-        messages = new MessageSourceAccessor(messageSource);
-    }
-
-    /**
-     * パスワード回復案内メールのテンプレートを設定する.
-     *
-     * @param passwordRecoveryTemplate
-     *            パスワード回復案内メールのテンプレート
-     */
-    public void setPasswordRecoveryTemplate(String passwordRecoveryTemplate) {
-        this.passwordRecoveryTemplate = passwordRecoveryTemplate;
-    }
-
-    /**
-     * パスワード更新メールのテンプレートを設定する.
-     *
-     * @param passwordUpdatedTemplate
-     *            パスワード更新メールのテンプレート
-     */
-    public void setPasswordUpdatedTemplate(String passwordUpdatedTemplate) {
-        this.passwordUpdatedTemplate = passwordUpdatedTemplate;
     }
 }

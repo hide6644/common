@@ -1,4 +1,4 @@
-package common.service;
+package common.service.mail;
 
 import java.util.Map;
 

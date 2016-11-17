@@ -54,7 +54,7 @@ public class PasswordTokenManagerTest extends BaseManagerTestCase {
         wiser.setPort(smtpPort);
         wiser.start();
 
-        user = userManager.updatePassword(user.getUsername(), null, token, "pass", "");
+        user = userManager.updatePassword(user.getUsername(), null, token, "pass");
 
         wiser.stop();
         assertTrue(wiser.getMessages().size() == 1);
