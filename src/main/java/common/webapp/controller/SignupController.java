@@ -1,6 +1,5 @@
 package common.webapp.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,15 +18,12 @@ import common.exception.DBException;
 import common.model.Role;
 import common.model.User;
 import common.service.UserManager;
-import common.webapp.util.RequestUtil;
 
 /**
  * ユーザ登録処理クラス.
  */
 @Controller
 public class SignupController extends BaseController {
-
-    public static final String SIGNUP_TEMPLATE = "/signupComplete?username={username}&token={token}";
 
     /** User処理クラス */
     @Autowired
@@ -53,12 +49,10 @@ public class SignupController extends BaseController {
      *            画面入力値保持モデル
      * @param result
      *            エラーチェック結果
-     * @param request
-     *            {@link HttpServletRequest}
      * @return 遷移先jsp名
      */
     @RequestMapping(value = "signup", method = RequestMethod.POST)
-    public String onSubmit(@Valid User user, BindingResult result, HttpServletRequest request) {
+    public String onSubmit(@Valid User user, BindingResult result) {
         if (result.hasErrors()) {
             return "signup";
         }
@@ -71,9 +65,6 @@ public class SignupController extends BaseController {
 
             return "signup";
         }
-
-        // 登録完了メールを送信する
-        userManager.sendSignupUserEmail(user, RequestUtil.getAppURL(request) + SIGNUP_TEMPLATE);
 
         return "redirect:/login.html";
     }

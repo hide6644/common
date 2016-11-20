@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.subethamail.wiser.Wiser;
 
 import common.model.User;
+import common.service.PasswordTokenManager;
 import common.service.UserManager;
 import common.webapp.filter.FlashMap;
 
@@ -17,6 +18,9 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
 
     @Autowired
     private UpdatePasswordController c;
+
+    @Autowired
+    private PasswordTokenManager passwordTokenManager;
 
     @Autowired
     private UserManager userManager;
@@ -30,7 +34,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         Wiser wiser = new Wiser();
         wiser.setPort(getSmtpPort());
         wiser.start();
-        c.requestRecoveryToken(username, request);
+        c.requestRecoveryToken(username);
 
         wiser.stop();
         assertTrue(wiser.getMessages().size() == 1);
@@ -51,7 +55,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     public void testShowResetPasswordForm() throws Exception {
         String username = "administrator";
         User user = userManager.getUserByUsername(username);
-        String token = userManager.generateRecoveryToken(user);
+        String token = passwordTokenManager.generateRecoveryToken(user);
         MockHttpServletRequest request = newGet("/updatePassword");
         request.addParameter("username", username);
         request.addParameter("token", token);
@@ -74,7 +78,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     public void testResetPassword() throws Exception {
         String username = "administrator";
         User user = userManager.getUserByUsername(username);
-        String token = userManager.generateRecoveryToken(user);
+        String token = passwordTokenManager.generateRecoveryToken(user);
         String password = "new-pass";
         MockHttpServletRequest request = newGet("/updatePassword");
         request.addParameter("username", username);

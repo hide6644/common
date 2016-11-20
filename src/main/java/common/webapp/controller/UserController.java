@@ -26,7 +26,7 @@ import common.exception.DBException;
 import common.model.Role;
 import common.model.User;
 import common.service.UserManager;
-import common.webapp.util.RequestUtil;
+import common.service.mail.UserMail;
 
 /**
  * ユーザ登録情報変更処理クラス.
@@ -34,6 +34,10 @@ import common.webapp.util.RequestUtil;
 @Controller
 @RequestMapping("/user*")
 public class UserController extends BaseController {
+
+    /** Userメール処理クラス */
+    @Autowired
+    private UserMail userMail;
 
     /** User処理クラス */
     @Autowired
@@ -115,7 +119,7 @@ public class UserController extends BaseController {
         }
 
         try {
-            userManager.saveUser(user);
+            user = userManager.saveUser(user);
         } catch (AccessDeniedException e) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
             return null;
@@ -134,7 +138,7 @@ public class UserController extends BaseController {
                 saveFlashMessage(getText("inserted"));
 
                 // 登録完了メールを送信する
-                userManager.sendCreatedUserEmail(user, RequestUtil.getAppURL(request) + UpdatePasswordController.RECOVERY_PASSWORD_TEMPLATE);
+                userMail.sendCreatedEmail(user);
 
                 return "redirect:/admin/master/users";
             } else {

@@ -19,6 +19,8 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.subethamail.wiser.Wiser;
 import org.subethamail.wiser.WiserMessage;
 
+import common.service.mail.MailEngine;
+
 public class MailEngineTest extends BaseManagerTestCase {
 
     @Autowired

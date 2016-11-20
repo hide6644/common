@@ -9,9 +9,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.TypedQuery;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,10 +37,10 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
     protected EntityManager entityManager;
 
     /** エンティティクラス */
-    private Class<T> persistentClass;
+    protected Class<T> persistentClass;
 
     /** 形態解析クラス */
-    private Analyzer defaultAnalyzer;
+    protected Analyzer defaultAnalyzer;
 
     /**
      * コンストラクタ.
@@ -69,17 +67,12 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
         defaultAnalyzer = new StandardAnalyzer();
     }
 
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
-
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
     public List<T> getAll() {
-        return entityManager.createQuery("select obj from " + persistentClass.getName() + " obj").getResultList();
+        return entityManager.createQuery("select obj from " + persistentClass.getName() + " obj", persistentClass).getResultList();
     }
 
     /**
@@ -98,7 +91,7 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
         T entity = entityManager.find(persistentClass, id);
 
         if (entity == null) {
-            String msg = "Uh oh, '" + persistentClass + "' object with id '" + id + "' not found...";
+            String msg = "'" + persistentClass + "' object with id '" + id + "' not found...";
             log.warn(msg);
             throw new EntityNotFoundException(msg);
         }
@@ -141,10 +134,9 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
     public List<T> findByNamedQuery(String queryName, Map<String, Object> queryParams) {
-        Query namedQuery = entityManager.createNamedQuery(queryName);
+        TypedQuery<T> namedQuery = entityManager.createNamedQuery(queryName, persistentClass);
 
         if (queryParams != null) {
             queryParams.forEach((key, val) -> {
@@ -158,9 +150,7 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
     @SuppressWarnings("unchecked")
     @Override
     public List<T> search(String searchTerm) throws SearchException {
-        org.apache.lucene.search.Query qry = HibernateSearchJpaTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer);
-
-        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(qry, persistentClass).getResultList();
+        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchJpaTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass).getResultList();
     }
 
     /**
@@ -176,7 +166,7 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
      */
     @Override
     public void reindex() {
-        HibernateSearchJpaTools.reindex(persistentClass, getEntityManager());
+        HibernateSearchJpaTools.reindex(persistentClass, entityManager);
     }
 
     /**
@@ -184,35 +174,6 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
      */
     @Override
     public void reindexAll(boolean async) {
-        HibernateSearchJpaTools.reindexAll(async, getEntityManager());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<T> getPaged(Class<?> searchClass, Object searchCondition, Integer offset, Integer limit) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<?> criteriaQuery = builder.createQuery(searchClass);
-        criteriaQuery.from((Class<?>) searchClass);
-        Query query = entityManager.createQuery(criteriaQuery);
-
-        query.setFirstResult(offset);
-        query.setMaxResults(limit);
-
-        return query.getResultList();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public long getRecordCount(Class<?> searchClass, Object searchCondition) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
-        criteriaQuery.select(builder.count(criteriaQuery.from(searchClass)));
-
-        return entityManager.createQuery(criteriaQuery).getSingleResult();
+        HibernateSearchJpaTools.reindexAll(async, entityManager);
     }
 }

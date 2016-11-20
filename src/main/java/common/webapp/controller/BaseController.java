@@ -22,7 +22,7 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import common.exception.DBCheckException;
 import common.exception.DBException;
-import common.service.MailEngine;
+import common.service.mail.MailEngine;
 import common.webapp.filter.FlashMap;
 import common.webapp.util.ValidateUtil;
 

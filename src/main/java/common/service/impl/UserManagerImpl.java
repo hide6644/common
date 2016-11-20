@@ -1,8 +1,6 @@
 package common.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.jws.WebService;
@@ -12,9 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.MessageSource;
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +17,11 @@ import common.Constants;
 import common.dao.UserDao;
 import common.exception.DBException;
 import common.model.User;
-import common.service.MailEngine;
 import common.service.PasswordTokenManager;
 import common.service.RoleManager;
 import common.service.UserManager;
 import common.service.UserService;
+import common.service.mail.UserMail;
 import common.webapp.converter.UserConverterFactory;
 import common.webapp.form.UploadForm;
 
@@ -35,7 +30,7 @@ import common.webapp.form.UploadForm;
  */
 @Service("userManager")
 @WebService(serviceName = "UserService", endpointInterface = "common.service.UserService")
-public class UserManagerImpl extends GenericManagerImpl<User, Long> implements UserManager, UserService {
+public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements UserManager, UserService {
 
     /** ユーザDAO */
     private UserDao userDao;
@@ -45,14 +40,6 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
     @Qualifier("passwordEncoder")
     private PasswordEncoder passwordEncoder;
 
-    /** メールを処理するクラス */
-    @Autowired(required = false)
-    private MailEngine mailEngine;
-
-    /** Simple Mailメッセージ */
-    @Autowired(required = false)
-    private SimpleMailMessage mailMessage;
-
     /** パスワードトークン処理のクラス */
     @Autowired(required = false)
     private PasswordTokenManager passwordTokenManager;
@@ -61,21 +48,13 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
     @Autowired
     private RoleManager roleManager;
 
+    /** Userメール処理クラス */
+    @Autowired
+    private UserMail userMail;
+
     /** 検証ツールクラス */
     @Autowired
     private Validator validator;
-
-    /** メッセージソースアクセサー */
-    private MessageSourceAccessor messages;
-
-    /** ユーザ本登録メールのテンプレート */
-    private String accountCreatedTemplate = "accountCreated.ftl";
-
-    /** パスワード回復案内メールのテンプレート */
-    private String passwordRecoveryTemplate = "passwordRecovery.ftl";
-
-    /** パスワード更新メールのテンプレート */
-    private String passwordUpdatedTemplate = "passwordUpdated.ftl";
 
     /**
      * {@inheritDoc}
@@ -119,7 +98,7 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
                 String currentPassword = userDao.getUserPassword(user.getId());
                 if (user.getPassword() == null) {
                     user.setPassword(currentPassword);
-                    user.setConfirmPassword(user.getPassword());
+                    user.setConfirmPassword(currentPassword);
                 }
                 if (currentPassword == null) {
                     passwordChanged = true;
@@ -142,7 +121,7 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
             return userDao.saveUser(user);
         } catch (Exception e) {
             user.setPassword(null);
-            user.setConfirmPassword(user.getPassword());
+            user.setConfirmPassword(null);
             if (user.getVersion() == null) {
                 throw new DBException("errors.insert", e);
             } else {
@@ -171,20 +150,19 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
      * {@inheritDoc}
      */
     @Override
-    public List<User> searchUser(String searchTerm) {
-        return search(searchTerm);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void uploadUsers(UploadForm uploadForm) {
-        @SuppressWarnings("unchecked")
-        List<User> userList = (List<User>) UserConverterFactory.createConverter(uploadForm.getFileType()).convert(uploadForm.getFileData());
+        List<User> userList = UserConverterFactory.createConverter(uploadForm.getFileType()).convert(uploadForm.getFileData());
 
         userList.forEach(user -> {
-            if (checkUploadUser(user)) {
+            // デフォルトの要再認証日時を設定する
+            user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
+            // 新規登録時は権限を一般で設定する
+            user.getRoles().clear();
+            user.addRole(roleManager.getRole(Constants.USER_ROLE));
+            user.setConfirmPassword(user.getPassword());
+            user.setEnabled(true);
+
+            if (validator.validate(user).size() == 0) {
                 saveUser(user);
                 uploadForm.setCount(uploadForm.getCount() + 1);
             } else {
@@ -192,26 +170,6 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
                 uploadForm.addErrorNo(uploadForm.getCount() + uploadForm.getErrorNo().size() + 1);
             }
         });
-    }
-
-    /**
-     * アップロードファイルのエラーチェックを行う.
-     *
-     * @param user
-     *            ユーザ
-     * @return true:エラーなし、false:エラーあり
-     */
-    private boolean checkUploadUser(User user) {
-        // デフォルトの要再認証日時を設定する
-        user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
-        // 新規登録時は権限を一般で設定する
-        user.getRoles().clear();
-        user.addRole(roleManager.getRole(Constants.USER_ROLE));
-        user.setConfirmPassword(user.getPassword());
-        user.setEnabled(true);
-
-        // エラーチェック
-        return validator.validate(user).size() == 0;
     }
 
     /**
@@ -224,8 +182,12 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
         // 新規登録時は権限を一般で設定する
         user.getRoles().clear();
         user.addRole(roleManager.getRole(Constants.USER_ROLE));
+        user = saveUser(user);
 
-        return saveUser(user);
+        // 登録完了メールを送信する
+        userMail.sendSignupEmail(user);
+
+        return user;
     }
 
     /**
@@ -237,45 +199,6 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
         user.setEnabled(true);
 
         return saveUser(user);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void sendSignupUserEmail(User user, String urlTemplate) {
-        String url = buildRecoveryPasswordUrl(user, urlTemplate);
-
-        sendUserEmail(user, accountCreatedTemplate, messages.getMessage("signupForm.email.subject"), messages.getMessage("signupForm.email.message"), url);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void sendCreatedUserEmail(User user, String urlTemplate) {
-        String url = buildRecoveryPasswordUrl(user, urlTemplate);
-
-        sendUserEmail(user, accountCreatedTemplate, messages.getMessage("userSaveForm.email.subject"), messages.getMessage("userSaveForm.email.message"), url);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String buildRecoveryPasswordUrl(User user, String urlTemplate) {
-        String token = generateRecoveryToken(user);
-        String username = user.getUsername();
-
-        return StringUtils.replaceEach(urlTemplate, new String[] { "{username}", "{token}" }, new String[] { username, token });
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String generateRecoveryToken(User user) {
-        return passwordTokenManager.generateRecoveryToken(user);
     }
 
     /**
@@ -298,18 +221,15 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
      * {@inheritDoc}
      */
     @Override
-    public void sendPasswordRecoveryEmail(String username, String urlTemplate) {
-        User user = getUserByUsername(username);
-        String url = buildRecoveryPasswordUrl(user, urlTemplate);
-
-        sendUserEmail(user, passwordRecoveryTemplate, messages.getMessage("updatePasswordForm.email.subject"), messages.getMessage("updatePasswordForm.recovery.email.message"), url);
+    public void recoveryPassword(String username) {
+        userMail.sendPasswordRecoveryEmail(getUserByUsername(username));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public User updatePassword(String username, String currentPassword, String recoveryToken, String newPassword, String applicationUrl) {
+    public User updatePassword(String username, String currentPassword, String recoveryToken, String newPassword) {
         User user = getUserByUsername(username);
 
         if (isRecoveryTokenValid(user, recoveryToken)) {
@@ -317,7 +237,7 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
             user.setEnabled(true);
             user = saveUser(user);
 
-            sendUserEmail(user, passwordUpdatedTemplate, messages.getMessage("updatePasswordForm.email.subject"), messages.getMessage("updatePasswordForm.email.message"), applicationUrl);
+            userMail.sendUpdatePasswordEmail(user);
 
             return user;
         } else if (StringUtils.isNotBlank(currentPassword)) {
@@ -340,38 +260,13 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
     }
 
     /**
-     * メールを送信する.
-     *
-     * @param user
-     *            ユーザ
-     * @param template
-     *            テンプレート
-     * @param subject
-     *            件名
-     * @param message
-     *            本文
-     * @param url
-     *            URL
-     */
-    private void sendUserEmail(User user, String template, String subject, String message, String url) {
-        mailMessage.setSubject("[" + messages.getMessage("webapp.name") + "] " + subject);
-        mailMessage.setTo(user.getEmail());
-
-        Map<String, Object> model = new HashMap<>();
-        model.put("user", user);
-        model.put("message", message);
-        model.put("URL", url);
-
-        mailEngine.sendMessage(mailMessage, template, model);
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Autowired
     @Override
     public void setUserDao(UserDao userDao) {
         this.dao = userDao;
+        this.paginatedDao = userDao;
         this.userDao = userDao;
     }
 
@@ -381,36 +276,5 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
     @Override
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
-    }
-
-    /**
-     * メッセージソースを設定する.
-     *
-     * @param messageSource
-     *            メッセージソース
-     */
-    @Autowired
-    public void setMessages(MessageSource messageSource) {
-        messages = new MessageSourceAccessor(messageSource);
-    }
-
-    /**
-     * パスワード回復案内メールのテンプレートを設定する.
-     *
-     * @param passwordRecoveryTemplate
-     *            パスワード回復案内メールのテンプレート
-     */
-    public void setPasswordRecoveryTemplate(String passwordRecoveryTemplate) {
-        this.passwordRecoveryTemplate = passwordRecoveryTemplate;
-    }
-
-    /**
-     * パスワード更新メールのテンプレートを設定する.
-     *
-     * @param passwordUpdatedTemplate
-     *            パスワード更新メールのテンプレート
-     */
-    public void setPasswordUpdatedTemplate(String passwordUpdatedTemplate) {
-        this.passwordUpdatedTemplate = passwordUpdatedTemplate;
     }
 }

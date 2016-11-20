@@ -42,10 +42,10 @@ public final class ValidateUtil {
      */
     public static List<Map<String, Serializable>> validateMassage(List<Map<String, Serializable>> errors, String filedName, String message, Serializable... args) {
         if (errors == null) {
-            errors = new ArrayList<Map<String, Serializable>>();
+            errors = new ArrayList<>();
         }
 
-        Map<String, Serializable> value = new HashMap<String, Serializable>();
+        Map<String, Serializable> value = new HashMap<>();
         value.put(FILED_NAME, filedName);
         value.put(MESSAGE, message);
         value.put(ARGS, args);

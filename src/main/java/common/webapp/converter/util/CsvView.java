@@ -31,9 +31,6 @@ import common.Constants;
  */
 public class CsvView extends AbstractUrlBasedView {
 
-    /** 拡張子 */
-    private static final String EXTENSION = ".csv";
-
     /**
      * {@inheritDoc}
      */
@@ -87,7 +84,7 @@ public class CsvView extends AbstractUrlBasedView {
     protected InputStream getTemplateSource(String url, HttpServletRequest request) throws IOException {
         LocalizedResourceHelper helper = new LocalizedResourceHelper(getApplicationContext());
         Locale userLocale = RequestContextUtils.getLocale(request);
-        Resource inputFile = helper.findLocalizedResource(url.endsWith(EXTENSION) ? url.substring(0, url.length() - EXTENSION.length()) : url, EXTENSION, userLocale);
+        Resource inputFile = helper.findLocalizedResource(url.substring(0, url.lastIndexOf(".")), url.substring(url.lastIndexOf(".")), userLocale);
 
         return inputFile.getInputStream();
     }
@@ -107,6 +104,6 @@ public class CsvView extends AbstractUrlBasedView {
 
         Grid grid = new Grid((List<?>) model.get("csv"), template);
         csv.remove(rowCount - 1);
-        csv.addAll(GridUtil.toStringArray(grid, (Set<Formatter<?>>) model.get("formatters")));
+        csv.addAll(grid.toStringArray((Set<Formatter<?>>) model.get("formatters")));
     }
 }

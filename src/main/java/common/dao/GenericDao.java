@@ -111,30 +111,4 @@ public interface GenericDao<T, PK extends Serializable> {
      *            true:非同期
      */
     void reindexAll(boolean async);
-
-    /**
-     * 指定の範囲のオブジェクトを取得する.
-     *
-     * @param searchClass
-     *            検索オブジェクト
-     * @param searchCondition
-     *            検索条件
-     * @param offset
-     *            開始位置
-     * @param limit
-     *            取得数
-     * @return 検索結果のオブジェクトのリスト
-     */
-    List<T> getPaged(Class<?> searchClass, Object searchCondition, Integer offset, Integer limit);
-
-    /**
-     * 件数を取得する.
-     *
-     * @param searchClass
-     *            検索オブジェクト
-     * @param searchCondition
-     *            検索条件
-     * @return 件数
-     */
-    long getRecordCount(Class<?> searchClass, Object searchCondition);
 }

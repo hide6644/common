@@ -52,7 +52,7 @@
     <!-- =================================================================== -->
     <!-- Mail: Sender and FreeMarker configuration                             -->
     <!-- =================================================================== -->
-    <bean id="mailEngine" class="common.service.MailEngine">
+    <bean id="mailEngine" class="common.service.mail.MailEngine">
         <property name="mailSender" ref="mailSender" />
         <property name="freemarkerConfiguration" ref="freemarkerConfiguration" />
         <property name="from" value="${mail.default.from}" />

@@ -32,7 +32,7 @@ public class CsvFileReader {
      *            変換対象の行
      * @return オブジェクト
      */
-    public Object read(Object bean, String[] line) {
+    public <T> T read(T bean, String[] line) {
         beanWrapper.setWrappedInstance(bean);
 
         for (int i = 0; i < props.length; i++) {

@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * ファイル変換処理インターフェイス.
  */
-public interface FileConverterStrategy {
+public interface FileConverterStrategy<T> {
 
     /**
      * アップロードファイルを保持クラス一覧に変換する.
@@ -16,5 +16,5 @@ public interface FileConverterStrategy {
      *            アップロードファイル
      * @return 保持クラス一覧
      */
-    public abstract List<?> convert(MultipartFile multipartFile);
+    public abstract List<T> convert(MultipartFile multipartFile);
 }

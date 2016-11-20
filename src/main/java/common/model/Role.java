@@ -4,18 +4,13 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -35,9 +30,6 @@ public class Role extends BaseObject implements Serializable, GrantedAuthority {
 
     /** 権限を名称で検索するクエリ */
     public static final String FIND_BY_NAME = "Role.findByName";
-
-    /** ID */
-    private Long id;
 
     /** 名称 */
     private String name;
@@ -59,29 +51,6 @@ public class Role extends BaseObject implements Serializable, GrantedAuthority {
      */
     public Role(String name) {
         this.name = name;
-    }
-
-    /**
-     * IDを取得する.
-     *
-     * @return ID
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @DocumentId
-    @XmlTransient
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * IDを設定する.
-     *
-     * @param id
-     *            ID
-     */
-    public void setId(Long id) {
-        this.id = id;
     }
 
     /**

@@ -11,7 +11,7 @@ import common.webapp.form.UploadForm;
 /**
  * ユーザ処理のインターフェース.
  */
-public interface UserManager extends GenericManager<User, Long> {
+public interface UserManager extends PaginatedManager<User, Long> {
 
     /**
      * 全ユーザを取得する.
@@ -64,14 +64,6 @@ public interface UserManager extends GenericManager<User, Long> {
     void removeUser(String userId);
 
     /**
-     * 指定された条件でユーザを検索する.
-     *
-     * @param searchTerm
-     *            検索条件
-     */
-    List<User> searchUser(String searchTerm);
-
-    /**
      * アップロードする.
      *
      * @param uploadForm
@@ -98,46 +90,6 @@ public interface UserManager extends GenericManager<User, Long> {
     User enableUser(User user);
 
     /**
-     * ユーザ本登録用のURLをメールで送信する.
-     *
-     * @param user
-     *            ユーザ
-     * @param urlTemplate
-     *            ユーザ本登録用のURL
-     */
-    void sendSignupUserEmail(User user, String urlTemplate);
-
-    /**
-     * ユーザ登録用のURLをメールで送信する.
-     *
-     * @param user
-     *            ユーザ
-     * @param urlTemplate
-     *            ユーザ登録用のURL
-     */
-    void sendCreatedUserEmail(User user, String urlTemplate);
-
-    /**
-     * パスワード回復用のURLを生成する.
-     *
-     * @param user
-     *            ユーザ
-     * @param urlTemplate
-     *            生成元となるURL
-     * @return パスワード再入力用のURL
-     */
-    String buildRecoveryPasswordUrl(User user, String urlTemplate);
-
-    /**
-     * リカバリートークンを生成する.
-     *
-     * @param user
-     *            ユーザ
-     * @return リカバリートークン
-     */
-    String generateRecoveryToken(User user);
-
-    /**
      * リカバリートークンが一致するか確認する.
      *
      * @param username
@@ -160,14 +112,12 @@ public interface UserManager extends GenericManager<User, Long> {
     boolean isRecoveryTokenValid(User user, String token);
 
     /**
-     * パスワード再入力用のURLをメールで送信する.
+     * パスワード回復の処理を実行する.
      *
      * @param username
      *            ユーザ名
-     * @param urlTemplate
-     *            パスワード再入力用のURL
      */
-    void sendPasswordRecoveryEmail(String username, String urlTemplate);
+    void recoveryPassword(String username);
 
     /**
      * 指定されたユーザ名のユーザのパスワードを更新する.
@@ -180,14 +130,12 @@ public interface UserManager extends GenericManager<User, Long> {
      *            リカバリートークン
      * @param newPassword
      *            新しいパスワード
-     * @param applicationUrl
-     *            当アプリケーションのURL
      * @return パスワード更新後のユーザ
      */
-    User updatePassword(String username, String currentPassword, String recoveryToken, String newPassword, String applicationUrl);
+    User updatePassword(String username, String currentPassword, String recoveryToken, String newPassword);
 
     /**
-     * 指定されたユーザの権限を永続オブジェクトする.
+     * 指定されたユーザの権限を永続化する.
      *
      * @param user
      *            ユーザ
