@@ -475,13 +475,13 @@
         <freemarker.version>2.3.23</freemarker.version>
         <hibernate.version>5.0.11.Final</hibernate.version>
         <hibernate.search.version>5.5.5.Final</hibernate.search.version>
-        <hibernate.validator.version>5.3.1.Final</hibernate.validator.version>
+        <hibernate.validator.version>5.3.2.Final</hibernate.validator.version>
         <HikariCP.version>2.5.1</HikariCP.version>
         <jandex.version>2.0.3.Final</jandex.version>
         <javassist.version>3.20.0-GA</javassist.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <javax.servlet.jsp-api.version>2.3.1</javax.servlet.jsp-api.version>
-        <joda.time.version>2.9.4</joda.time.version>
+        <joda.time.version>2.9.6</joda.time.version>
         <jquery.version>2.2.4</jquery.version>
         <jquery-cookie.version>1.4.1-1</jquery-cookie.version>
         <jsr311-api.version>1.1.1</jsr311-api.version>
@@ -497,7 +497,7 @@
         <opencsv.version>3.8</opencsv.version>
         <sitemesh.version>2.4.2</sitemesh.version>
         <slf4j.version>1.7.21</slf4j.version>
-        <spring.version>4.3.3.RELEASE</spring.version>
+        <spring.version>4.3.4.RELEASE</spring.version>
         <spring.security.version>4.1.3.RELEASE</spring.security.version>
         <subethasmtp.version>3.1.7</subethasmtp.version>
         <taglibs-standard.version>1.2.5</taglibs-standard.version>
