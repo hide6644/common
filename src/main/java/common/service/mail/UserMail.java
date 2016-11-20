@@ -50,7 +50,7 @@ public class UserMail {
      *            ユーザ
      */
     public void sendSignupEmail(User user) {
-        sendEmail(user, accountCreatedTemplate, messages.getMessage("signupForm.email.subject"), messages.getMessage("signupForm.email.message"), buildRecoveryPasswordUrl(user, "/signupComplete?username={username}&token={token}"));
+        sendEmail(user, accountCreatedTemplate, messages.getMessage("signupForm.email.subject"), messages.getMessage("signupForm.email.message"), buildRecoveryPasswordUrl(user, "/signupComplete"));
     }
 
     /**
@@ -60,7 +60,7 @@ public class UserMail {
      *            ユーザ
      */
     public void sendCreatedEmail(User user) {
-        sendEmail(user, accountCreatedTemplate, messages.getMessage("userSaveForm.email.subject"), messages.getMessage("userSaveForm.email.message"), buildRecoveryPasswordUrl(user, "/updatePassword?username={username}&token={token}"));
+        sendEmail(user, accountCreatedTemplate, messages.getMessage("userSaveForm.email.subject"), messages.getMessage("userSaveForm.email.message"), buildRecoveryPasswordUrl(user, "/updatePassword"));
     }
 
     /**
@@ -70,7 +70,7 @@ public class UserMail {
      *            ユーザ名
      */
     public void sendPasswordRecoveryEmail(User user) {
-        sendEmail(user, passwordRecoveryTemplate, messages.getMessage("updatePasswordForm.email.subject"), messages.getMessage("updatePasswordForm.recovery.email.message"), buildRecoveryPasswordUrl(user, "/updatePassword?username={username}&token={token}"));
+        sendEmail(user, passwordRecoveryTemplate, messages.getMessage("updatePasswordForm.email.subject"), messages.getMessage("updatePasswordForm.recovery.email.message"), buildRecoveryPasswordUrl(user, "/updatePassword"));
     }
 
     /**
@@ -84,30 +84,19 @@ public class UserMail {
     }
 
     /**
-     * パスワード回復用のURLを生成する.
+     * ユーザのパスワード回復用のURLを生成する.
      *
      * @param user
      *            ユーザ
-     * @param urlTemplate
-     *            生成元となるURL
+     * @param url
+     *            URL
      * @return パスワード再入力用のURL
      */
-    public String buildRecoveryPasswordUrl(User user, String urlTemplate) {
-        String token = generateRecoveryToken(user);
+    public String buildRecoveryPasswordUrl(User user, String url) {
+        String token = passwordTokenManager.generateRecoveryToken(user);
         String username = user.getUsername();
 
-        return StringUtils.replaceEach(urlTemplate, new String[] { "{username}", "{token}" }, new String[] { username, token });
-    }
-
-    /**
-     * リカバリートークンを生成する.
-     *
-     * @param user
-     *            ユーザ
-     * @return リカバリートークン
-     */
-    public String generateRecoveryToken(User user) {
-        return passwordTokenManager.generateRecoveryToken(user);
+        return messages.getMessage("company.url") + url + StringUtils.replaceEach("?username={username}&token={token}", new String[] { "{username}", "{token}" }, new String[] { username, token });
     }
 
     /**
@@ -131,7 +120,7 @@ public class UserMail {
         Map<String, Object> model = new HashMap<>();
         model.put("user", user);
         model.put("message", message);
-        model.put("URL", messages.getMessage("company.url") + url);
+        model.put("URL", url);
 
         mailEngine.sendMessage(mailMessage, template, model);
     }
