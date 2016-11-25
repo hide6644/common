@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import common.validator.constraints.MaxFileSize;
 import common.validator.constraints.NotEmptyFile;
@@ -22,7 +22,7 @@ public class UploadForm implements Serializable {
     /** アップロードファイル情報 */
     @NotEmptyFile
     @MaxFileSize(max = 2)
-    private CommonsMultipartFile fileData;
+    private MultipartFile fileData;
 
     /** 件数 */
     private int count;
@@ -54,7 +54,7 @@ public class UploadForm implements Serializable {
      *
      * @return アップロードファイル情報
      */
-    public CommonsMultipartFile getFileData() {
+    public MultipartFile getFileData() {
         return fileData;
     }
 
@@ -64,7 +64,7 @@ public class UploadForm implements Serializable {
      * @param fileData
      *            アップロードファイル情報
      */
-    public void setFileData(CommonsMultipartFile fileData) {
+    public void setFileData(MultipartFile fileData) {
         this.fileData = fileData;
     }
 
