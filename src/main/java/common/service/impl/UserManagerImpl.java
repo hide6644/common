@@ -198,7 +198,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
         user.setConfirmPassword(user.getPassword());
         user.setEnabled(true);
 
-        return saveUser(user);
+        return save(user);
     }
 
     /**
