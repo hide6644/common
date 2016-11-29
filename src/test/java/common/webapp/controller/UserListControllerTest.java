@@ -1,6 +1,8 @@
 package common.webapp.controller;
 
 import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -18,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 import common.model.PaginatedList;
 import common.model.Role;
 import common.model.User;
-import common.model.Users;
 import common.service.UserManager;
 import common.webapp.filter.FlashMap;
 
@@ -78,27 +79,23 @@ public class UserListControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testCsvList() throws Exception {
-        ModelAndView mav = c.setupCsvList();
-        Map<String, Object> m = mav.getModel();
-
-        assertNotNull(m.get("csv"));
-        assertEquals("admin/master/csv/users", mav.getViewName());
+        mockMvc.perform(get("/admin/master/users.csv"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("admin/master/csv/users"))
+                .andExpect(content().contentType("Application/Octet-Stream"));
     }
 
     @Test
     public void testXlsList() throws Exception {
-        ModelAndView mav = c.setupXlsList();
-        Map<String, Object> m = mav.getModel();
-
-        assertNotNull(m.get("users"));
-        assertEquals("admin/master/jxls/users", mav.getViewName());
+        mockMvc.perform(get("/admin/master/users.xlsx"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("admin/master/jxls/users"))
+                .andExpect(content().contentType("Application/Vnd.ms-Excel"));
     }
 
     @Test
     public void testXmlList() throws Exception {
-        Users users = c.setupXmlList();
-
-        assertNotNull(users);
-        assertEquals(2, users.getCount());
+        mockMvc.perform(get("/admin/master/users.xml"))
+                .andExpect(status().isOk());
     }
 }
