@@ -36,9 +36,6 @@ public class CsvView extends AbstractUrlBasedView {
      */
     @Override
     protected final void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, IOException {
-        response.setContentType("Application/Octet-Stream");
-        response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/") + 1) + "\"");
-
         List<String[]> csv = null;
 
         if (getUrl() != null) {

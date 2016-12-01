@@ -34,9 +34,6 @@ public class JxlsView extends AbstractUrlBasedView {
      */
     @Override
     protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("Application/Vnd.ms-Excel");
-        response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/") + 1) + "\"");
-
         InputStream is = null;
         OutputStream os = null;
 

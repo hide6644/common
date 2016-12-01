@@ -3,6 +3,7 @@ package common.webapp.controller;
 import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,7 +50,10 @@ public class UserListController extends BaseController {
      * @return ユーザ一覧
      */
     @RequestMapping(value = "/admin/master/users*.csv", method = RequestMethod.GET)
-    public ModelAndView setupCsvList() {
+    public ModelAndView setupCsvList(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("Application/Octet-Stream");
+        response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/") + 1) + "\"");
+
         Model model = new ExtendedModelMap();
         model.addAttribute("csv", userManager.getAll());
         return new ModelAndView("admin/master/csv/users", model.asMap());
@@ -61,7 +65,10 @@ public class UserListController extends BaseController {
      * @return ユーザ一覧
      */
     @RequestMapping(value = "/admin/master/users*.xlsx", method = RequestMethod.GET)
-    public ModelAndView setupXlsList() {
+    public ModelAndView setupXlsList(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("Application/Vnd.ms-Excel");
+        response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/") + 1) + "\"");
+
         Model model = new ExtendedModelMap();
         model.addAttribute("users", userManager.getAll());
         return new ModelAndView("admin/master/jxls/users", model.asMap());
@@ -73,7 +80,10 @@ public class UserListController extends BaseController {
      * @return ユーザ一覧
      */
     @RequestMapping(value = "/admin/master/users*.xml", method = RequestMethod.GET)
-    public @ResponseBody Users setupXmlList() {
+    public @ResponseBody Users setupXmlList(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("Application/Octet-Stream");
+        response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/") + 1) + "\"");
+
         return new Users(userManager.getAll());
     }
 
