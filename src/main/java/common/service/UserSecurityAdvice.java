@@ -31,7 +31,7 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
     public static final String ACCESS_DENIED = "Access Denied: Only administrators are allowed to modify other users.";
 
     /** ログ出力クラス */
-    private final Logger log = LogManager.getLogger(getClass());
+    private Logger log = LogManager.getLogger(getClass());
 
     /**
      * {@inheritDoc}
@@ -59,7 +59,8 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
                 } else if (user.getId() != null && user.getId().equals(currentUser.getId()) && !administrator) {
                     // 入力されたユーザの権限
                     Set<String> userRoles = Optional.ofNullable(user.getRoles()).map(roles -> roles.stream()
-                            .map(role -> role.getName()).collect(Collectors.toSet())).get();
+                            .map(role -> role.getName())
+                            .collect(Collectors.toSet())).get();
 
                     // ログインユーザの権限
                     Set<String> authorizedRoles = auth.getAuthorities().stream()

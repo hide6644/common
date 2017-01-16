@@ -27,7 +27,7 @@ import common.service.UserManager;
 public class ExtendedAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     /** ログ出力クラス */
-    private final transient Logger log = LogManager.getLogger(getClass());
+    private transient Logger log = LogManager.getLogger(getClass());
 
     /** ユーザ処理クラス */
     @Autowired

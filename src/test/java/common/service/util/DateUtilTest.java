@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 
 public class DateUtilTest extends TestCase {
 
-    private final Logger log = LogManager.getLogger(getClass());
+    private Logger log = LogManager.getLogger(getClass());
 
     public DateUtilTest(String name) {
         super(name);

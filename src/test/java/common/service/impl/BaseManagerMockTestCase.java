@@ -15,7 +15,7 @@ import common.service.util.ConvertUtil;
 @RunWith(MockitoJUnitRunner.class)
 public abstract class BaseManagerMockTestCase {
 
-    protected final transient Logger log = LogManager.getLogger(getClass());
+    protected transient Logger log = LogManager.getLogger(getClass());
 
     protected ResourceBundle rb;
 

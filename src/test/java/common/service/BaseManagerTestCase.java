@@ -18,7 +18,7 @@ import common.service.util.ConvertUtil;
 })
 public abstract class BaseManagerTestCase extends AbstractTransactionalJUnit4SpringContextTests {
 
-    protected final transient Logger log = LogManager.getLogger(getClass());
+    protected transient Logger log = LogManager.getLogger(getClass());
 
     protected ResourceBundle rb;
 

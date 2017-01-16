@@ -15,7 +15,7 @@ import common.service.GenericManager;
 public class GenericManagerImpl<T, PK extends Serializable> implements GenericManager<T, PK> {
 
     /** ログ出力クラス */
-    protected final Logger log = LogManager.getLogger(getClass());
+    protected Logger log = LogManager.getLogger(getClass());
 
     /** 一般的なCRUD DAO */
     protected GenericDao<T, PK> dao;
