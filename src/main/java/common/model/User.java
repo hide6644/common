@@ -460,24 +460,35 @@ public class User extends BaseObject implements Serializable, UserDetails {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof User)) {
-            return false;
-        }
-
-        User user = (User) o;
-
-        return username != null ? username.equals(user.getUsername()) : user.getUsername() == null;
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
+        return result;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int hashCode() {
-        return username != null ? username.hashCode() : 0;
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        User other = (User) obj;
+        if (username == null) {
+            if (other.username != null) {
+                return false;
+            }
+        } else if (!username.equals(other.username)) {
+            return false;
+        }
+        return true;
     }
 }
