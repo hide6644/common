@@ -51,11 +51,6 @@
     </filter>
 
     <filter>
-        <filter-name>serviceResponseFilter</filter-name>
-        <filter-class>common.webapp.filter.ServiceResponseFilter</filter-class>
-    </filter>
-
-    <filter>
         <filter-name>flashMapFilter</filter-name>
         <filter-class>common.webapp.filter.FlashMapFilter</filter-class>
     </filter>
@@ -107,13 +102,6 @@
         <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
-    </filter-mapping>
-
-    <filter-mapping>
-        <filter-name>serviceResponseFilter</filter-name>
-        <url-pattern>*.csv</url-pattern>
-        <url-pattern>*.xlsx</url-pattern>
-        <url-pattern>*.xml</url-pattern>
     </filter-mapping>
 
     <filter-mapping>

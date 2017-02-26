@@ -27,7 +27,7 @@ import common.dao.SearchException;
 public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, PK> {
 
     /** ログ出力クラス */
-    protected final Logger log = LogManager.getLogger(getClass());
+    protected Logger log = LogManager.getLogger(getClass());
 
     /** Entity Managerクラス名 */
     public static final String PERSISTENCE_UNIT_NAME = "ApplicationEntityManager";

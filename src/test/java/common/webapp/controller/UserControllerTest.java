@@ -95,4 +95,22 @@ public class UserControllerTest extends BaseControllerTestCase {
         assertFalse(errors.hasErrors());
         assertNotNull(FlashMap.get("flash_info_messages"));
     }
+
+    @Test
+    public void testSaveFromList() throws Exception {
+        MockHttpServletRequest request = newPost("/userform.html");
+        request.setParameter("from", "list");
+        request.setParameter("version", "1");
+        User user = ((UserManager) applicationContext.getBean("userManager")).getUser("-1");
+        user.setConfirmPassword(user.getPassword());
+        user.setLastName("Updated Last Name");
+
+        request.setRemoteUser(user.getUsername());
+
+        BindingResult errors = new DataBinder(user).getBindingResult();
+        c.onSubmit(user, errors, request, new MockHttpServletResponse());
+
+        assertFalse(errors.hasErrors());
+        assertNotNull(FlashMap.get("flash_info_messages"));
+    }
 }

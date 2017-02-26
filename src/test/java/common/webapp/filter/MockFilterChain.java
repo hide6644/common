@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 
 public class MockFilterChain implements FilterChain {
 
-    private final Logger log = LogManager.getLogger(getClass());
+    private Logger log = LogManager.getLogger(getClass());
 
     private String forwardURL;
 

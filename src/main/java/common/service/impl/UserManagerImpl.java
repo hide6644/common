@@ -96,6 +96,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
                 passwordChanged = true;
             } else {
                 String currentPassword = userDao.getUserPassword(user.getId());
+
                 if (user.getPassword() == null) {
                     user.setPassword(currentPassword);
                     user.setConfirmPassword(currentPassword);
@@ -122,6 +123,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
         } catch (Exception e) {
             user.setPassword(null);
             user.setConfirmPassword(null);
+
             if (user.getVersion() == null) {
                 throw new DBException("errors.insert", e);
             } else {
@@ -198,7 +200,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
         user.setConfirmPassword(user.getPassword());
         user.setEnabled(true);
 
-        return saveUser(user);
+        return save(user);
     }
 
     /**
@@ -244,6 +246,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
             if (passwordEncoder.matches(currentPassword, user.getPassword())) {
                 user.setPassword(newPassword);
                 user = saveUser(user);
+
                 return user;
             }
         }

@@ -47,7 +47,7 @@ public class CsvView extends AbstractUrlBasedView {
                 IOUtils.closeQuietly(reader);
             }
         } else {
-            csv = new ArrayList<String[]>();
+            csv = new ArrayList<>();
         }
 
         buildCsvDocument(model, csv);

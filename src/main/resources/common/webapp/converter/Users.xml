@@ -13,8 +13,13 @@
                 <mapping row="1" col="4">user.email</mapping>
             </section>
             <loopbreakcondition>
-                <rowcheck offset="0"/>
-                <rowcheck offset="1"/>
+                <rowcheck offset="0">
+                    <cellcheck offset="0"></cellcheck>
+                    <cellcheck offset="1"></cellcheck>
+                    <cellcheck offset="2"></cellcheck>
+                    <cellcheck offset="3"></cellcheck>
+                    <cellcheck offset="4"></cellcheck>
+                </rowcheck>
             </loopbreakcondition>
         </loop>
     </worksheet>
