@@ -24,7 +24,7 @@ import freemarker.template.Template;
 public class MailEngine {
 
     /** ログ出力クラス */
-    private final Logger log = LogManager.getLogger(getClass());
+    private Logger log = LogManager.getLogger(getClass());
 
     /** メール送信処理クラス */
     private MailSender mailSender;

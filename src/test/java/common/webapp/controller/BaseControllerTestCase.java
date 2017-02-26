@@ -26,7 +26,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
                 "classpath:/common/webapp/controller/dispatcher-servlet.xml" })
 public abstract class BaseControllerTestCase extends AbstractTransactionalJUnit4SpringContextTests {
 
-    protected transient final Logger log = LogManager.getLogger(getClass());
+    protected transient Logger log = LogManager.getLogger(getClass());
 
     @Autowired
     protected WebApplicationContext wac;

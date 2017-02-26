@@ -32,7 +32,7 @@ import common.webapp.util.ValidateUtil;
 public abstract class BaseController {
 
     /** ログ出力クラス */
-    protected final transient Logger log = LogManager.getLogger(getClass());
+    protected transient Logger log = LogManager.getLogger(getClass());
 
     /** メッセージソースアクセサー */
     protected MessageSourceAccessor messages;

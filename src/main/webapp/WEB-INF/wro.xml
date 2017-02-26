@@ -3,7 +3,7 @@
 
 <groups xmlns="http://www.isdc.ro/wro">
     <group name="main">
-        <css>classpath:META-INF/resources/webjars/bootswatch/3.3.5+4/spacelab/bootstrap.min.css</css>
+        <css>classpath:META-INF/resources/webjars/bootswatch/3.3.7/spacelab/bootstrap.min.css</css>
         <css>classpath:META-INF/resources/webjars/datetimepicker/2.3.4/jquery.datetimepicker.css</css>
         <css>/styles/style.css</css>
         <js>classpath:META-INF/resources/webjars/jquery/2.2.4/jquery.min.js</js>
