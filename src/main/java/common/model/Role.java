@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -19,17 +17,8 @@ import org.springframework.security.core.GrantedAuthority;
  */
 @Entity
 @Table(name = "role")
-@NamedQueries({
-    @NamedQuery(
-        name = Role.FIND_BY_NAME,
-        query = "from Role r where name = :name"
-    )
-})
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Role extends BaseObject implements Serializable, GrantedAuthority {
-
-    /** 権限を名称で検索するクエリ */
-    public static final String FIND_BY_NAME = "Role.findByName";
 
     /** 名称 */
     private String name;

@@ -1,6 +1,6 @@
 package common.dao.jpa;
 
-import java.util.List;
+import javax.persistence.NoResultException;
 
 import org.springframework.stereotype.Repository;
 
@@ -24,13 +24,11 @@ public class RoleDaoJpa extends GenericDaoJpa<Role, Long> implements RoleDao {
      * {@inheritDoc}
      */
     @Override
-    public Role getRoleByName(String name) {
-        List<Role> roles = entityManager.createNamedQuery(Role.FIND_BY_NAME, persistentClass).setParameter("name", name).getResultList();
-
-        if (roles.isEmpty()) {
+    public Role getByNameEquals(String name) {
+        try {
+            return entityManager.createNamedQuery("Role.findByNameEquals", persistentClass).setParameter("name", name).getSingleResult();
+        } catch (NoResultException e) {
             return null;
-        } else {
-            return roles.get(0);
         }
     }
 
@@ -39,6 +37,6 @@ public class RoleDaoJpa extends GenericDaoJpa<Role, Long> implements RoleDao {
      */
     @Override
     public void removeRole(String name) {
-        entityManager.remove(getRoleByName(name));
+        entityManager.remove(getByNameEquals(name));
     }
 }

@@ -3,8 +3,6 @@ package common.dao;
 import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import common.model.User;
 
@@ -14,21 +12,20 @@ import common.model.User;
 public interface UserDao extends PaginatedDao<User, Long> {
 
     /**
+     * すべてのユーザを取得する.
+     *
+     * @return ユーザ一覧
+     */
+    List<User> getAllOrderByUsername();
+
+    /**
      * 指定されたユーザ名のユーザ情報を取得する.
      *
      * @param username
      *            ユーザ名
      * @return ユーザ情報
      */
-    @Transactional
     UserDetails loadUserByUsername(String username);
-
-    /**
-     * すべてのユーザを取得する.
-     *
-     * @return ユーザ一覧
-     */
-    List<User> getUsers();
 
     /**
      * 指定されたユーザを永続化する.
@@ -46,6 +43,5 @@ public interface UserDao extends PaginatedDao<User, Long> {
      *            ユーザID
      * @return パスワード
      */
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    String getUserPassword(Long id);
+    String getPasswordById(Long id);
 }
