@@ -152,6 +152,15 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
      */
     @SuppressWarnings("unchecked")
     @Override
+    public List<T> search(String[] searchTerm, String[] searchField) throws SearchException {
+        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchJpaTools.generateQuery(searchTerm, searchField, persistentClass, entityManager, defaultAnalyzer), persistentClass).getResultList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
     public List<T> search(String searchTerm) throws SearchException {
         return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchJpaTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass).getResultList();
     }
