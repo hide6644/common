@@ -3,6 +3,7 @@ package common.dao.jpa;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Table;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Order;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import common.dao.UserDao;
@@ -43,22 +45,20 @@ public class UserDaoJpa extends PaginatedDaoJpa<User, Long> implements UserDao, 
      * {@inheritDoc}
      */
     @Override
-    public List<User> getUsers() {
-        return entityManager.createNamedQuery(User.GET_ALL, persistentClass).getResultList();
+    public List<User> getAllOrderByUsername() {
+        return entityManager.createNamedQuery("User.findAllOrderByUsername", persistentClass).getResultList();
     }
 
     /**
      * {@inheritDoc}
      */
-    @Transactional
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        List<User> users = entityManager.createNamedQuery(User.FIND_BY_USERNAME, persistentClass).setParameter("username", username).getResultList();
-
-        if (users.isEmpty()) {
+        try {
+            return entityManager.createNamedQuery("User.findByUsernameEquals", persistentClass).setParameter("username", username).getSingleResult();
+        } catch (NoResultException e) {
             throw new UsernameNotFoundException("user '" + username + "' not found...");
-        } else {
-            return users.get(0);
         }
     }
 
@@ -76,7 +76,8 @@ public class UserDaoJpa extends PaginatedDaoJpa<User, Long> implements UserDao, 
      * {@inheritDoc}
      */
     @Override
-    public String getUserPassword(Long id) {
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public String getPasswordById(Long id) {
         Table table = AnnotationUtils.findAnnotation(User.class, Table.class);
         return new JdbcTemplate(dataSource).queryForObject("select password from " + table.name() + " where id = ?", String.class, id);
     }

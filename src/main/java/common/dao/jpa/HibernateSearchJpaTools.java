@@ -46,6 +46,38 @@ class HibernateSearchJpaTools {
      *
      * @param searchTerm
      *            検索文字列
+     * @param searchField
+     *            検索項目
+     * @param searchedEntity
+     *            エンティティクラス
+     * @param entityManager
+     *            Entity Manager
+     * @param defaultAnalyzer
+     *            形態解析クラス
+     * @return 全文検索クエリ
+     */
+    public static Query generateQuery(String[] searchTerm, String[] searchField, Class<?> searchedEntity, EntityManager entityManager, Analyzer defaultAnalyzer) {
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+        Analyzer analyzer = null;
+
+        if (searchedEntity == null) {
+            analyzer = defaultAnalyzer;
+        } else {
+            analyzer = fullTextEntityManager.getSearchFactory().getAnalyzer(searchedEntity);
+        }
+
+        try {
+            return MultiFieldQueryParser.parse(searchTerm, searchField, analyzer);
+        } catch (ParseException e) {
+            throw new SearchException(e);
+        }
+    }
+
+    /**
+     * 全文検索クエリを作成する.
+     *
+     * @param searchTerm
+     *            検索文字列
      * @param searchedEntity
      *            エンティティクラス
      * @param entityManager
@@ -59,36 +91,33 @@ class HibernateSearchJpaTools {
             return new MatchAllDocsQuery();
         }
 
-        IndexReaderAccessor readerAccessor = null;
-        IndexReader reader = null;
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+        Analyzer analyzer = null;
+
+        if (searchedEntity == null) {
+            analyzer = defaultAnalyzer;
+        } else {
+            analyzer = fullTextEntityManager.getSearchFactory().getAnalyzer(searchedEntity);
+        }
+
+        SearchFactory searchFactory = fullTextEntityManager.getSearchFactory();
+        IndexReaderAccessor readerAccessor = searchFactory.getIndexReaderAccessor();
+        IndexReader reader = readerAccessor.open(searchedEntity);
+
+        String[] fnames = StreamSupport.stream(
+                Spliterators.spliteratorUnknownSize(
+                        MultiFields.getMergedFieldInfos(reader).iterator(), Spliterator.ORDERED),
+                false)
+                .filter(fieldInfo -> fieldInfo.getIndexOptions() != IndexOptions.NONE)
+                .filter(fieldInfo -> !fieldInfo.name.equals("_hibernate_class"))
+                .map(fieldInfo -> fieldInfo.name)
+                .collect(Collectors.toSet())
+                .toArray(new String[0]);
+
+        String[] queries = new String[fnames.length];
+        Arrays.fill(queries, searchTerm);
 
         try {
-            FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
-            Analyzer analyzer = null;
-
-            if (searchedEntity == null) {
-                analyzer = defaultAnalyzer;
-            } else {
-                analyzer = fullTextEntityManager.getSearchFactory().getAnalyzer(searchedEntity);
-            }
-
-            SearchFactory searchFactory = fullTextEntityManager.getSearchFactory();
-            readerAccessor = searchFactory.getIndexReaderAccessor();
-            reader = readerAccessor.open(searchedEntity);
-
-            String[] fnames = StreamSupport.stream(
-                    Spliterators.spliteratorUnknownSize(
-                            MultiFields.getMergedFieldInfos(reader).iterator(), Spliterator.ORDERED),
-                    false)
-                    .filter(fieldInfo -> fieldInfo.getIndexOptions() != IndexOptions.NONE)
-                    .filter(fieldInfo -> !fieldInfo.name.equals("_hibernate_class"))
-                    .map(fieldInfo -> fieldInfo.name)
-                    .collect(Collectors.toSet())
-                    .toArray(new String[0]);
-
-            String[] queries = new String[fnames.length];
-            Arrays.fill(queries, searchTerm);
-
             return MultiFieldQueryParser.parse(queries, fnames, analyzer);
         } catch (ParseException e) {
             throw new SearchException(e);
@@ -98,7 +127,6 @@ class HibernateSearchJpaTools {
             }
         }
     }
-
 
     /**
      * ファセットクエリを作成する.

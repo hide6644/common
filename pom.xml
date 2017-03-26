@@ -7,7 +7,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -435,10 +435,10 @@
         <datetimepicker.version>2.3.4</datetimepicker.version>
         <el-impl.version>2.2</el-impl.version>
         <freemarker.version>2.3.23</freemarker.version>
-        <hibernate.version>5.2.8.Final</hibernate.version>
+        <hibernate.version>5.2.9.Final</hibernate.version>
         <hibernate.search.version>5.7.0.Final</hibernate.search.version>
-        <hibernate.validator.version>5.4.0.Final</hibernate.validator.version>
-        <HikariCP.version>2.5.1</HikariCP.version>
+        <hibernate.validator.version>5.4.1.Final</hibernate.validator.version>
+        <HikariCP.version>2.6.1</HikariCP.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <javax.servlet.jsp-api.version>2.3.1</javax.servlet.jsp-api.version>
         <joda.time.version>2.9.7</joda.time.version>
@@ -456,8 +456,8 @@
         <opencsv.version>3.8</opencsv.version>
         <sitemesh.version>2.4.2</sitemesh.version>
         <slf4j.version>1.7.22</slf4j.version>
-        <spring.version>4.3.6.RELEASE</spring.version>
-        <spring.security.version>4.2.1.RELEASE</spring.security.version>
+        <spring.version>4.3.7.RELEASE</spring.version>
+        <spring.security.version>4.2.2.RELEASE</spring.security.version>
         <subethasmtp.version>3.1.7</subethasmtp.version>
         <taglibs-standard.version>1.2.5</taglibs-standard.version>
         <urlrewritefilter.version>4.0.4</urlrewritefilter.version>

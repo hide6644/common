@@ -95,7 +95,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
             if (user.getVersion() == null) {
                 passwordChanged = true;
             } else {
-                String currentPassword = userDao.getUserPassword(user.getId());
+                String currentPassword = userDao.getPasswordById(user.getId());
 
                 if (user.getPassword() == null) {
                     user.setPassword(currentPassword);
