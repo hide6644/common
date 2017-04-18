@@ -92,7 +92,8 @@ public class UserListController extends BaseController {
      * @return ユーザ一覧
      */
     @RequestMapping(value = "/admin/master/users*.xml", method = RequestMethod.GET)
-    public @ResponseBody Users setupXmlList(HttpServletRequest request, HttpServletResponse response) {
+    @ResponseBody
+    public Users setupXmlList(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("Application/Octet-Stream");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/") + 1) + "\"");
 
