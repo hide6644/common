@@ -91,25 +91,6 @@ public class ConstantsTag extends TagSupport {
     }
 
     /**
-     * JSPに公開する範囲をPageContext定値に変換する.
-     *
-     * @param scopeName
-     *            JSPに公開する範囲
-     * @return PageContext定値
-     * @throws JspException
-     *             {@link JspException}
-     */
-    public int getScope(String scopeName) throws JspException {
-        Integer scope = (Integer) SCOPES.get(scopeName.toLowerCase());
-
-        if (scope == null) {
-            throw new JspException("Scope '" + scopeName + "' not a valid option");
-        }
-
-        return scope;
-    }
-
-    /**
      * 変数をJSPに公開するクラスを設定する.
      *
      * @param clazz
@@ -144,6 +125,25 @@ public class ConstantsTag extends TagSupport {
      * @return JSPに公開する範囲
      */
     public String getScope() {
+        return scope;
+    }
+
+    /**
+     * JSPに公開する範囲をPageContext定値に変換する.
+     *
+     * @param scopeName
+     *            JSPに公開する範囲
+     * @return PageContext定値
+     * @throws JspException
+     *             {@link JspException}
+     */
+    public int getScope(String scopeName) throws JspException {
+        Integer scope = (Integer) SCOPES.get(scopeName.toLowerCase());
+
+        if (scope == null) {
+            throw new JspException("Scope '" + scopeName + "' not a valid option");
+        }
+
         return scope;
     }
 

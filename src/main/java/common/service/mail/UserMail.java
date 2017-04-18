@@ -66,8 +66,8 @@ public class UserMail {
     /**
      * パスワード再入力用のURLをメールで送信する.
      *
-     * @param username
-     *            ユーザ名
+     * @param user
+     *            ユーザ
      */
     public void sendPasswordRecoveryEmail(User user) {
         sendEmail(user, passwordRecoveryTemplate, messages.getMessage("updatePasswordForm.email.subject"), messages.getMessage("updatePasswordForm.recovery.email.message"), buildRecoveryPasswordUrl(user, "/updatePassword"));
@@ -76,8 +76,8 @@ public class UserMail {
     /**
      * パスワード変更通知をメールで送信する.
      *
-     * @param username
-     *            ユーザ名
+     * @param user
+     *            ユーザ
      */
     public void sendUpdatePasswordEmail(User user) {
         sendEmail(user, passwordUpdatedTemplate, messages.getMessage("updatePasswordForm.email.subject"), messages.getMessage("updatePasswordForm.email.message"), "");

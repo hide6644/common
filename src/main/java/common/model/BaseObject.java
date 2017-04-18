@@ -24,7 +24,7 @@ public abstract class BaseObject {
     private Long id;
 
     /** 更新回数 */
-    private Integer version;
+    private Long version;
 
     /** 登録ユーザ */
     private String createUser;
@@ -68,7 +68,7 @@ public abstract class BaseObject {
      */
     @Version
     @XmlTransient
-    public Integer getVersion() {
+    public Long getVersion() {
         return version;
     }
 
@@ -78,7 +78,7 @@ public abstract class BaseObject {
      * @param version
      *            更新回数
      */
-    public void setVersion(Integer version) {
+    public void setVersion(Long version) {
         this.version = version;
     }
 

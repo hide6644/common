@@ -119,7 +119,7 @@ public interface GenericDao<T, PK extends Serializable> {
      * 全てのインデックスを再作成する.
      *
      * @param async
-     *            true:非同期
+     *            true:非同期、false:同期
      */
     void reindexAll(boolean async);
 }

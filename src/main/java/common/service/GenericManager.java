@@ -3,8 +3,10 @@ package common.service;
 import java.io.Serializable;
 import java.util.List;
 
+import org.hibernate.search.query.facet.Facet;
+
 /**
- * 一般的なロジックのインターフェース.
+ * 一般的なCRUD POJOsのインターフェイス.
  */
 public interface GenericManager<T, PK extends Serializable> {
 
@@ -59,13 +61,24 @@ public interface GenericManager<T, PK extends Serializable> {
     void remove(PK id);
 
     /**
-     * 全文検索する.
+     * オブジェクトのインデックス済み項目を全文検索する.
      *
      * @param searchTerm
      *            検索文字列
      * @return 検索結果のオブジェクトのリスト
      */
     List<T> search(String searchTerm);
+
+    /**
+     * ファセットを作成する.
+     *
+     * @param field
+     *            対象となる項目
+     * @param max
+     *            ファセットの件数
+     * @return ファセットのリスト
+     */
+    List<Facet> facet(String field, int max);
 
     /**
      * インデックスを再作成する.

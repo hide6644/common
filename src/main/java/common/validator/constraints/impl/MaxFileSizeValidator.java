@@ -35,7 +35,7 @@ public class MaxFileSizeValidator implements ConstraintValidator<MaxFileSize, Ob
             throw new IllegalArgumentException("The unitSign parameter must be '', 'K' or 'M'.");
         }
 
-        if(max < 0){
+        if (max < 0) {
             throw new IllegalArgumentException("The max parameter cannot be negative.");
         }
     }

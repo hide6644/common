@@ -34,7 +34,7 @@ public @interface CompareStrings {
     Class<? extends Payload>[] payload() default {};
 
     @Documented
-    @Target( { TYPE  })
+    @Target({ TYPE })
     @Retention(RUNTIME)
     @interface List {
         CompareStrings[] value();
