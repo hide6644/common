@@ -333,8 +333,8 @@ public class User extends BaseObject implements Serializable, UserDetails {
     /**
      * {@inheritDoc}
      */
-   @Transient
-   @Override
+    @Transient
+    @Override
     public boolean isAccountNonExpired() {
         return !(accountExpiredDate != null && accountExpiredDate.getTime() < System.currentTimeMillis());
     }

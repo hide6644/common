@@ -21,7 +21,7 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.stereotype.Component;
 
-import common.validator.constraints.UniqueKey;;
+import common.validator.constraints.UniqueKey;
 
 /**
  * ユニークか確認する実装クラス.

@@ -7,17 +7,13 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
     <description>
         Full-stack framework for building web applications on the JVM.
     </description>
-
-    <prerequisites>
-        <maven>3.3.9</maven>
-    </prerequisites>
 
     <scm>
         <connection>scm:git:git@github.com:hide6644/common.git</connection>
@@ -44,7 +40,6 @@
     </developers>
 
     <build>
-        <defaultGoal>install</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -77,8 +72,108 @@
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.9</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <reuseForks>false</reuseForks>
+                    <argLine>${argLine} -Dcatalina.base=${project.build.directory}</argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.19.1</version>
+            </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>3.0.4</version>
+                <configuration>
+                    <effort>Max</effort>
+                    <xmlOutput>true</xmlOutput>
+                    <excludeFilterFile>src/config/findbugs-exclude.xml</excludeFilterFile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.17</version>
+                <configuration>
+                    <configLocation>src/config/checkstyle.xml</configLocation>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>checkstyle</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.4</version>
+                <configuration>
+                    <author>true</author>
+                    <source>1.8</source>
+                    <show>protected</show>
+                    <encoding>UTF-8</encoding>
+                    <charset>UTF-8</charset>
+                    <docencoding>UTF-8</docencoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
 
     <dependencyManagement>
         <dependencies>
@@ -340,9 +435,9 @@
             <version>${freemarker.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>el-impl</artifactId>
-            <version>${el-impl.version}</version>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>${el.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jxls</groupId>
@@ -420,7 +515,7 @@
         <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
         <jdbc.groupId>mysql</jdbc.groupId>
         <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
-        <jdbc.version>5.1.40</jdbc.version>
+        <jdbc.version>5.1.41</jdbc.version>
         <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
         <jdbc.url>
             <![CDATA[jdbc:mysql://localhost/common?createDatabaseIfNotExist=true&amp;zeroDateTimeBehavior=convertToNull&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true]]>
@@ -433,7 +528,7 @@
         <commons.fileupload.version>1.3.2</commons.fileupload.version>
         <commons.io.version>2.5</commons.io.version>
         <datetimepicker.version>2.3.4</datetimepicker.version>
-        <el-impl.version>2.2</el-impl.version>
+        <el.version>3.0.1-b08</el.version>
         <freemarker.version>2.3.23</freemarker.version>
         <hibernate.version>5.2.9.Final</hibernate.version>
         <hibernate.search.version>5.7.0.Final</hibernate.search.version>
@@ -441,21 +536,21 @@
         <HikariCP.version>2.6.1</HikariCP.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <javax.servlet.jsp-api.version>2.3.1</javax.servlet.jsp-api.version>
-        <joda.time.version>2.9.7</joda.time.version>
+        <joda.time.version>2.9.9</joda.time.version>
         <jquery.version>2.2.4</jquery.version>
         <jquery-cookie.version>1.4.1-1</jquery-cookie.version>
         <jsr311-api.version>1.1.1</jsr311-api.version>
         <junit.version>4.12</junit.version>
-        <jxls.version>2.3.0</jxls.version>
-        <jxls-poi.version>1.0.11</jxls-poi.version>
+        <jxls.version>2.4.0</jxls.version>
+        <jxls-poi.version>1.0.12</jxls-poi.version>
         <jxls-reader.version>2.0.2</jxls-reader.version>
-        <log4j.version>2.6.2</log4j.version>
+        <log4j.version>2.8.2</log4j.version>
         <lucene.version>5.5.4</lucene.version>
         <mail.version>1.4.7</mail.version>
         <mockito.version>1.10.19</mockito.version>
-        <opencsv.version>3.8</opencsv.version>
+        <opencsv.version>3.9</opencsv.version>
         <sitemesh.version>2.4.2</sitemesh.version>
-        <slf4j.version>1.7.22</slf4j.version>
+        <slf4j.version>1.7.25</slf4j.version>
         <spring.version>4.3.7.RELEASE</spring.version>
         <spring.security.version>4.2.2.RELEASE</spring.security.version>
         <subethasmtp.version>3.1.7</subethasmtp.version>
@@ -465,7 +560,7 @@
         <wro4j-core.version>1.8.0</wro4j-core.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <copyright.year>2013-2016</copyright.year>
+        <copyright.year>2013-2017</copyright.year>
     </properties>
 
 </project>

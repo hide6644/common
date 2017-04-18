@@ -43,7 +43,6 @@ public class UserSecurityAdviceTest {
     public void setUp() throws Exception {
         initialSecurityContext = SecurityContextHolder.getContext();
 
-        SecurityContext context = new SecurityContextImpl();
         User user = new User("user");
         user.setId(1L);
         user.setPassword("password");
@@ -51,6 +50,7 @@ public class UserSecurityAdviceTest {
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
         token.setDetails(user);
+        SecurityContext context = new SecurityContextImpl();
         context.setAuthentication(token);
         SecurityContextHolder.setContext(context);
     }
@@ -79,29 +79,27 @@ public class UserSecurityAdviceTest {
 
     @Test
     public void testAddUserAsAdmin() throws Exception {
-        SecurityContext securityContext = new SecurityContextImpl();
         User user = new User("admin");
         user.setId(2L);
         user.setPassword("password");
         user.addRole(new Role(Constants.ADMIN_ROLE));
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
         token.setDetails(user);
+        SecurityContext securityContext = new SecurityContextImpl();
         securityContext.setAuthentication(token);
         SecurityContextHolder.setContext(securityContext);
 
-        UserManager userManager = makeInterceptedTarget();
         final User adminUser = new User("admin");
         adminUser.setId(2L);
 
         given(userDao.saveUser(adminUser)).willReturn(adminUser);
         given(passwordEncoder.encode(adminUser.getPassword())).willReturn(adminUser.getPassword());
 
-        userManager.saveUser(adminUser);
+        makeInterceptedTarget().saveUser(adminUser);
     }
 
     @Test
     public void testUpdateUserProfile() throws Exception {
-        UserManager userManager = makeInterceptedTarget();
         final User user = new User("user");
         user.setId(1L);
         user.getRoles().add(new Role(Constants.USER_ROLE));
@@ -109,7 +107,7 @@ public class UserSecurityAdviceTest {
         given(userDao.saveUser(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
 
-        userManager.saveUser(user);
+        makeInterceptedTarget().saveUser(user);
     }
 
     @Test
@@ -147,17 +145,16 @@ public class UserSecurityAdviceTest {
 
     @Test
     public void testAddUserRoleWhenHasAdminRole() throws Exception {
-        SecurityContext securityContext = new SecurityContextImpl();
         User user1 = new User("user");
         user1.setId(1L);
         user1.setPassword("password");
         user1.addRole(new Role(Constants.ADMIN_ROLE));
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user1.getUsername(), user1.getPassword(), user1.getAuthorities());
         token.setDetails(user1);
+        SecurityContext securityContext = new SecurityContextImpl();
         securityContext.setAuthentication(token);
         SecurityContextHolder.setContext(securityContext);
 
-        UserManager userManager = makeInterceptedTarget();
         final User user = new User("user");
         user.setId(1L);
         user.getRoles().add(new Role(Constants.ADMIN_ROLE));
@@ -166,12 +163,11 @@ public class UserSecurityAdviceTest {
         given(userDao.saveUser(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
 
-        userManager.saveUser(user);
+        makeInterceptedTarget().saveUser(user);
     }
 
     @Test
     public void testUpdateUserWithUserRole() throws Exception {
-        UserManager userManager = makeInterceptedTarget();
         final User user = new User("user");
         user.setId(1L);
         user.getRoles().add(new Role(Constants.USER_ROLE));
@@ -179,7 +175,7 @@ public class UserSecurityAdviceTest {
         given(userDao.saveUser(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
 
-        userManager.saveUser(user);
+        makeInterceptedTarget().saveUser(user);
     }
 
     private UserManager makeInterceptedTarget() {

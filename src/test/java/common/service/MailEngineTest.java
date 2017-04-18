@@ -6,7 +6,6 @@ import java.util.Date;
 
 import javax.mail.BodyPart;
 import javax.mail.Part;
-import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import org.junit.After;
@@ -69,7 +68,7 @@ public class MailEngineTest extends BaseManagerTestCase {
 
     @Test
     public void testSendMessageWithAttachment() throws Exception {
-        final String ATTACHMENT_NAME = "boring-attachment.txt";
+        final String attachmentName = "boring-attachment.txt";
 
         //mock smtp server
         Wiser wiser = new Wiser();
@@ -84,21 +83,15 @@ public class MailEngineTest extends BaseManagerTestCase {
 
         ClassPathResource cpResource = new ClassPathResource("/test-attachment.txt");
         // a null from should work
-        mailEngine.sendMessage(new String[] {
-                "foo@bar.com"
-        }, null, emailBody, emailSubject, ATTACHMENT_NAME, cpResource);
+        mailEngine.sendMessage(new String[] { "foo@bar.com" }, null, emailBody, emailSubject, attachmentName, cpResource);
 
-        mailEngine.sendMessage(new String[] {
-                "foo@bar.com"
-        }, mailMessage.getFrom(), emailBody, emailSubject, ATTACHMENT_NAME, cpResource);
+        mailEngine.sendMessage(new String[] { "foo@bar.com" }, mailMessage.getFrom(), emailBody, emailSubject, attachmentName, cpResource);
 
         wiser.stop();
         // one without and one with from
         assertTrue(wiser.getMessages().size() == 2);
 
         WiserMessage wm = wiser.getMessages().get(0);
-        MimeMessage mm = wm.getMimeMessage();
-
         Object o = wm.getMimeMessage().getContent();
         assertTrue(o instanceof MimeMultipart);
         MimeMultipart multi = (MimeMultipart) o;
@@ -115,13 +108,13 @@ public class MailEngineTest extends BaseManagerTestCase {
                 assertEquals(emailBody, innerMulti.getBodyPart(0).getContent());
             } else if (disp.equals(Part.ATTACHMENT)) { //the attachment to the email
                 hasTheAttachment = true;
-                assertEquals(ATTACHMENT_NAME, bp.getFileName());
+                assertEquals(attachmentName, bp.getFileName());
             } else {
                 fail("Did not expect to be able to get here.");
             }
         }
 
         assertTrue(hasTheAttachment);
-        assertEquals(emailSubject, mm.getSubject());
+        assertEquals(emailSubject, wm.getMimeMessage().getSubject());
     }
 }

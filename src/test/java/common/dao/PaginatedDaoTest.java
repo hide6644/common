@@ -45,6 +45,7 @@ public class PaginatedDaoTest extends BaseDaoTestCase {
 
     @Test
     public void testSearchList() {
+        paginatedDao.reindexAll(false);
         List<User> userList = paginatedDao.searchList("foo", 1, 1);
         assertEquals(1, userList.size());
         assertEquals(2, paginatedDao.searchCount("foo"));
