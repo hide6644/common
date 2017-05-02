@@ -5,32 +5,33 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.search.query.facet.Facet;
 
 import common.dao.GenericDao;
 import common.service.GenericManager;
 
 /**
- * 一般的なロジッククラス.
+ * 一般的なCRUD POJOsの実装クラス.
  */
 public class GenericManagerImpl<T, PK extends Serializable> implements GenericManager<T, PK> {
 
     /** ログ出力クラス */
     protected Logger log = LogManager.getLogger(getClass());
 
-    /** 一般的なCRUD DAO */
+    /** 一般的なCRUD DAOのインターフェース */
     protected GenericDao<T, PK> dao;
 
     /**
-     * デフォルト・コンストラクタ
+     * デフォルト・コンストラクタ.
      */
     public GenericManagerImpl() {
     }
 
     /**
-     * コンストラクタ
+     * コンストラクタ.
      *
      * @param genericDao
-     *            一般的なCRUD DAO
+     *            一般的なCRUD DAOのインターフェース
      */
     public GenericManagerImpl(GenericDao<T, PK> genericDao) {
         this.dao = genericDao;
@@ -88,12 +89,20 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
      * {@inheritDoc}
      */
     @Override
-    public List<T> search(String q) {
-        if (q == null || q.trim().length() == 0) {
+    public List<T> search(String searchTerm) {
+        if (searchTerm == null || searchTerm.trim().length() == 0) {
             return getAll();
         }
 
-        return dao.search(q);
+        return dao.search(searchTerm);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Facet> facet(String field, int max) {
+        return dao.facet(field, max);
     }
 
     /**

@@ -14,7 +14,7 @@ public interface RoleDao extends GenericDao<Role, Long> {
      *            名称
      * @return 権限
      */
-    Role getRoleByName(String name);
+    Role getByNameEquals(String name);
 
     /**
      * 指定された名称の権限を削除する.

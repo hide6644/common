@@ -30,7 +30,7 @@ public class MailEngine {
     private MailSender mailSender;
 
     /** テンプレートエンジン */
-    private Configuration freemarkerConfiguration;;
+    private Configuration freemarkerConfiguration;
 
     /** デフォルトの送信者 */
     private String defaultFrom;
@@ -77,7 +77,7 @@ public class MailEngine {
     /**
      * メッセージを送信する.
      *
-     * @param msg
+     * @param simpleMailMessage
      *            Simple Mailメッセージモデル
      * @param templateName
      *            テンプレート

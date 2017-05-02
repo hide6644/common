@@ -84,6 +84,17 @@ public interface GenericDao<T, PK extends Serializable> {
      *
      * @param searchTerm
      *            検索文字列
+     * @param searchField
+     *            検索項目
+     * @return 検索結果のオブジェクトのリスト
+     */
+    List<T> search(String[] searchTerm, String[] searchField) throws SearchException;
+
+    /**
+     * 全文検索する.
+     *
+     * @param searchTerm
+     *            検索文字列
      * @return 検索結果のオブジェクトのリスト
      */
     List<T> search(String searchTerm) throws SearchException;
@@ -108,7 +119,7 @@ public interface GenericDao<T, PK extends Serializable> {
      * 全てのインデックスを再作成する.
      *
      * @param async
-     *            true:非同期
+     *            true:非同期、false:同期
      */
     void reindexAll(boolean async);
 }

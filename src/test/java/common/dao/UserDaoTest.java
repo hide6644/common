@@ -37,7 +37,7 @@ public class UserDaoTest extends BaseDaoTestCase {
 
     @Test
     public void testGetUsers() throws Exception {
-        List<User> userList = dao.getUsers();
+        List<User> userList = dao.getAllOrderByUsername();
 
         assertEquals(2, userList.size());
     }
@@ -45,7 +45,7 @@ public class UserDaoTest extends BaseDaoTestCase {
     @Test
     public void testGetUserPassword() throws Exception {
         User user = dao.get(-1L);
-        String password = dao.getUserPassword(user.getId());
+        String password = dao.getPasswordById(user.getId());
         assertNotNull(password);
         log.debug("password: " + password);
     }
@@ -75,7 +75,7 @@ public class UserDaoTest extends BaseDaoTestCase {
         User user = dao.get(-1L);
         assertEquals(1, user.getRoles().size());
 
-        Role role = rdao.getRoleByName(Constants.USER_ROLE);
+        Role role = rdao.getByNameEquals(Constants.USER_ROLE);
         user.addRole(role);
         user.setConfirmPassword(user.getPassword());
         dao.saveUser(user);
@@ -105,7 +105,7 @@ public class UserDaoTest extends BaseDaoTestCase {
         user.setLastName("Last");
         user.setEmail("testuser@appfuse.org");
 
-        Role role = rdao.getRoleByName(Constants.USER_ROLE);
+        Role role = rdao.getByNameEquals(Constants.USER_ROLE);
         assertNotNull(role.getId());
         user.addRole(role);
 
@@ -129,7 +129,7 @@ public class UserDaoTest extends BaseDaoTestCase {
         user.setLastName("Last");
         user.setEmail("testuser@appfuse.org");
 
-        Role role = rdao.getRoleByName(Constants.USER_ROLE);
+        Role role = rdao.getByNameEquals(Constants.USER_ROLE);
         assertNotNull(role.getId());
         user.addRole(role);
 

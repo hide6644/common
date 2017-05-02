@@ -59,6 +59,7 @@ public class DateUtilTest extends TestCase {
         assertTrue(now != null);
         log.debug(now);
     }
+
     public void testGetDateWithNull() {
         final String date = DateUtil.getDate(null);
         assertEquals("", date);

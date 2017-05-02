@@ -15,8 +15,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.Valid;
@@ -50,16 +48,6 @@ import common.validator.constraints.UniqueKey;
  */
 @Entity
 @Table(name = "app_user")
-@NamedQueries({
-    @NamedQuery(
-        name = User.GET_ALL,
-        query = "from User u order by upper(username)"
-    ),
-    @NamedQuery(
-        name = User.FIND_BY_USERNAME,
-        query = "from User u where username = :username"
-    )
-})
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Indexed
 @Analyzer(impl = JapaneseAnalyzer.class)
@@ -81,12 +69,6 @@ import common.validator.constraints.UniqueKey;
     )
 })
 public class User extends BaseObject implements Serializable, UserDetails {
-
-    /** 全件検索するクエリ */
-    public static final String GET_ALL = "User.getAll";
-
-    /** ユーザをユーザ名で検索するクエリ */
-    public static final String FIND_BY_USERNAME = "User.findByUsername";
 
     /** ユーザ名 */
     private String username;
@@ -351,8 +333,8 @@ public class User extends BaseObject implements Serializable, UserDetails {
     /**
      * {@inheritDoc}
      */
-   @Transient
-   @Override
+    @Transient
+    @Override
     public boolean isAccountNonExpired() {
         return !(accountExpiredDate != null && accountExpiredDate.getTime() < System.currentTimeMillis());
     }
