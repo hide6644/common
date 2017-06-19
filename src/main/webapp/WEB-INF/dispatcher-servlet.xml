@@ -41,16 +41,16 @@
     </bean>
 
     <!-- View Resolver for Thymeleaf -->
-    <bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
-        <property name="prefix" value="/WEB-INF/views/" />
+    <bean id="templateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/pages/" />
         <property name="suffix" value=".html" />
         <property name="templateMode" value="HTML" />
-        <property name="characterEncoding" value="UTF-8" />
-        <property name="order" value="4" />
+        <property name="cacheable" value="true" />
     </bean>
 
     <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver" />
+        <property name="enableSpringELCompiler" value="true" />
         <property name="additionalDialects">
             <set>
                 <bean class="org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect" />
@@ -60,7 +60,7 @@
 
     <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
         <property name="templateEngine" ref="templateEngine" />
-        <property name="characterEncoding" value="UTF-8" />
+        <property name="order" value="4" />
     </bean>
 
     <!-- View Resolver for JSPs -->
