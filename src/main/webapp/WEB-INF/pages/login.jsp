@@ -4,7 +4,7 @@
 </head>
 
 <body id="login">
-<form action="<c:url value='/login.html' />" method="post" class="form-signin">
+<form action="<c:url value='/login' />" method="post" class="form-signin">
     <h2 class="form-signin-heading">
         <fmt:message key="loginForm.heading" />
     </h2>
