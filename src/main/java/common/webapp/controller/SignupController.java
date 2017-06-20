@@ -66,7 +66,7 @@ public class SignupController extends BaseController {
             return "signup";
         }
 
-        return "redirect:/login.html";
+        return "redirect:/login";
     }
 
     /**
@@ -83,7 +83,7 @@ public class SignupController extends BaseController {
         try {
             if (StringUtils.isNotBlank(token) && !userManager.isRecoveryTokenValid(username, token)) {
                 saveFlashError(getText("signupForm.invalidToken"));
-                return "redirect:/login.html";
+                return "redirect:/login";
             }
 
             User user = userManager.getUserByUsername(username);
@@ -97,7 +97,7 @@ public class SignupController extends BaseController {
         } catch (DBException e) {
             log.error(e);
 
-            return "redirect:/login.html";
+            return "redirect:/login";
         }
 
         return "redirect:/top";

@@ -25,11 +25,11 @@
         <intercept-url pattern="/app/**" access="isAuthenticated()" />
 
         <remember-me user-service-ref="userDao" key="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
-        <logout logout-url="/logout" logout-success-url="/login.html" invalidate-session="true" delete-cookies="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
+        <logout logout-url="/logout" logout-success-url="/login" invalidate-session="true" delete-cookies="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
     </http>
 
     <beans:bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-        <beans:constructor-arg value="/login.html" />
+        <beans:constructor-arg value="/login" />
     </beans:bean>
 
     <beans:bean id="authenticationFilter" class="common.webapp.filter.ExtendedAuthenticationFilter">

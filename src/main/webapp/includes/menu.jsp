@@ -2,7 +2,7 @@
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav">
 <c:if test="${empty pageContext.request.remoteUser}">
-                <li class="active"><a href="<c:url value='/login.html' />"><fmt:message key="loginForm.heading" /></a></li>
+                <li class="active"><a href="<c:url value='/login' />"><fmt:message key="loginForm.heading" /></a></li>
 </c:if>
 <sec:authorize access="isAuthenticated()">
                 <li class="<c:if test="${currentMenu eq 'topForm'}">active</c:if>">

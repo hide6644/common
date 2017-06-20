@@ -19,7 +19,7 @@ public class LoginController extends BaseController {
      *
      * @return 遷移先jsp名
      */
-    @RequestMapping(value = "login.html", method = RequestMethod.GET)
+    @RequestMapping(value = "login", method = RequestMethod.GET)
     public ModelAndView setupLogin() {
         Model model = new ExtendedModelMap();
         model.addAttribute("username", "");
@@ -39,7 +39,7 @@ public class LoginController extends BaseController {
      *            パスワード
      * @return 遷移先jsp名
      */
-    @RequestMapping(value = "login.html", method = RequestMethod.POST)
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(@RequestParam(value = "remember-me", required = false) boolean rememberMeFlg,
             @RequestParam(value = "username", required = true) String username,
             @RequestParam(value = "password", required = true) String password) {
@@ -61,7 +61,7 @@ public class LoginController extends BaseController {
     public String accountDisabled() {
         saveFlashError(getText("loginForm.accountDisabled"));
 
-        return "redirect:/login.html";
+        return "redirect:/login";
     }
 
     /**
@@ -73,7 +73,7 @@ public class LoginController extends BaseController {
     public String accountLocked() {
         saveFlashError(getText("loginForm.accountLocked"));
 
-        return "redirect:/login.html";
+        return "redirect:/login";
     }
 
     /**
@@ -85,7 +85,7 @@ public class LoginController extends BaseController {
     public String accountExpired() {
         saveFlashError(getText("loginForm.accountExpired"));
 
-        return "redirect:/login.html";
+        return "redirect:/login";
     }
 
     /**
@@ -97,7 +97,7 @@ public class LoginController extends BaseController {
     public String setupCredentialsExpired() {
         saveFlashError(getText("loginForm.credentialsExpired"));
 
-        return "redirect:/login.html";
+        return "redirect:/login";
     }
 
     /**
@@ -109,6 +109,6 @@ public class LoginController extends BaseController {
     public String badCredentials() {
         saveFlashError(getText("loginForm.badCredentials"));
 
-        return "redirect:/login.html";
+        return "redirect:/login";
     }
 }
