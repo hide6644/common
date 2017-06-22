@@ -54,28 +54,15 @@
         <property name="additionalDialects">
             <set>
                 <bean class="org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect" />
+                <bean class="nz.net.ultraq.thymeleaf.LayoutDialect" />
             </set>
         </property>
     </bean>
 
     <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
         <property name="templateEngine" ref="templateEngine" />
+        <property name="characterEncoding" value="UTF-8" />
         <property name="order" value="4" />
     </bean>
-
-    <!-- View Resolver for JSPs -->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="requestContextAttribute" value="rc" />
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-        <property name="prefix" value="/WEB-INF/pages/" />
-        <property name="suffix" value=".jsp" />
-        <property name="order" value="5" />
-    </bean>
-
-    <!-- Convenient way to map URLs to JSPs w/o having a Controller -->
-    <mvc:view-controller path="/top" view-name="top" />
-    <mvc:view-controller path="/admin/top" view-name="admin/top" />
-    <mvc:view-controller path="/admin/master/top" view-name="admin/master/top" />
-    <mvc:view-controller path="/admin/activeUsers" view-name="admin/activeUsers" />
 
 </beans>

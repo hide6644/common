@@ -194,6 +194,11 @@
                 <version>${xmlbeans.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy</artifactId>
+                <version>${groovy.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.jxls</groupId>
                 <artifactId>jxls</artifactId>
                 <version>${jxls.version}</version>
@@ -481,6 +486,11 @@
             <artifactId>thymeleaf-extras-springsecurity4</artifactId>
             <version>${thymeleaf.extras.version}</version>
         </dependency>
+        <dependency>
+            <groupId>nz.net.ultraq.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
+            <version>${thymeleaf.layout.version}</version>
+        </dependency>
 
         <!-- Logging -->
         <dependency>
@@ -540,6 +550,7 @@
         <datetimepicker.version>2.3.4</datetimepicker.version>
         <el.version>3.0.1-b08</el.version>
         <freemarker.version>2.3.23</freemarker.version>
+        <groovy.version>2.4.11</groovy.version>
         <hibernate.version>5.2.9.Final</hibernate.version>
         <hibernate.search.version>5.7.0.Final</hibernate.search.version>
         <hibernate.validator.version>5.4.1.Final</hibernate.validator.version>
@@ -567,6 +578,7 @@
         <taglibs-standard.version>1.2.5</taglibs-standard.version>
         <thymeleaf.version>3.0.3.RELEASE</thymeleaf.version>
         <thymeleaf.extras.version>3.0.2.RELEASE</thymeleaf.extras.version>
+        <thymeleaf.layout.version>2.2.2</thymeleaf.layout.version>
         <urlrewritefilter.version>4.0.4</urlrewritefilter.version>
         <xmlbeans.version>2.6.0</xmlbeans.version>
         <wro4j-core.version>1.8.0</wro4j-core.version>
