@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    th:with="lang = ${#locale.language}"
+    th:lang="${lang}">
+<head>
+    <meta http-equiv="Cache-Control" content="no-store" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE" th:text="#{webapp.name}">webapp.name</title>
+    <link rel="stylesheet" type="text/css" th:href="@{'/assets/v/' + ${#servletContext.getAttribute('assetsVersion')} + '/main.css'}" />
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="#" class="navbar-brand" th:href="@{'/'}" th:text="#{webapp.name}">webapp.name</a>
+        </div>
+        <div th:replace="~{templates/menu :: navbar_div(${currentMenu})}">
+        </div>
+        <div id="switchLocale" th:if="${lang} != 'en'">
+            <a href="#" th:href="@{'?locale=en'}" th:text="|#{webapp.name} in English|">webapp.name in English</a>
+        </div>
+    </div>
+    <div class="container" id="content">
+        include file="/includes/messages.jsp"
+        <div class="row">
+            <div layout:fragment="content" th:remove="tag">
+            </div>
+            <div class="col-sm-2" th:if="${currentMenu} == 'admin'" th:include="~{templates/navlistMenu :: nav_ul(${currentNavlistMenu})}">
+            </div>
+        </div>
+    </div>
+    <div id="footer" class="container navbar-fixed-bottom">
+        <span class="col-sm-6 text-left">
+            <span th:text="#{webapp.version}">webapp.version</span>
+            <span th:if="${#request.remoteUser}" th:text="|#{user.status} ${#request.remoteUser}|">user.status</span>
+        </span>
+        <span class="col-sm-6 text-right">
+            <span th:text="|&copy; #{copyright.year}|">copyright.year</span>
+            <a href="#" th:href="#{company.url}" th:text="#{company.name}">company.name</a>
+        </span>
+    </div>
+    <script type="text/javascript" th:src="@{'/assets/v/' + ${#servletContext.getAttribute('assetsVersion')} + '/main.js'}"></script>
+    <div layout:fragment="scripts" th:remove="tag"></div>
+</body>
+</html>

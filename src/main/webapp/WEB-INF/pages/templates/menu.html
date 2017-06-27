@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <div class="collapse navbar-collapse" id="navbar" th:fragment="navbar_div(currentMenu)">
+        <ul class="nav navbar-nav">
+            <li class="active" th:if="${#request.remoteUser} == null">
+                <a href="#" th:href="@{'/login'}" th:text="#{loginForm.heading}"></a>
+            </li>
+            <li th:class="${currentMenu} == 'topForm' ? 'active'" sec:authorize="isAuthenticated()">
+                <a href="#" th:href="@{'/top'}" th:text="#{topForm.title}"></a>
+            </li>
+            <li th:class="${currentMenu} == 'userSaveForm' ? 'active'" sec:authorize="isAuthenticated()">
+                <a href="#" th:href="@{'/user'}" th:text="#{user} + #{button.edit}"></a>
+            </li>
+            <li class="dropdown" th:classappend="${currentMenu} == 'admin' ? 'active'" sec:authorize="hasRole('ROLE_ADMIN')">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span th:text="#{admin.topForm}"></span><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" th:href="@{'/admin/master/top'}" th:text="#{admin.master.topForm}"></a></li>
+                    <li><a href="#" th:href="@{'/admin/activeUsers'}" th:text="#{activeUsersForm}"></a></li>
+                </ul>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <a href="#" th:href="@{'/logout'}" th:text="#{topForm.logout}"></a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

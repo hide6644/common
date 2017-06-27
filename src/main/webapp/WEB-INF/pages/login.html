@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{templates/layout}">
+<head>
+    <title th:text="#{loginForm.title}">loginForm.title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body id="login">
+    <div layout:fragment="content">
+        <form action="#" method="post" class="form-signin" th:action="@{/login}">
+            <h2 class="form-signin-heading" th:text="#{loginForm.heading}">
+                loginForm.heading
+            </h2>
+            <input type="text" name="username" id="username" class="form-control" th:placeholder="#{loginForm.username}" tabindex="1" />
+            <input type="password" name="password" id="password" class="form-control" th:placeholder="#{loginForm.password}" tabindex="2" />
+            <label class="checkbox">
+                <input type="checkbox" name="remember-me" id="rememberMe" tabindex="3" th:text="#{loginForm.rememberMe}" />
+            </label>
+            <p>
+                <button type="submit" class="btn btn-lg btn-primary btn-block" tabindex="4" th:text="#{button.login}">
+                    button.login
+                </button>
+            </p>
+            <p>
+                <span th:utext="#{loginForm.password.request}">loginForm.password.request</span>
+                <br />
+                <span th:utext="${#messages.msg('loginForm.signup', '__@{/signup}__')}">loginForm.signup</span>
+            </p>
+        </form>
+    </div>
+    <div layout:fragment="scripts">
+        <script type="text/javascript" th:inline="text">
+        /*<![CDATA[*/
+        $(function() {
+            if ($.cookie('login_username') != null) {
+                $('#username').val($.cookie('login_username'));
+                $('#password').focus();
+            } else {
+                $('#username').focus();
+            }
+
+            $('#login').submit(function () {
+                $.cookie('login_username', $('#username').val(), { expires: 30, path: '[[@{'/'}]]}');
+            });
+
+            $('#send').click(function() {
+                if ($('#username').val().length == 0) {
+                    alert([[${#messages.msg('errors.required', '__#{loginForm.username}__')}]]);
+                    $('#username').focus();
+                } else {
+                    $(location).attr('href', '[[@{'/requestRecoveryToken'}]]?username=' + $('#username').val());
+                }
+                return false;
+            });
+        });
+        /*]]>*/
+        </script>
+    </div>
+</body>
+</html>
