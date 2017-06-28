@@ -17,6 +17,7 @@
         <csrf disabled="true" />
         <custom-filter position="FORM_LOGIN_FILTER" ref="authenticationFilter" />
 
+        <intercept-url pattern="/app/error" access="permitAll" />
         <intercept-url pattern="/app/login*/**" access="permitAll" />
         <intercept-url pattern="/app/requestRecoveryToken*" access="permitAll" />
         <intercept-url pattern="/app/updatePassword*" access="permitAll" />

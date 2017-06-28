@@ -7,8 +7,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class TopController extends BaseController {
 
-    @RequestMapping(value = "/top", method = RequestMethod.GET)
-    public String handleRequest() {
+    @RequestMapping(value = "top", method = RequestMethod.GET)
+    public String topRequest() {
     	return "top";
+    }
+
+    @RequestMapping(value = "admin/top", method = RequestMethod.GET)
+    public String adminTopRequest() {
+    	return "admin/top";
     }
 }

@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{templates/layout}">
+<head>
+    <title th:text="#{signupForm.title}">signupForm.title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="col-sm-2">
+            <h3 th:text="#{signupForm.heading}">signupForm.heading</h3>
+            <p th:text="#{signupForm.message}">signupForm.message</p>
+        </div>
+        <div class="col-sm-7">
+            <fieldset id="legend">
+                <legend th:text="#{button.add}">button.add</legend>
+            </fieldset>
+            <form action="#" class="well" th:action="@{/signup}" th:object="${user}" method="post">
+                <input type="hidden" name="roles" value="registration" />
+                <fieldset class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="icon-ok icon-white"></i> <span th:text="#{button.add}">button.add</span>
+                    </button>
+                    <button type="reset" class="btn btn-default">
+                        <i class="icon-refresh"></i> <span th:text="#{button.reset}">button.reset</span>
+                    </button>
+                    <button type="button" class="btn btn-default" id="button_cancel">
+                        <i class="icon-remove"></i> <span th:text="#{button.cancel}">button.cancel</span>
+                    </button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div layout:fragment="scripts">
+        <script type="text/javascript" th:inline="text">
+        /*<![CDATA[*/
+            $(function() {
+                $('#button_cancel').click(function() {
+                    $(location).attr('href', '[[@{'/top'}]]');
+                });
+            });
+        /*]]>*/
+        </script>
+    </div>
+</body>
+</html>

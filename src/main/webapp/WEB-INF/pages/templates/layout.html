@@ -30,7 +30,8 @@
         </div>
     </div>
     <div class="container" id="content">
-        include file="/includes/messages.jsp"
+        <div th:replace="~{templates/messages :: alert_div}">
+        </div>
         <div class="row">
             <div layout:fragment="content" th:remove="tag">
             </div>

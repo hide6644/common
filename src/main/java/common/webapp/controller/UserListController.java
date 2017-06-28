@@ -110,7 +110,7 @@ public class UserListController extends BaseController {
      * @return 遷移先jsp名
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView handleRequest(@ModelAttribute("searchUser") User user, @RequestParam(value = "page", required = false) Integer page) {
+    public ModelAndView showForm(@ModelAttribute("searchUser") User user, @RequestParam(value = "page", required = false) Integer page) {
         PaginatedList<User> paginatedList = new PaginatedList<User>(page);
         paginatedList.setSearchCondition(user);
         userManager.createList(paginatedList);

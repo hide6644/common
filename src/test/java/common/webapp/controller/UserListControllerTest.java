@@ -30,7 +30,7 @@ public class UserListControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testHandleRequest() throws Exception {
-        ModelAndView mav = c.handleRequest(new User(), null);
+        ModelAndView mav = c.showForm(new User(), null);
         Map<String, Object> m = mav.getModel();
 
         assertNotNull(m.get("paginatedList"));
@@ -44,7 +44,7 @@ public class UserListControllerTest extends BaseControllerTestCase {
 
         User user = new User("admin");
         user.setEmail("admin");
-        ModelAndView mav = c.handleRequest(user, null);
+        ModelAndView mav = c.showForm(user, null);
         Map<String, Object> m = mav.getModel();
         @SuppressWarnings("unchecked")
         PaginatedList<User> results = (PaginatedList<User>) m.get("paginatedList");
