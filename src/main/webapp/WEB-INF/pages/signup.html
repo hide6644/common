@@ -19,6 +19,13 @@
             </fieldset>
             <form action="#" class="well" th:action="@{/signup}" th:object="${user}" method="post">
                 <input type="hidden" name="roles" value="registration" />
+                <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? has-error">
+                    <label for="username" class="control-label">
+                        <span th:text="#{user.username}">user.username</span> <span class="required">*</span>
+                    </label>
+                    <input type="text" class="form-control" th:field="*{username}" />
+                    <span class="help-block" th:each="err : ${#fields.errors('username')}" th:text="${err}"></span>
+                </div>
                 <fieldset class="form-actions">
                     <button type="submit" class="btn btn-primary">
                         <i class="icon-ok icon-white"></i> <span th:text="#{button.add}">button.add</span>

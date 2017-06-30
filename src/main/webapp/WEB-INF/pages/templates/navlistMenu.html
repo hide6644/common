@@ -17,13 +17,13 @@
                 <li><a href="#" th:href="@{'/admin/reload'}" th:text="#{admin.master.topForm.reload}"></a></li>
             </ul>
         </li>
-        <li th:class="${currentNavlistMenu} == 'activeUsersForm' ? 'active'" >
+        <li th:class="${currentNavlistMenu} == 'activeUsersForm' ? 'active'">
             <a href="#" th:href="@{'/admin/activeUsers'}" th:text="#{activeUsersForm}"></a>
         </li>
     </ul>
     <ul class="nav nav-pills nav-stacked" th:fragment="menu_ul(currentNavlistMenu)" th:if="${currentNavlistMenu} == 'master' or ${currentNavlistMenu} == 'userForm'">
         <li class="nav-header" th:text="#{admin.master.topForm}"></li>
-        <li th:class="${currentNavlistMenu} == 'userForm' ? 'active'" >
+        <li th:class="${currentNavlistMenu} == 'userForm' ? 'active'">
             <a href="#" th:href="@{'/admin/master/users'}" th:text="#{user}"></a>
         </li>
         <li><a href="#" th:href="@{'/admin/reload'}" th:text="#{admin.master.topForm.reload}"></a></li>
