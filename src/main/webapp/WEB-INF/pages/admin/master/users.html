@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{templates/layout}"
+    th:with="currentMenu = 'adimn',currentNavlistMenu = 'userForm'">
+<head>
+    <title th:text="#{userForm.title}">userForm.title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="col-sm-10">
+            <h3 th:text="#{userForm.heading}">userForm.heading</h3>
+            <form action="#" class="form-inline" th:action="@{/admin/master/users}" th:object="${searchUser}" method="get">
+                <input type="text" size="20" class="form-control input-sm" th:field="*{username}" th:placeholder="#{user.username}"/>
+                <input type="text" size="20" class="form-control input-sm" th:field="*{email}" th:placeholder="#{user.email}"/>
+                <button type="submit" class="btn btn-primary btn-sm">
+                    <i class="icon-search"></i> <span th:text="#{button.search}">button.search</span>
+                </button>
+                <button type="button" class="btn btn-default btn-sm" id="button_clear">
+                    <i class="icon-remove"></i> <span th:text="#{button.clear}">button.clear</span>
+                </button>
+            </form>
+            <form action="#" th:action="@{/admin/master/users}" method="post">
+                <input type="hidden" name="_method" value="delete"/>
+
+<table class="table table-condensed table-striped table-hover">
+<thead>
+    <tr>
+        <th><input type="checkbox" id="toggle_checkAll" /></th>
+        <th th:text="#{user.username}"></th>
+        <th th:text="#{user.email}"></th>
+        <th th:text="#{user.enabled}"></th>
+    </tr>
+</thead>
+<tbody>
+    <tr th:each="user : ${paginatedList.currentPage}">
+        <td><input type="checkbox" name="userIds" th:value="${user.id}" /></td>
+        <td th:text="${user.username}">user.username</td>
+        <td th:text="${user.email}">user.email</td>
+        <td><input type="checkbox" disabled="disabled" th:checked="${user.enabled}" /></td>
+    </tr>
+</tbody>
+</table>
+
+            </form>
+        </div>
+    </div>
+</body>
+</html>

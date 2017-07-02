@@ -424,11 +424,6 @@
             <artifactId>joda-time</artifactId>
             <version>${joda.time.version}</version>
         </dependency>
-       <dependency>
-            <groupId>opensymphony</groupId>
-            <artifactId>sitemesh</artifactId>
-            <version>${sitemesh.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.apache.taglibs</groupId>
             <artifactId>taglibs-standard-jstlel</artifactId>
@@ -570,7 +565,6 @@
         <mail.version>1.4.7</mail.version>
         <mockito.version>1.10.19</mockito.version>
         <opencsv.version>3.9</opencsv.version>
-        <sitemesh.version>2.4.2</sitemesh.version>
         <slf4j.version>1.7.25</slf4j.version>
         <spring.version>4.3.7.RELEASE</spring.version>
         <spring.security.version>4.2.2.RELEASE</spring.security.version>

@@ -35,7 +35,9 @@
         <div class="row">
             <div layout:fragment="content" th:remove="tag">
             </div>
-            <div class="col-sm-2" th:if="${currentMenu} == 'admin'" th:include="~{templates/navlistMenu :: nav_ul(${currentNavlistMenu})}">
+            <div class="col-sm-2" th:if="${currentMenu} == 'admin'">
+                <div th:replace="~{templates/navlistMenu :: nav_ul(${currentNavlistMenu})}">
+                </div>
             </div>
         </div>
     </div>

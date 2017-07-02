@@ -16,4 +16,9 @@ public class TopController extends BaseController {
     public String adminTopRequest() {
     	return "admin/top";
     }
+
+    @RequestMapping(value = "admin/master/top", method = RequestMethod.GET)
+    public String adminMasterTopRequest() {
+    	return "admin/master/top";
+    }
 }

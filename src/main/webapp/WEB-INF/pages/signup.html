@@ -80,11 +80,11 @@
         </div>
     </div>
     <div layout:fragment="scripts">
-        <script type="text/javascript" th:inline="text">
+        <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
             $(function() {
                 $('#button_cancel').click(function() {
-                    $(location).attr('href', '[[@{'/top'}]]');
+                    $(location).attr('href', '[(@{'/top'})]');
                 });
             });
         /*]]>*/

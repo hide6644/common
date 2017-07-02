@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <div class="row">
+        <div class="col-sm-6">
+            <div th:switch="${paginatedList.allPageCount}">
+                <span th:case="0" th:text="#{paging.no_items_found}"></span>
+                <span th:case="1" th:text="${#messages.msg('paging.all_items_found', '__${paginatedList.allRecordCount}__')}"></span>
+                <span th:case="*" th:text="${#messages.msg('paging.some_items_found', '__${paginatedList.allRecordCount}__', '__${paginatedList.currentStartRecordNumber}__', '__${paginatedList.currentEndRecordNumber}__')}"></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

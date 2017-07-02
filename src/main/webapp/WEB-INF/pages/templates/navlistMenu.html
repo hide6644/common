@@ -21,7 +21,7 @@
             <a href="#" th:href="@{'/admin/activeUsers'}" th:text="#{activeUsersForm}"></a>
         </li>
     </ul>
-    <ul class="nav nav-pills nav-stacked" th:fragment="menu_ul(currentNavlistMenu)" th:if="${currentNavlistMenu} == 'master' or ${currentNavlistMenu} == 'userForm'">
+    <ul class="nav nav-pills nav-stacked" th:fragment="nav_ul(currentNavlistMenu)" th:if="${currentNavlistMenu} == 'master' or ${currentNavlistMenu} == 'userForm'">
         <li class="nav-header" th:text="#{admin.master.topForm}"></li>
         <li th:class="${currentNavlistMenu} == 'userForm' ? 'active'">
             <a href="#" th:href="@{'/admin/master/users'}" th:text="#{user}"></a>
