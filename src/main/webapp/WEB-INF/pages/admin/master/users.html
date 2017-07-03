@@ -3,7 +3,7 @@
     xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{templates/layout}"
-    th:with="currentMenu = 'adimn',currentNavlistMenu = 'userForm'">
+    th:with="currentMenu = 'admin',currentNavlistMenu = 'userForm'">
 <head>
     <title th:text="#{userForm.title}">userForm.title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -22,30 +22,112 @@
                     <i class="icon-remove"></i> <span th:text="#{button.clear}">button.clear</span>
                 </button>
             </form>
+            <div th:replace="~{templates/pagelinks :: row_div(${paginatedList})}">
+            </div>
             <form action="#" th:action="@{/admin/master/users}" method="post">
                 <input type="hidden" name="_method" value="delete"/>
-
-<table class="table table-condensed table-striped table-hover">
-<thead>
-    <tr>
-        <th><input type="checkbox" id="toggle_checkAll" /></th>
-        <th th:text="#{user.username}"></th>
-        <th th:text="#{user.email}"></th>
-        <th th:text="#{user.enabled}"></th>
-    </tr>
-</thead>
-<tbody>
-    <tr th:each="user : ${paginatedList.currentPage}">
-        <td><input type="checkbox" name="userIds" th:value="${user.id}" /></td>
-        <td th:text="${user.username}">user.username</td>
-        <td th:text="${user.email}">user.email</td>
-        <td><input type="checkbox" disabled="disabled" th:checked="${user.enabled}" /></td>
-    </tr>
-</tbody>
-</table>
-
+                <table class="table table-condensed table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="toggle_checkAll" /></th>
+                            <th th:text="#{user.username}"></th>
+                            <th th:text="#{user.email}"></th>
+                            <th th:text="#{user.enabled}"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="user : ${paginatedList.currentPage}">
+                            <td><input type="checkbox" name="userIds" th:value="${user.id}" /></td>
+                            <td th:text="${user.username}">user.username</td>
+                            <td th:text="${user.email}">user.email</td>
+                            <td><input type="checkbox" disabled="disabled" th:checked="${user.enabled}" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <p>
+                        <button type="button" class="btn btn-primary" id="button_new" th:value="@{'/user'}?method=Add&from=list">
+                            <i class="icon-plus"></i> <span th:text="#{button.add}">button.add</span>
+                        </button>
+                        <button type="button" class="btn btn-primary" id="button_edit" th:value="@{'/user'}?from=list&userId=">
+                            <i class="icon-pencil"></i> <span th:text="#{button.edit}">button.edit</span>
+                        </button>
+                        <button type="submit" class="btn btn-warning" id="button_delete">
+                            <i class="icon-minus"></i> <span th:text="#{button.delete}">button.delete</span>
+                        </button>
+                        <button type="button" class="btn btn-default" id="button_cancel">
+                            <i class="icon-remove"></i> <span th:text="#{button.cancel}">button.cancel</span>
+                        </button>
+                    </p>
+                    <p>
+                        <button type="button" class="btn btn-default" id="button_upload">
+                            <i class="icon-arrow-up"></i> <span th:text="#{button.upload}">button.upload</span>
+                        </button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#downloadModal" id="button_download">
+                            <i class="icon-arrow-down"></i> <span th:text="#{button.download}">button.download</span>
+                        </button>
+                    </p>
+                </div>
+                <div id="downloadModal" class="modal" role="dialog" aria-labelledby="downloadModalLabel" tabindex="-1">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="downloadModalLabel" th:text="#{fileType}">fileType</h4>
+                            </div>
+                            <div class="modal-body" th:text="#{fileType.message}">
+                                fileType.message
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" class="btn btn-default" id="dialog_download_xml" th:text="#{fileType.xml}">
+                                    fileType.xml
+                                </a>
+                                <a href="#" class="btn btn-default" id="dialog_download_xls" th:text="#{fileType.xls}">
+                                    fileType.xls
+                                </a>
+                                <a href="#" class="btn btn-default" id="dialog_download_csv" th:text="#{fileType.csv}">
+                                    fileType.csv
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
+    </div>
+    <div layout:fragment="scripts">
+        <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        $(function() {
+            $('#button_clear').click(function() {
+                $('#searchUser').find('input').attr('value', '');
+                $('#searchUser').submit();
+            });
+
+            $('#button_cancel').click(function() {
+                $(location).attr('href', '[(@{'/admin/master/top'})]');
+            });
+
+            $('#button_upload').click(function() {
+                $(location).attr('href', '[(@{'/admin/master/uploadUsers'})]');
+            });
+
+            $('#dialog_download_csv').click(function() {
+                $(location).attr('href', '[(@{'/admin/master/users.csv'})]');
+            });
+
+            $('#dialog_download_xls').click(function() {
+                $(location).attr('href', '[(@{'/admin/master/users.xlsx'})]');
+            });
+
+            $('#dialog_download_xml').click(function() {
+                $(location).attr('href', '[(@{'/admin/master/users.xml'})]');
+            });
+        });
+        /*]]>*/
+        </script>
     </div>
 </body>
 </html>
