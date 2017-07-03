@@ -3,7 +3,7 @@
     xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{templates/layout}"
-    th:with="currentMenu = 'admin',currentNavlistMenu = 'userForm'">
+    th:with="currentMenu = 'admin', currentNavlistMenu = 'userForm'">
 <head>
     <title th:text="#{userForm.title}">userForm.title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -46,10 +46,10 @@
                 </table>
                 <div class="form-group">
                     <p>
-                        <button type="button" class="btn btn-primary" id="button_new" th:value="@{'/user'}?method=Add&from=list">
+                        <button type="button" class="btn btn-primary" id="button_new" th:value="|@{'/user'}?method=Add&from=list|">
                             <i class="icon-plus"></i> <span th:text="#{button.add}">button.add</span>
                         </button>
-                        <button type="button" class="btn btn-primary" id="button_edit" th:value="@{'/user'}?from=list&userId=">
+                        <button type="button" class="btn btn-primary" id="button_edit" th:value="|@{'/user'}?from=list&userId=|">
                             <i class="icon-pencil"></i> <span th:text="#{button.edit}">button.edit</span>
                         </button>
                         <button type="submit" class="btn btn-warning" id="button_delete">

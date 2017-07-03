@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{templates/layout}"
+    th:with="currentMenu = ${param.from} == null ? 'userSaveForm' : 'admin'">
+<head>
+    <title th:text="#{userSaveForm.title}">userForm.title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="col-sm-2" >
+            <h3 th:unless="${param.from}" th:text="#{userSaveForm.heading}">userSaveForm.heading</h3>
+            <p th:unless="${param.from}" th:text="#{userSaveForm.message}">userSaveForm.message</p>
+        </div>
+        <div class="col-sm-7">
+            <fieldset id="legend">
+                <legend th:if="${param.method} != null and ${param.method[0]} == 'Add'" th:text="#{button.add}">button.add</legend>
+                <legend th:unless="${param.method}" th:text="#{button.edit}">button.edit</legend>
+            </fieldset>
+            <form action="#" class="well" autocomplete="off" th:action="@{/user}" th:object="${user}" method="post">
+                <input type="hidden" th:field="*{id}" />
+                <input type="hidden" th:field="*{version}" />
+
+
+            </form>
+        </div>
+    </div>
+</body>
+</html>

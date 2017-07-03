@@ -14,7 +14,7 @@
         <div class="col-sm-6">
             <ul class="pagination pagination-sm pull-right" th:if="${paginatedList.allPageCount > 0}">
                 <li th:if="${paginatedList.existPrePage}"><a href="?page=1" th:text="#{button.first}"></a></li>
-                <li th:if="${paginatedList.existPrePage}"><a href="#" th:href="'?page=' + ${paginatedList.prePageNumber}" th:text="#{button.previous}"></a></li>
+                <li th:if="${paginatedList.existPrePage}"><a href="#" th:href="|?page=${paginatedList.prePageNumber}|" th:text="#{button.previous}"></a></li>
                 <li class="disabled" th:unless="${paginatedList.existPrePage}"><a href="#" th:text="#{button.first}"></a></li>
                 <li class="disabled" th:unless="${paginatedList.existPrePage}"><a href="#" th:text="#{button.previous}"></a></li>
                 <li th:class="${page == paginatedList.currentPageNumber} ? 'active'" th:each="page : ${paginatedList.pageNumberList}"><a href="#" th:href="${page != paginatedList.currentPageNumber} ? '?page=' + ${page}" th:text="${page}"></a></li>
