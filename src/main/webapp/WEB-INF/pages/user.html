@@ -19,7 +19,7 @@
                 <legend th:if="${param.method} != null and ${param.method[0]} == 'Add'" th:text="#{button.add}">button.add</legend>
                 <legend th:unless="${param.method}" th:text="#{button.edit}">button.edit</legend>
             </fieldset>
-            <form action="#" class="well" autocomplete="off" th:action="@{/user}" th:object="${user}" method="post">
+            <form action="#" class="well" autocomplete="off" th:action="@{/user(method=${param.method}, from=${param.from})}" th:object="${user}" method="post">
                 <input type="hidden" th:field="*{id}" />
                 <input type="hidden" th:field="*{version}" />
 

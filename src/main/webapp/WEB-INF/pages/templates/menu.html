@@ -18,7 +18,7 @@
                 <a href="#" th:href="@{'/user'}" th:text="#{user} + #{button.edit}"></a>
             </li>
             <li class="dropdown" th:classappend="${currentMenu} == 'admin' ? 'active'" sec:authorize="hasRole('ROLE_ADMIN')">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span th:text="#{admin.topForm}"></span><span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span th:text="#{admin.topForm}" th:remove="tag"></span> <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="#" th:href="@{'/admin/master/top'}" th:text="#{admin.master.topForm}"></a></li>
                     <li><a href="#" th:href="@{'/admin/activeUsers'}" th:text="#{activeUsersForm}"></a></li>
