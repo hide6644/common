@@ -8,25 +8,25 @@
     <div th:each="error : ${error_messages}" th:fragment="alert_div" th:remove="tag">
         <div class="alert alert-danger alert-dismissable">
             <a href="#" data-dismiss="alert" class="close">&times;</a>
-            <span th:text="${error}">error</span><br />
+            <span th:text="${error}" th:remove="tag">error</span><br />
         </div>
     </div>
     <div th:each="error : ${flash_error_messages}" th:fragment="alert_div" th:remove="tag">
         <div class="alert alert-danger alert-dismissable">
             <a href="#" data-dismiss="alert" class="close">&times;</a>
-            <span th:text="${error}">flash_error</span><br />
+            <span th:text="${error}" th:remove="tag">flash_error</span><br />
         </div>
     </div>
     <div th:each="info : ${info_messages}" th:fragment="alert_div" th:remove="tag">
         <div class="alert alert-success alert-dismissable">
             <a href="#" data-dismiss="alert" class="close">&times;</a>
-            <span th:text="${info}">info</span><br />
+            <span th:text="${info}" th:remove="tag">info</span><br />
         </div>
     </div>
     <div th:each="info : ${flash_info_messages}" th:fragment="alert_div" th:remove="tag">
         <div class="alert alert-success alert-dismissable">
             <a href="#" data-dismiss="alert" class="close">&times;</a>
-            <span th:text="${info}">flash_info</span><br />
+            <span th:text="${info}" th:remove="tag">flash_info</span><br />
         </div>
     </div>
 </body>

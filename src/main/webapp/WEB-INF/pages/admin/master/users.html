@@ -16,10 +16,10 @@
                 <input type="text" size="20" class="form-control input-sm" th:field="*{username}" th:placeholder="#{user.username}"/>
                 <input type="text" size="20" class="form-control input-sm" th:field="*{email}" th:placeholder="#{user.email}"/>
                 <button type="submit" class="btn btn-primary btn-sm">
-                    <i class="icon-search"></i> <span th:text="#{button.search}" th:remove="tag">button.search</span>
+                    <i class="glyphicon glyphicon-search"></i> <span th:text="#{button.search}" th:remove="tag">button.search</span>
                 </button>
                 <button type="button" class="btn btn-default btn-sm" id="button_clear">
-                    <i class="icon-remove"></i> <span th:text="#{button.clear}" th:remove="tag">button.clear</span>
+                    <i class="glyphicon glyphicon-remove"></i> <span th:text="#{button.clear}" th:remove="tag">button.clear</span>
                 </button>
             </form>
             <div th:replace="~{templates/pagelinks :: row_div(${paginatedList})}">
@@ -30,9 +30,9 @@
                     <thead>
                         <tr>
                             <th><input type="checkbox" id="toggle_checkAll" /></th>
-                            <th th:text="#{user.username}"></th>
-                            <th th:text="#{user.email}"></th>
-                            <th th:text="#{user.enabled}"></th>
+                            <th th:text="#{user.username}">user.username</th>
+                            <th th:text="#{user.email}">user.email</th>
+                            <th th:text="#{user.enabled}">user.enabled</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,24 +47,24 @@
                 <div class="form-group">
                     <p>
                         <button type="button" class="btn btn-primary" id="button_new" th:value="|@{'/user'}?method=Add&from=list|">
-                            <i class="icon-plus"></i> <span th:text="#{button.add}" th:remove="tag">button.add</span>
+                            <i class="glyphicon glyphicon-plus"></i> <span th:text="#{button.add}" th:remove="tag">button.add</span>
                         </button>
                         <button type="button" class="btn btn-primary" id="button_edit" th:value="|@{'/user'}?from=list&userId=|">
-                            <i class="icon-pencil"></i> <span th:text="#{button.edit}" th:remove="tag">button.edit</span>
+                            <i class="glyphicon glyphicon-pencil"></i> <span th:text="#{button.edit}" th:remove="tag">button.edit</span>
                         </button>
                         <button type="submit" class="btn btn-warning" id="button_delete">
-                            <i class="icon-minus"></i> <span th:text="#{button.delete}" th:remove="tag">button.delete</span>
+                            <i class="glyphicon glyphicon-minus"></i> <span th:text="#{button.delete}" th:remove="tag">button.delete</span>
                         </button>
                         <button type="button" class="btn btn-default" id="button_cancel">
-                            <i class="icon-remove"></i> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
+                            <i class="glyphicon glyphicon-remove"></i> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
                         </button>
                     </p>
                     <p>
                         <button type="button" class="btn btn-default" id="button_upload">
-                            <i class="icon-arrow-up"></i> <span th:text="#{button.upload}" th:remove="tag">button.upload</span>
+                            <i class="glyphicon glyphicon-import"></i> <span th:text="#{button.upload}" th:remove="tag">button.upload</span>
                         </button>
                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#downloadModal" id="button_download">
-                            <i class="icon-arrow-down"></i> <span th:text="#{button.download}" th:remove="tag">button.download</span>
+                            <i class="glyphicon glyphicon-export"></i> <span th:text="#{button.download}" th:remove="tag">button.download</span>
                         </button>
                     </p>
                 </div>
@@ -81,15 +81,9 @@
                                 fileType.message
                             </div>
                             <div class="modal-footer">
-                                <a href="#" class="btn btn-default" id="dialog_download_xml" th:text="#{fileType.xml}">
-                                    fileType.xml
-                                </a>
-                                <a href="#" class="btn btn-default" id="dialog_download_xls" th:text="#{fileType.xls}">
-                                    fileType.xls
-                                </a>
-                                <a href="#" class="btn btn-default" id="dialog_download_csv" th:text="#{fileType.csv}">
-                                    fileType.csv
-                                </a>
+                                <a href="#" class="btn btn-default" id="dialog_download_xml" th:text="#{fileType.xml}">fileType.xml</a>
+                                <a href="#" class="btn btn-default" id="dialog_download_xls" th:text="#{fileType.xls}">fileType.xls</a>
+                                <a href="#" class="btn btn-default" id="dialog_download_csv" th:text="#{fileType.csv}">fileType.csv</a>
                             </div>
                         </div>
                     </div>

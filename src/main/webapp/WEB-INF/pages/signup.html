@@ -35,9 +35,7 @@
                         <span class="help-block" th:each="err : ${#fields.errors('password')}" th:text="${err}"></span>
                     </div>
                     <div class="col-sm-6" th:classappend="${#fields.hasErrors('confirmPassword')} ? has-error">
-                        <label for="confirmPassword" class="control-label">
-                            <span th:text="#{user.confirmPassword}" th:remove="tag">user.confirmPassword</span>
-                        </label>
+                        <label for="confirmPassword" class="control-label" th:text="#{user.confirmPassword}">user.confirmPassword</label>
                         <input type="password" class="form-control" th:field="*{confirmPassword}" />
                         <span class="help-block" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></span>
                     </div>
@@ -51,9 +49,7 @@
                         <span class="help-block" th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></span>
                     </div>
                     <div class="col-sm-6" th:classappend="${#fields.hasErrors('lastName')} ? has-error">
-                        <label for="lastName" class="control-label">
-                            <span th:text="#{user.lastName}" th:remove="tag">user.lastName</span>
-                        </label>
+                        <label for="lastName" class="control-label" th:text="#{user.lastName}">user.lastName</label>
                         <input type="text" class="form-control" th:field="*{lastName}" />
                         <span class="help-block" th:each="err : ${#fields.errors('lastName')}" th:text="${err}"></span>
                     </div>
@@ -67,13 +63,13 @@
                 </div>
                 <fieldset class="form-actions">
                     <button type="submit" class="btn btn-primary">
-                        <i class="icon-ok icon-white"></i> <span th:text="#{button.add}" th:remove="tag">button.add</span>
+                        <i class="glyphicon glyphicon-ok"></i> <span th:text="#{button.add}" th:remove="tag">button.add</span>
                     </button>
                     <button type="reset" class="btn btn-default">
-                        <i class="icon-refresh"></i> <span th:text="#{button.reset}" th:remove="tag">button.reset</span>
+                        <i class="glyphicon glyphicon-refresh"></i> <span th:text="#{button.reset}" th:remove="tag">button.reset</span>
                     </button>
                     <button type="button" class="btn btn-default" id="button_cancel">
-                        <i class="icon-remove"></i> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
+                        <i class="glyphicon glyphicon-remove"></i> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
                     </button>
                 </fieldset>
             </form>
