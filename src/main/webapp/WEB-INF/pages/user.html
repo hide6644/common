@@ -95,18 +95,26 @@
                         <span class="help-block" th:each="err : ${#fields.errors('credentialsExpiredDate')}" th:text="${err}"></span>
                     </div>
                 </div>
-    <div class="form-group" th:if="${listMode}">
-        <label for="roles" class="control-label" th:text="#{userForm.assignRoles}">userForm.assignRoles</label>
-        <select class="form-control" multiple="multiple" th:field="*{roles}">
-            <option th:each="role : ${#servletContext.getAttribute('availableRoles')}" th:value="${role.value}" th:text="${role.label}">role.label</option>
-        </select>
-        <span class="help-block" th:each="err : ${#fields.errors('roles')}" th:text="${err}"></span>
-    </div>
-
-
-
-
-
+                <div class="form-group" th:classappend="${#fields.hasErrors('roles')} ? has-error" th:if="${listMode}">
+                    <label for="roles" class="control-label" th:text="#{userForm.assignRoles}">userForm.assignRoles</label>
+                    <select class="form-control" name="roles" multiple="multiple">
+                        <option th:each="role : ${#servletContext.getAttribute('availableRoles')}" th:selected="${user.roleList.contains(role)}" th:value="${role.value}" th:text="${role.label}">role.label</option>
+                    </select>
+                    <span class="help-block" th:each="err : ${#fields.errors('roles')}" th:text="${err}"></span>
+                </div>
+                <fieldset class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="glyphicon glyphicon-ok"></i>
+                            <span th:if="${addMode}" th:text="#{button.add}" th:remove="tag">button.add</span>
+                            <span th:unless="${addMode}" th:text="#{button.edit}" th:remove="tag">button.edit</span>
+                    </button>
+                    <button type="reset" class="btn btn-default">
+                        <i class="glyphicon glyphicon-refresh"></i> <span th:text="#{button.reset}" th:remove="tag">button.reset</span>
+                    </button>
+                    <button type="button" class="btn btn-default" id="button_cancel">
+                        <i class="glyphicon glyphicon-remove"></i> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
+                    </button>
+                </fieldset>
             </form>
         </div>
     </div>
