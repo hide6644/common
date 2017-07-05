@@ -4,8 +4,8 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{templates/layout}">
 <head>
-    <title th:text="#{signupForm.title}">signupForm.title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title th:text="#{signupForm.title}">signupForm.title</title>
 </head>
 <body>
     <div layout:fragment="content">
@@ -17,7 +17,7 @@
             <fieldset id="legend">
                 <legend th:text="#{button.add}">button.add</legend>
             </fieldset>
-            <form action="#" class="well" th:action="@{/signup}" th:object="${user}" method="post">
+            <form class="well" action="#" method="post" th:action="@{/signup}" th:object="${user}">
                 <input type="hidden" name="roles" value="registration" />
                 <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? has-error">
                     <label for="username" class="control-label">

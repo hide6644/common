@@ -5,8 +5,8 @@
     layout:decorate="~{templates/layout}"
     th:with="currentMenu = ${param.from} == null ? 'userSaveForm' : 'admin'">
 <head>
-    <title th:text="#{userSaveForm.title}">userForm.title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title th:text="#{userSaveForm.title}">userForm.title</title>
 </head>
 <body>
     <div layout:fragment="content">
@@ -19,7 +19,7 @@
                 <legend th:if="${addMode}" th:text="#{button.add}">button.add</legend>
                 <legend th:unless="${addMode}" th:text="#{button.edit}">button.edit</legend>
             </fieldset>
-            <form action="#" class="well" autocomplete="off" th:action="@{/user(method=${param.method}, from=${param.from})}" th:object="${user}" method="post">
+            <form class="well" action="#" autocomplete="off" th:action="@{/user(method=${param.method}, from=${param.from})}" th:object="${user}" method="post">
                 <input type="hidden" th:field="*{id}" />
                 <input type="hidden" th:field="*{version}" />
                 <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? has-error" th:if="${addMode}">
@@ -72,6 +72,39 @@
                     <input type="text" class="form-control" th:field="*{email}" />
                     <span class="help-block" th:each="err : ${#fields.errors('email')}" th:text="${err}"></span>
                 </div>
+                <div class="form-group" th:if="${listMode}">
+                    <label class="control-label" th:text="#{userForm.accountSettings}">userForm.accountSettings</label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" th:field="*{enabled}" />
+                        <span th:text="#{user.enabled}" th:remove="tag">user.enabled</span>
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" th:field="*{accountLocked}" />
+                        <span th:text="#{user.accountLocked}" th:remove="tag">user.accountLocked</span>
+                    </label>
+                </div>
+                <div class="row" th:if="${listMode}">
+                    <div class="col-sm-6" th:classappend="${#fields.hasErrors('accountExpiredDate')} ? has-error">
+                        <label for="accountExpiredDate" class="control-label" th:text="#{user.accountExpiredDate}">user.accountExpiredDate</label>
+                        <input type="text" class="form-control" th:field="*{accountExpiredDate}" th:placeholder="#{date.time.format}" />
+                        <span class="help-block" th:each="err : ${#fields.errors('accountExpiredDate')}" th:text="${err}"></span>
+                    </div>
+                    <div class="col-sm-6" th:classappend="${#fields.hasErrors('credentialsExpiredDate')} ? has-error">
+                        <label for="credentialsExpiredDate" class="control-label" th:text="#{user.credentialsExpiredDate}">user.credentialsExpiredDate</label>
+                        <input type="text" class="form-control" th:field="*{credentialsExpiredDate}" th:placeholder="#{date.time.format}" />
+                        <span class="help-block" th:each="err : ${#fields.errors('credentialsExpiredDate')}" th:text="${err}"></span>
+                    </div>
+                </div>
+    <div class="form-group" th:if="${listMode}">
+        <label for="roles" class="control-label" th:text="#{userForm.assignRoles}">userForm.assignRoles</label>
+        <select class="form-control" multiple="multiple" th:field="*{roles}">
+            <option th:each="role : ${#servletContext.getAttribute('availableRoles')}" th:value="${role.value}" th:text="${role.label}">role.label</option>
+        </select>
+        <span class="help-block" th:each="err : ${#fields.errors('roles')}" th:text="${err}"></span>
+    </div>
+
+
+
 
 
             </form>

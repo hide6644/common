@@ -8,7 +8,7 @@
     <ul class="nav nav-pills nav-stacked" th:fragment="nav_ul(currentNavlistMenu)" th:if="${currentNavlistMenu} == 'admin' or ${currentNavlistMenu} == 'activeUsersForm'">
         <li class="nav-header" th:text="#{admin.topForm}"></li>
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
                 <span th:text="#{admin.master.topForm}" th:remove="tag"></span> <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">

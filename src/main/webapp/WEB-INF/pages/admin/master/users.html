@@ -5,16 +5,16 @@
     layout:decorate="~{templates/layout}"
     th:with="currentMenu = 'admin', currentNavlistMenu = 'userForm'">
 <head>
-    <title th:text="#{userForm.title}">userForm.title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title th:text="#{userForm.title}">userForm.title</title>
 </head>
 <body>
     <div layout:fragment="content">
         <div class="col-sm-10">
             <h3 th:text="#{userForm.heading}">userForm.heading</h3>
-            <form action="#" class="form-inline" th:action="@{/admin/master/users}" th:object="${searchUser}" method="get">
-                <input type="text" size="20" class="form-control input-sm" th:field="*{username}" th:placeholder="#{user.username}"/>
-                <input type="text" size="20" class="form-control input-sm" th:field="*{email}" th:placeholder="#{user.email}"/>
+            <form class="form-inline" action="#" method="get" th:action="@{/admin/master/users}" th:object="${searchUser}">
+                <input type="text" class="form-control input-sm" size="20" th:field="*{username}" th:placeholder="#{user.username}"/>
+                <input type="text" class="form-control input-sm" size="20" th:field="*{email}" th:placeholder="#{user.email}"/>
                 <button type="submit" class="btn btn-primary btn-sm">
                     <i class="glyphicon glyphicon-search"></i> <span th:text="#{button.search}" th:remove="tag">button.search</span>
                 </button>
@@ -24,7 +24,7 @@
             </form>
             <div th:replace="~{templates/pagelinks :: row_div(${paginatedList})}">
             </div>
-            <form action="#" th:action="@{/admin/master/users}" method="post">
+            <form action="#" method="post" th:action="@{/admin/master/users}">
                 <input type="hidden" name="_method" value="delete"/>
                 <table class="table table-condensed table-striped table-hover">
                     <thead>
@@ -68,7 +68,7 @@
                         </button>
                     </p>
                 </div>
-                <div id="downloadModal" class="modal" role="dialog" aria-labelledby="downloadModalLabel" tabindex="-1">
+                <div class="modal" id="downloadModal" role="dialog" aria-labelledby="downloadModalLabel" tabindex="-1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -81,9 +81,9 @@
                                 fileType.message
                             </div>
                             <div class="modal-footer">
-                                <a href="#" class="btn btn-default" id="dialog_download_xml" th:text="#{fileType.xml}">fileType.xml</a>
-                                <a href="#" class="btn btn-default" id="dialog_download_xls" th:text="#{fileType.xls}">fileType.xls</a>
-                                <a href="#" class="btn btn-default" id="dialog_download_csv" th:text="#{fileType.csv}">fileType.csv</a>
+                                <a class="btn btn-default" id="dialog_download_xml" href="#" th:text="#{fileType.xml}">fileType.xml</a>
+                                <a class="btn btn-default" id="dialog_download_xls" href="#" th:text="#{fileType.xls}">fileType.xls</a>
+                                <a class="btn btn-default" id="dialog_download_csv" href="#" th:text="#{fileType.csv}">fileType.csv</a>
                             </div>
                         </div>
                     </div>

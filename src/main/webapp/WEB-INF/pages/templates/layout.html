@@ -21,7 +21,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="#" class="navbar-brand" th:href="@{'/'}" th:text="#{webapp.name}">webapp.name</a>
+            <a class="navbar-brand" href="#" th:href="@{'/'}" th:text="#{webapp.name}">webapp.name</a>
         </div>
         <div th:replace="~{templates/menu :: navbar_div(${currentMenu})}">
         </div>
@@ -41,7 +41,7 @@
             </div>
         </div>
     </div>
-    <div id="footer" class="container navbar-fixed-bottom">
+    <div class="container navbar-fixed-bottom" id="footer">
         <span class="col-sm-6 text-left">
             <span th:text="#{webapp.version}">webapp.version</span>
             <span th:if="${#request.remoteUser}" th:text="|#{user.status} ${#request.remoteUser}|">user.status</span>
