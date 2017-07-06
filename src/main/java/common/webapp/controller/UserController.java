@@ -114,8 +114,7 @@ public class UserController extends BaseController {
         if (request.isUserInRole(Constants.ADMIN_ROLE)) {
             userManager.activateRoles(user);
         } else {
-            User cleanUser = userManager.getUserByUsername(request.getRemoteUser());
-            user.setRoles(cleanUser.getRoles());
+            user.setRoles(userManager.getUserByUsername(request.getRemoteUser()).getRoles());
         }
 
         try {
@@ -157,7 +156,7 @@ public class UserController extends BaseController {
      * @return true:登録処理、false:編集処理
      */
     private boolean isAdd(HttpServletRequest request) {
-        String method = request.getParameter("method");
+        String method = request.getParameter("mode");
         return method != null && method.equalsIgnoreCase("add");
     }
 }

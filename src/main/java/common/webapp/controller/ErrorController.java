@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ErrorController extends BaseController {
 
-    @RequestMapping(value = "error", method = RequestMethod.GET)
+    @RequestMapping(value = "error", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView renderErrorPage(HttpServletRequest httpRequest) {
         ModelAndView errorPage = new ModelAndView("error");
         int errorCode = (Integer) httpRequest.getAttribute("javax.servlet.error.status_code");

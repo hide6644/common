@@ -14,12 +14,12 @@
             <h3 th:unless="${param.from}" th:text="#{userSaveForm.heading}">userSaveForm.heading</h3>
             <p th:unless="${param.from}" th:text="#{userSaveForm.message}">userSaveForm.message</p>
         </div>
-        <div class="col-sm-7" th:with="addMode = ${param.method} != null and ${param.method[0]} == 'Add', listMode = ${param.from} != null and ${param.from[0]} == 'list'">
+        <div class="col-sm-7" th:with="addMode = ${param.mode} != null and ${param.mode[0]} == 'Add', listMode = ${param.from} != null and ${param.from[0]} == 'list'">
             <fieldset id="legend">
                 <legend th:if="${addMode}" th:text="#{button.add}">button.add</legend>
                 <legend th:unless="${addMode}" th:text="#{button.edit}">button.edit</legend>
             </fieldset>
-            <form class="well" action="#" autocomplete="off" th:action="@{/user(method=${param.method}, from=${param.from})}" th:object="${user}" method="post">
+            <form class="well" action="#" method="post" autocomplete="off" th:action="@{/user(mode=${param.mode}, from=${param.from})}" th:object="${user}">
                 <input type="hidden" th:field="*{id}" />
                 <input type="hidden" th:field="*{version}" />
                 <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? has-error" th:if="${addMode}">
@@ -117,6 +117,25 @@
                 </fieldset>
             </form>
         </div>
+    </div>
+    <div layout:fragment="scripts">
+        <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        $(function() {
+            $('#accountExpiredDate').datetimepicker({
+                lang : '[(${#locale.language})]'
+            });
+
+            $('#credentialsExpiredDate').datetimepicker({
+                lang : '[(${#locale.language})]'
+            });
+
+            $('#button_cancel').click(function() {
+                $(location).attr('href', '[(${param.from} != null and ${param.from[0]} == 'list' ? @{'/admin/master/users'} : @{'/top'})]');
+            });
+        });
+        /*]]>*/
+        </script>
     </div>
 </body>
 </html>
