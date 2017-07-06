@@ -8,13 +8,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title th:text="#{userSaveForm.title}">userForm.title</title>
 </head>
-<body>
+<body th:with="listMode = ${param.from} != null and ${param.from[0]} == 'list'">
     <div layout:fragment="content">
         <div class="col-sm-2" >
-            <h3 th:unless="${param.from}" th:text="#{userSaveForm.heading}">userSaveForm.heading</h3>
-            <p th:unless="${param.from}" th:text="#{userSaveForm.message}">userSaveForm.message</p>
+            <h3 th:unless="${listMode}" th:text="#{userSaveForm.heading}">userSaveForm.heading</h3>
+            <p th:unless="${listMode}" th:text="#{userSaveForm.message}">userSaveForm.message</p>
         </div>
-        <div class="col-sm-7" th:with="addMode = ${param.mode} != null and ${param.mode[0]} == 'Add', listMode = ${param.from} != null and ${param.from[0]} == 'list'">
+        <div class="col-sm-7" th:with="addMode = ${param.mode} != null and ${param.mode[0]} == 'Add'">
             <fieldset id="legend">
                 <legend th:if="${addMode}" th:text="#{button.add}">button.add</legend>
                 <legend th:unless="${addMode}" th:text="#{button.edit}">button.edit</legend>
@@ -102,6 +102,11 @@
                     </select>
                     <span class="help-block" th:each="err : ${#fields.errors('roles')}" th:text="${err}"></span>
                 </div>
+                <input type="hidden" name="roles" th:each="role : *{roles}" th:value="${role.name}" th:unless="${listMode}" />
+                <input type="hidden" th:field="*{enabled}" th:unless="${listMode}" />
+                <input type="hidden" th:field="*{accountLocked}" th:unless="${listMode}" />
+                <input type="hidden" th:field="*{accountExpiredDate}" th:unless="${listMode}" />
+                <input type="hidden" th:field="*{credentialsExpiredDate}" th:unless="${listMode}" />
                 <fieldset class="form-actions">
                     <button type="submit" class="btn btn-primary">
                         <i class="glyphicon glyphicon-ok"></i>
@@ -131,7 +136,7 @@
             });
 
             $('#button_cancel').click(function() {
-                $(location).attr('href', '[(${param.from} != null and ${param.from[0]} == 'list' ? @{'/admin/master/users'} : @{'/top'})]');
+                $(location).attr('href', '[(${listMode} ? @{'/admin/master/users'} : @{'/top'})]');
             });
         });
         /*]]>*/
