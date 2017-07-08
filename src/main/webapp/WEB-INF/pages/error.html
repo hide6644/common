@@ -10,7 +10,7 @@
     <title th:text="#{__${errorTitle}__.title} + ' | ' + #{webapp.name}">webapp.name</title>
     <link rel="stylesheet" type="text/css" th:href="@{'/assets/v/' + ${#servletContext.getAttribute('assetsVersion')} + '/main.css'}" />
 </head>
-<body id="error">
+<body>
     <div class="container">
         <h1 th:text="#{webapp.name}">webapp.name</h1>
         <div th:text="${errorMsg}">
