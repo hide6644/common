@@ -32,6 +32,6 @@ public class PaginatedManagerImpl<T, PK extends Serializable> extends GenericMan
             paginatedList.setCurrentPageNumber(paginatedList.getAllPageCount());
         }
 
-        paginatedList.setCurrentPage(paginatedDao.getList(paginatedList.getSearchCondition(), paginatedList.getCurrentStartRecordNumber(), paginatedList.getPageSize()));
+        paginatedList.setCurrentPage(paginatedDao.getList(paginatedList.getSearchCondition(), paginatedList.getCurrentStartRecordNumber() - 1, paginatedList.getPageSize()));
     }
 }

@@ -47,10 +47,17 @@
                         <span class="help-block" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></span>
                     </div>
                 </div>
-                <span class="help-block" th:if="${#request.remoteUser} == *{username} and !${addMode}">
-                    <a href="#" th:if="${listMode}" th:href="|@{'/updatePassword'}?from=list|" th:text="#{userSaveForm.password.request}">userSaveForm.password.request</a>
-                    <a href="#" th:unless="${listMode}" th:href="@{'/updatePassword'}" th:text="#{userSaveForm.password.request}">userSaveForm.password.request</a>
-                </span>
+                <div class="row" th:if="${#request.remoteUser} == *{username} and !${addMode}">
+                    <div class="col-sm-6">
+                        <label for="password" class="control-label">
+                            <span th:text="#{user.password}" th:remove="tag">user.password</span>
+                        </label>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="#" th:if="${listMode}" th:href="|@{'/updatePassword'}?from=list|" th:text="#{userSaveForm.password.request}">userSaveForm.password.request</a>
+                        <a href="#" th:unless="${listMode}" th:href="@{'/updatePassword'}" th:text="#{userSaveForm.password.request}">userSaveForm.password.request</a>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-sm-6" th:classappend="${#fields.hasErrors('firstName')} ? has-error">
                         <label for="firstName" class="control-label">
