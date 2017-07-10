@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{templates/layout}"
+    th:with="currentMenu = 'admin', currentNavlistMenu = 'activeUsersForm'">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title th:text="#{activeUsersForm.title}">activeUsersForm.title</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="col-sm-10">
+            <h3 th:text="#{activeUsersForm.heading}">activeUsersForm.heading</h3>
+            <table class="table table-condensed table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th th:text="#{user.username}">user.username</th>
+                        <th th:text="#{user.email}">user.email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user, stat : ${#servletContext.getAttribute('loginUsers')}" th:class="|row${stat.index % 2}|">
+                        <td th:text="${user.username}">user.username</td>
+                        <td>
+                            <a href="#" th:href="|mailto:${user.email}|" th:if="${user.email}"> <img class="icon" th:src="@{'/images/iconEmail.gif'}" th:alt="#{user.email}" /></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <fieldset class="form-actions">
+                <button type="button" class="btn btn-default" id="button_cancel">
+                    <i class="glyphicon glyphicon-remove"></i> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
+                </button>
+            </fieldset>
+        </div>
+    </div>
+    <div layout:fragment="scripts">
+        <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        $(function() {
+            $('#button_cancel').click(function() {
+                $(location).attr('href', '[(@{'/admin/top'})]');
+            });
+        });
+        /*]]>*/
+        </script>
+    </div>
+</body>
+</html>
