@@ -1,5 +1,6 @@
 package common.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -18,7 +19,7 @@ import org.hibernate.search.annotations.DocumentId;
  * エンティティの基底クラス.
  */
 @MappedSuperclass
-public abstract class BaseObject {
+public abstract class BaseObject implements Serializable {
 
     /** ID */
     private Long id;

@@ -24,10 +24,10 @@ import common.model.User;
 public class CounterListener implements ServletContextListener, HttpSessionAttributeListener {
 
     /** ユーザ数保存用の変数名 */
-    public static final String COUNT_KEY = "LOGIN_USER_COUNTER";
+    public static final String COUNT_KEY = "loginUserCounter";
 
     /** ユーザ保存用の変数名 */
-    public static final String USERS_KEY = "LOGIN_USERS";
+    public static final String USERS_KEY = "loginUsers";
 
     /** セッションに保存されているSecurity Contextの変数名 */
     public static final String EVENT_KEY = HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;

@@ -286,7 +286,7 @@ public class User extends BaseObject implements Serializable, UserDetails {
      *
      * @return ロックアウト
      */
-    @Column(name = "account_locked", nullable = false)
+    @Column(name = "account_locked")
     public boolean isAccountLocked() {
         return accountLocked;
     }

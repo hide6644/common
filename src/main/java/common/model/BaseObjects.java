@@ -1,5 +1,6 @@
 package common.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.MappedSuperclass;
@@ -9,7 +10,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * エンティティリストの基底クラス.
  */
 @MappedSuperclass
-public abstract class BaseObjects<T> {
+public abstract class BaseObjects<T> implements Serializable {
 
     /** エンティティリスト */
     private List<T> objects;

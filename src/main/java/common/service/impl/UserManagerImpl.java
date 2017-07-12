@@ -86,6 +86,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
     @Override
     public User saveUser(User user) {
         if (user.getVersion() == null) {
+            // 登録の場合
             user.setUsername(user.getUsername().toLowerCase());
         }
 
@@ -93,13 +94,16 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
 
         if (passwordEncoder != null) {
             if (user.getVersion() == null) {
+                // 登録の場合
                 passwordChanged = true;
             } else {
+                // 更新の場合
                 String currentPassword = userDao.getPasswordById(user.getId());
 
                 if (user.getPassword() == null) {
+                    // パスワードが空の場合、パスワードは同じものを設定する
                     user.setPassword(currentPassword);
-                    user.setConfirmPassword(currentPassword);
+                    user.setConfirmPassword(user.getPassword());
                 }
                 if (currentPassword == null) {
                     passwordChanged = true;
