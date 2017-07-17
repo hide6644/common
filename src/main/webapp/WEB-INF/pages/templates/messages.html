@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <div th:each="error : ${error_messages}" th:fragment="alert_div" th:remove="tag">
+        <div class="alert alert-danger alert-dismissable">
+            <a class="close" href="#" data-dismiss="alert">&times;</a>
+            <span th:text="${error}" th:remove="tag">error</span><br />
+        </div>
+    </div>
+    <div th:each="error : ${flash_error_messages}" th:fragment="alert_div" th:remove="tag">
+        <div class="alert alert-danger alert-dismissable">
+            <a class="close" href="#" data-dismiss="alert">&times;</a>
+            <span th:text="${error}" th:remove="tag">flash_error</span><br />
+        </div>
+    </div>
+    <div th:each="info : ${info_messages}" th:fragment="alert_div" th:remove="tag">
+        <div class="alert alert-success alert-dismissable">
+            <a class="close" href="#" data-dismiss="alert">&times;</a>
+            <span th:text="${info}" th:remove="tag">info</span><br />
+        </div>
+    </div>
+    <div th:each="info : ${flash_info_messages}" th:fragment="alert_div" th:remove="tag">
+        <div class="alert alert-success alert-dismissable">
+            <a class="close" href="#" data-dismiss="alert">&times;</a>
+            <span th:text="${info}" th:remove="tag">flash_info</span><br />
+        </div>
+    </div>
+</body>
+</html>

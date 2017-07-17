@@ -7,16 +7,16 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
+    <http pattern="/assets/**" security="none" />
     <http pattern="/images/**" security="none" />
-    <http pattern="/includes/**" security="none" />
     <http pattern="/scripts/**" security="none" />
     <http pattern="/styles/**" security="none" />
-    <http pattern="/assets/**" security="none" />
 
     <http entry-point-ref="authenticationEntryPoint">
         <csrf disabled="true" />
         <custom-filter position="FORM_LOGIN_FILTER" ref="authenticationFilter" />
 
+        <intercept-url pattern="/app/error" access="permitAll" />
         <intercept-url pattern="/app/login*/**" access="permitAll" />
         <intercept-url pattern="/app/requestRecoveryToken*" access="permitAll" />
         <intercept-url pattern="/app/updatePassword*" access="permitAll" />
@@ -25,11 +25,11 @@
         <intercept-url pattern="/app/**" access="isAuthenticated()" />
 
         <remember-me user-service-ref="userDao" key="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
-        <logout logout-url="/logout" logout-success-url="/login.html" invalidate-session="true" delete-cookies="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
+        <logout logout-url="/logout" logout-success-url="/login" invalidate-session="true" delete-cookies="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
     </http>
 
     <beans:bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-        <beans:constructor-arg value="/login.html" />
+        <beans:constructor-arg value="/login" />
     </beans:bean>
 
     <beans:bean id="authenticationFilter" class="common.webapp.filter.ExtendedAuthenticationFilter">

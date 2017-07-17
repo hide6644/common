@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{templates/layout}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title th:text="#{userUploadForm.title}">userUploadForm.title</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="col-sm-7">
+            <fieldset>
+                <legend th:text="#{userUploadForm.heading}"></legend>
+            </fieldset>
+            <form class="well" action="#" method="post" enctype="multipart/form-data" th:action="@{/admin/master/uploadUsers}" th:object="${uploadForm}">
+                <div class="form-group">
+                    <label for="fileType" class="control-label" th:text="#{uploadForm.fileType}">uploadForm.fileType</label>
+                    <div class="radio" th:each="ft : ${#servletContext.getAttribute('fileTypeList')}">
+                        <label>
+                            <input type="radio" th:field="*{fileType}" th:value="${ft.value}" th:text="${ft.label}" />
+                        </label>
+                    </div>
+                </div>
+                <input type="file" style="display:none" name="fileData" />
+                <div class="form-group" th:classappend="${#fields.hasErrors('fileData')} ? has-error">
+                    <label for="fileData" class="control-label">
+                        <span th:text="#{uploadForm.fileData}" th:remove="tag">uploadForm.fileData</span> <span class="required">*</span>
+                    </label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input type="text" class="input-medium" id="fileData" readonly="readonly" />
+                            <button type="button" class="btn btn-default" id="folderOpen">
+                                <i class="glyphicon glyphicon-folder-open"></i> <span th:text="#{uploadForm.folderOpen}" th:remove="tag">uploadForm.folderOpen</span>
+                            </button>
+                        </div>
+                        <span class="help-block" th:each="err : ${#fields.errors('fileData')}" th:text="${err}"></span>
+                    </div>
+                </div>
+                <fieldset class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="glyphicon glyphicon-ok"></i> <span th:text="#{button.upload}" th:remove="tag">button.upload</span>
+                    </button>
+                    <button type="button" class="btn btn-default" id="button_cancel">
+                        <i class="glyphicon glyphicon-remove"></i> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
+                    </button>
+                </fieldset>
+            </form>
+            <br />
+            <div class="alert alert-danger alert-dismissable" th:each="error : ${errors_upload_list}">
+                <a class="close" href="#" data-dismiss="alert">&times;</a>
+                <span th:text="${error}" th:remove="tag">error</span><br />
+            </div>
+        </div>
+    </div>
+    <div layout:fragment="scripts">
+        <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        $(function() {
+            $('#fileData').click(function() {
+                $('input[name=fileData]').click();
+            });
+
+            $('#folderOpen').click(function() {
+                $('input[name=fileData]').click();
+            });
+
+            $('input[name=fileData]').change(function() {
+                $('#fileData').val($(this).val());
+            });
+
+            $('#button_cancel').click(function() {
+                $(location).attr('href', '[(@{'/admin/master/users'})]');
+            });
+        });
+        /*]]>*/
+        </script>
+    </div>
+</body>
+</html>

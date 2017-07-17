@@ -206,7 +206,7 @@ public final class PaginatedList<T> {
      * @return 現在ページの最初のレコード番号
      */
     public int getCurrentStartRecordNumber() {
-        return (currentPageNumber - 1) * pageSize;
+        return (currentPageNumber - 1) * pageSize + 1;
     }
 
     /**

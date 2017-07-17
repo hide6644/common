@@ -114,8 +114,14 @@ public class UserController extends BaseController {
         if (request.isUserInRole(Constants.ADMIN_ROLE)) {
             userManager.activateRoles(user);
         } else {
-            User cleanUser = userManager.getUserByUsername(request.getRemoteUser());
-            user.setRoles(cleanUser.getRoles());
+            User crrentUser = userManager.getUserByUsername(request.getRemoteUser());
+
+            // 管理者でない場合、以下の項目は更新されない様に上書きする
+            user.setEnabled(crrentUser.isEnabled());
+            user.setAccountLocked(crrentUser.isAccountLocked());
+            user.setAccountExpiredDate(crrentUser.getAccountExpiredDate());
+            user.setCredentialsExpiredDate(crrentUser.getCredentialsExpiredDate());
+            user.setRoles(crrentUser.getRoles());
         }
 
         try {
@@ -134,7 +140,7 @@ public class UserController extends BaseController {
 
             return "redirect:/top";
         } else {
-            if (StringUtils.isBlank(request.getParameter("version"))) {
+            if (StringUtils.equals(request.getParameter("mode"), "Add")) {
                 saveFlashMessage(getText("inserted"));
 
                 // 登録完了メールを送信する
@@ -157,7 +163,7 @@ public class UserController extends BaseController {
      * @return true:登録処理、false:編集処理
      */
     private boolean isAdd(HttpServletRequest request) {
-        String method = request.getParameter("method");
+        String method = request.getParameter("mode");
         return method != null && method.equalsIgnoreCase("add");
     }
 }
