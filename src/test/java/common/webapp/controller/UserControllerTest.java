@@ -24,7 +24,7 @@ public class UserControllerTest extends BaseControllerTestCase {
     public void testAdd() throws Exception {
         log.debug("testing add new user...");
         MockHttpServletRequest request = newGet("/userform.html");
-        request.addParameter("method", "Add");
+        request.addParameter("mode", "Add");
         request.addUserRole(Constants.ADMIN_ROLE);
 
         User user = c.showForm(request, new MockHttpServletResponse());
@@ -35,7 +35,7 @@ public class UserControllerTest extends BaseControllerTestCase {
     public void testAddWithoutPermission() throws Exception {
         log.debug("testing add new user...");
         MockHttpServletRequest request = newGet("/userform.html");
-        request.addParameter("method", "Add");
+        request.addParameter("mode", "Add");
 
         try {
             c.showForm(request, new MockHttpServletResponse());

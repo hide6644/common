@@ -26,8 +26,10 @@ public class CsvFileReader {
     /**
      * CSVファイルから値を抽出する.
      *
+     * @param <T>
+     *            値を設定するクラスの型
      * @param bean
-     *            オブジェクト
+     *            値を設定するオブジェクト
      * @param line
      *            変換対象の行
      * @return オブジェクト
