@@ -21,9 +21,9 @@ public class ErrorController extends BaseController {
      * @return 遷移先画面設定
      */
     @RequestMapping(value = "error", method = { RequestMethod.GET, RequestMethod.POST })
-    public ModelAndView renderErrorPage(HttpServletRequest httpRequest) {
+    public ModelAndView renderErrorPage(HttpServletRequest request) {
         ModelAndView errorPage = new ModelAndView("error");
-        int errorCode = (Integer) httpRequest.getAttribute("javax.servlet.error.status_code");
+        int errorCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
 
         switch (errorCode) {
         case 400:
