@@ -3,8 +3,10 @@ package common.webapp.converter.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -65,7 +67,7 @@ public class CsvView extends AbstractUrlBasedView {
      *             {@link IOException}
      */
     private void doRender(List<String[]> csv, HttpServletResponse response) throws IOException {
-        CSVWriter writer = new CSVWriter(new PrintWriter(response.getOutputStream()));
+        CSVWriter writer = new CSVWriter(new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8)));
         writer.writeAll(csv);
         IOUtils.closeQuietly(writer);
     }

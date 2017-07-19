@@ -17,7 +17,7 @@ public class MiscController extends BaseController {
      */
     @RequestMapping(value = "top", method = RequestMethod.GET)
     public String topRequest() {
-    	return "top";
+        return "top";
     }
 
     /**
@@ -27,7 +27,7 @@ public class MiscController extends BaseController {
      */
     @RequestMapping(value = "admin/top", method = RequestMethod.GET)
     public String adminTopRequest() {
-    	return "admin/top";
+        return "admin/top";
     }
 
     /**
@@ -37,7 +37,7 @@ public class MiscController extends BaseController {
      */
     @RequestMapping(value = "admin/master/top", method = RequestMethod.GET)
     public String adminMasterTopRequest() {
-    	return "admin/master/top";
+        return "admin/master/top";
     }
 
     /**

@@ -69,7 +69,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
      */
     @Override
     public User getUser(String userId) {
-        return userDao.get(new Long(userId));
+        return userDao.get(Long.valueOf(userId));
     }
 
     /**
@@ -149,7 +149,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
      */
     @Override
     public void removeUser(String userId) {
-        userDao.remove(new Long(userId));
+        userDao.remove(Long.valueOf(userId));
     }
 
     /**
