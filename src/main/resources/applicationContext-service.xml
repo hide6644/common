@@ -41,7 +41,7 @@
 
     <tx:advice id="userManagerTxAdvice">
         <tx:attributes>
-            <tx:method name="save*" rollback-for="DBException" />
+            <tx:method name="save*" rollback-for="DatabaseException" />
         </tx:attributes>
     </tx:advice>
 

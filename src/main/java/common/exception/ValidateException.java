@@ -7,10 +7,8 @@ import java.util.Map;
 /**
  * データベースアプリケーション例外.
  * アプリ仕様上問題があるデータを処理した場合に発生させる例外.
- *
- * @author hide6644
  */
-public class DBCheckException extends DBException {
+public class ValidateException extends DatabaseException {
 
     /** エラーメッセージ一覧 */
     List<Map<String, Serializable>> errors;
@@ -21,7 +19,7 @@ public class DBCheckException extends DBException {
      * @param errors
      *            エラーメッセージ一覧
      */
-    public DBCheckException(List<Map<String, Serializable>> errors) {
+    public ValidateException(List<Map<String, Serializable>> errors) {
         super(null, null);
         this.errors = errors;
     }

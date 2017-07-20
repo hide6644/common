@@ -107,7 +107,7 @@ public class UserListController extends BaseController {
      *            ユーザ
      * @param page
      *            表示ページ数
-     * @return 遷移先jsp名
+     * @return 遷移先画面設定
      */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView showForm(@ModelAttribute("searchUser") User user, @RequestParam(value = "page", required = false) Integer page) {
@@ -128,7 +128,7 @@ public class UserListController extends BaseController {
      *            ユーザID一覧
      * @param request
      *            {@link HttpServletRequest}
-     * @return 遷移先jsp名
+     * @return 遷移先
      */
     @RequestMapping(method = RequestMethod.DELETE)
     public String onSubmit(@RequestParam("userIds") String[] userIds, HttpServletRequest request) {

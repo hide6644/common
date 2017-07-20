@@ -54,20 +54,20 @@ import common.validator.constraints.UniqueKey;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @CompareStrings.List({
-    @CompareStrings(
-        propertyNames = { "confirmPassword", "password" },
-        comparisonMode = ComparisonMode.EQUAL,
-        message = "{common.validator.constraints.confirmPassword.message}"
-    )
-})
+        @CompareStrings(
+                propertyNames = { "confirmPassword", "password" },
+                comparisonMode = ComparisonMode.EQUAL,
+                message = "{common.validator.constraints.confirmPassword.message}"
+        )
+    })
 @UniqueKey.List({
-    @UniqueKey(
-        columnNames = { "username" }
-    ),
-    @UniqueKey(
-        columnNames = { "email" }
-    )
-})
+        @UniqueKey(
+                columnNames = { "username" }
+        ),
+        @UniqueKey(
+                columnNames = { "email" }
+        )
+    })
 public class User extends BaseObject implements Serializable, UserDetails {
 
     /** ユーザ名 */
@@ -196,7 +196,7 @@ public class User extends BaseObject implements Serializable, UserDetails {
     @Fields({
             @Field,
             @Field(name = "firstNameFacet", analyze = Analyze.NO)
-    })
+        })
     @Facet(forField = "firstNameFacet")
     public String getFirstName() {
         return firstName;
@@ -222,7 +222,7 @@ public class User extends BaseObject implements Serializable, UserDetails {
     @Fields({
             @Field,
             @Field(name = "lastNameFacet", analyze = Analyze.NO)
-    })
+        })
     @Facet(forField = "lastNameFacet")
     public String getLastName() {
         return lastName;
@@ -380,7 +380,7 @@ public class User extends BaseObject implements Serializable, UserDetails {
             name = "user_role",
             joinColumns = { @JoinColumn(name = "user_id", nullable = false) },
             inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false)
-    )
+        )
     public Set<Role> getRoles() {
         return roles;
     }

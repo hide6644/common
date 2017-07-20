@@ -43,7 +43,7 @@ public class UserUploadController extends BaseController {
      *            アップロードファイルの情報を保持
      * @param result
      *            エラーチェック結果
-     * @return 遷移先jsp名
+     * @return 遷移先
      */
     @RequestMapping(method = RequestMethod.POST)
     public String onSubmit(@Valid UploadForm uploadForm, BindingResult result) {

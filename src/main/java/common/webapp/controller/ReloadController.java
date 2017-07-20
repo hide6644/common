@@ -1,9 +1,9 @@
 package common.webapp.controller;
 
 import java.io.IOException;
+import java.net.URL;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,20 +23,21 @@ public class ReloadController extends BaseController {
      *
      * @param request
      *            {@link HttpServletRequest}
-     * @param response
-     *            {@link HttpServletResponse}
      * @throws IOException
      *             {@link IOException}
+     * @return 遷移先
      */
     @RequestMapping(value = "admin/reload", method = RequestMethod.GET)
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String handleRequest(HttpServletRequest request) throws IOException {
         StartupListener.setupContext(request.getSession().getServletContext());
 
         String referer = request.getHeader("Referer");
 
         if (referer != null) {
             saveFlashMessage(getText("master.updated"));
-            response.sendRedirect(response.encodeRedirectURL(referer));
+            return "redirect:" + new URL(referer).getFile().substring(request.getContextPath().length());
         }
+
+        return "redirect:/top";
     }
 }

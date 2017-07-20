@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import common.exception.DBException;
+import common.exception.DatabaseException;
 import common.model.User;
 
 public class UserExistsExceptionTest extends BaseManagerTestCase {
@@ -14,7 +14,7 @@ public class UserExistsExceptionTest extends BaseManagerTestCase {
     @Autowired
     private UserManager manager;
 
-    @Test(expected = DBException.class)
+    @Test(expected = DatabaseException.class)
     public void testAddExistingUser() throws Exception {
         log.debug("entered 'testAddExistingUser' method");
         assertNotNull(manager);

@@ -2,10 +2,8 @@ package common.exception;
 
 /**
  * データベース例外.
- *
- * @author hide6644
  */
-public class DBException extends RuntimeException {
+public class DatabaseException extends RuntimeException {
 
     /**
      * コンストラクタ.
@@ -15,7 +13,7 @@ public class DBException extends RuntimeException {
      * @param cause
      *            例外オブジェクト
      */
-    public DBException(String message, Throwable cause) {
+    public DatabaseException(String message, Throwable cause) {
         super(message, cause);
     }
 }

@@ -20,8 +20,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
-import common.exception.DBCheckException;
-import common.exception.DBException;
+import common.exception.ValidateException;
+import common.exception.DatabaseException;
 import common.service.mail.MailEngine;
 import common.webapp.filter.FlashMap;
 import common.webapp.util.ValidateUtil;
@@ -160,9 +160,9 @@ public abstract class BaseController {
      * @param e
      *            データベース例外
      */
-    protected void rejectValue(BindingResult result, DBException e) {
-        if (e instanceof DBCheckException) {
-            ((DBCheckException) e).getAllErrors().forEach(error -> {
+    protected void rejectValue(BindingResult result, DatabaseException e) {
+        if (e instanceof ValidateException) {
+            ((ValidateException) e).getAllErrors().forEach(error -> {
                 String filedName = (String) error.get(ValidateUtil.FILED_NAME);
                 String massage = (String) error.get(ValidateUtil.MESSAGE);
                 Object[] args = (Object[]) error.get(ValidateUtil.ARGS);

@@ -2,8 +2,6 @@ package common.exception;
 
 /**
  * ファイル例外.
- *
- * @author hide6644
  */
 public class FileException extends RuntimeException {
 

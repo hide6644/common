@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import common.Constants;
-import common.exception.DBException;
+import common.exception.DatabaseException;
 import common.model.Role;
 import common.model.User;
 import common.service.UserManager;
@@ -101,7 +101,7 @@ public class UserController extends BaseController {
      *            {@link HttpServletRequest}
      * @param response
      *            {@link HttpServletResponse}
-     * @return 遷移先jsp名
+     * @return 遷移先
      * @throws IOException
      *             {@link IOException}
      */
@@ -129,7 +129,7 @@ public class UserController extends BaseController {
         } catch (AccessDeniedException e) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
             return null;
-        } catch (DBException e) {
+        } catch (DatabaseException e) {
             rejectValue(result, e);
 
             return "user";

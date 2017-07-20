@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import common.Constants;
 import common.dao.UserDao;
-import common.exception.DBException;
+import common.exception.DatabaseException;
 import common.model.User;
 import common.service.PasswordTokenManager;
 import common.service.RoleManager;
@@ -129,9 +129,9 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
             user.setConfirmPassword(null);
 
             if (user.getVersion() == null) {
-                throw new DBException("errors.insert", e);
+                throw new DatabaseException("errors.insert", e);
             } else {
-                throw new DBException("errors.update", e);
+                throw new DatabaseException("errors.update", e);
             }
         }
     }

@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import common.Constants;
 import common.dao.UserDao;
-import common.exception.DBException;
+import common.exception.DatabaseException;
 import common.model.Role;
 import common.model.User;
 import common.service.PasswordTokenManager;
@@ -101,7 +101,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
         try {
             userManager.saveUser(user);
             fail("Expected UserExistsException not thrown");
-        } catch (DBException e) {
+        } catch (DatabaseException e) {
             log.debug("expected exception: " + e.getMessage());
             assertNotNull(e);
         }
