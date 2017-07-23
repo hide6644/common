@@ -1,7 +1,6 @@
 package common.service.impl;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.jws.WebService;
 import javax.validation.Validator;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import common.Constants;
 import common.dao.UserDao;
 import common.exception.DatabaseException;
+import common.model.Role;
 import common.model.User;
 import common.service.PasswordTokenManager;
 import common.service.RoleManager;
@@ -123,6 +123,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
         }
 
         try {
+            user.setRoles(roleManager.getRoles(user.getRoles()));
             return userDao.saveUser(user);
         } catch (Exception e) {
             user.setPassword(null);
@@ -163,8 +164,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
             // デフォルトの要再認証日時を設定する
             user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
             // 新規登録時は権限を一般で設定する
-            user.getRoles().clear();
-            user.addRole(roleManager.getRole(Constants.USER_ROLE));
+            user.addRole(new Role(Constants.USER_ROLE));
             user.setConfirmPassword(user.getPassword());
             user.setEnabled(true);
 
@@ -186,8 +186,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
         // デフォルトの要再認証日時を設定する
         user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
         // 新規登録時は権限を一般で設定する
-        user.getRoles().clear();
-        user.addRole(roleManager.getRole(Constants.USER_ROLE));
+        user.addRole(new Role(Constants.USER_ROLE));
         user = saveUser(user);
 
         // 登録完了メールを送信する
@@ -261,14 +260,6 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void activateRoles(User user) {
-        user.setRoles(user.getRoles().stream().map(role -> roleManager.getRole(role.getName())).collect(Collectors.toSet()));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Autowired
     @Override
     public void setUserDao(UserDao userDao) {
@@ -283,5 +274,13 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
     @Override
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setRoleManager(RoleManager roleManager) {
+        this.roleManager = roleManager;
     }
 }

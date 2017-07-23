@@ -111,19 +111,6 @@ public class UserController extends BaseController {
             return "user";
         }
 
-        if (request.isUserInRole(Constants.ADMIN_ROLE)) {
-            userManager.activateRoles(user);
-        } else {
-            User crrentUser = userManager.getUserByUsername(request.getRemoteUser());
-
-            // 管理者でない場合、以下の項目は更新されない様に上書きする
-            user.setEnabled(crrentUser.isEnabled());
-            user.setAccountLocked(crrentUser.isAccountLocked());
-            user.setAccountExpiredDate(crrentUser.getAccountExpiredDate());
-            user.setCredentialsExpiredDate(crrentUser.getCredentialsExpiredDate());
-            user.setRoles(crrentUser.getRoles());
-        }
-
         try {
             user = userManager.saveUser(user);
         } catch (AccessDeniedException e) {

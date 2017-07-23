@@ -1,6 +1,7 @@
 package common.service;
 
 import java.util.List;
+import java.util.Set;
 
 import common.model.LabelValue;
 import common.model.Role;
@@ -18,6 +19,15 @@ public interface RoleManager extends GenericManager<Role, Long> {
      * @return 権限
      */
     Role getRole(String rolename);
+
+    /**
+     * 指定された名称の権限の一覧を取得する.
+     *
+     * @param rolenames
+     *            権限の一覧(名称)
+     * @return 権限の一覧
+     */
+    Set<Role> getRoles(Set<Role> rolenames);
 
     /**
      * 指定された名称の権限を削除する.

@@ -33,9 +33,7 @@ public class StartupListenerTest extends TestCase {
     protected void tearDown() throws Exception {
         super.tearDown();
         springListener.closeWebApplicationContext(sc);
-        springListener = null;
-        listener = null;
-        sc = null;
+        springListener.contextDestroyed(new ServletContextEvent(sc));
     }
 
     public void testContextInitialized() {

@@ -135,14 +135,6 @@ public interface UserManager extends PaginatedManager<User, Long> {
     User updatePassword(String username, String currentPassword, String recoveryToken, String newPassword);
 
     /**
-     * 指定されたユーザの権限を永続化する.
-     *
-     * @param user
-     *            ユーザ
-     */
-    void activateRoles(User user);
-
-    /**
      * ユーザDAOを設定する.
      *
      * @param userDao
@@ -157,4 +149,12 @@ public interface UserManager extends PaginatedManager<User, Long> {
      *            パスワードエンコーダー
      */
     void setPasswordEncoder(PasswordEncoder passwordEncoder);
+
+    /**
+     * Role処理クラスを設定する.
+     *
+     * @param roleManager
+     *            Role処理クラス
+     */
+    void setRoleManager(RoleManager roleManager);
 }

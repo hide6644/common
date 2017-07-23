@@ -9,7 +9,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.subethamail.wiser.Wiser;
 
-import common.model.User;
 import common.service.PasswordTokenManager;
 import common.service.UserManager;
 import common.webapp.filter.FlashMap;
@@ -35,10 +34,9 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         wiser.setPort(getSmtpPort());
         wiser.start();
         c.requestRecoveryToken(username);
-
         wiser.stop();
-        assertTrue(wiser.getMessages().size() == 1);
 
+        assertTrue(wiser.getMessages().size() == 1);
         assertNotNull(FlashMap.get("flash_info_messages"));
     }
 
@@ -47,19 +45,22 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         String username = "administrator";
         MockHttpServletRequest request = newGet("/updatePassword");
         request.addParameter("username", username);
+
         ModelAndView mav = c.showForm(username, null, request);
+
         assertEquals("password", mav.getViewName());
     }
 
     @Test
     public void testShowResetPasswordForm() throws Exception {
         String username = "administrator";
-        User user = userManager.getUserByUsername(username);
-        String token = passwordTokenManager.generateRecoveryToken(user);
+        String token = passwordTokenManager.generateRecoveryToken(userManager.getUserByUsername(username));
         MockHttpServletRequest request = newGet("/updatePassword");
         request.addParameter("username", username);
         request.addParameter("token", token);
+
         ModelAndView mav = c.showForm(username, token, request);
+
         assertEquals("password", mav.getViewName());
     }
 
@@ -70,25 +71,28 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         MockHttpServletRequest request = newGet("/updatePassword");
         request.addParameter("username", username);
         request.addParameter("token", badtoken);
+
         c.showForm(username, badtoken, request);
+
         assertNotNull(FlashMap.get("flash_error_messages"));
     }
 
     @Test
     public void testResetPassword() throws Exception {
         String username = "administrator";
-        User user = userManager.getUserByUsername(username);
-        String token = passwordTokenManager.generateRecoveryToken(user);
+        String token = passwordTokenManager.generateRecoveryToken(userManager.getUserByUsername(username));
         String password = "new-pass";
         MockHttpServletRequest request = newGet("/updatePassword");
         request.addParameter("username", username);
         request.addParameter("token", token);
         request.addParameter("password", password);
+
         Wiser wiser = new Wiser();
         wiser.setPort(getSmtpPort());
         wiser.start();
         c.onSubmit(username, token, null, password, request);
         wiser.stop();
+
         assertTrue(wiser.getMessages().size() == 1);
         assertNotNull(FlashMap.get("flash_info_messages"));
         assertNull(FlashMap.get("flash_error_messages"));
@@ -103,7 +107,9 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         request.addParameter("username", username);
         request.addParameter("token", badToken);
         request.addParameter("password", password);
+
         c.onSubmit(username, badToken, null, password, request);
+
         assertNull(FlashMap.get("flash_info_messages"));
         assertNotNull(FlashMap.get("flash_error_messages"));
     }
@@ -118,7 +124,9 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         request.addParameter("username", username);
         request.addParameter("currentPassword", currentPassword);
         request.addParameter("password", password);
+
         c.onSubmit(username, null, currentPassword, password, request);
+
         assertNotNull(FlashMap.get("flash_info_messages"));
         assertNull(FlashMap.get("flash_error_messages"));
     }
@@ -133,7 +141,9 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         request.addParameter("username", username);
         request.addParameter("currentPassword", currentPassword);
         request.addParameter("password", password);
+
         c.onSubmit(username, null, currentPassword, password, request);
+
         assertNull(FlashMap.get("flash_info_messages"));
     }
 }

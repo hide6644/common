@@ -62,10 +62,10 @@ public class UserListControllerTest extends BaseControllerTestCase {
         User user = new User();
         user.setId(-2L);
 
-        Set<Role> roles = new HashSet<Role>();
+        Set<Role> roles = new HashSet<>();
         roles.add(new Role("ROLE_ADMIN"));
 
-        Set<GrantedAuthority> authorities = new LinkedHashSet<GrantedAuthority>();
+        Set<GrantedAuthority> authorities = new LinkedHashSet<>();
         authorities.addAll(roles);
 
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken("administrator", "administrator", authorities);

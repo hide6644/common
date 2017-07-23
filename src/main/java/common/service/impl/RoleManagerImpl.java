@@ -3,6 +3,7 @@ package common.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,14 @@ public class RoleManagerImpl extends GenericManagerImpl<Role, Long> implements R
     @Override
     public Role getRole(String rolename) {
         return roleDao.getByNameEquals(rolename);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<Role> getRoles(Set<Role> rolenames) {
+        return rolenames.stream().map(role -> getRole(role.getName())).collect(Collectors.toSet());
     }
 
     /**
