@@ -27,8 +27,6 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     @Test
     public void testRequestRecoveryToken() throws Exception {
         String username = "administrator";
-        MockHttpServletRequest request = newGet("/updatePassword");
-        request.addParameter("username", username);
 
         Wiser wiser = new Wiser();
         wiser.setPort(getSmtpPort());

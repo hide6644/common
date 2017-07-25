@@ -13,18 +13,14 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
-import common.exception.ValidateException;
-import common.exception.DatabaseException;
 import common.service.mail.MailEngine;
 import common.webapp.filter.FlashMap;
-import common.webapp.util.ValidateUtil;
 
 /**
  * 画面処理の基底クラス.
@@ -150,33 +146,6 @@ public abstract class BaseController {
 
         messages.add(value);
         request.setAttribute(key, messages);
-    }
-
-    /**
-     * 例外を入力値チェックエラーに変換する.
-     *
-     * @param result
-     *            入力値チェック結果
-     * @param e
-     *            データベース例外
-     */
-    protected void rejectValue(BindingResult result, DatabaseException e) {
-        if (e instanceof ValidateException) {
-            ((ValidateException) e).getAllErrors().forEach(error -> {
-                String filedName = (String) error.get(ValidateUtil.FILED_NAME);
-                String massage = (String) error.get(ValidateUtil.MESSAGE);
-                Object[] args = (Object[]) error.get(ValidateUtil.ARGS);
-
-                if (filedName != null && filedName.length() > 0) {
-                    result.rejectValue(filedName, massage, args, getText(massage));
-                } else {
-                    saveError(getText(massage, args));
-                }
-
-            });
-        } else {
-            saveError(e);
-        }
     }
 
     /**

@@ -117,8 +117,6 @@ public class UserController extends BaseController {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
             return null;
         } catch (DatabaseException e) {
-            rejectValue(result, e);
-
             return "user";
         }
 

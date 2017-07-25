@@ -61,8 +61,6 @@ public class SignupController extends BaseController {
             userManager.saveSignupUser(user);
             saveFlashMessage(getText("signupForm.provisional.message"));
         } catch (DatabaseException e) {
-            rejectValue(result, e);
-
             return "signup";
         }
 

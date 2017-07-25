@@ -5,17 +5,28 @@ import java.net.URL;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import common.webapp.listener.StartupListener;
+import common.Constants;
+import common.service.RoleManager;
+import common.service.UserManager;
 
 /**
  * 再読込処理クラス.
  */
 @Controller
 public class ReloadController extends BaseController {
+
+    /** User処理クラス */
+    @Autowired
+    private UserManager userManager;
+
+    /** Role処理クラス */
+    @Autowired
+    private RoleManager roleManager;
 
     /**
      * マスタを再読み込し、プルダウンリストを生成する.
@@ -29,7 +40,8 @@ public class ReloadController extends BaseController {
      */
     @RequestMapping(value = "admin/reload", method = RequestMethod.GET)
     public String handleRequest(HttpServletRequest request) throws IOException {
-        StartupListener.setupContext(request.getSession().getServletContext());
+        request.getSession().getServletContext().setAttribute(Constants.AVAILABLE_ROLES, (roleManager.getLabelValues()));
+        userManager.reindex();
 
         String referer = request.getHeader("Referer");
 

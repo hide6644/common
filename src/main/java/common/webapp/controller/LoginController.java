@@ -94,7 +94,7 @@ public class LoginController extends BaseController {
      * @return 遷移先
      */
     @RequestMapping(value = "login/credentialsExpired", method = RequestMethod.GET)
-    public String setupCredentialsExpired() {
+    public String credentialsExpired() {
         saveFlashError(getText("loginForm.credentialsExpired"));
 
         return "redirect:/login";
