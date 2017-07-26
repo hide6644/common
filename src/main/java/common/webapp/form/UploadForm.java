@@ -1,6 +1,5 @@
 package common.webapp.form;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,7 @@ import common.validator.constraints.NotEmptyFile;
 /**
  * アップロードファイルの情報を保持するクラス.
  */
-public class UploadForm implements Serializable {
+public class UploadForm {
 
     /** ファイル種別 */
     @NotEmpty

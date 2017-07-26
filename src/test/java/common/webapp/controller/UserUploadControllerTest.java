@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
-import org.springframework.web.multipart.MultipartFile;
 
 import common.webapp.converter.CsvFileConverter;
 import common.webapp.converter.XlsFileConverter;
@@ -36,7 +35,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
 
         UploadForm uploadForm = new UploadForm();
         uploadForm.setFileType(CsvFileConverter.FILE_TYPE);
-        uploadForm.setFileData((MultipartFile) mockMultipartFile);
+        uploadForm.setFileData(mockMultipartFile);
 
         BindingResult errors = new DataBinder(uploadForm).getBindingResult();
         c.onSubmit(uploadForm, errors);
@@ -53,7 +52,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
 
         UploadForm uploadForm = new UploadForm();
         uploadForm.setFileType(XlsFileConverter.FILE_TYPE);
-        uploadForm.setFileData((MultipartFile) mockMultipartFile);
+        uploadForm.setFileData(mockMultipartFile);
 
         BindingResult errors = new DataBinder(uploadForm).getBindingResult();
         c.onSubmit(uploadForm, errors);
@@ -70,7 +69,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
 
         UploadForm uploadForm = new UploadForm();
         uploadForm.setFileType(XmlFileConverter.FILE_TYPE);
-        uploadForm.setFileData((MultipartFile) mockMultipartFile);
+        uploadForm.setFileData(mockMultipartFile);
 
         BindingResult errors = new DataBinder(uploadForm).getBindingResult();
         c.onSubmit(uploadForm, errors);
