@@ -36,7 +36,7 @@ public abstract class BaseControllerTestCase extends AbstractTransactionalJUnit4
     private int smtpPort = 25250;
 
     @Before
-    public void onSetUp() {
+    public void setUp() {
         smtpPort = smtpPort + (int) (Math.random() * 100);
         JavaMailSenderImpl mailSender = (JavaMailSenderImpl) applicationContext.getBean("mailSender");
         mailSender.setPort(getSmtpPort());
@@ -49,7 +49,7 @@ public abstract class BaseControllerTestCase extends AbstractTransactionalJUnit4
     }
 
     @After
-    public void clear() {
+    public void tearDown() {
         SecurityContextHolder.clearContext();
     }
 

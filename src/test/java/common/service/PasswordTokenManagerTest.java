@@ -25,7 +25,7 @@ public class PasswordTokenManagerTest extends BaseManagerTestCase {
     private PasswordTokenManager passwordTokenManager;
 
     @Before
-    public void onSetUp() {
+    public void setUp() {
         LocaleContextHolder.setLocale(Locale.JAPANESE);
         smtpPort = smtpPort + (int) (Math.random() * 100);
 

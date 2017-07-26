@@ -1,11 +1,15 @@
 package common.webapp.listener;
 
+import static org.junit.Assert.*;
+
 import java.util.Set;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionBindingEvent;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,23 +20,22 @@ import org.springframework.web.context.ContextLoader;
 import common.Constants;
 import common.model.Role;
 import common.model.User;
-import junit.framework.TestCase;
 
-public class CounterListenerTest extends TestCase {
+public class CounterListenerTest {
 
     private MockServletContext sc = null;
 
     private CounterListener listener = null;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         sc = new MockServletContext("");
-
         sc.addInitParameter(ContextLoader.CONFIG_LOCATION_PARAM, "classpath:common/dao/applicationContext-resources.xml, classpath:/common/dao/applicationContext-dao.xml, classpath:/applicationContext-service.xml");
 
         listener = new CounterListener();
     }
 
+    @Test
     public void testContextInitialized() {
         listener.contextInitialized(new ServletContextEvent(sc));
 
@@ -40,6 +43,7 @@ public class CounterListenerTest extends TestCase {
         assertNotNull(sc.getAttribute(CounterListener.USERS_KEY));
     }
 
+    @Test
     @SuppressWarnings("unchecked")
     public void testAttribute() {
         MockHttpServletRequest request = new MockHttpServletRequest();

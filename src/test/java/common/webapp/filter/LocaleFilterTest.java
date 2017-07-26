@@ -1,9 +1,13 @@
 package common.webapp.filter;
 
+import static org.junit.Assert.*;
+
 import java.util.Locale;
 
 import javax.servlet.jsp.jstl.core.Config;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mock.web.MockFilterConfig;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -11,17 +15,18 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
 
 import common.Constants;
-import junit.framework.TestCase;
 
-public class LocaleFilterTest extends TestCase {
+public class LocaleFilterTest {
 
     private LocaleFilter filter = null;
 
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         filter = new LocaleFilter();
         filter.init(new MockFilterConfig());
     }
 
+    @Test
     public void testSetLocaleInSessionWhenSessionIsNull() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addParameter("locale", "es");
@@ -35,6 +40,7 @@ public class LocaleFilterTest extends TestCase {
         assertNotNull(LocaleContextHolder.getLocale());
     }
 
+    @Test
     public void testSetLocaleInSessionWhenSessionNotNull() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addParameter("locale", "es");
@@ -51,6 +57,7 @@ public class LocaleFilterTest extends TestCase {
         assertEquals(new Locale("es"), locale);
     }
 
+    @Test
     public void testSetInvalidLocale() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addParameter("locale", "foo");
@@ -63,6 +70,7 @@ public class LocaleFilterTest extends TestCase {
         assertNotNull(request.getSession().getAttribute(Constants.PREFERRED_LOCALE_KEY));
     }
 
+    @Test
     public void testJstlLocaleIsSet() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addParameter("locale", "es");
@@ -74,6 +82,7 @@ public class LocaleFilterTest extends TestCase {
         assertNotNull(Config.get(request.getSession(), Config.FMT_LOCALE));
     }
 
+    @Test
     public void testLocaleAndCountry() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setSession(new MockHttpSession());

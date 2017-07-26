@@ -1,28 +1,32 @@
 package common.validator.constraints;
 
+import static org.junit.Assert.*;
+
 import java.io.InputStream;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import junit.framework.TestCase;
-
-public class MaxFileSizeTest extends TestCase {
+public class MaxFileSizeTest {
 
     private Validator validator;
 
     @MaxFileSize(max = 3, unitSign = "")
     private MultipartFile fileData;
 
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
 
+    @Test
     public void testEmpty() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream("common/validator/constraints/empty.csv");
@@ -34,6 +38,7 @@ public class MaxFileSizeTest extends TestCase {
         assertEquals(0, validator.validate(bean).size());
     }
 
+    @Test
     public void testNotEmpty() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream("common/validator/constraints/notempty.csv");

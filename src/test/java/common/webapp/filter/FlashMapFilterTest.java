@@ -1,21 +1,23 @@
 package common.webapp.filter;
 
+import static org.junit.Assert.*;
+
 import javax.servlet.ServletRequest;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.mock.web.MockFilterConfig;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import junit.framework.TestCase;
-
-public class FlashMapFilterTest extends TestCase {
+public class FlashMapFilterTest {
 
     private FlashMapFilter filter = null;
 
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
@@ -23,6 +25,7 @@ public class FlashMapFilterTest extends TestCase {
         filter.init(new MockFilterConfig());
     }
 
+    @Test
     public void testDoFilter() throws Exception {
         ServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
