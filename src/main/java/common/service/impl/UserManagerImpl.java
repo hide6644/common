@@ -57,6 +57,24 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
     private Validator validator;
 
     /**
+     * デフォルト・コンストラクタ.
+     */
+    public UserManagerImpl() {
+    }
+
+    /**
+     * コンストラクタ.
+     *
+     * @param userDao
+     *            ユーザDAO
+     */
+    @Autowired
+    public UserManagerImpl(UserDao userDao) {
+        super(userDao);
+        this.userDao = userDao;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -260,11 +278,8 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
     /**
      * {@inheritDoc}
      */
-    @Autowired
     @Override
     public void setUserDao(UserDao userDao) {
-        this.dao = userDao;
-        this.paginatedDao = userDao;
         this.userDao = userDao;
     }
 

@@ -12,8 +12,11 @@ public interface PaginatedManager<T, PK extends Serializable> extends GenericMan
     /**
      * オブジェクトをページング処理して取得する.
      *
-     * @param paginatedList
-     *            ページング情報保持モデル
+     * @param searchCondition
+     *            検索オブジェクト
+     * @param page
+     *            表示ページ数
+     * @return ページング情報保持モデル
      */
-    void createList(PaginatedList<T> paginatedList);
+    PaginatedList<T> createPaginatedList(T searchCondition, Integer page);
 }

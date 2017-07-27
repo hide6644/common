@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import common.model.PaginatedList;
 import common.model.User;
 import common.model.Users;
 import common.service.UserManager;
@@ -111,12 +110,8 @@ public class UserListController extends BaseController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView showForm(@ModelAttribute("searchUser") User user, @RequestParam(value = "page", required = false) Integer page) {
-        PaginatedList<User> paginatedList = new PaginatedList<User>(page);
-        paginatedList.setSearchCondition(user);
-        userManager.createList(paginatedList);
-
         Model model = new ExtendedModelMap();
-        model.addAttribute("paginatedList", paginatedList);
+        model.addAttribute("paginatedList", userManager.createPaginatedList(user, page));
 
         return new ModelAndView("admin/master/users", model.asMap());
     }
