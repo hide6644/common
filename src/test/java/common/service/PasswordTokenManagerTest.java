@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.Locale;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,27 +37,26 @@ public class PasswordTokenManagerTest extends BaseManagerTestCase {
     public void testGenerateRecoveryToken() {
         User user = userManager.getUserByUsername("normaluser");
         String token = passwordTokenManager.generateRecoveryToken(user);
-        Assert.assertNotNull(token);
-        Assert.assertTrue(passwordTokenManager.isRecoveryTokenValid(user, token));
+
+        assertNotNull(token);
+        assertTrue(passwordTokenManager.isRecoveryTokenValid(user, token));
     }
 
     @Test
     public void testConsumeRecoveryToken() throws Exception {
         User user = userManager.getUserByUsername("normaluser");
-
         String token = passwordTokenManager.generateRecoveryToken(user);
-        Assert.assertNotNull(token);
-        Assert.assertTrue(passwordTokenManager.isRecoveryTokenValid(user, token));
+
+        assertNotNull(token);
+        assertTrue(passwordTokenManager.isRecoveryTokenValid(user, token));
 
         Wiser wiser = new Wiser();
         wiser.setPort(smtpPort);
         wiser.start();
-
         user = userManager.updatePassword(user.getUsername(), null, token, "pass");
-
         wiser.stop();
-        assertTrue(wiser.getMessages().size() == 1);
 
-        Assert.assertFalse(passwordTokenManager.isRecoveryTokenValid(user, token));
+        assertTrue(wiser.getMessages().size() == 1);
+        assertFalse(passwordTokenManager.isRecoveryTokenValid(user, token));
     }
 }

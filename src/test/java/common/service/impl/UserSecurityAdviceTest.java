@@ -67,7 +67,9 @@ public class UserSecurityAdviceTest {
     @Test
     public void testAddUserWithoutAdminRole() throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
         assertTrue(auth.isAuthenticated());
+
         UserManager userManager = makeInterceptedTarget();
         User user = new User("admin");
         user.setId(2L);

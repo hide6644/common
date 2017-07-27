@@ -46,7 +46,9 @@ public class UserDaoTest extends BaseDaoTestCase {
     public void testGetUserPassword() throws Exception {
         User user = dao.get(-1L);
         String password = dao.getPasswordById(user.getId());
+
         assertNotNull(password);
+
         log.debug("password: " + password);
     }
 
@@ -58,41 +60,42 @@ public class UserDaoTest extends BaseDaoTestCase {
 
         user = dao.get(-1L);
 
-        User user2 = new User();
-        user2.setConfirmPassword(user.getPassword());
-        user2.setEmail(user.getEmail());
-        user2.setFirstName(user.getFirstName());
-        user2.setLastName(user.getLastName());
-        user2.setPassword(user.getPassword());
-        user2.setRoles(user.getRoles());
-        user2.setUsername(user.getUsername());
+        User newUser = new User();
+        newUser.setConfirmPassword(user.getPassword());
+        newUser.setEmail(user.getEmail());
+        newUser.setFirstName(user.getFirstName());
+        newUser.setLastName(user.getLastName());
+        newUser.setPassword(user.getPassword());
+        newUser.setRoles(user.getRoles());
+        newUser.setUsername(user.getUsername());
 
-        dao.saveUser(user2);
+        dao.saveUser(newUser);
     }
 
     @Test
     public void testAddUserRole() throws Exception {
         User user = dao.get(-1L);
+
         assertEquals(1, user.getRoles().size());
 
         Role role = rdao.getByNameEquals(Constants.USER_ROLE);
         user.addRole(role);
         user.setConfirmPassword(user.getPassword());
         dao.saveUser(user);
-
         user = dao.get(-1L);
+
         assertEquals(2, user.getRoles().size());
 
         user.addRole(role);
         dao.saveUser(user);
-
         user = dao.get(-1L);
+
         assertEquals("more than 2 roles", 2, user.getRoles().size());
 
         user.getRoles().remove(role);
         dao.saveUser(user);
-
         user = dao.get(-1L);
+
         assertEquals(1, user.getRoles().size());
     }
 
@@ -108,15 +111,15 @@ public class UserDaoTest extends BaseDaoTestCase {
         Role role = rdao.getByNameEquals(Constants.USER_ROLE);
         assertNotNull(role.getId());
         user.addRole(role);
-
         user = dao.saveUser(user);
 
         assertNotNull(user.getId());
+
         user = dao.get(user.getId());
+
         assertEquals("testpass", user.getPassword());
 
         dao.remove(user);
-
         dao.get(user.getId());
     }
 
@@ -130,29 +133,33 @@ public class UserDaoTest extends BaseDaoTestCase {
         user.setEmail("testuser@appfuse.org");
 
         Role role = rdao.getByNameEquals(Constants.USER_ROLE);
-        assertNotNull(role.getId());
-        user.addRole(role);
 
+        assertNotNull(role.getId());
+
+        user.addRole(role);
         user = dao.saveUser(user);
 
         assertNotNull(user.getId());
+
         user = dao.get(user.getId());
+
         assertEquals("testpass", user.getPassword());
 
         dao.remove(user.getId());
-
         dao.get(user.getId());
     }
 
     @Test
     public void testUserExists() throws Exception {
         boolean b = dao.exists(-1L);
+
         assertTrue(b);
     }
 
     @Test
     public void testUserNotExists() throws Exception {
         boolean b = dao.exists(111L);
+
         assertFalse(b);
     }
 
@@ -160,27 +167,20 @@ public class UserDaoTest extends BaseDaoTestCase {
     public void testUserSearch() throws Exception {
         dao.reindex();
 
-        List<User> found = dao.search("admin");
-        assertEquals(1, found.size());
-        User user = found.get(0);
-        assertEquals("admin", user.getFirstName());
+        List<User> userList = dao.search("admin");
 
-        user = dao.get(-2L);
+        assertEquals(1, userList.size());
+        assertEquals("admin", userList.get(0).getFirstName());
+
+        User user = dao.get(-2L);
         user.setConfirmPassword(user.getPassword());
         user.setFirstName("MattX");
         dao.saveUser(user);
         dao.reindex();
 
-        found = dao.search("MattX");
-        assertEquals(1, found.size());
-        user = found.get(0);
-        assertEquals("MattX", user.getFirstName());
-    }
+        userList = dao.search("MattX");
 
-    @Test
-    public void testUserFacet() throws Exception {
-        dao.reindexAll(false);
-
-        dao.facet("firstNameFacet", 2);
+        assertEquals(1, userList.size());
+        assertEquals("MattX", userList.get(0).getFirstName());
     }
 }
