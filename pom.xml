@@ -452,11 +452,6 @@
             <version>${joda.time.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.taglibs</groupId>
-            <artifactId>taglibs-standard-jstlel</artifactId>
-            <version>${taglibs-standard.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>${freemarker.version}</version>
@@ -596,7 +591,6 @@
         <spring.version>4.3.9.RELEASE</spring.version>
         <spring.security.version>4.2.3.RELEASE</spring.security.version>
         <subethasmtp.version>3.1.7</subethasmtp.version>
-        <taglibs-standard.version>1.2.5</taglibs-standard.version>
         <thymeleaf.spring4.version>3.0.6.RELEASE</thymeleaf.spring4.version>
         <thymeleaf.extras.springsecurity4.version>3.0.2.RELEASE</thymeleaf.extras.springsecurity4.version>
         <thymeleaf.layout.version>2.2.2</thymeleaf.layout.version>

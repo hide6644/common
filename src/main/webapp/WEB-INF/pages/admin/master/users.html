@@ -95,6 +95,36 @@
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         $(function() {
+            if ($(':checkbox[name$=Ids]').size() == 0) {
+                $('#button_edit').attr('disabled', true);
+                $('#button_delete').attr('disabled', true);
+                $('#button_download').attr('disabled', true);
+            }
+
+            $('#button_new').click(function() {
+                $(location).attr('href', $('#button_new').val());
+            });
+
+            $('#button_edit').click(function() {
+                var ids = $(':checked[name$=Ids]');
+                if (ids.size() == 0) {
+                	alert('[(${#messages.msg('button.choose', '__#{button.edit_target}__')})]');
+                } else if (ids.size() > 1) {
+                	alert('[(${#messages.msg('button.no_more_choose', '__#{button.edit_target}__')})]');
+                } else {
+                    $(location).attr('href', $('#button_edit').val() + ids.attr({ checked: 'checked' }).val());
+                }
+            });
+
+            $('#button_delete').click(function() {
+                if ($(':checked[name$=Ids]').size() == 0) {
+                	alert('[(${#messages.msg('button.choose', '__#{button.delete_target}__')})]');
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+
             $('#button_clear').click(function() {
                 $('#searchUser').find('input').attr('value', '');
                 $('#searchUser').submit();
