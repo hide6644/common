@@ -4,8 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.Locale;
 
-import javax.servlet.jsp.jstl.core.Config;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -68,18 +66,6 @@ public class LocaleFilterTest {
 
         // a locale will get set regardless - there's no such thing as an invalid one
         assertNotNull(request.getSession().getAttribute(Constants.PREFERRED_LOCALE_KEY));
-    }
-
-    @Test
-    public void testJstlLocaleIsSet() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.addParameter("locale", "es");
-        MockHttpServletResponse response = new MockHttpServletResponse();
-        request.setSession(new MockHttpSession(null));
-
-        filter.doFilter(request, response, new MockFilterChain());
-
-        assertNotNull(Config.get(request.getSession(), Config.FMT_LOCALE));
     }
 
     @Test

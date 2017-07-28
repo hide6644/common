@@ -56,7 +56,9 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
         if (event.getName().equals(EVENT_KEY) && !isAnonymous()) {
             Authentication auth = ((SecurityContext) event.getValue()).getAuthentication();
 
-            if (auth != null && auth.getDetails() instanceof User) {
+            if (auth != null && auth.getPrincipal() instanceof User) {
+                addUser((User) auth.getPrincipal(), event.getSession().getServletContext());
+            } else if (auth != null && auth.getDetails() instanceof User) {
                 addUser((User) auth.getDetails(), event.getSession().getServletContext());
             }
         }
@@ -70,9 +72,10 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
         if (event.getName().equals(EVENT_KEY) && !isAnonymous()) {
             Authentication auth = ((SecurityContext) event.getValue()).getAuthentication();
 
-            if (auth != null && auth.getDetails() instanceof User) {
-                User account = (User) auth.getDetails();
-                removeUser(account, event.getSession().getServletContext());
+            if (auth != null && auth.getPrincipal() instanceof User) {
+                removeUser((User) auth.getPrincipal(), event.getSession().getServletContext());
+            } else if (auth != null && auth.getDetails() instanceof User) {
+                removeUser((User) auth.getDetails(), event.getSession().getServletContext());
             }
         }
     }
@@ -85,7 +88,9 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
         if (event.getName().equals(EVENT_KEY) && !isAnonymous()) {
             Authentication auth = ((SecurityContext) event.getValue()).getAuthentication();
 
-            if (auth != null && auth.getDetails() instanceof User) {
+            if (auth != null && auth.getPrincipal() instanceof User) {
+                addUser((User) auth.getPrincipal(), event.getSession().getServletContext());
+            } else if (auth != null && auth.getDetails() instanceof User) {
                 addUser((User) auth.getDetails(), event.getSession().getServletContext());
             }
         }
@@ -143,9 +148,7 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
      *            {@link ServletContext}
      */
     private void removeUser(User user, ServletContext servletContext) {
-        Set<User> users = getUsers(servletContext);
-
-        users.remove(user);
+        getUsers(servletContext).remove(user);
         decrementCounter(servletContext);
     }
 
