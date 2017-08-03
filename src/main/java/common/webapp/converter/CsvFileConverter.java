@@ -60,11 +60,7 @@ public class CsvFileConverter<T> implements FileConverterStrategy<T> {
             }).collect(Collectors.toList());
         } catch (IOException e) {
             throw new FileException("errors.io", e);
-        } catch (IllegalArgumentException e) {
-            throw new FileException("errors.convert", e);
-        } catch (IndexOutOfBoundsException e) {
-            throw new FileException("errors.convert", e);
-        } catch (TypeMismatchException e) {
+        } catch (IllegalArgumentException | IndexOutOfBoundsException | TypeMismatchException e) {
             throw new FileException("errors.convert", e);
         } finally {
             IOUtils.closeQuietly(reader);

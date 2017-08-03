@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import common.Constants;
-import common.exception.DBException;
+import common.exception.DatabaseException;
 import common.model.Role;
 import common.model.User;
 import common.service.UserManager;
@@ -49,7 +49,7 @@ public class SignupController extends BaseController {
      *            画面入力値保持モデル
      * @param result
      *            エラーチェック結果
-     * @return 遷移先jsp名
+     * @return 遷移先
      */
     @RequestMapping(value = "signup", method = RequestMethod.POST)
     public String onSubmit(@Valid User user, BindingResult result) {
@@ -60,9 +60,7 @@ public class SignupController extends BaseController {
         try {
             userManager.saveSignupUser(user);
             saveFlashMessage(getText("signupForm.provisional.message"));
-        } catch (DBException e) {
-            rejectValue(result, e);
-
+        } catch (DatabaseException e) {
             return "signup";
         }
 
@@ -76,7 +74,7 @@ public class SignupController extends BaseController {
      *            ユーザ名
      * @param token
      *            ユーザ認証用トークン
-     * @return 遷移先jsp名
+     * @return 遷移先
      */
     @RequestMapping(value = "signupComplete", method = RequestMethod.GET)
     public String complete(@RequestParam("username") String username, @RequestParam("token") String token) {
@@ -94,7 +92,7 @@ public class SignupController extends BaseController {
 
             userManager.enableUser(user);
             saveFlashMessage(getText("signupForm.complete.message"));
-        } catch (DBException e) {
+        } catch (DatabaseException e) {
             log.error(e);
 
             return "redirect:/login";

@@ -21,16 +21,29 @@ import common.validator.constraints.impl.CompareStringsValidator;
 @Constraint(validatedBy = CompareStringsValidator.class)
 public @interface CompareStrings {
 
-    /** @return 比較対象のプロパティ名 */
+    /**
+     *  @return 比較対象のプロパティ名
+     */
     String[] propertyNames();
 
-    /** @return 比較方法 */
+    /**
+     *  @return 比較方法
+     */
     ComparisonMode comparisonMode();
 
+    /**
+     * @return エラーメッセージテンプレート
+     */
     String message() default "{common.validator.constraints.Equal.message}";
 
+    /**
+     * @return 制約が属するグループ
+     */
     Class<?>[] groups() default {};
 
+    /**
+     * @return 制約に関連付けられたペイロード
+     */
     Class<? extends Payload>[] payload() default {};
 
     @Documented

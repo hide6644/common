@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.jsp.jstl.core.Config;
 
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -46,7 +45,6 @@ public class LocaleFilter extends OncePerRequestFilter {
                 preferredLocale = (Locale) session.getAttribute(Constants.PREFERRED_LOCALE_KEY);
             } else {
                 session.setAttribute(Constants.PREFERRED_LOCALE_KEY, preferredLocale);
-                Config.set(session, Config.FMT_LOCALE, preferredLocale);
             }
 
             if (preferredLocale != null && !(request instanceof LocaleRequestWrapper)) {

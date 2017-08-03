@@ -3,7 +3,7 @@ package common.validator.constraints.impl;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import common.validator.constraints.NotEmptyFile;
 
@@ -28,12 +28,12 @@ public class NotEmptyFileValidator implements ConstraintValidator<NotEmptyFile, 
 
         if (target == null) {
             isValid = false;
-        } else if (target instanceof CommonsMultipartFile) {
-            if (((CommonsMultipartFile) target).getSize() == 0) {
+        } else if (target instanceof MultipartFile) {
+            if (((MultipartFile) target).getSize() == 0) {
                 isValid = false;
             }
         } else {
-            throw new IllegalArgumentException("Object instance must be CommonsMultipartFile.class.");
+            throw new IllegalArgumentException("Object instance must be MultipartFile.class.");
         }
 
         return isValid;

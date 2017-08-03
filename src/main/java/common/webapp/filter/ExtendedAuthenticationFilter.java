@@ -98,14 +98,13 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
      * @return ログイン失敗回数
      */
     private int countFailedLoginAttempts(HttpServletRequest request, String username) {
-        @SuppressWarnings("unchecked")
-        Map<String, Integer> badCredentialsMap = (Map<String, Integer>) request.getSession().getAttribute("badCredentialsCount");
-
-        if (badCredentialsMap != null) {
-            return badCredentialsMap.get(username);
+        Integer count = getBadCredentialsMap(request).get(username);
+ 
+        if (count == null) {
+            return 0;
+        } else {
+            return count;
         }
-
-        return 0;
     }
 
     /**
@@ -119,7 +118,29 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
      *            ログイン成否
      */
     private void recordLoginAttempts(HttpServletRequest request, String username, boolean result) {
-        @SuppressWarnings("unchecked")
+        Map<String, Integer> badCredentialsMap = getBadCredentialsMap(request);
+
+        if (result) {
+            // ログイン成功の場合
+            badCredentialsMap.remove(username);
+        } else {
+            if (badCredentialsMap.containsKey(username)) {
+                badCredentialsMap.put(username, badCredentialsMap.get(username) + 1);
+            } else {
+                badCredentialsMap.put(username, 1);
+            }
+        }
+    }
+
+    /**
+     * ログイン失敗回数一覧を取得する.
+     *
+     * @param request
+     *            {@link HttpServletRequest}
+     * @return ログイン失敗回数一覧
+     */
+    @SuppressWarnings("unchecked")
+    private Map<String, Integer> getBadCredentialsMap(HttpServletRequest request) {
         Map<String, Integer> badCredentialsMap = (Map<String, Integer>) request.getSession().getAttribute("badCredentialsCount");
 
         if (badCredentialsMap == null) {
@@ -127,16 +148,6 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
             request.getSession().setAttribute("badCredentialsCount", badCredentialsMap);
         }
 
-        if (result) {
-            badCredentialsMap.remove(username);
-        } else {
-            Integer badCredentialsCount = 1;
-
-            if (badCredentialsMap.get(username) != null) {
-                badCredentialsCount = badCredentialsMap.get(username) + 1;
-            }
-
-            badCredentialsMap.put(username, badCredentialsCount);
-        }
+        return badCredentialsMap;
     }
 }

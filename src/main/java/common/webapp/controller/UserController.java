@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import common.Constants;
-import common.exception.DBException;
+import common.exception.DatabaseException;
 import common.model.Role;
 import common.model.User;
 import common.service.UserManager;
@@ -67,26 +67,26 @@ public class UserController extends BaseController {
     @ModelAttribute
     @RequestMapping(method = RequestMethod.GET)
     public User showForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String userId = request.getParameter("userId");
+
         // 管理者でない場合、自身以外のユーザを登録、更新することは出来ない
         if (!request.isUserInRole(Constants.ADMIN_ROLE)) {
-            if (isAdd(request) || request.getParameter("userId") != null) {
+            if (StringUtils.equals(request.getParameter("mode"), "Add") || userId != null) {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN);
                 log.warn("User '" + request.getRemoteUser() + "' is trying to edit user with id '" + request.getParameter("id") + "'");
                 throw new AccessDeniedException("You do not have permission to modify other users.");
             }
         }
 
-        String userId = request.getParameter("userId");
-
-        if (userId == null && !isAdd(request)) {
-            return userManager.getUserByUsername(request.getRemoteUser());
-        } else if (!StringUtils.isBlank(userId) && !"".equals(request.getParameter("version"))) {
-            return userManager.getUser(userId);
-        } else {
+        if (StringUtils.equals(request.getParameter("mode"), "Add")) {
             User user = new User();
             user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
             user.addRole(new Role(Constants.USER_ROLE));
             return user;
+        } else if (userId != null) {
+            return userManager.getUser(userId);
+        } else {
+            return userManager.getUserByUsername(request.getRemoteUser());
         }
     }
 
@@ -101,7 +101,7 @@ public class UserController extends BaseController {
      *            {@link HttpServletRequest}
      * @param response
      *            {@link HttpServletResponse}
-     * @return 遷移先jsp名
+     * @return 遷移先
      * @throws IOException
      *             {@link IOException}
      */
@@ -111,35 +111,16 @@ public class UserController extends BaseController {
             return "user";
         }
 
-        if (request.isUserInRole(Constants.ADMIN_ROLE)) {
-            userManager.activateRoles(user);
-        } else {
-            User crrentUser = userManager.getUserByUsername(request.getRemoteUser());
-
-            // 管理者でない場合、以下の項目は更新されない様に上書きする
-            user.setEnabled(crrentUser.isEnabled());
-            user.setAccountLocked(crrentUser.isAccountLocked());
-            user.setAccountExpiredDate(crrentUser.getAccountExpiredDate());
-            user.setCredentialsExpiredDate(crrentUser.getCredentialsExpiredDate());
-            user.setRoles(crrentUser.getRoles());
-        }
-
         try {
             user = userManager.saveUser(user);
         } catch (AccessDeniedException e) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
             return null;
-        } catch (DBException e) {
-            rejectValue(result, e);
-
+        } catch (DatabaseException e) {
             return "user";
         }
 
-        if (!StringUtils.equals(request.getParameter("from"), "list")) {
-            saveFlashMessage(getText("updated"));
-
-            return "redirect:/top";
-        } else {
+        if (StringUtils.equals(request.getParameter("from"), "list")) {
             if (StringUtils.equals(request.getParameter("mode"), "Add")) {
                 saveFlashMessage(getText("inserted"));
 
@@ -152,18 +133,10 @@ public class UserController extends BaseController {
 
                 return "redirect:/admin/master/users";
             }
-        }
-    }
+        } else {
+            saveFlashMessage(getText("updated"));
 
-    /**
-     * 画面の処理区分を取得する.
-     *
-     * @param request
-     *            {@link HttpServletRequest}
-     * @return true:登録処理、false:編集処理
-     */
-    private boolean isAdd(HttpServletRequest request) {
-        String method = request.getParameter("mode");
-        return method != null && method.equalsIgnoreCase("add");
+            return "redirect:/top";
+        }
     }
 }

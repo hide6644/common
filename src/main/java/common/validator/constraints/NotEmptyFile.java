@@ -21,9 +21,18 @@ import common.validator.constraints.impl.NotEmptyFileValidator;
 @Constraint(validatedBy = NotEmptyFileValidator.class)
 public @interface NotEmptyFile {
 
+    /**
+     * @return エラーメッセージテンプレート
+     */
     String message() default "{common.validator.constraints.NotEmptyFile.message}";
 
+    /**
+     * @return 制約が属するグループ
+     */
     Class<?>[] groups() default {};
 
+    /**
+     * @return 制約に関連付けられたペイロード
+     */
     Class<? extends Payload>[] payload() default {};
 }

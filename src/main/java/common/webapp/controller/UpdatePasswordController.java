@@ -30,7 +30,7 @@ public class UpdatePasswordController extends BaseController {
      *
      * @param username
      *            ユーザ名
-     * @return 遷移先jsp名
+     * @return 遷移先
      */
     @RequestMapping(value = "/requestRecoveryToken*", method = RequestMethod.GET)
     public String requestRecoveryToken(@RequestParam(value = "username", required = true) String username) {

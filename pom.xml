@@ -43,7 +43,17 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.0.1</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
@@ -58,19 +68,26 @@
                 </executions>
             </plugin>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
+                <version>3.1.0</version>
                 <configuration>
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.20</version>
+                <configuration>
+                    <reuseForks>false</reuseForks>
+                    <argLine>${argLine} -Dcatalina.base=${project.build.directory}</argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.20</version>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -91,21 +108,31 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version>
-                <configuration>
-                    <reuseForks>false</reuseForks>
-                    <argLine>${argLine} -Dcatalina.base=${project.build.directory}</argLine>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.19.1</version>
-            </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>1.8</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.6</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5.3</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <reporting>
@@ -250,15 +277,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>javax.servlet.jsp-api</artifactId>
-            <version>${javax.servlet.jsp-api.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>javax.ws.rs</groupId>
-            <artifactId>jsr311-api</artifactId>
-            <version>${jsr311-api.version}</version>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>${javax.ws.rs-api.version}</version>
         </dependency>
 
         <!-- Commons -->
@@ -425,11 +446,6 @@
             <version>${joda.time.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.taglibs</groupId>
-            <artifactId>taglibs-standard-jstlel</artifactId>
-            <version>${taglibs-standard.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>${freemarker.version}</version>
@@ -518,6 +534,7 @@
             <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.subethamail</groupId>
             <artifactId>subethasmtp</artifactId>
@@ -530,7 +547,7 @@
         <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
         <jdbc.groupId>mysql</jdbc.groupId>
         <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
-        <jdbc.version>5.1.42</jdbc.version>
+        <jdbc.version>5.1.43</jdbc.version>
         <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
         <jdbc.url>
             <![CDATA[jdbc:mysql://localhost/common?createDatabaseIfNotExist=true&amp;zeroDateTimeBehavior=convertToNull&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true]]>
@@ -545,32 +562,30 @@
         <datetimepicker.version>2.3.4</datetimepicker.version>
         <el.version>3.0.1-b08</el.version>
         <freemarker.version>2.3.23</freemarker.version>
-        <groovy.version>2.4.11</groovy.version>
+        <groovy.version>2.4.12</groovy.version>
         <hibernate.version>5.2.10.Final</hibernate.version>
         <hibernate.search.version>5.7.1.Final</hibernate.search.version>
         <hibernate.validator.version>5.4.1.Final</hibernate.validator.version>
         <HikariCP.version>2.6.3</HikariCP.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
-        <javax.servlet.jsp-api.version>2.3.1</javax.servlet.jsp-api.version>
+        <javax.ws.rs-api.version>2.0.1</javax.ws.rs-api.version>
         <joda.time.version>2.9.9</joda.time.version>
         <jquery.version>2.2.4</jquery.version>
         <jquery-cookie.version>1.4.1-1</jquery-cookie.version>
-        <jsr311-api.version>1.1.1</jsr311-api.version>
         <junit.version>4.12</junit.version>
-        <jxls.version>2.4.0</jxls.version>
-        <jxls-poi.version>1.0.12</jxls-poi.version>
-        <jxls-reader.version>2.0.2</jxls-reader.version>
+        <jxls.version>2.4.1</jxls.version>
+        <jxls-poi.version>1.0.13</jxls-poi.version>
+        <jxls-reader.version>2.0.3</jxls-reader.version>
         <log4j.version>2.8.2</log4j.version>
         <lucene.version>5.5.4</lucene.version>
         <mail.version>1.4.7</mail.version>
-        <mockito.version>1.10.19</mockito.version>
-        <opencsv.version>3.9</opencsv.version>
+        <mockito.version>2.8.47</mockito.version>
+        <opencsv.version>3.10</opencsv.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <spring.version>4.3.9.RELEASE</spring.version>
+        <spring.version>4.3.10.RELEASE</spring.version>
         <spring.security.version>4.2.3.RELEASE</spring.security.version>
         <subethasmtp.version>3.1.7</subethasmtp.version>
-        <taglibs-standard.version>1.2.5</taglibs-standard.version>
-        <thymeleaf.spring4.version>3.0.6.RELEASE</thymeleaf.spring4.version>
+        <thymeleaf.spring4.version>3.0.7.RELEASE</thymeleaf.spring4.version>
         <thymeleaf.extras.springsecurity4.version>3.0.2.RELEASE</thymeleaf.extras.springsecurity4.version>
         <thymeleaf.layout.version>2.2.2</thymeleaf.layout.version>
         <urlrewritefilter.version>4.0.4</urlrewritefilter.version>

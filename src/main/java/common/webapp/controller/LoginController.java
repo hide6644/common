@@ -17,7 +17,7 @@ public class LoginController extends BaseController {
     /**
      * ログイン画面初期処理.
      *
-     * @return 遷移先jsp名
+     * @return 遷移先画面設定
      */
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public ModelAndView setupLogin() {
@@ -37,7 +37,7 @@ public class LoginController extends BaseController {
      *            ユーザID
      * @param password
      *            パスワード
-     * @return 遷移先jsp名
+     * @return 遷移先
      */
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(@RequestParam(value = "remember-me", required = false) boolean rememberMeFlg,
@@ -55,7 +55,7 @@ public class LoginController extends BaseController {
     /**
      * アカウント無効画面処理.
      *
-     * @return 遷移先jsp名
+     * @return 遷移先
      */
     @RequestMapping(value = "login/accountDisabled", method = RequestMethod.GET)
     public String accountDisabled() {
@@ -67,7 +67,7 @@ public class LoginController extends BaseController {
     /**
      * アカウント停止画面処理.
      *
-     * @return 遷移先jsp名
+     * @return 遷移先
      */
     @RequestMapping(value = "login/accountLocked", method = RequestMethod.GET)
     public String accountLocked() {
@@ -79,7 +79,7 @@ public class LoginController extends BaseController {
     /**
      * アカウント有効期限切れ画面処理.
      *
-     * @return 遷移先jsp名
+     * @return 遷移先
      */
     @RequestMapping(value = "login/accountExpired", method = RequestMethod.GET)
     public String accountExpired() {
@@ -91,10 +91,10 @@ public class LoginController extends BaseController {
     /**
      * パスワード有効期限切れ画面初期処理.
      *
-     * @return 遷移先jsp名
+     * @return 遷移先
      */
     @RequestMapping(value = "login/credentialsExpired", method = RequestMethod.GET)
-    public String setupCredentialsExpired() {
+    public String credentialsExpired() {
         saveFlashError(getText("loginForm.credentialsExpired"));
 
         return "redirect:/login";
@@ -103,7 +103,7 @@ public class LoginController extends BaseController {
     /**
      * 認証失敗画面処理.
      *
-     * @return 遷移先jsp名
+     * @return 遷移先
      */
     @RequestMapping(value = "login/badCredentials", method = RequestMethod.GET)
     public String badCredentials() {

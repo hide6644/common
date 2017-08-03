@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.access.AccessDeniedException;
@@ -24,6 +24,7 @@ import common.Constants;
 import common.dao.UserDao;
 import common.model.Role;
 import common.model.User;
+import common.service.RoleManager;
 import common.service.UserManager;
 import common.service.UserSecurityAdvice;
 
@@ -35,6 +36,9 @@ public class UserSecurityAdviceTest {
 
     @Mock
     private PasswordEncoder passwordEncoder;
+
+    @Mock
+    private RoleManager roleManager;
 
     ApplicationContext ctx = null;
     SecurityContext initialSecurityContext = null;
@@ -63,7 +67,9 @@ public class UserSecurityAdviceTest {
     @Test
     public void testAddUserWithoutAdminRole() throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
         assertTrue(auth.isAuthenticated());
+
         UserManager userManager = makeInterceptedTarget();
         User user = new User("admin");
         user.setId(2L);
@@ -94,6 +100,7 @@ public class UserSecurityAdviceTest {
 
         given(userDao.saveUser(adminUser)).willReturn(adminUser);
         given(passwordEncoder.encode(adminUser.getPassword())).willReturn(adminUser.getPassword());
+        given(roleManager.getRoles(adminUser.getRoles())).willReturn(adminUser.getRoles());
 
         makeInterceptedTarget().saveUser(adminUser);
     }
@@ -106,6 +113,7 @@ public class UserSecurityAdviceTest {
 
         given(userDao.saveUser(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
+        given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
 
         makeInterceptedTarget().saveUser(user);
     }
@@ -162,6 +170,7 @@ public class UserSecurityAdviceTest {
 
         given(userDao.saveUser(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
+        given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
 
         makeInterceptedTarget().saveUser(user);
     }
@@ -174,16 +183,19 @@ public class UserSecurityAdviceTest {
 
         given(userDao.saveUser(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
+        given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
 
         makeInterceptedTarget().saveUser(user);
     }
 
-    private UserManager makeInterceptedTarget() {
+    private UserManager makeInterceptedTarget() throws Exception {
         ctx = new ClassPathXmlApplicationContext("/common/service/applicationContext-test.xml");
 
         UserManager userManager = (UserManager) ctx.getBean("target");
         userManager.setUserDao(userDao);
         userManager.setPasswordEncoder(passwordEncoder);
+        userManager.setRoleManager(roleManager);
+
         return userManager;
     }
 }

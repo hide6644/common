@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 
 /**
- * XLSファイルを解析するクラス.
+ * エクセルファイルを解析するクラス.
  */
 public class JxlsFileReader {
 
@@ -23,12 +23,12 @@ public class JxlsFileReader {
      * XLSファイルから値を抽出する.
      *
      * @param templateFile
-     *            XLSファイル解析に使用するXMLファイル
-     * @param file
-     *            XLSファイル
+     *            エクセルファイル解析に使用するXMLファイル
+     * @param excelFile
+     *            エクセルファイル
      * @param model
      *            抽出した値を設定するオブジェクトを格納したMap
-     * @return XLSファイル解析結果
+     * @return エクセルファイル解析結果
      * @throws InvalidFormatException
      *             {@link InvalidFormatException}
      * @throws IOException
@@ -36,21 +36,21 @@ public class JxlsFileReader {
      * @throws SAXException
      *             {@link SAXException}
      */
-    public XLSReadStatus read(Resource templateFile, MultipartFile file, Map<?, ?> model) throws InvalidFormatException, IOException, SAXException {
-        InputStream inputXML = null;
-        InputStream inputXLS = null;
+    public XLSReadStatus read(Resource templateFile, MultipartFile excelFile, Map<?, ?> model) throws InvalidFormatException, IOException, SAXException {
+        InputStream templateInputStream = null;
+        InputStream excelInputStream = null;
 
         try {
             ReaderConfig.getInstance().setSkipErrors(true);
-            inputXML = templateFile.getInputStream();
-            XLSReader mainReader = ReaderBuilder.buildFromXML(inputXML);
+            templateInputStream = templateFile.getInputStream();
+            XLSReader mainReader = ReaderBuilder.buildFromXML(templateInputStream);
 
-            inputXLS = file.getInputStream();
+            excelInputStream = excelFile.getInputStream();
 
-            return mainReader.read(inputXLS, model);
+            return mainReader.read(excelInputStream, model);
         } finally {
-            IOUtils.closeQuietly(inputXML);
-            IOUtils.closeQuietly(inputXLS);
+            IOUtils.closeQuietly(templateInputStream);
+            IOUtils.closeQuietly(excelInputStream);
         }
     }
 }

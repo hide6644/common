@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.search.query.facet.Facet;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import common.dao.GenericDao;
 import common.service.GenericManager;
@@ -33,6 +34,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
      * @param genericDao
      *            一般的なCRUD DAOのインターフェース
      */
+    @Autowired
     public GenericManagerImpl(GenericDao<T, PK> genericDao) {
         this.dao = genericDao;
     }

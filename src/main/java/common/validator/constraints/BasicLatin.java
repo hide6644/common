@@ -23,9 +23,18 @@ import javax.validation.constraints.Pattern;
 @Pattern(regexp = "[\\p{InBasicLatin}]*")
 public @interface BasicLatin {
 
+    /**
+     * @return エラーメッセージテンプレート
+     */
     String message() default "{common.validator.constraints.BasicLatin.message}";
 
+    /**
+     * @return 制約が属するグループ
+     */
     Class<?>[] groups() default {};
 
+    /**
+     * @return 制約に関連付けられたペイロード
+     */
     Class<? extends Payload>[] payload() default {};
 }

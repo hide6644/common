@@ -1,5 +1,7 @@
 package common.service.util;
 
+import static org.junit.Assert.*;
+
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
@@ -8,15 +10,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import junit.framework.TestCase;
-
-public class DateUtilTest extends TestCase {
+public class DateUtilTest {
 
     private Logger log = LogManager.getLogger(getClass());
-
-    public DateUtilTest(String name) {
-        super(name);
-    }
 
     public void testGetInternationalDatePattern() {
         LocaleContextHolder.setLocale(new Locale("nl"));

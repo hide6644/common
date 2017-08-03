@@ -46,6 +46,8 @@ public class ErrorController extends BaseController {
             errorPage.addObject("errorTitle", "error");
             errorPage.addObject("errorMsg", "Http Error Code: 500. Internal Server Error");
             break;
+        default:
+            errorPage.addObject("errorTitle", "error");
         }
 
         return errorPage;

@@ -21,15 +21,28 @@ import common.validator.constraints.impl.MaxFileSizeValidator;
 @Constraint(validatedBy = MaxFileSizeValidator.class)
 public @interface MaxFileSize {
 
-    /** @return 最大値 */
+    /**
+     * @return 最大値
+     */
     int max();
 
-    /** @return 単位 */
+    /**
+     * @return 単位
+     */
     String unitSign() default "M";
 
+    /**
+     * @return エラーメッセージテンプレート
+     */
     String message() default "{common.validator.constraints.MaxFileSize.message}";
 
+    /**
+     * @return 制約が属するグループ
+     */
     Class<?>[] groups() default {};
 
+    /**
+     * @return 制約に関連付けられたペイロード
+     */
     Class<? extends Payload>[] payload() default {};
 }

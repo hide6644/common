@@ -52,15 +52,19 @@ public class MailEngineTest extends BaseManagerTestCase {
         wiser.start();
 
         Date dte = new Date();
-        this.mailMessage.setTo("foo@bar.com");
+        mailMessage.setTo("foo@bar.com");
         String emailSubject = "grepster testSend: " + dte;
         String emailBody = "Body of the grepster testSend message sent at: " + dte;
-        this.mailMessage.setSubject(emailSubject);
-        this.mailMessage.setText(emailBody);
-        this.mailEngine.send(this.mailMessage);
+        mailMessage.setSubject(emailSubject);
+        mailMessage.setText(emailBody);
+        mailEngine.send(mailMessage);
+
+        ClassPathResource cpResource = new ClassPathResource("/test-attachment.txt");
+        mailEngine.send(mailMessage, emailBody, cpResource.getURL().getPath());
 
         wiser.stop();
-        assertTrue(wiser.getMessages().size() == 1);
+
+        assertTrue(wiser.getMessages().size() == 2);
         WiserMessage wm = wiser.getMessages().get(0);
         assertEquals(emailSubject, wm.getMimeMessage().getSubject());
         assertEquals(emailBody + "\r\n", wm.getMimeMessage().getContent());
@@ -84,7 +88,6 @@ public class MailEngineTest extends BaseManagerTestCase {
         ClassPathResource cpResource = new ClassPathResource("/test-attachment.txt");
         // a null from should work
         mailEngine.sendMessage(new String[] { "foo@bar.com" }, null, emailBody, emailSubject, attachmentName, cpResource);
-
         mailEngine.sendMessage(new String[] { "foo@bar.com" }, mailMessage.getFrom(), emailBody, emailSubject, attachmentName, cpResource);
 
         wiser.stop();
@@ -93,10 +96,11 @@ public class MailEngineTest extends BaseManagerTestCase {
 
         WiserMessage wm = wiser.getMessages().get(0);
         Object o = wm.getMimeMessage().getContent();
+
         assertTrue(o instanceof MimeMultipart);
+
         MimeMultipart multi = (MimeMultipart) o;
         int numOfParts = multi.getCount();
-
         boolean hasTheAttachment = false;
 
         for (int i = 0; i < numOfParts; i++) {
@@ -105,9 +109,11 @@ public class MailEngineTest extends BaseManagerTestCase {
             if (disp == null) { //the body of the email
                 Object innerContent = bp.getContent();
                 MimeMultipart innerMulti = (MimeMultipart) innerContent;
+
                 assertEquals(emailBody, innerMulti.getBodyPart(0).getContent());
             } else if (disp.equals(Part.ATTACHMENT)) { //the attachment to the email
                 hasTheAttachment = true;
+
                 assertEquals(attachmentName, bp.getFileName());
             } else {
                 fail("Did not expect to be able to get here.");

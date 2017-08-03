@@ -41,17 +41,18 @@ public class SignupControllerTest extends BaseControllerTestCase {
         wiser.start();
         BindingResult errors = new DataBinder(user).getBindingResult();
         c.onSubmit(user, errors);
+
         assertFalse("errors returned in model", errors.hasErrors());
 
         List<WiserMessage> massageList = wiser.getMessages();
         String content = (String) massageList.get(0).getMimeMessage().getContent();
         String token = content.substring(content.indexOf("token=") + "token=".length()).replaceAll("\r\n", "");
         c.complete("self-registered", token);
-
         wiser.stop();
-        assertTrue(wiser.getMessages().size() == 1);
 
+        assertTrue(wiser.getMessages().size() == 1);
         assertNotNull(FlashMap.get("flash_info_messages"));
+
         SecurityContextHolder.getContext().setAuthentication(null);
     }
 }

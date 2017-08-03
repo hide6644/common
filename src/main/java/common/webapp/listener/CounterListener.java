@@ -58,6 +58,8 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
 
             if (auth != null && auth.getPrincipal() instanceof User) {
                 addUser((User) auth.getPrincipal(), event.getSession().getServletContext());
+            } else if (auth != null && auth.getDetails() instanceof User) {
+                addUser((User) auth.getDetails(), event.getSession().getServletContext());
             }
         }
     }
@@ -71,8 +73,9 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
             Authentication auth = ((SecurityContext) event.getValue()).getAuthentication();
 
             if (auth != null && auth.getPrincipal() instanceof User) {
-                User account = (User) auth.getPrincipal();
-                removeUser(account, event.getSession().getServletContext());
+                removeUser((User) auth.getPrincipal(), event.getSession().getServletContext());
+            } else if (auth != null && auth.getDetails() instanceof User) {
+                removeUser((User) auth.getDetails(), event.getSession().getServletContext());
             }
         }
     }
@@ -87,6 +90,8 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
 
             if (auth != null && auth.getPrincipal() instanceof User) {
                 addUser((User) auth.getPrincipal(), event.getSession().getServletContext());
+            } else if (auth != null && auth.getDetails() instanceof User) {
+                addUser((User) auth.getDetails(), event.getSession().getServletContext());
             }
         }
     }
@@ -126,12 +131,10 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
      *            {@link ServletContext}
      */
     private void addUser(User user, ServletContext servletContext) {
-        @SuppressWarnings("unchecked")
-        Set<User> users = (Set<User>) servletContext.getAttribute(USERS_KEY);
+        Set<User> users = getUsers(servletContext);
 
         if (!users.contains(user)) {
             users.add(user);
-            servletContext.setAttribute(USERS_KEY, users);
             incrementCounter(servletContext);
         }
     }
@@ -145,12 +148,7 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
      *            {@link ServletContext}
      */
     private void removeUser(User user, ServletContext servletContext) {
-        @SuppressWarnings("unchecked")
-        Set<User> users = (Set<User>) servletContext.getAttribute(USERS_KEY);
-
-        users.remove(user);
-
-        servletContext.setAttribute(USERS_KEY, users);
+        getUsers(servletContext).remove(user);
         decrementCounter(servletContext);
     }
 
@@ -169,5 +167,25 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
         }
 
         return true;
+    }
+
+    /**
+     * ログインユーザ一覧を取得する.
+     * 
+     * @param servletContext
+     *            {@link ServletContext}
+     * @return ログインユーザ一覧
+     */
+    @SuppressWarnings("unchecked")
+    private Set<User> getUsers(ServletContext servletContext) {
+        Set<User> users = (Set<User>) servletContext.getAttribute(USERS_KEY);
+        
+        if (users == null) {
+            users = new LinkedHashSet<User>();
+            servletContext.setAttribute(COUNT_KEY, 0);
+            servletContext.setAttribute(USERS_KEY, users);
+        }
+
+        return users;
     }
 }

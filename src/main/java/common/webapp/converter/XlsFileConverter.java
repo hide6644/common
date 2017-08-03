@@ -53,13 +53,7 @@ public class XlsFileConverter<T> implements FileConverterStrategy<T> {
             }
         } catch (IOException e) {
             throw new FileException("errors.io", e);
-        } catch (IllegalArgumentException e) {
-            throw new FileException("errors.convert", e);
-        } catch (InvalidFormatException e) {
-            throw new FileException("errors.convert", e);
-        } catch (XLSDataReadException e) {
-            throw new FileException("errors.convert", e);
-        } catch (SAXException e) {
+        } catch (IllegalArgumentException | InvalidFormatException | XLSDataReadException | SAXException e) {
             throw new FileException("errors.convert", e);
         }
     }

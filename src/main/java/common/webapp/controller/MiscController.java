@@ -13,37 +13,37 @@ public class MiscController extends BaseController {
     /**
      * トップ画面保存処理.
      *
-     * @return 遷移先jsp名
+     * @return 遷移先
      */
     @RequestMapping(value = "top", method = RequestMethod.GET)
     public String topRequest() {
-    	return "top";
+        return "top";
     }
 
     /**
      * 管理トップ画面保存処理.
      *
-     * @return 遷移先jsp名
+     * @return 遷移先
      */
     @RequestMapping(value = "admin/top", method = RequestMethod.GET)
     public String adminTopRequest() {
-    	return "admin/top";
+        return "admin/top";
     }
 
     /**
      * マスタメンテトップ画面保存処理.
      *
-     * @return 遷移先jsp名
+     * @return 遷移先
      */
     @RequestMapping(value = "admin/master/top", method = RequestMethod.GET)
     public String adminMasterTopRequest() {
-    	return "admin/master/top";
+        return "admin/master/top";
     }
 
     /**
      * アクティブユーザ一覧画面保存処理.
      *
-     * @return 遷移先jsp名
+     * @return 遷移先
      */
     @RequestMapping(value = "admin/activeUsers", method = RequestMethod.GET)
     public String activeUsersRequest() {

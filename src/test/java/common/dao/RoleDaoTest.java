@@ -19,12 +19,14 @@ public class RoleDaoTest extends BaseDaoTestCase {
     @Test
     public void testGetRoleInvalid() throws Exception {
         Role role = dao.getByNameEquals("badrolename");
+
         assertNull(role);
     }
 
     @Test
     public void testGetRole() throws Exception {
         Role role = dao.getByNameEquals(Constants.USER_ROLE);
+
         assertNotNull(role);
     }
 
@@ -33,8 +35,8 @@ public class RoleDaoTest extends BaseDaoTestCase {
         Role role = dao.getByNameEquals("ROLE_USER");
         role.setDescription("test descr");
         dao.save(role);
-
         role = dao.getByNameEquals("ROLE_USER");
+
         assertEquals("test descr", role.getDescription());
     }
 
@@ -43,13 +45,13 @@ public class RoleDaoTest extends BaseDaoTestCase {
         Role role = new Role("testrole");
         role.setDescription("new role descr");
         dao.save(role);
-
         role = dao.getByNameEquals("testrole");
+
         assertNotNull(role.getDescription());
 
         dao.removeRole("testrole");
-
         role = dao.getByNameEquals("testrole");
+
         assertNull(role);
     }
 
@@ -58,6 +60,7 @@ public class RoleDaoTest extends BaseDaoTestCase {
         HashMap<String, Object> queryParams = new HashMap<String, Object>();
         queryParams.put("name", Constants.USER_ROLE);
         List<Role> roles = dao.findByNamedQuery("Role.findByNameEquals", queryParams);
+
         assertNotNull(roles);
         assertTrue(roles.size() > 0);
     }

@@ -3,7 +3,7 @@ package common.validator.constraints.impl;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import common.validator.constraints.MaxFileSize;
 
@@ -49,12 +49,12 @@ public class MaxFileSizeValidator implements ConstraintValidator<MaxFileSize, Ob
 
         if (target == null) {
             isValid = false;
-        } else if (target instanceof CommonsMultipartFile) {
-            if (((CommonsMultipartFile) target).getSize() / size > max) {
+        } else if (target instanceof MultipartFile) {
+            if (((MultipartFile) target).getSize() / size > max) {
                 isValid = false;
             }
         } else {
-            throw new IllegalArgumentException("Object instance must be CommonsMultipartFile.class.");
+            throw new IllegalArgumentException("Object instance must be MultipartFile.class.");
         }
 
         return isValid;
