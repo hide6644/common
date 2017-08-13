@@ -17,9 +17,6 @@ import common.webapp.converter.util.XmlFileReader;
  */
 public class XmlFileConverter<T> implements FileConverterStrategy<T> {
 
-    /** ファイルタイプ(XML) */
-    public static final String FILE_TYPE = "1";
-
     /** 保持クラス */
     private Class<?> clazz;
 

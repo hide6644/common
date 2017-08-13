@@ -3,7 +3,7 @@ package common.webapp.form;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.web.multipart.MultipartFile;
 
 import common.validator.constraints.MaxFileSize;
@@ -15,8 +15,8 @@ import common.validator.constraints.NotEmptyFile;
 public class UploadForm {
 
     /** ファイル種別 */
-    @NotEmpty
-    private String fileType;
+    @Range(min = 0, max = 2)
+    private Integer fileType;
 
     /** アップロードファイル情報 */
     @NotEmptyFile
@@ -34,7 +34,7 @@ public class UploadForm {
      *
      * @return ファイル種別
      */
-    public String getFileType() {
+    public Integer getFileType() {
         return fileType;
     }
 
@@ -44,7 +44,7 @@ public class UploadForm {
      * @param fileType
      *            ファイル種別
      */
-    public void setFileType(String fileType) {
+    public void setFileType(Integer fileType) {
         this.fileType = fileType;
     }
 

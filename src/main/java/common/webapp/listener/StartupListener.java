@@ -25,9 +25,7 @@ import common.Constants;
 import common.model.LabelValue;
 import common.service.RoleManager;
 import common.service.UserManager;
-import common.webapp.converter.CsvFileConverter;
-import common.webapp.converter.XlsFileConverter;
-import common.webapp.converter.XmlFileConverter;
+import common.webapp.converter.FileType;
 import net.sf.ehcache.CacheManager;
 
 /**
@@ -100,9 +98,9 @@ public class StartupListener implements ServletContextListener {
      */
     public static void setupContext(ServletContext context) {
         List<LabelValue> fileTypeList = new ArrayList<LabelValue>();
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xml"), XmlFileConverter.FILE_TYPE));
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xls"), XlsFileConverter.FILE_TYPE));
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.csv"), CsvFileConverter.FILE_TYPE));
+        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xml"), String.valueOf(FileType.XML.getValue())));
+        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xls"), String.valueOf(FileType.EXCEL.getValue())));
+        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.csv"), String.valueOf(FileType.CSV.getValue())));
         context.setAttribute("fileTypeList", fileTypeList);
 
         ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);

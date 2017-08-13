@@ -22,9 +22,6 @@ import common.webapp.converter.util.CsvFileReader;
  */
 public class CsvFileConverter<T> implements FileConverterStrategy<T> {
 
-    /** ファイルタイプ(CSV) */
-    public static final String FILE_TYPE = "3";
-
     /** 保持クラス */
     private Class<T> clazz;
 

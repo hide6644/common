@@ -20,9 +20,6 @@ import common.webapp.converter.util.JxlsFileReader;
  */
 public class XlsFileConverter<T> implements FileConverterStrategy<T> {
 
-    /** ファイルタイプ(XLS) */
-    public static final String FILE_TYPE = "2";
-
     /** 保持クラス */
     private Class<?> clazz;
 

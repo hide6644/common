@@ -22,19 +22,16 @@ public class UserConverterFactory {
      *            ファイルタイプ
      * @return ファイル変換処理クラスのインスタンス
      */
-    public static FileConverterStrategy<User> createConverter(String fileType) {
-        FileConverterStrategy<User> converter = null;
-
-        if (fileType != null && fileType.equals(XmlFileConverter.FILE_TYPE)) {
-            converter = new XmlFileConverter<>(Users.class);
-        } else if (fileType != null && fileType.equals(XlsFileConverter.FILE_TYPE)) {
-            converter = new XlsFileConverter<>(Users.class);
-        } else if (fileType != null && fileType.equals(CsvFileConverter.FILE_TYPE)) {
-            converter = new CsvFileConverter<>(User.class);
-        } else {
+    public static FileConverterStrategy<User> createConverter(FileType fileType) {
+        switch (fileType) {
+        case XML:
+            return new XmlFileConverter<>(Users.class);
+        case EXCEL:
+            return new XlsFileConverter<>(Users.class);
+        case CSV:
+            return new CsvFileConverter<>(User.class);
+        default:
             throw new FileException("errors.fileType");
         }
-
-        return converter;
     }
 }

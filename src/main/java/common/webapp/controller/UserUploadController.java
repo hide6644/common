@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import common.exception.FileException;
 import common.service.UserManager;
-import common.webapp.converter.XmlFileConverter;
+import common.webapp.converter.FileType;
 import common.webapp.form.UploadForm;
 
 @Controller
@@ -31,7 +31,7 @@ public class UserUploadController extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
     public UploadForm setupUpload() {
         UploadForm uploadForm = new UploadForm();
-        uploadForm.setFileType(XmlFileConverter.FILE_TYPE);
+        uploadForm.setFileType(FileType.XML.getValue());
 
         return uploadForm;
     }
