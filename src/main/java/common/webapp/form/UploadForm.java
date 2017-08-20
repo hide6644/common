@@ -15,7 +15,7 @@ import common.validator.constraints.NotEmptyFile;
 public class UploadForm {
 
     /** ファイル種別 */
-    @Range(min = 0, max = 2)
+    @Range(min = 1, max = 3)
     private Integer fileType;
 
     /** アップロードファイル情報 */

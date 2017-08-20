@@ -23,7 +23,7 @@ import common.service.UserManager;
 import common.service.UserService;
 import common.service.mail.UserMail;
 import common.webapp.converter.FileType;
-import common.webapp.converter.UserConverterFactory;
+import common.webapp.converter.UserFileConverterFactory;
 import common.webapp.form.UploadForm;
 
 /**
@@ -177,7 +177,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
      */
     @Override
     public void uploadUsers(UploadForm uploadForm) {
-        List<User> userList = UserConverterFactory.createConverter(FileType.of(uploadForm.getFileType())).convert(uploadForm.getFileData());
+        List<User> userList = UserFileConverterFactory.createConverter(FileType.of(uploadForm.getFileType())).convert(uploadForm.getFileData());
 
         userList.forEach(user -> {
             // デフォルトの要再認証日時を設定する
