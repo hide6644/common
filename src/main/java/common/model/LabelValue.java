@@ -13,7 +13,7 @@ public class LabelValue implements Comparable<LabelValue>, Serializable {
          * {@inheritDoc}
          */
         public int compare(LabelValue labelValue1, LabelValue labelValue2) {
-            return labelValue1.getLabel().compareToIgnoreCase(labelValue2.getLabel());
+            return labelValue1.getValue().compareToIgnoreCase(labelValue2.getValue());
         }
     };
 
@@ -85,7 +85,7 @@ public class LabelValue implements Comparable<LabelValue>, Serializable {
      */
     @Override
     public int compareTo(LabelValue labelValue) {
-        return label.compareTo(labelValue.getLabel());
+        return value.compareTo(labelValue.getValue());
     }
 
     /**
