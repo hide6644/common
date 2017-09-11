@@ -95,7 +95,6 @@ public class UserListController extends BaseController {
     public Users setupXmlList(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("Application/Octet-Stream");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/") + 1) + "\"");
-
         return new Users(userManager.getAll());
     }
 
@@ -112,7 +111,6 @@ public class UserListController extends BaseController {
     public ModelAndView showForm(@ModelAttribute("searchUser") User user, @RequestParam(value = "page", required = false) Integer page) {
         Model model = new ExtendedModelMap();
         model.addAttribute("paginatedList", userManager.createPaginatedList(user, page));
-
         return new ModelAndView("admin/master/users", model.asMap());
     }
 

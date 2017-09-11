@@ -110,7 +110,6 @@ public class PaginatedDaoJpa<T, PK extends Serializable> extends GenericDaoJpa<T
 
         query.setFirstResult(offset);
         query.setMaxResults(limit);
-
         return query.getResultList();
     }
 
@@ -142,7 +141,6 @@ public class PaginatedDaoJpa<T, PK extends Serializable> extends GenericDaoJpa<T
 
         query.setFirstResult(offset);
         query.setMaxResults(limit);
-
         return query.getResultList();
     }
 
@@ -152,7 +150,6 @@ public class PaginatedDaoJpa<T, PK extends Serializable> extends GenericDaoJpa<T
     @Override
     public long searchCount(String searchTerm) {
         FullTextQuery query = Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchJpaTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass);
-
         return query.getResultSize();
     }
 }

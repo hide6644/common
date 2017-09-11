@@ -7,6 +7,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.search.query.facet.Facet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
+import org.springframework.context.support.MessageSourceAccessor;
 
 import common.dao.GenericDao;
 import common.service.GenericManager;
@@ -18,6 +21,9 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
 
     /** ログ出力クラス */
     protected Logger log = LogManager.getLogger(getClass());
+
+    /** メッセージソースアクセサー */
+    protected MessageSourceAccessor messages;
 
     /** 一般的なCRUD DAOのインターフェース */
     protected GenericDao<T, PK> dao;
@@ -121,5 +127,50 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
     @Override
     public void reindexAll(boolean async) {
         dao.reindexAll(async);
+    }
+
+    /**
+     * メッセージソースからメッセージを取得する.
+     *
+     * @param msgKey
+     *            キー
+     * @return メッセージ
+     */
+    protected String getText(String msgKey) {
+        try {
+            return messages.getMessage(msgKey);
+        } catch (NoSuchMessageException e) {
+            log.error(e);
+            return "{" + msgKey + "}";
+        }
+    }
+
+    /**
+     * メッセージソースからメッセージを取得する.
+     *
+     * @param msgKey
+     *            キー
+     * @param args
+     *            引数
+     * @return メッセージ
+     */
+    protected String getText(String msgKey, Object... args) {
+        try {
+            return messages.getMessage(msgKey, args);
+        } catch (NoSuchMessageException e) {
+            log.error(e);
+            return "{" + msgKey + "}";
+        }
+    }
+
+    /**
+     * メッセージソースを設定する.
+     *
+     * @param messageSource
+     *            メッセージソース
+     */
+    @Autowired
+    public void setMessages(MessageSource messageSource) {
+        messages = new MessageSourceAccessor(messageSource);
     }
 }

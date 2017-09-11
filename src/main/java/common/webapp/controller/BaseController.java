@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.WebDataBinder;
@@ -156,7 +157,12 @@ public abstract class BaseController {
      * @return メッセージ
      */
     protected String getText(String msgKey) {
-        return messages.getMessage(msgKey);
+        try {
+            return messages.getMessage(msgKey);
+        } catch (NoSuchMessageException e) {
+            log.error(e);
+            return "{" + msgKey + "}";
+        }
     }
 
     /**
@@ -169,7 +175,12 @@ public abstract class BaseController {
      * @return メッセージ
      */
     protected String getText(String msgKey, Object... args) {
-        return messages.getMessage(msgKey, args);
+        try {
+            return messages.getMessage(msgKey, args);
+        } catch (NoSuchMessageException e) {
+            log.error(e);
+            return "{" + msgKey + "}";
+        }
     }
 
     /**

@@ -32,7 +32,6 @@ public class UserUploadController extends BaseController {
     public UploadForm setupUpload() {
         UploadForm uploadForm = new UploadForm();
         uploadForm.setFileType(FileType.XML.getValue());
-
         return uploadForm;
     }
 
@@ -62,7 +61,9 @@ public class UserUploadController extends BaseController {
             saveFlashMessage(getText("uploaded", String.valueOf(uploadForm.getCount())));
         }
 
-        uploadForm.getErrorNo().forEach(rowNo -> saveFlash("errors_upload_list", getText("errors.upload", String.valueOf(rowNo))));
+        if (uploadForm.getErrors() != null) {
+            return "admin/master/uploadUsers";
+        }
 
         return "redirect:/admin/master/uploadUsers";
     }

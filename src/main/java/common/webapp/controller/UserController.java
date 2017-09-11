@@ -117,6 +117,8 @@ public class UserController extends BaseController {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
             return null;
         } catch (DatabaseException e) {
+            log.error(e);
+
             return "user";
         }
 
@@ -126,16 +128,13 @@ public class UserController extends BaseController {
 
                 // 登録完了メールを送信する
                 userMail.sendCreatedEmail(user);
-
                 return "redirect:/admin/master/users";
             } else {
                 saveFlashMessage(getText("updated"));
-
                 return "redirect:/admin/master/users";
             }
         } else {
             saveFlashMessage(getText("updated"));
-
             return "redirect:/top";
         }
     }

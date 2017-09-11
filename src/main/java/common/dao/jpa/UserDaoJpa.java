@@ -107,7 +107,6 @@ public class UserDaoJpa extends PaginatedDaoJpa<User, Long> implements UserDao, 
     protected List<Order> makeOrder(CriteriaBuilder builder, Root<User> root, Object searchCondition) {
         List<Order> columns = new ArrayList<>();
         columns.add(builder.asc(root.get("username")));
-
         return columns;
     }
 }

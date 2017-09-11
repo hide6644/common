@@ -1,7 +1,8 @@
 package common.webapp.form;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,8 +27,8 @@ public class UploadForm {
     /** 件数 */
     private int count;
 
-    /** 取り込みエラーの行番号 */
-    List<Integer> errorNo = new ArrayList<Integer>();
+    /** 取り込みエラー一覧 */
+    Map<Integer, List<String>> errors;
 
     /**
      * ファイル種別を取得する.
@@ -87,31 +88,37 @@ public class UploadForm {
     }
 
     /**
-     * 取り込みエラーの行番号を取得する.
+     * 取り込みエラー一覧を取得する.
      *
-     * @return 取り込みエラーの行番号
+     * @return 取り込みエラー一覧
      */
-    public List<Integer> getErrorNo() {
-        return errorNo;
+    public Map<Integer, List<String>> getErrors() {
+        return errors;
     }
 
     /**
-     * 取り込みエラーの行番号を設定する.
+     * 取り込みエラー一覧を設定する.
      *
-     * @param errorNo
-     *            取り込みエラーの行番号
+     * @param errors
+     *            取り込みエラー一覧
      */
-    public void setErrorNo(List<Integer> errorNo) {
-        this.errorNo = errorNo;
+    public void setErrors(Map<Integer, List<String>> errors) {
+        this.errors = errors;
     }
 
     /**
-     * 取り込みエラーの行番号を追加する.
+     * 取り込みエラーを追加する.
      *
      * @param rowNo
      *            行番号
+     * @param errorMessage
+     *            エラーメッセージ
      */
-    public void addErrorNo(Integer rowNo) {
-        getErrorNo().add(rowNo);
+    public void addErrorMessage(Integer rowNo, List<String> errorMessage) {
+        if (errors == null) {
+            errors = new HashMap<>();
+        }
+
+        errors.put(rowNo, errorMessage);
     }
 }

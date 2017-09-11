@@ -1,8 +1,11 @@
 package common.service.impl;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.jws.WebService;
+import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.apache.commons.lang3.StringUtils;
@@ -180,6 +183,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
         List<User> userList = UserFileConverterFactory.createConverter(FileType.of(uploadForm.getFileType())).convert(uploadForm.getFileData());
 
         userList.forEach(user -> {
+            int rowNo = 2; // 1行目はヘッダー行のため、2から開始する
             // デフォルトの要再認証日時を設定する
             user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
             // 新規登録時は権限を一般で設定する
@@ -187,13 +191,24 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
             user.setConfirmPassword(user.getPassword());
             user.setEnabled(true);
 
-            if (validator.validate(user).size() == 0) {
+            Set<ConstraintViolation<User>> results = validator.validate(user);
+
+            if (results.size() == 0) {
                 saveUser(user);
                 uploadForm.setCount(uploadForm.getCount() + 1);
             } else {
                 // エラー有りの場合
-                uploadForm.addErrorNo(uploadForm.getCount() + uploadForm.getErrorNo().size() + 1);
+                List<String> errorMessage = results.stream().sorted((o1, o2) -> {
+                    int c = o1.getPropertyPath().toString().compareTo(o2.getPropertyPath().toString());
+                    return c == 0 ? o1.getMessage().compareTo(o2.getMessage()) : c;
+                })
+                        .map(error -> error.getMessage().replaceAll("\\{0\\}", getText("user." + error.getPropertyPath().toString())))
+                        .collect(Collectors.toList());
+
+                uploadForm.addErrorMessage(rowNo, errorMessage);
             }
+
+            rowNo++;
         });
     }
 

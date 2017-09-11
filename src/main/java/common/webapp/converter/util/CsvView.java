@@ -87,7 +87,6 @@ public class CsvView extends AbstractUrlBasedView {
         LocalizedResourceHelper helper = new LocalizedResourceHelper(getApplicationContext());
         Locale userLocale = RequestContextUtils.getLocale(request);
         Resource inputFile = helper.findLocalizedResource(url.substring(0, url.lastIndexOf(".")), url.substring(url.lastIndexOf(".")), userLocale);
-
         return inputFile.getInputStream();
     }
 

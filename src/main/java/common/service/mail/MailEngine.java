@@ -91,7 +91,7 @@ public class MailEngine {
             Template template = freemarkerConfiguration.getTemplate(templateName);
             result = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e);
         }
 
         simpleMailMessage.setText(result);
