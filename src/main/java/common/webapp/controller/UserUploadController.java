@@ -57,12 +57,15 @@ public class UserUploadController extends BaseController {
             return "admin/master/uploadUsers";
         }
 
-        if (uploadForm.getCount() > 0) {
-            saveFlashMessage(getText("uploaded", String.valueOf(uploadForm.getCount())));
-        }
+        if (uploadForm.getUploadErrors() != null) {
+            if (uploadForm.getCount() > 0) {
+                saveMessage(getText("uploaded", String.valueOf(uploadForm.getCount())));
+            }
 
-        if (uploadForm.getErrors() != null) {
+            saveError(getText("errors.upload"));
             return "admin/master/uploadUsers";
+        } else {
+            saveFlashMessage(getText("uploaded", String.valueOf(uploadForm.getCount())));
         }
 
         return "redirect:/admin/master/uploadUsers";

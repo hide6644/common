@@ -1,8 +1,7 @@
 package common.webapp.form;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +27,7 @@ public class UploadForm {
     private int count;
 
     /** 取り込みエラー一覧 */
-    Map<Integer, List<String>> errors;
+    List<UploadError> uploadErrors;
 
     /**
      * ファイル種別を取得する.
@@ -92,33 +91,31 @@ public class UploadForm {
      *
      * @return 取り込みエラー一覧
      */
-    public Map<Integer, List<String>> getErrors() {
-        return errors;
+    public List<UploadError> getUploadErrors() {
+        return uploadErrors;
     }
 
     /**
      * 取り込みエラー一覧を設定する.
      *
-     * @param errors
+     * @param uploadErrors
      *            取り込みエラー一覧
      */
-    public void setErrors(Map<Integer, List<String>> errors) {
-        this.errors = errors;
+    public void setUploadErrors(List<UploadError> uploadErrors) {
+        this.uploadErrors = uploadErrors;
     }
 
     /**
-     * 取り込みエラーを追加する.
+     * 取り込みエラー一覧を追加する.
      *
-     * @param rowNo
-     *            行番号
-     * @param errorMessage
-     *            エラーメッセージ
+     * @param uploadErrors
+     *            取り込みエラー一覧
      */
-    public void addErrorMessage(Integer rowNo, List<String> errorMessage) {
-        if (errors == null) {
-            errors = new HashMap<>();
+    public void addUploadErrors(List<UploadError> uploadErrors) {
+        if (this.uploadErrors == null) {
+            this.uploadErrors = new ArrayList<>();
         }
 
-        errors.put(rowNo, errorMessage);
+        this.uploadErrors.addAll(uploadErrors);
     }
 }
