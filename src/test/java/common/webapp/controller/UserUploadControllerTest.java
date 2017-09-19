@@ -59,6 +59,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
 
         assertFalse(errors.hasErrors());
         assertEquals(1, uploadForm.getCount());
+        assertTrue(uploadForm.getUploadErrors().size() > 0);
     }
 
     @Test
@@ -76,6 +77,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
 
         assertFalse(errors.hasErrors());
         assertEquals(1, uploadForm.getCount());
+        assertTrue(uploadForm.getUploadErrors().size() > 0);
     }
 
     @Test
