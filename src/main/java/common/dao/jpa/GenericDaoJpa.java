@@ -19,7 +19,6 @@ import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.facet.Facet;
 
 import common.dao.GenericDao;
-import common.dao.SearchException;
 
 /**
  * 一般的なCRUD DAOの実装クラス.
@@ -80,7 +79,7 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
      */
     @Override
     public List<T> getAllDistinct() {
-        return new ArrayList<T>(new LinkedHashSet<T>(getAll()));
+        return new ArrayList<>(new LinkedHashSet<T>(getAll()));
     }
 
     /**
@@ -139,9 +138,7 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
         TypedQuery<T> namedQuery = entityManager.createNamedQuery(queryName, persistentClass);
 
         if (queryParams != null) {
-            queryParams.forEach((key, val) -> {
-                namedQuery.setParameter(key, val);
-            });
+            queryParams.forEach((key, val) -> namedQuery.setParameter(key, val));
         }
 
         return namedQuery.getResultList();
@@ -152,7 +149,7 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<T> search(String[] searchTerm, String[] searchField) throws SearchException {
+    public List<T> search(String[] searchTerm, String[] searchField) {
         return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchJpaTools.generateQuery(searchTerm, searchField, persistentClass, entityManager, defaultAnalyzer), persistentClass).getResultList();
     }
 
@@ -161,7 +158,7 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<T> search(String searchTerm) throws SearchException {
+    public List<T> search(String searchTerm) {
         return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchJpaTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass).getResultList();
     }
 

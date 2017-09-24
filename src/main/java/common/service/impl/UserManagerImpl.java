@@ -128,12 +128,9 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
                     user.setPassword(currentPassword);
                     user.setConfirmPassword(user.getPassword());
                 }
-                if (currentPassword == null) {
+
+                if (currentPassword == null || !currentPassword.equals(user.getPassword())) {
                     passwordChanged = true;
-                } else {
-                    if (!currentPassword.equals(user.getPassword())) {
-                        passwordChanged = true;
-                    }
                 }
             }
 
@@ -194,7 +191,10 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
 
             Set<ConstraintViolation<User>> results = validator.validate(user);
 
-            if (results.size() > 0) {
+            if (results.isEmpty()) {
+                saveUser(user);
+                uploadForm.setCount(uploadForm.getCount() + 1);
+            } else {
                 // エラー有りの場合
                 final int errorRowNo = rowNo;
                 uploadForm.addUploadErrors(results.stream().sorted((o1, o2) -> {
@@ -207,9 +207,6 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
                             return new UploadError(errorRowNo, fieldName, message);
                         })
                         .collect(Collectors.toList()));
-            } else {
-                saveUser(user);
-                uploadForm.setCount(uploadForm.getCount() + 1);
             }
 
             rowNo++;
@@ -225,12 +222,12 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
         user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
         // 新規登録時は権限を一般で設定する
         user.addRole(new Role(Constants.USER_ROLE));
-        user = saveUser(user);
+        User managedUser = saveUser(user);
 
         // 登録完了メールを送信する
-        userMail.sendSignupEmail(user);
+        userMail.sendSignupEmail(managedUser);
 
-        return user;
+        return managedUser;
     }
 
     /**
@@ -283,13 +280,11 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
             userMail.sendUpdatePasswordEmail(user);
 
             return user;
-        } else if (StringUtils.isNotBlank(currentPassword)) {
-            if (passwordEncoder.matches(currentPassword, user.getPassword())) {
-                user.setPassword(newPassword);
-                user = saveUser(user);
+        } else if (StringUtils.isNotBlank(currentPassword) && passwordEncoder.matches(currentPassword, user.getPassword())) {
+            user.setPassword(newPassword);
+            user = saveUser(user);
 
-                return user;
-            }
+            return user;
         }
 
         return null;

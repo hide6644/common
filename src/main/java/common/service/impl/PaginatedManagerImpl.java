@@ -40,7 +40,7 @@ public class PaginatedManagerImpl<T, PK extends Serializable> extends GenericMan
      */
     @Override
     public PaginatedList<T> createPaginatedList(T searchCondition, Integer page) {
-        PaginatedList<T> paginatedList = new PaginatedList<T>(page);
+        PaginatedList<T> paginatedList = new PaginatedList<>(page);
         paginatedList.setSearchCondition(searchCondition);
         paginatedList.setAllRecordCount(paginatedDao.getCount(paginatedList.getSearchCondition()));
 

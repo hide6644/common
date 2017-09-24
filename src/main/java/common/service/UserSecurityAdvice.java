@@ -1,6 +1,7 @@
 package common.service;
 
 import java.lang.reflect.Method;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -58,9 +59,8 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
                     throw new AccessDeniedException(ACCESS_DENIED);
                 } else if (user.getId() != null && user.getId().equals(currentUser.getId()) && !administrator) {
                     // 入力されたユーザの権限
-                    Set<String> userRoles = Optional.ofNullable(user.getRoles()).map(roles -> roles.stream()
-                            .map(role -> role.getName())
-                            .collect(Collectors.toSet())).get();
+                    Set<String> userRoles = Optional.ofNullable(user.getRoles()).orElseGet(HashSet::new).stream()
+                            .map(role -> role.getName()).collect(Collectors.toSet());
 
                     // ログインユーザの権限
                     Set<String> authorizedRoles = auth.getAuthorities().stream()

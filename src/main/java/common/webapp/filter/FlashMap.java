@@ -51,7 +51,7 @@ public final class FlashMap {
         Map<String, Object> flash = (Map<String, Object>) session.getAttribute(FLASH_MAP_ATTRIBUTE);
 
         if (flash == null) {
-            flash = new HashMap<String, Object>();
+            flash = new HashMap<>();
             session.setAttribute(FLASH_MAP_ATTRIBUTE, flash);
         }
 
@@ -94,7 +94,7 @@ public final class FlashMap {
         List<Object> messages = (List<Object>) get(key);
 
         if (messages == null) {
-            messages = new ArrayList<Object>();
+            messages = new ArrayList<>();
         }
 
         messages.add(value);

@@ -88,7 +88,7 @@ public interface GenericDao<T, PK extends Serializable> {
      *            検索項目
      * @return 検索結果のオブジェクトのリスト
      */
-    List<T> search(String[] searchTerm, String[] searchField) throws SearchException;
+    List<T> search(String[] searchTerm, String[] searchField);
 
     /**
      * 全文検索する.
@@ -97,7 +97,7 @@ public interface GenericDao<T, PK extends Serializable> {
      *            検索文字列
      * @return 検索結果のオブジェクトのリスト
      */
-    List<T> search(String searchTerm) throws SearchException;
+    List<T> search(String searchTerm);
 
     /**
      * ファセットを作成する.

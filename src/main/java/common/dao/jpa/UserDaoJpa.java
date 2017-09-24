@@ -54,7 +54,7 @@ public class UserDaoJpa extends PaginatedDaoJpa<User, Long> implements UserDao, 
      */
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         try {
             return entityManager.createNamedQuery("User.findByUsernameEquals", persistentClass).setParameter("username", username).getSingleResult();
         } catch (NoResultException e) {
@@ -67,9 +67,9 @@ public class UserDaoJpa extends PaginatedDaoJpa<User, Long> implements UserDao, 
      */
     @Override
     public User saveUser(User user) {
-        user = entityManager.merge(user);
+        User managedUser = entityManager.merge(user);
         entityManager.flush();
-        return user;
+        return managedUser;
     }
 
     /**

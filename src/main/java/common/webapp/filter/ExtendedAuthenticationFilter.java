@@ -13,7 +13,6 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -27,7 +26,7 @@ import common.service.UserManager;
 public class ExtendedAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     /** ログ出力クラス */
-    private transient Logger log = LogManager.getLogger(getClass());
+    private Logger log = LogManager.getLogger(getClass());
 
     /** ユーザ処理クラス */
     @Autowired
@@ -37,7 +36,7 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
      * {@inheritDoc}
      */
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
         if (!request.getMethod().equals("POST")) {
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
@@ -98,7 +97,7 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
      */
     private int countFailedLoginAttempts(HttpServletRequest request, String username) {
         Integer count = getBadCredentialsMap(request).get(username);
- 
+
         if (count == null) {
             return 0;
         } else {
@@ -143,7 +142,7 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
         Map<String, Integer> badCredentialsMap = (Map<String, Integer>) request.getSession().getAttribute("badCredentialsCount");
 
         if (badCredentialsMap == null) {
-            badCredentialsMap = new HashMap<String, Integer>();
+            badCredentialsMap = new HashMap<>();
             request.getSession().setAttribute("badCredentialsCount", badCredentialsMap);
         }
 

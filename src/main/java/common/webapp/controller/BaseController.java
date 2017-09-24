@@ -29,10 +29,10 @@ import common.webapp.filter.FlashMap;
 public abstract class BaseController {
 
     /** ログ出力クラス */
-    protected transient Logger log = LogManager.getLogger(getClass());
+    protected Logger log = LogManager.getLogger(getClass());
 
     /** メッセージソースアクセサー */
-    protected MessageSourceAccessor messages;
+    protected MessageSourceAccessor messageSourceAccessor;
 
     /** メールを送信するクラス */
     @Autowired(required = false)
@@ -142,7 +142,7 @@ public abstract class BaseController {
         List<String> messages = (List<String>) request.getAttribute(key);
 
         if (messages == null) {
-            messages = new ArrayList<String>();
+            messages = new ArrayList<>();
         }
 
         messages.add(value);
@@ -158,7 +158,7 @@ public abstract class BaseController {
      */
     protected String getText(String msgKey) {
         try {
-            return messages.getMessage(msgKey);
+            return messageSourceAccessor.getMessage(msgKey);
         } catch (NoSuchMessageException e) {
             log.error(e);
             return "{" + msgKey + "}";
@@ -176,7 +176,7 @@ public abstract class BaseController {
      */
     protected String getText(String msgKey, Object... args) {
         try {
-            return messages.getMessage(msgKey, args);
+            return messageSourceAccessor.getMessage(msgKey, args);
         } catch (NoSuchMessageException e) {
             log.error(e);
             return "{" + msgKey + "}";
@@ -191,6 +191,6 @@ public abstract class BaseController {
      */
     @Autowired
     public void setMessages(MessageSource messageSource) {
-        messages = new MessageSourceAccessor(messageSource);
+        this.messageSourceAccessor = new MessageSourceAccessor(messageSource);
     }
 }

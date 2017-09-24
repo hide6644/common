@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,7 @@ public class CsvView extends AbstractUrlBasedView {
      * {@inheritDoc}
      */
     @Override
-    protected final void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, IOException {
+    protected final void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<String[]> csv = null;
 
         if (getUrl() != null) {
@@ -86,7 +85,7 @@ public class CsvView extends AbstractUrlBasedView {
     protected InputStream getTemplateSource(String url, HttpServletRequest request) throws IOException {
         LocalizedResourceHelper helper = new LocalizedResourceHelper(getApplicationContext());
         Locale userLocale = RequestContextUtils.getLocale(request);
-        Resource inputFile = helper.findLocalizedResource(url.substring(0, url.lastIndexOf(".")), url.substring(url.lastIndexOf(".")), userLocale);
+        Resource inputFile = helper.findLocalizedResource(url.substring(0, url.lastIndexOf('.')), url.substring(url.lastIndexOf('.')), userLocale);
         return inputFile.getInputStream();
     }
 

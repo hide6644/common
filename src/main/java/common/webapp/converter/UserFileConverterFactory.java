@@ -12,7 +12,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.jxls.reader.XLSDataReadException;
 import org.springframework.beans.TypeMismatchException;
@@ -42,7 +41,7 @@ public class UserFileConverterFactory {
     }
 
     /**
-     * ファイルタイプに合わせた、ファイル変換処理クラスのインスタンスを返却する.
+     * ファイルタイプに合わせた、ファイル変換処理を返却する.
      *
      * @param fileType
      *            ファイルタイプ
@@ -63,13 +62,12 @@ public class UserFileConverterFactory {
             };
         case EXCEL:
             return multipartFile -> {
-                String modelName = Users.class.getSimpleName();
                 Map<String, List<User>> model = new HashMap<>();
-                model.put(modelName, new ArrayList<>());
+                model.put("Users", new ArrayList<>());
 
                 try {
-                    if (new JxlsFileReader().read(new ClassPathResource("/common/webapp/converter/" + modelName + ".xml"), multipartFile, model).isStatusOK()) {
-                        return model.get(modelName);
+                    if (new JxlsFileReader().read(new ClassPathResource("/common/webapp/converter/User.xml"), multipartFile, model).isStatusOK()) {
+                        return model.get("Users");
                     } else {
                         throw new FileException("errors.convert");
                     }
@@ -81,27 +79,20 @@ public class UserFileConverterFactory {
             };
         case CSV:
             return multipartFile -> {
-                CSVReader reader = null;
-
-                try {
-                    reader = new CSVReader(new InputStreamReader(multipartFile.getInputStream(), Constants.ENCODING), ',', '"', 1);
-
+                try (CSVReader reader = new CSVReader(new InputStreamReader(multipartFile.getInputStream(), Constants.ENCODING), ',', '"', 1);) {
                     return reader.readAll().stream().map(line -> {
                         try {
-                            CsvFileReader csvFileReader = new CsvFileReader(FileUtils.readFileToString(new ClassPathResource("/common/webapp/converter/" + User.class.getSimpleName() + ".csv").getFile(), Constants.ENCODING).split(","));
-                            return csvFileReader.read(User.class.newInstance(), line);
+                            CsvFileReader csvFileReader = new CsvFileReader(
+                                    FileUtils.readFileToString(new ClassPathResource("/common/webapp/converter/User.csv").getFile(), Constants.ENCODING).split(","));
+                            return csvFileReader.read(new User(), line);
                         } catch (IOException e) {
                             throw new FileException("errors.io", e);
-                        } catch (InstantiationException | IllegalAccessException e) {
-                            throw new FileException("errors.convert", e);
                         }
                     }).collect(Collectors.toList());
                 } catch (IOException e) {
                     throw new FileException("errors.io", e);
                 } catch (IllegalArgumentException | IndexOutOfBoundsException | TypeMismatchException e) {
                     throw new FileException("errors.convert", e);
-                } finally {
-                    IOUtils.closeQuietly(reader);
                 }
             };
         default:

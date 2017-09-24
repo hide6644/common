@@ -42,6 +42,12 @@ class HibernateSearchJpaTools {
     private static final Logger log = LogManager.getLogger(HibernateSearchJpaTools.class);
 
     /**
+     * プライベート・コンストラクタ.
+     */
+    private HibernateSearchJpaTools() {
+    }
+
+    /**
      * 全文検索クエリを作成する.
      *
      * @param searchTerm
@@ -122,9 +128,7 @@ class HibernateSearchJpaTools {
         } catch (ParseException e) {
             throw new SearchException(e);
         } finally {
-            if (readerAccessor != null && reader != null) {
-                readerAccessor.close(reader);
-            }
+            readerAccessor.close(reader);
         }
     }
 
@@ -174,7 +178,8 @@ class HibernateSearchJpaTools {
         try {
             massIndexer.startAndWait();
         } catch (InterruptedException e) {
-            log.error("mass reindexing interrupted: " + e.getMessage());
+            log.warn("mass reindexing interrupted: " + e.getMessage());
+            Thread.currentThread().interrupt();
         } finally {
             txtentityManager.flushToIndexes();
         }
@@ -200,7 +205,8 @@ class HibernateSearchJpaTools {
                 massIndexer.start();
             }
         } catch (InterruptedException e) {
-            log.error("mass reindexing interrupted: " + e.getMessage());
+            log.warn("mass reindexing interrupted: " + e.getMessage());
+            Thread.currentThread().interrupt();
         } finally {
             txtentityManager.flushToIndexes();
         }

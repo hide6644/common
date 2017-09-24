@@ -23,7 +23,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
     protected Logger log = LogManager.getLogger(getClass());
 
     /** メッセージソースアクセサー */
-    protected MessageSourceAccessor messages;
+    protected MessageSourceAccessor messageSourceAccessor;
 
     /** 一般的なCRUD DAOのインターフェース */
     protected GenericDao<T, PK> dao;
@@ -138,7 +138,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
      */
     protected String getText(String msgKey) {
         try {
-            return messages.getMessage(msgKey);
+            return messageSourceAccessor.getMessage(msgKey);
         } catch (NoSuchMessageException e) {
             log.error(e);
             return "{" + msgKey + "}";
@@ -156,7 +156,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
      */
     protected String getText(String msgKey, Object... args) {
         try {
-            return messages.getMessage(msgKey, args);
+            return messageSourceAccessor.getMessage(msgKey, args);
         } catch (NoSuchMessageException e) {
             log.error(e);
             return "{" + msgKey + "}";
@@ -171,6 +171,6 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
      */
     @Autowired
     public void setMessages(MessageSource messageSource) {
-        messages = new MessageSourceAccessor(messageSource);
+        messageSourceAccessor = new MessageSourceAccessor(messageSource);
     }
 }

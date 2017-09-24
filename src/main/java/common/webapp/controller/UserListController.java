@@ -55,7 +55,7 @@ public class UserListController extends BaseController {
     @RequestMapping(value = "/admin/master/users*.csv", method = RequestMethod.GET)
     public ModelAndView setupCsvList(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("Application/Octet-Stream");
-        response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/") + 1) + "\"");
+        response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
 
         Model model = new ExtendedModelMap();
         model.addAttribute("csv", userManager.getAll());
@@ -74,7 +74,7 @@ public class UserListController extends BaseController {
     @RequestMapping(value = "/admin/master/users*.xlsx", method = RequestMethod.GET)
     public ModelAndView setupXlsList(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("Application/Vnd.ms-Excel");
-        response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/") + 1) + "\"");
+        response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
 
         Model model = new ExtendedModelMap();
         model.addAttribute("users", userManager.getAll());
@@ -94,7 +94,7 @@ public class UserListController extends BaseController {
     @ResponseBody
     public Users setupXmlList(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("Application/Octet-Stream");
-        response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/") + 1) + "\"");
+        response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
         return new Users(userManager.getAll());
     }
 

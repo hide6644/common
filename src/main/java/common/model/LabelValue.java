@@ -8,14 +8,7 @@ import java.util.Comparator;
  */
 public class LabelValue implements Comparable<LabelValue>, Serializable {
 
-    public static final Comparator<LabelValue> CASE_INSENSITIVE_ORDER = new Comparator<LabelValue>() {
-        /**
-         * {@inheritDoc}
-         */
-        public int compare(LabelValue labelValue1, LabelValue labelValue2) {
-            return labelValue1.getValue().compareToIgnoreCase(labelValue2.getValue());
-        }
-    };
+    public static final Comparator<LabelValue> CASE_INSENSITIVE_ORDER = (LabelValue o1, LabelValue o2) -> o1.getValue().compareToIgnoreCase(o2.getValue());
 
     /** ラベル */
     private String label;
