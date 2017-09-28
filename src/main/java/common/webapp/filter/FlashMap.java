@@ -45,10 +45,10 @@ public final class FlashMap {
      *            {@link HttpServletRequest}
      * @return FlashMap
      */
-    public static Map<String, Object> getCurrent(HttpServletRequest request) {
+    public static Map<String, List<String>> getCurrent(HttpServletRequest request) {
         HttpSession session = request.getSession();
         @SuppressWarnings("unchecked")
-        Map<String, Object> flash = (Map<String, Object>) session.getAttribute(FLASH_MAP_ATTRIBUTE);
+        HashMap<String, List<String>> flash = (HashMap<String, List<String>>) session.getAttribute(FLASH_MAP_ATTRIBUTE);
 
         if (flash == null) {
             flash = new HashMap<>();
@@ -65,7 +65,7 @@ public final class FlashMap {
      *            キー
      * @return 指定されたキーの要素
      */
-    public static Object get(String key) {
+    public static List<String> get(String key) {
         return getCurrent(getRequest(RequestContextHolder.currentRequestAttributes())).get(key);
     }
 
@@ -77,7 +77,7 @@ public final class FlashMap {
      * @param value
      *            要素
      */
-    public static void put(String key, Object value) {
+    public static void put(String key, List<String> value) {
         getCurrent(getRequest(RequestContextHolder.currentRequestAttributes())).put(key, value);
     }
 
@@ -89,9 +89,8 @@ public final class FlashMap {
      * @param value
      *            要素
      */
-    public static void add(String key, Object value) {
-        @SuppressWarnings("unchecked")
-        List<Object> messages = (List<Object>) get(key);
+    public static void add(String key, String value) {
+        List<String> messages = get(key);
 
         if (messages == null) {
             messages = new ArrayList<>();

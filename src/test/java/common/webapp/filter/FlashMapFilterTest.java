@@ -2,6 +2,8 @@ package common.webapp.filter;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+
 import javax.servlet.ServletRequest;
 
 import org.junit.Before;
@@ -29,10 +31,10 @@ public class FlashMapFilterTest {
     public void testDoFilter() throws Exception {
         ServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
-        FlashMap.put("testKey", "testValue");
+        FlashMap.put("testKey", Arrays.asList("testValue"));
 
         filter.doFilter(request, response, new MockFilterChain());
 
-        assertEquals("testValue", request.getAttribute("testKey"));
+        assertEquals(Arrays.asList("testValue"), request.getAttribute("testKey"));
     }
 }

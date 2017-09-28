@@ -139,7 +139,7 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
      */
     @SuppressWarnings("unchecked")
     private Map<String, Integer> getBadCredentialsMap(HttpServletRequest request) {
-        Map<String, Integer> badCredentialsMap = (Map<String, Integer>) request.getSession().getAttribute("badCredentialsCount");
+        HashMap<String, Integer> badCredentialsMap = (HashMap<String, Integer>) request.getSession().getAttribute("badCredentialsCount");
 
         if (badCredentialsMap == null) {
             badCredentialsMap = new HashMap<>();
