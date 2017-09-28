@@ -8,7 +8,7 @@ import org.hibernate.search.query.facet.Facet;
 /**
  * 一般的なCRUD POJOsのインターフェイス.
  */
-public interface GenericManager<T, PK extends Serializable> {
+public interface GenericManager<T, K extends Serializable> {
 
     /**
      * 全オブジェクトを取得する.
@@ -24,7 +24,7 @@ public interface GenericManager<T, PK extends Serializable> {
      *            主キー項目
      * @return オブジェクト
      */
-    T get(PK id);
+    T get(K id);
 
     /**
      * 指定されたキーのオブジェクトが存在するか.
@@ -33,7 +33,7 @@ public interface GenericManager<T, PK extends Serializable> {
      *            主キー項目
      * @return オブジェクト
      */
-    boolean exists(PK id);
+    boolean exists(K id);
 
     /**
      * 指定されたオブジェクトを永続化する.
@@ -58,7 +58,7 @@ public interface GenericManager<T, PK extends Serializable> {
      * @param id
      *            主キー項目
      */
-    void remove(PK id);
+    void remove(K id);
 
     /**
      * オブジェクトのインデックス済み項目を全文検索する.

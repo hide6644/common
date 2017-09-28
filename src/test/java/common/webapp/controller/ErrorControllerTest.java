@@ -18,31 +18,32 @@ public class ErrorControllerTest extends BaseControllerTestCase {
         request.setAttribute("javax.servlet.error.status_code", 400);
         ModelAndView mav = c.renderErrorPage(request);
 
-        assertEquals("Http Error Code: 400. Bad Request", mav.getModelMap().get("errorMsg"));
+        assertEquals("error", mav.getModelMap().get("errorTitle"));
         
         request.setAttribute("javax.servlet.error.status_code", 401);
         mav = c.renderErrorPage(request);
 
-        assertEquals("Http Error Code: 401. Unauthorized", mav.getModelMap().get("errorMsg"));
+        assertEquals("403", mav.getModelMap().get("errorTitle"));
         
         request.setAttribute("javax.servlet.error.status_code", 403);
         mav = c.renderErrorPage(request);
 
-        assertEquals("Http Error Code: 403. Forbidden", mav.getModelMap().get("errorMsg"));
+        assertEquals("403", mav.getModelMap().get("errorTitle"));
         
         request.setAttribute("javax.servlet.error.status_code", 404);
         mav = c.renderErrorPage(request);
 
-        assertEquals("Http Error Code: 404. Resource not found", mav.getModelMap().get("errorMsg"));
+        assertEquals("404", mav.getModelMap().get("errorTitle"));
         
         request.setAttribute("javax.servlet.error.status_code", 500);
         mav = c.renderErrorPage(request);
 
-        assertEquals("Http Error Code: 500. Internal Server Error", mav.getModelMap().get("errorMsg"));
-        
+        assertEquals("error", mav.getModelMap().get("errorTitle"));
+
         request.setAttribute("javax.servlet.error.status_code", 999);
         mav = c.renderErrorPage(request);
 
+        assertEquals("error", mav.getModelMap().get("errorTitle"));
         assertEquals("error", mav.getViewName());
     }
 }

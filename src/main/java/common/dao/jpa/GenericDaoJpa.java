@@ -23,7 +23,7 @@ import common.dao.GenericDao;
 /**
  * 一般的なCRUD DAOの実装クラス.
  */
-public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, PK> {
+public class GenericDaoJpa<T, K extends Serializable> implements GenericDao<T, K> {
 
     /** ログ出力クラス */
     protected Logger log = LogManager.getLogger(getClass());
@@ -86,7 +86,7 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
      * {@inheritDoc}
      */
     @Override
-    public T get(PK id) {
+    public T get(K id) {
         T entity = entityManager.find(persistentClass, id);
 
         if (entity == null) {
@@ -102,7 +102,7 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
      * {@inheritDoc}
      */
     @Override
-    public boolean exists(PK id) {
+    public boolean exists(K id) {
         return entityManager.find(persistentClass, id) != null;
     }
 
@@ -126,7 +126,7 @@ public class GenericDaoJpa<T, PK extends Serializable> implements GenericDao<T, 
      * {@inheritDoc}
      */
     @Override
-    public void remove(PK id) {
+    public void remove(K id) {
         entityManager.remove(get(id));
     }
 

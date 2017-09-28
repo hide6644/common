@@ -9,7 +9,7 @@ import org.hibernate.search.query.facet.Facet;
 /**
  * 一般的なCRUD DAOのインターフェース.
  */
-public interface GenericDao<T, PK extends Serializable> {
+public interface GenericDao<T, K extends Serializable> {
 
     /**
      * すべてのオブジェクトを取得する.
@@ -32,7 +32,7 @@ public interface GenericDao<T, PK extends Serializable> {
      *            主キー項目
      * @return オブジェクト
      */
-    T get(PK id);
+    T get(K id);
 
     /**
      * 指定されたキーのオブジェクトが存在するか.
@@ -41,7 +41,7 @@ public interface GenericDao<T, PK extends Serializable> {
      *            主キー項目
      * @return true:存在する、false:存在しない
      */
-    boolean exists(PK id);
+    boolean exists(K id);
 
     /**
      * 指定されたオブジェクトを永続化する.
@@ -66,7 +66,7 @@ public interface GenericDao<T, PK extends Serializable> {
      * @param id
      *            主キー項目
      */
-    void remove(PK id);
+    void remove(K id);
 
     /**
      * 指定されたクエリを使用し検索する.

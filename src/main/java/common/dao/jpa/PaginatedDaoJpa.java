@@ -25,7 +25,7 @@ import common.dao.PaginatedDao;
 /**
  * Paginated List DAOの実装クラス.
  */
-public class PaginatedDaoJpa<T, PK extends Serializable> extends GenericDaoJpa<T, PK> implements PaginatedDao<T, PK> {
+public class PaginatedDaoJpa<T, K extends Serializable> extends GenericDaoJpa<T, K> implements PaginatedDao<T, K> {
 
     /**
      * コンストラクタ.
@@ -110,6 +110,7 @@ public class PaginatedDaoJpa<T, PK extends Serializable> extends GenericDaoJpa<T
 
         query.setFirstResult(offset);
         query.setMaxResults(limit);
+
         return query.getResultList();
     }
 
@@ -141,6 +142,7 @@ public class PaginatedDaoJpa<T, PK extends Serializable> extends GenericDaoJpa<T
 
         query.setFirstResult(offset);
         query.setMaxResults(limit);
+
         return query.getResultList();
     }
 

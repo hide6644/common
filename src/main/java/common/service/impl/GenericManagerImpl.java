@@ -17,7 +17,7 @@ import common.service.GenericManager;
 /**
  * 一般的なCRUD POJOsの実装クラス.
  */
-public class GenericManagerImpl<T, PK extends Serializable> implements GenericManager<T, PK> {
+public class GenericManagerImpl<T, K extends Serializable> implements GenericManager<T, K> {
 
     /** ログ出力クラス */
     protected Logger log = LogManager.getLogger(getClass());
@@ -26,7 +26,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
     protected MessageSourceAccessor messageSourceAccessor;
 
     /** 一般的なCRUD DAOのインターフェース */
-    protected GenericDao<T, PK> dao;
+    protected GenericDao<T, K> dao;
 
     /**
      * デフォルト・コンストラクタ.
@@ -41,7 +41,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
      *            一般的なCRUD DAOのインターフェース
      */
     @Autowired
-    public GenericManagerImpl(GenericDao<T, PK> genericDao) {
+    public GenericManagerImpl(GenericDao<T, K> genericDao) {
         this.dao = genericDao;
     }
 
@@ -57,7 +57,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
      * {@inheritDoc}
      */
     @Override
-    public T get(PK id) {
+    public T get(K id) {
         return dao.get(id);
     }
 
@@ -65,7 +65,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
      * {@inheritDoc}
      */
     @Override
-    public boolean exists(PK id) {
+    public boolean exists(K id) {
         return dao.exists(id);
     }
 
@@ -89,7 +89,7 @@ public class GenericManagerImpl<T, PK extends Serializable> implements GenericMa
      * {@inheritDoc}
      */
     @Override
-    public void remove(PK id) {
+    public void remove(K id) {
         dao.remove(id);
     }
 

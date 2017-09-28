@@ -26,25 +26,12 @@ public class ErrorController extends BaseController {
         int errorCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
 
         switch (errorCode) {
-        case 400:
-            errorPage.addObject("errorTitle", "error");
-            errorPage.addObject("errorMsg", "Http Error Code: 400. Bad Request");
-            break;
         case 401:
-            errorPage.addObject("errorTitle", "403");
-            errorPage.addObject("errorMsg", "Http Error Code: 401. Unauthorized");
-            break;
         case 403:
             errorPage.addObject("errorTitle", "403");
-            errorPage.addObject("errorMsg", "Http Error Code: 403. Forbidden");
             break;
         case 404:
             errorPage.addObject("errorTitle", "404");
-            errorPage.addObject("errorMsg", "Http Error Code: 404. Resource not found");
-            break;
-        case 500:
-            errorPage.addObject("errorTitle", "error");
-            errorPage.addObject("errorMsg", "Http Error Code: 500. Internal Server Error");
             break;
         default:
             errorPage.addObject("errorTitle", "error");
