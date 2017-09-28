@@ -23,6 +23,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.AbstractUrlBasedView;
 
 import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
 
 import common.Constants;
@@ -40,12 +41,8 @@ public class CsvView extends AbstractUrlBasedView {
         List<String[]> csv = null;
 
         if (getUrl() != null) {
-            CSVReader reader = new CSVReader(new InputStreamReader(getTemplateSource(getUrl(), request), Constants.ENCODING), ',', '"');
-
-            try {
+            try (CSVReader reader = new CSVReaderBuilder(new InputStreamReader(getTemplateSource(getUrl(), request), Constants.ENCODING)).build();) {
                 csv = reader.readAll();
-            } finally {
-                IOUtils.closeQuietly(reader);
             }
         } else {
             csv = new ArrayList<>();

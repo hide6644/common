@@ -19,6 +19,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.xml.sax.SAXException;
 
 import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 
 import common.Constants;
 import common.exception.FileException;
@@ -79,7 +80,7 @@ public class UserFileConverterFactory {
             };
         case CSV:
             return multipartFile -> {
-                try (CSVReader reader = new CSVReader(new InputStreamReader(multipartFile.getInputStream(), Constants.ENCODING), ',', '"', 1);) {
+                try (CSVReader reader = new CSVReaderBuilder(new InputStreamReader(multipartFile.getInputStream(), Constants.ENCODING)).withSkipLines(1).build();) {
                     return reader.readAll().stream().map(line -> {
                         try {
                             CsvFileReader csvFileReader = new CsvFileReader(

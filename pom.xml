@@ -7,7 +7,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.2.2</version>
+    <version>1.2.3</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -547,7 +547,7 @@
         <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
         <jdbc.groupId>mysql</jdbc.groupId>
         <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
-        <jdbc.version>5.1.43</jdbc.version>
+        <jdbc.version>5.1.44</jdbc.version>
         <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
         <jdbc.url>
             <![CDATA[jdbc:mysql://localhost/common?createDatabaseIfNotExist=true&amp;zeroDateTimeBehavior=convertToNull&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true]]>
@@ -563,26 +563,26 @@
         <el.version>3.0.1-b08</el.version>
         <freemarker.version>2.3.23</freemarker.version>
         <groovy.version>2.4.12</groovy.version>
-        <hibernate.version>5.2.10.Final</hibernate.version>
-        <hibernate.search.version>5.7.1.Final</hibernate.search.version>
-        <hibernate.validator.version>5.4.1.Final</hibernate.validator.version>
-        <HikariCP.version>2.6.3</HikariCP.version>
+        <hibernate.version>5.2.11.Final</hibernate.version>
+        <hibernate.search.version>5.8.0.Final</hibernate.search.version>
+        <hibernate.validator.version>6.0.2.Final</hibernate.validator.version>
+        <HikariCP.version>2.7.1</HikariCP.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <javax.ws.rs-api.version>2.0.1</javax.ws.rs-api.version>
         <joda.time.version>2.9.9</joda.time.version>
         <jquery.version>2.2.4</jquery.version>
         <jquery-cookie.version>1.4.1-1</jquery-cookie.version>
         <junit.version>4.12</junit.version>
-        <jxls.version>2.4.1</jxls.version>
+        <jxls.version>2.4.2</jxls.version>
         <jxls-poi.version>1.0.13</jxls-poi.version>
         <jxls-reader.version>2.0.3</jxls-reader.version>
-        <log4j.version>2.8.2</log4j.version>
+        <log4j.version>2.9.0</log4j.version>
         <lucene.version>5.5.4</lucene.version>
         <mail.version>1.4.7</mail.version>
-        <mockito.version>2.8.47</mockito.version>
-        <opencsv.version>3.10</opencsv.version>
+        <mockito.version>2.10.0</mockito.version>
+        <opencsv.version>4.0</opencsv.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <spring.version>4.3.10.RELEASE</spring.version>
+        <spring.version>4.3.11.RELEASE</spring.version>
         <spring.security.version>4.2.3.RELEASE</spring.security.version>
         <subethasmtp.version>3.1.7</subethasmtp.version>
         <thymeleaf.spring4.version>3.0.7.RELEASE</thymeleaf.spring4.version>

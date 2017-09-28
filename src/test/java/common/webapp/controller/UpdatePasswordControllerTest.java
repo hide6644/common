@@ -2,7 +2,7 @@ package common.webapp.controller;
 
 import static org.junit.Assert.*;
 
-import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.text.RandomStringGenerator;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -65,7 +65,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     @Test
     public void testShowResetPasswordFormBadToken() throws Exception {
         String username = "administrator";
-        String badtoken = RandomStringUtils.random(32);
+        String badtoken = new RandomStringGenerator.Builder().build().generate(32);
         MockHttpServletRequest request = newGet("/updatePassword");
         request.addParameter("username", username);
         request.addParameter("token", badtoken);
@@ -99,7 +99,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     @Test
     public void testResetPasswordBadToken() throws Exception {
         String username = "administrator";
-        String badToken = RandomStringUtils.random(32);
+        String badToken = new RandomStringGenerator.Builder().build().generate(32);
         String password = "new-pass";
         MockHttpServletRequest request = newGet("/updatePassword");
         request.addParameter("username", username);
