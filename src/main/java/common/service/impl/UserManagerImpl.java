@@ -113,31 +113,8 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
             user.setUsername(user.getUsername().toLowerCase());
         }
 
-        boolean passwordChanged = false;
-
         if (passwordEncoder != null) {
-            if (user.getVersion() == null) {
-                // 登録の場合
-                passwordChanged = true;
-            } else {
-                // 更新の場合
-                String currentPassword = userDao.getPasswordById(user.getId());
-
-                if (user.getPassword() == null) {
-                    // パスワードが空の場合、パスワードは同じものを設定する
-                    user.setPassword(currentPassword);
-                    user.setConfirmPassword(user.getPassword());
-                }
-
-                if (currentPassword == null || !currentPassword.equals(user.getPassword())) {
-                    passwordChanged = true;
-                }
-            }
-
-            if (passwordChanged) {
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
-                user.setConfirmPassword(user.getPassword());
-            }
+            passwordEncode(user);
         } else {
             log.warn("PasswordEncoder not set, skipping password encryption...");
         }
@@ -154,6 +131,40 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
             } else {
                 throw new DatabaseException("errors.update", e);
             }
+        }
+    }
+
+    /**
+     * ユーザのパスワードを暗号化する.
+     *
+     * @param user
+     *            ユーザ
+     */
+    private void passwordEncode(User user) {
+        boolean passwordChanged = false;
+
+        if (user.getVersion() == null) {
+            // 登録の場合
+            passwordChanged = true;
+        } else {
+            // 更新の場合
+            String currentPassword = userDao.getPasswordById(user.getId());
+
+            if (user.getPassword() == null) {
+                // パスワードが空の場合、パスワードは同じものを設定する
+                user.setPassword(currentPassword);
+                user.setConfirmPassword(user.getPassword());
+            }
+
+            if (currentPassword == null || !currentPassword.equals(user.getPassword())) {
+                passwordChanged = true;
+            }
+        }
+
+        if (passwordChanged) {
+            // パスワードが変更されていた場合
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setConfirmPassword(user.getPassword());
         }
     }
 

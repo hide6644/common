@@ -32,7 +32,7 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
     public static final String ACCESS_DENIED = "Access Denied: Only administrators are allowed to modify other users.";
 
     /** ログ出力クラス */
-    private Logger log = LogManager.getLogger(getClass());
+    private Logger log = LogManager.getLogger(UserSecurityAdvice.class);
 
     /**
      * {@inheritDoc}
@@ -43,38 +43,45 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
 
         if (ctx.getAuthentication() != null) {
             Authentication auth = ctx.getAuthentication();
-
-            boolean administrator = auth.getAuthorities().stream()
-                    .anyMatch(role -> role.getAuthority().equals(Constants.ADMIN_ROLE));
-
             User user = (User) args[0];
-            AuthenticationTrustResolver resolver = new AuthenticationTrustResolverImpl();
-            boolean signupUser = resolver.isAnonymous(auth);
 
-            if (!signupUser) {
-                User currentUser = getCurrentUser(auth);
-
-                if (user.getId() != null && !user.getId().equals(currentUser.getId()) && !administrator) {
-                    log.warn("Access Denied: '" + currentUser.getUsername() + "' tried to modify '" + user.getUsername() + "'!");
-                    throw new AccessDeniedException(ACCESS_DENIED);
-                } else if (user.getId() != null && user.getId().equals(currentUser.getId()) && !administrator) {
-                    // 入力されたユーザの権限
-                    Set<String> userRoles = Optional.ofNullable(user.getRoles()).orElseGet(HashSet::new).stream()
-                            .map(role -> role.getName()).collect(Collectors.toSet());
-
-                    // ログインユーザの権限
-                    Set<String> authorizedRoles = auth.getAuthorities().stream()
-                            .map(role -> role.getAuthority()).collect(Collectors.toSet());
-
-                    if (!CollectionUtils.isEqualCollection(userRoles, authorizedRoles)) {
-                        log.warn("Access Denied: '" + currentUser.getUsername() + "' tried to change their role(s)!");
-                        throw new AccessDeniedException(ACCESS_DENIED);
-                    }
-                }
-            } else {
+            if (new AuthenticationTrustResolverImpl().isAnonymous(auth)) {
                 if (log.isDebugEnabled()) {
                     log.debug("Registering new user '" + user.getUsername() + "'");
                 }
+            } else {
+                checkAuthentication(auth, user);
+            }
+        }
+    }
+
+    /**
+     * 行った操作に対して権限があるか確認する.
+     *
+     * @param auth
+     *            {@link Authentication}
+     * @param user
+     *            ユーザ
+     */
+    private void checkAuthentication(Authentication auth, User user) {
+        boolean administrator = auth.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals(Constants.ADMIN_ROLE));
+        User currentUser = getCurrentUser(auth);
+
+        if (user.getId() != null && !user.getId().equals(currentUser.getId()) && !administrator) {
+            log.warn("Access Denied: '" + currentUser.getUsername() + "' tried to modify '" + user.getUsername() + "'!");
+            throw new AccessDeniedException(ACCESS_DENIED);
+        } else if (user.getId() != null && user.getId().equals(currentUser.getId()) && !administrator) {
+            // 入力されたユーザの権限
+            Set<String> userRoles = Optional.ofNullable(user.getRoles()).orElseGet(HashSet::new).stream()
+                    .map(role -> role.getName()).collect(Collectors.toSet());
+
+            // ログインユーザの権限
+            Set<String> authorizedRoles = auth.getAuthorities().stream()
+                    .map(role -> role.getAuthority()).collect(Collectors.toSet());
+
+            if (!CollectionUtils.isEqualCollection(userRoles, authorizedRoles)) {
+                log.warn("Access Denied: '" + currentUser.getUsername() + "' tried to change their role(s)!");
+                throw new AccessDeniedException(ACCESS_DENIED);
             }
         }
     }

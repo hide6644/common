@@ -48,56 +48,83 @@ public class UserFileConverterFactory {
      *            ファイルタイプ
      * @return ファイル変換処理クラスの関数
      */
-    @SuppressWarnings("unchecked")
     public static FileConverter<User> createConverter(FileType fileType) {
         switch (fileType) {
         case XML:
-            return multipartFile -> {
-                try {
-                    return ((BaseObjects<User>) new XmlFileReader().read(JAXBContext.newInstance(Users.class), multipartFile)).getObjects();
-                } catch (IOException e) {
-                    throw new FileException("errors.io", e);
-                } catch (JAXBException e) {
-                    throw new FileException("errors.convert", e);
-                }
-            };
+            return createXmlConverter();
         case EXCEL:
-            return multipartFile -> {
-                Map<String, List<User>> model = new HashMap<>();
-                model.put("Users", new ArrayList<>());
-
-                try {
-                    if (new JxlsFileReader().read(new ClassPathResource("/common/webapp/converter/User.xml"), multipartFile, model).isStatusOK()) {
-                        return model.get("Users");
-                    } else {
-                        throw new FileException("errors.convert");
-                    }
-                } catch (IOException e) {
-                    throw new FileException("errors.io", e);
-                } catch (IllegalArgumentException | InvalidFormatException | XLSDataReadException | SAXException e) {
-                    throw new FileException("errors.convert", e);
-                }
-            };
+            return createExcelConverter();
         case CSV:
-            return multipartFile -> {
-                try (CSVReader reader = new CSVReaderBuilder(new InputStreamReader(multipartFile.getInputStream(), Constants.ENCODING)).withSkipLines(1).build();) {
-                    return reader.readAll().stream().map(line -> {
-                        try {
-                            CsvFileReader csvFileReader = new CsvFileReader(
-                                    FileUtils.readFileToString(new ClassPathResource("/common/webapp/converter/User.csv").getFile(), Constants.ENCODING).split(","));
-                            return csvFileReader.read(new User(), line);
-                        } catch (IOException e) {
-                            throw new FileException("errors.io", e);
-                        }
-                    }).collect(Collectors.toList());
-                } catch (IOException e) {
-                    throw new FileException("errors.io", e);
-                } catch (IllegalArgumentException | IndexOutOfBoundsException | TypeMismatchException e) {
-                    throw new FileException("errors.convert", e);
-                }
-            };
+            return createCsvConverter();
         default:
             throw new FileException("errors.fileType");
         }
+    }
+
+    /**
+     * XMLファイル変換処理を返却する.
+     *
+     * @return XMLファイル変換処理クラスの関数
+     */
+    @SuppressWarnings("unchecked")
+    private static FileConverter<User> createXmlConverter() {
+        return multipartFile -> {
+            try {
+                return ((BaseObjects<User>) new XmlFileReader().read(JAXBContext.newInstance(Users.class), multipartFile)).getObjects();
+            } catch (IOException e) {
+                throw new FileException("errors.io", e);
+            } catch (JAXBException e) {
+                throw new FileException("errors.convert", e);
+            }
+        };
+    }
+
+    /**
+     * EXCELファイル変換処理を返却する.
+     *
+     * @return EXCELファイル変換処理クラスの関数
+     */
+    private static FileConverter<User> createExcelConverter() {
+        return multipartFile -> {
+            Map<String, List<User>> model = new HashMap<>();
+            model.put("Users", new ArrayList<>());
+
+            try {
+                if (new JxlsFileReader().read(new ClassPathResource("/common/webapp/converter/User.xml"), multipartFile, model).isStatusOK()) {
+                    return model.get("Users");
+                } else {
+                    throw new FileException("errors.convert");
+                }
+            } catch (IOException e) {
+                throw new FileException("errors.io", e);
+            } catch (IllegalArgumentException | InvalidFormatException | XLSDataReadException | SAXException e) {
+                throw new FileException("errors.convert", e);
+            }
+        };
+    }
+
+    /**
+     * CSVファイル変換処理を返却する.
+     *
+     * @return CSVファイル変換処理クラスの関数
+     */
+    private static FileConverter<User> createCsvConverter() {
+        return multipartFile -> {
+            try (CSVReader reader = new CSVReaderBuilder(new InputStreamReader(multipartFile.getInputStream(), Constants.ENCODING)).withSkipLines(1).build();) {
+                return reader.readAll().stream().map(line -> {
+                    try {
+                        CsvFileReader csvFileReader = new CsvFileReader(
+                                FileUtils.readFileToString(new ClassPathResource("/common/webapp/converter/User.csv").getFile(), Constants.ENCODING).split(","));
+                        return csvFileReader.read(new User(), line);
+                    } catch (IOException e) {
+                        throw new FileException("errors.io", e);
+                    }
+                }).collect(Collectors.toList());
+            } catch (IOException e) {
+                throw new FileException("errors.io", e);
+            } catch (IllegalArgumentException | IndexOutOfBoundsException | TypeMismatchException e) {
+                throw new FileException("errors.convert", e);
+            }
+        };
     }
 }

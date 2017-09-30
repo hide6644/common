@@ -10,7 +10,6 @@ import java.util.stream.StreamSupport;
 import javax.persistence.EntityManager;
 
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexReader;
@@ -37,9 +36,6 @@ import common.dao.SearchException;
  * 全文検索クエリを処理するクラス.
  */
 class HibernateSearchJpaTools {
-
-    /** ログ出力クラス */
-    private static final Logger log = LogManager.getLogger(HibernateSearchJpaTools.class);
 
     /**
      * プライベート・コンストラクタ.
@@ -178,7 +174,7 @@ class HibernateSearchJpaTools {
         try {
             massIndexer.startAndWait();
         } catch (InterruptedException e) {
-            log.warn("mass reindexing interrupted: " + e.getMessage());
+            LogManager.getLogger(HibernateSearchJpaTools.class).warn("mass reindexing interrupted: " + e.getMessage());
             Thread.currentThread().interrupt();
         } finally {
             txtentityManager.flushToIndexes();
@@ -205,7 +201,7 @@ class HibernateSearchJpaTools {
                 massIndexer.start();
             }
         } catch (InterruptedException e) {
-            log.warn("mass reindexing interrupted: " + e.getMessage());
+            LogManager.getLogger(HibernateSearchJpaTools.class).warn("mass reindexing interrupted: " + e.getMessage());
             Thread.currentThread().interrupt();
         } finally {
             txtentityManager.flushToIndexes();

@@ -34,14 +34,12 @@ import net.sf.ehcache.CacheManager;
 @Component
 public class StartupListener implements ServletContextListener {
 
-    /** ログ出力クラス */
-    private static final Logger log = LogManager.getLogger(StartupListener.class);
-
     /**
      * {@inheritDoc}
      */
     @Override
     public void contextInitialized(ServletContextEvent event) {
+        Logger log = LogManager.getLogger(StartupListener.class);
         ServletContext context = event.getServletContext();
 
         @SuppressWarnings("unchecked")

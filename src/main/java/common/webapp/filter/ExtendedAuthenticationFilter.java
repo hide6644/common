@@ -25,9 +25,6 @@ import common.service.UserManager;
  */
 public class ExtendedAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    /** ログ出力クラス */
-    private Logger log = LogManager.getLogger(getClass());
-
     /** ユーザ処理クラス */
     @Autowired
     private UserManager userManager;
@@ -77,6 +74,8 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
                     userManager.saveUser(user);
                 }
             } catch (UsernameNotFoundException unfe) {
+                Logger log = LogManager.getLogger(ExtendedAuthenticationFilter.class);
+
                 if (log.isDebugEnabled()) {
                     log.debug("Account not found: username=" + username);
                 }

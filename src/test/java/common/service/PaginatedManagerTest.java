@@ -36,6 +36,10 @@ public class PaginatedManagerTest extends BaseManagerTestCase {
 
         assertNotNull(paginatedList);
         assertEquals(1, paginatedList.getAllRecordCount());
+        assertFalse(paginatedList.isExistPrePage());
+        assertFalse(paginatedList.isExistNextPage());
+        assertEquals(0, paginatedList.getPrePageNumber());
+        assertEquals(2, paginatedList.getNextPageNumber());
         assertEquals(1, paginatedList.getPageNumberList().size());
     }
 }
