@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Paginated List DAOのインターフェース.
  */
-public interface PaginatedDao<T, PK extends Serializable> extends GenericDao<T, PK> {
+public interface PaginatedDao<T, K extends Serializable> extends GenericDao<T, K> {
 
     /**
      * 指定の範囲のオブジェクトを取得する.

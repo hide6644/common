@@ -12,9 +12,7 @@ import org.springframework.validation.DataBinder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import common.webapp.converter.CsvFileConverter;
-import common.webapp.converter.XlsFileConverter;
-import common.webapp.converter.XmlFileConverter;
+import common.webapp.converter.FileType;
 import common.webapp.form.UploadForm;
 
 public class UserUploadControllerTest extends BaseControllerTestCase {
@@ -26,7 +24,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
     public void testSetupUpload() throws Exception {
         UploadForm uploadForm = c.setupUpload();
 
-        assertEquals(XmlFileConverter.FILE_TYPE, uploadForm.getFileType());
+        assertEquals(Integer.valueOf(FileType.XML.getValue()), uploadForm.getFileType());
     }
 
     @Test
@@ -36,7 +34,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
         MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);
 
         UploadForm uploadForm = new UploadForm();
-        uploadForm.setFileType(CsvFileConverter.FILE_TYPE);
+        uploadForm.setFileType(FileType.CSV.getValue());
         uploadForm.setFileData(mockMultipartFile);
 
         BindingResult errors = new DataBinder(uploadForm).getBindingResult();
@@ -53,7 +51,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
         MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);
 
         UploadForm uploadForm = new UploadForm();
-        uploadForm.setFileType(XlsFileConverter.FILE_TYPE);
+        uploadForm.setFileType(FileType.EXCEL.getValue());
         uploadForm.setFileData(mockMultipartFile);
 
         BindingResult errors = new DataBinder(uploadForm).getBindingResult();
@@ -61,6 +59,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
 
         assertFalse(errors.hasErrors());
         assertEquals(1, uploadForm.getCount());
+        assertTrue(uploadForm.getUploadErrors().size() > 0);
     }
 
     @Test
@@ -70,7 +69,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
         MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);
 
         UploadForm uploadForm = new UploadForm();
-        uploadForm.setFileType(XmlFileConverter.FILE_TYPE);
+        uploadForm.setFileType(FileType.XML.getValue());
         uploadForm.setFileData(mockMultipartFile);
 
         BindingResult errors = new DataBinder(uploadForm).getBindingResult();
@@ -78,6 +77,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
 
         assertFalse(errors.hasErrors());
         assertEquals(1, uploadForm.getCount());
+        assertTrue(uploadForm.getUploadErrors().size() > 0);
     }
 
     @Test
@@ -87,7 +87,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
         MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);
 
         UploadForm uploadForm = new UploadForm();
-        uploadForm.setFileType(CsvFileConverter.FILE_TYPE);
+        uploadForm.setFileType(FileType.CSV.getValue());
         uploadForm.setFileData(mockMultipartFile);
 
         BindingResult errors = new DataBinder(uploadForm).getBindingResult();

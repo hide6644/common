@@ -61,6 +61,7 @@ public class SignupController extends BaseController {
             userManager.saveSignupUser(user);
             saveFlashMessage(getText("signupForm.provisional.message"));
         } catch (DatabaseException e) {
+            log.error(e);
             return "signup";
         }
 
@@ -94,7 +95,6 @@ public class SignupController extends BaseController {
             saveFlashMessage(getText("signupForm.complete.message"));
         } catch (DatabaseException e) {
             log.error(e);
-
             return "redirect:/login";
         }
 

@@ -48,7 +48,6 @@ public class PasswordTokenManagerImpl implements PasswordTokenManager {
             String tokenWithoutTimestamp = token.substring(EXPIRATION_TIME_FORMAT.length());
             String tokenSource = expirationTimeStamp + getTokenSource(user);
             DateTime expirationTime = parseTimestamp(expirationTimeStamp);
-
             return expirationTime != null && expirationTime.isAfterNow() && passwordTokenEncoder.matches(tokenSource, tokenWithoutTimestamp);
         }
 

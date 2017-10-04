@@ -92,11 +92,12 @@ public class UserDaoTest extends BaseDaoTestCase {
 
         assertEquals("more than 2 roles", 2, user.getRoles().size());
 
-        user.getRoles().remove(role);
+        user.removeRole(role);
         dao.saveUser(user);
         user = dao.get(-1L);
 
         assertEquals(1, user.getRoles().size());
+        assertEquals(1, user.getRoleList().size());
     }
 
     @Test(expected = DataAccessException.class)
@@ -168,9 +169,10 @@ public class UserDaoTest extends BaseDaoTestCase {
         dao.reindex();
 
         List<User> userList = dao.search("admin");
+        User adminUser = userList.get(0);
 
         assertEquals(1, userList.size());
-        assertEquals("admin", userList.get(0).getFirstName());
+        assertEquals("admin", adminUser.getFirstName());
 
         User user = dao.get(-2L);
         user.setConfirmPassword(user.getPassword());
@@ -179,8 +181,11 @@ public class UserDaoTest extends BaseDaoTestCase {
         dao.reindex();
 
         userList = dao.search("MattX");
+        User normalUser = userList.get(0);
 
         assertEquals(1, userList.size());
-        assertEquals("MattX", userList.get(0).getFirstName());
+        assertEquals("MattX", normalUser.getFirstName());
+
+        assertFalse(adminUser.equals(normalUser));
     }
 }

@@ -18,6 +18,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,11 +32,8 @@ import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Facet;
 import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Fields;
 import org.hibernate.search.annotations.Indexed;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -101,7 +100,7 @@ public class User extends BaseObject implements Serializable, UserDetails {
     private Date credentialsExpiredDate;
 
     /** 権限 */
-    private Set<Role> roles = new HashSet<Role>();
+    private Set<Role> roles = new HashSet<>();
 
     /**
      * デフォルト・コンストラクタ
@@ -193,10 +192,8 @@ public class User extends BaseObject implements Serializable, UserDetails {
     @NotEmpty
     @Length(max = 64)
     @Column(name = "first_name", nullable = false, length = 64)
-    @Fields({
-            @Field,
-            @Field(name = "firstNameFacet", analyze = Analyze.NO)
-        })
+    @Field
+    @Field(name = "firstNameFacet", analyze = Analyze.NO)
     @Facet(forField = "firstNameFacet")
     public String getFirstName() {
         return firstName;
@@ -219,10 +216,8 @@ public class User extends BaseObject implements Serializable, UserDetails {
      */
     @Length(max = 64)
     @Column(name = "last_name", length = 64)
-    @Fields({
-            @Field,
-            @Field(name = "lastNameFacet", analyze = Analyze.NO)
-        })
+    @Field
+    @Field(name = "lastNameFacet", analyze = Analyze.NO)
     @Facet(forField = "lastNameFacet")
     public String getLastName() {
         return lastName;
@@ -433,7 +428,7 @@ public class User extends BaseObject implements Serializable, UserDetails {
     @Transient
     @Override
     public Set<GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> authorities = new LinkedHashSet<GrantedAuthority>();
+        Set<GrantedAuthority> authorities = new LinkedHashSet<>();
         authorities.addAll(roles);
         return authorities;
     }

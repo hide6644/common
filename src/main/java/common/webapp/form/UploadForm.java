@@ -3,7 +3,7 @@ package common.webapp.form;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.web.multipart.MultipartFile;
 
 import common.validator.constraints.MaxFileSize;
@@ -15,8 +15,8 @@ import common.validator.constraints.NotEmptyFile;
 public class UploadForm {
 
     /** ファイル種別 */
-    @NotEmpty
-    private String fileType;
+    @Range(min = 1, max = 3)
+    private Integer fileType;
 
     /** アップロードファイル情報 */
     @NotEmptyFile
@@ -26,15 +26,15 @@ public class UploadForm {
     /** 件数 */
     private int count;
 
-    /** 取り込みエラーの行番号 */
-    List<Integer> errorNo = new ArrayList<Integer>();
+    /** 取り込みエラー一覧 */
+    List<UploadError> uploadErrors;
 
     /**
      * ファイル種別を取得する.
      *
      * @return ファイル種別
      */
-    public String getFileType() {
+    public Integer getFileType() {
         return fileType;
     }
 
@@ -44,7 +44,7 @@ public class UploadForm {
      * @param fileType
      *            ファイル種別
      */
-    public void setFileType(String fileType) {
+    public void setFileType(Integer fileType) {
         this.fileType = fileType;
     }
 
@@ -87,31 +87,35 @@ public class UploadForm {
     }
 
     /**
-     * 取り込みエラーの行番号を取得する.
+     * 取り込みエラー一覧を取得する.
      *
-     * @return 取り込みエラーの行番号
+     * @return 取り込みエラー一覧
      */
-    public List<Integer> getErrorNo() {
-        return errorNo;
+    public List<UploadError> getUploadErrors() {
+        return uploadErrors;
     }
 
     /**
-     * 取り込みエラーの行番号を設定する.
+     * 取り込みエラー一覧を設定する.
      *
-     * @param errorNo
-     *            取り込みエラーの行番号
+     * @param uploadErrors
+     *            取り込みエラー一覧
      */
-    public void setErrorNo(List<Integer> errorNo) {
-        this.errorNo = errorNo;
+    public void setUploadErrors(List<UploadError> uploadErrors) {
+        this.uploadErrors = uploadErrors;
     }
 
     /**
-     * 取り込みエラーの行番号を追加する.
+     * 取り込みエラー一覧を追加する.
      *
-     * @param rowNo
-     *            行番号
+     * @param uploadErrors
+     *            取り込みエラー一覧
      */
-    public void addErrorNo(Integer rowNo) {
-        getErrorNo().add(rowNo);
+    public void addUploadErrors(List<UploadError> uploadErrors) {
+        if (this.uploadErrors == null) {
+            this.uploadErrors = new ArrayList<>();
+        }
+
+        this.uploadErrors.addAll(uploadErrors);
     }
 }

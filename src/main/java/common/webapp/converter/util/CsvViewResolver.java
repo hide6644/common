@@ -29,6 +29,6 @@ public class CsvViewResolver extends UrlBasedViewResolver {
      */
     @Override
     protected boolean canHandle(String viewName, Locale locale) {
-        return viewName.indexOf("csv/") > 0 && super.canHandle(viewName, locale);
+        return viewName.indexOf("csv/") > -1 && super.canHandle(viewName, locale);
     }
 }

@@ -9,7 +9,6 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.jxls.reader.ReaderBuilder;
 import org.jxls.reader.ReaderConfig;
 import org.jxls.reader.XLSReadStatus;
-import org.jxls.reader.XLSReader;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
@@ -43,11 +42,9 @@ public class JxlsFileReader {
         try {
             ReaderConfig.getInstance().setSkipErrors(true);
             templateInputStream = templateFile.getInputStream();
-            XLSReader mainReader = ReaderBuilder.buildFromXML(templateInputStream);
-
             excelInputStream = excelFile.getInputStream();
 
-            return mainReader.read(excelInputStream, model);
+            return ReaderBuilder.buildFromXML(templateInputStream).read(excelInputStream, model);
         } finally {
             IOUtils.closeQuietly(templateInputStream);
             IOUtils.closeQuietly(excelInputStream);

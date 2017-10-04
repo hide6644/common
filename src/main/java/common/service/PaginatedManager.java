@@ -7,7 +7,7 @@ import common.model.PaginatedList;
 /**
  * Paginated List ロジックのインターフェース.
  */
-public interface PaginatedManager<T, PK extends Serializable> extends GenericManager<T, PK> {
+public interface PaginatedManager<T, K extends Serializable> extends GenericManager<T, K> {
 
     /**
      * オブジェクトをページング処理して取得する.

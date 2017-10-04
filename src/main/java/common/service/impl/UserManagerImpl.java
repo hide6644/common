@@ -1,8 +1,11 @@
 package common.service.impl;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.jws.WebService;
+import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +25,9 @@ import common.service.RoleManager;
 import common.service.UserManager;
 import common.service.UserService;
 import common.service.mail.UserMail;
-import common.webapp.converter.UserConverterFactory;
+import common.webapp.converter.FileType;
+import common.webapp.converter.UserFileConverterFactory;
+import common.webapp.form.UploadError;
 import common.webapp.form.UploadForm;
 
 /**
@@ -108,34 +113,8 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
             user.setUsername(user.getUsername().toLowerCase());
         }
 
-        boolean passwordChanged = false;
-
         if (passwordEncoder != null) {
-            if (user.getVersion() == null) {
-                // 登録の場合
-                passwordChanged = true;
-            } else {
-                // 更新の場合
-                String currentPassword = userDao.getPasswordById(user.getId());
-
-                if (user.getPassword() == null) {
-                    // パスワードが空の場合、パスワードは同じものを設定する
-                    user.setPassword(currentPassword);
-                    user.setConfirmPassword(user.getPassword());
-                }
-                if (currentPassword == null) {
-                    passwordChanged = true;
-                } else {
-                    if (!currentPassword.equals(user.getPassword())) {
-                        passwordChanged = true;
-                    }
-                }
-            }
-
-            if (passwordChanged) {
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
-                user.setConfirmPassword(user.getPassword());
-            }
+            passwordEncode(user);
         } else {
             log.warn("PasswordEncoder not set, skipping password encryption...");
         }
@@ -152,6 +131,40 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
             } else {
                 throw new DatabaseException("errors.update", e);
             }
+        }
+    }
+
+    /**
+     * ユーザのパスワードを暗号化する.
+     *
+     * @param user
+     *            ユーザ
+     */
+    private void passwordEncode(User user) {
+        boolean passwordChanged = false;
+
+        if (user.getVersion() == null) {
+            // 登録の場合
+            passwordChanged = true;
+        } else {
+            // 更新の場合
+            String currentPassword = userDao.getPasswordById(user.getId());
+
+            if (user.getPassword() == null) {
+                // パスワードが空の場合、パスワードは同じものを設定する
+                user.setPassword(currentPassword);
+                user.setConfirmPassword(user.getPassword());
+            }
+
+            if (currentPassword == null || !currentPassword.equals(user.getPassword())) {
+                passwordChanged = true;
+            }
+        }
+
+        if (passwordChanged) {
+            // パスワードが変更されていた場合
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setConfirmPassword(user.getPassword());
         }
     }
 
@@ -176,9 +189,10 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
      */
     @Override
     public void uploadUsers(UploadForm uploadForm) {
-        List<User> userList = UserConverterFactory.createConverter(uploadForm.getFileType()).convert(uploadForm.getFileData());
+        int rowNo = 2; // 1行目はヘッダー行のため、2から開始する
+        List<User> userList = UserFileConverterFactory.createConverter(FileType.of(uploadForm.getFileType())).convert(uploadForm.getFileData());
 
-        userList.forEach(user -> {
+        for (User user : userList) {
             // デフォルトの要再認証日時を設定する
             user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
             // 新規登録時は権限を一般で設定する
@@ -186,14 +200,28 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
             user.setConfirmPassword(user.getPassword());
             user.setEnabled(true);
 
-            if (validator.validate(user).size() == 0) {
+            Set<ConstraintViolation<User>> results = validator.validate(user);
+
+            if (results.isEmpty()) {
                 saveUser(user);
                 uploadForm.setCount(uploadForm.getCount() + 1);
             } else {
                 // エラー有りの場合
-                uploadForm.addErrorNo(uploadForm.getCount() + uploadForm.getErrorNo().size() + 1);
+                final int errorRowNo = rowNo;
+                uploadForm.addUploadErrors(results.stream().sorted((o1, o2) -> {
+                    int c = o1.getPropertyPath().toString().compareTo(o2.getPropertyPath().toString());
+                    return c == 0 ? o1.getMessage().compareTo(o2.getMessage()) : c;
+                })
+                        .map(error -> {
+                            String fieldName = getText("user." + error.getPropertyPath().toString());
+                            String message = error.getMessage().replaceAll("\\{0\\}", fieldName);
+                            return new UploadError(errorRowNo, fieldName, message);
+                        })
+                        .collect(Collectors.toList()));
             }
-        });
+
+            rowNo++;
+        }
     }
 
     /**
@@ -205,12 +233,12 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
         user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
         // 新規登録時は権限を一般で設定する
         user.addRole(new Role(Constants.USER_ROLE));
-        user = saveUser(user);
+        User managedUser = saveUser(user);
 
         // 登録完了メールを送信する
-        userMail.sendSignupEmail(user);
+        userMail.sendSignupEmail(managedUser);
 
-        return user;
+        return managedUser;
     }
 
     /**
@@ -263,13 +291,11 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
             userMail.sendUpdatePasswordEmail(user);
 
             return user;
-        } else if (StringUtils.isNotBlank(currentPassword)) {
-            if (passwordEncoder.matches(currentPassword, user.getPassword())) {
-                user.setPassword(newPassword);
-                user = saveUser(user);
+        } else if (StringUtils.isNotBlank(currentPassword) && passwordEncoder.matches(currentPassword, user.getPassword())) {
+            user.setPassword(newPassword);
+            user = saveUser(user);
 
-                return user;
-            }
+            return user;
         }
 
         return null;

@@ -46,12 +46,24 @@
                     </button>
                 </fieldset>
             </form>
-            <br />
-            <div class="alert alert-danger alert-dismissable" th:each="error : ${errors_upload_list}">
-                <a class="close" href="#" data-dismiss="alert">&times;</a>
-                <span th:text="${error}" th:remove="tag">error</span><br />
-            </div>
         </div>
+        <table class="table table-condensed table-striped table-hover" th:if="${uploadForm.uploadErrors}">
+            <caption th:text="#{uploadError}">uploadError</caption>
+            <thead>
+                <tr>
+                    <th th:text="#{uploadError.rowNo}">uploadError.rowNo</th>
+                    <th th:text="#{uploadError.fieldName}">uploadError.fieldName</th>
+                    <th th:text="#{uploadError.message}">uploadError.message</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="uploadError : ${uploadForm.uploadErrors}">
+                    <td th:text="${uploadError.rowNo}">uploadError.rowNo</td>
+                    <td th:text="${uploadError.fieldName}">uploadError.fieldName</td>
+                    <td th:text="${uploadError.message}">uploadError.message</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <div layout:fragment="scripts">
         <script type="text/javascript" th:inline="javascript">
@@ -66,7 +78,7 @@
             });
 
             $('input[name=fileData]').change(function() {
-                $('#fileData').val($(this).val());
+                $('#fileData').val($(this).prop('files')[0].name);
             });
 
             $('#button_cancel').click(function() {

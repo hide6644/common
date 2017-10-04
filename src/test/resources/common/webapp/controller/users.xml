@@ -3,15 +3,22 @@
 
 <users>
   <user>
-    <accountLocked>false</accountLocked>
     <email>user1@foo.bar</email>
-    <enabled>true</enabled>
     <firstName>user1</firstName>
-    <password>$2a$10$.l84tRL3HL1TVL22xk5UuO01/q4loiaYyIBFZg8cmAHbHUGI8ciCC</password>
-    <roles>
-      <description>Default role for all Users</description>
-      <name>ROLE_USER</name>
-    </roles>
+    <password>normaluser1</password>
     <username>normaluser1</username>
+  </user>
+  <user>
+    <email>user1@foo.bar</email>
+    <firstName>user1</firstName>
+    <password>normaluser1</password>
+    <username>normaluser1</username>
+  </user>
+  <user>
+    <email>t</email>
+    <firstName>t</firstName>
+    <lastName>t</lastName>
+    <password>t</password>
+    <username>t</username>
   </user>
 </users>

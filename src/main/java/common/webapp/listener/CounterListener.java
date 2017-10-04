@@ -46,6 +46,7 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
      */
     @Override
     public void contextDestroyed(ServletContextEvent event) {
+        // 何もしない
     }
 
     /**
@@ -171,7 +172,7 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
 
     /**
      * ログインユーザ一覧を取得する.
-     * 
+     *
      * @param servletContext
      *            {@link ServletContext}
      * @return ログインユーザ一覧
@@ -179,9 +180,9 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
     @SuppressWarnings("unchecked")
     private Set<User> getUsers(ServletContext servletContext) {
         Set<User> users = (Set<User>) servletContext.getAttribute(USERS_KEY);
-        
+
         if (users == null) {
-            users = new LinkedHashSet<User>();
+            users = new LinkedHashSet<>();
             servletContext.setAttribute(COUNT_KEY, 0);
             servletContext.setAttribute(USERS_KEY, users);
         }

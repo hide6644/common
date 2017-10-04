@@ -12,10 +12,10 @@ import common.service.PaginatedManager;
 /**
  * Paginated Listの実装クラス.
  */
-public class PaginatedManagerImpl<T, PK extends Serializable> extends GenericManagerImpl<T, PK> implements PaginatedManager<T, PK> {
+public class PaginatedManagerImpl<T, K extends Serializable> extends GenericManagerImpl<T, K> implements PaginatedManager<T, K> {
 
     /** Paginated List DAO */
-    protected PaginatedDao<T, PK> paginatedDao;
+    protected PaginatedDao<T, K> paginatedDao;
 
     /**
      * デフォルト・コンストラクタ.
@@ -30,7 +30,7 @@ public class PaginatedManagerImpl<T, PK extends Serializable> extends GenericMan
      *            Paginated List DAO
      */
     @Autowired
-    public PaginatedManagerImpl(PaginatedDao<T, PK> paginatedDao) {
+    public PaginatedManagerImpl(PaginatedDao<T, K> paginatedDao) {
         this.dao = paginatedDao;
         this.paginatedDao = paginatedDao;
     }
@@ -40,7 +40,7 @@ public class PaginatedManagerImpl<T, PK extends Serializable> extends GenericMan
      */
     @Override
     public PaginatedList<T> createPaginatedList(T searchCondition, Integer page) {
-        PaginatedList<T> paginatedList = new PaginatedList<T>(page);
+        PaginatedList<T> paginatedList = new PaginatedList<>(page);
         paginatedList.setSearchCondition(searchCondition);
         paginatedList.setAllRecordCount(paginatedDao.getCount(paginatedList.getSearchCondition()));
 

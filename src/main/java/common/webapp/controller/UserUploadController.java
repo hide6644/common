@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import common.exception.FileException;
 import common.service.UserManager;
-import common.webapp.converter.XmlFileConverter;
+import common.webapp.converter.FileType;
 import common.webapp.form.UploadForm;
 
 @Controller
@@ -31,8 +31,7 @@ public class UserUploadController extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
     public UploadForm setupUpload() {
         UploadForm uploadForm = new UploadForm();
-        uploadForm.setFileType(XmlFileConverter.FILE_TYPE);
-
+        uploadForm.setFileType(FileType.XML.getValue());
         return uploadForm;
     }
 
@@ -58,11 +57,16 @@ public class UserUploadController extends BaseController {
             return "admin/master/uploadUsers";
         }
 
-        if (uploadForm.getCount() > 0) {
+        if (uploadForm.getUploadErrors() != null) {
+            if (uploadForm.getCount() > 0) {
+                saveMessage(getText("uploaded", String.valueOf(uploadForm.getCount())));
+            }
+
+            saveError(getText("errors.upload"));
+            return "admin/master/uploadUsers";
+        } else {
             saveFlashMessage(getText("uploaded", String.valueOf(uploadForm.getCount())));
         }
-
-        uploadForm.getErrorNo().forEach(rowNo -> saveFlash("errors_upload_list", getText("errors.upload", String.valueOf(rowNo))));
 
         return "redirect:/admin/master/uploadUsers";
     }

@@ -6,7 +6,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailSender;
@@ -22,9 +21,6 @@ import freemarker.template.Template;
  * メールを処理するクラス.
  */
 public class MailEngine {
-
-    /** ログ出力クラス */
-    private Logger log = LogManager.getLogger(getClass());
 
     /** メール送信処理クラス */
     private MailSender mailSender;
@@ -91,7 +87,7 @@ public class MailEngine {
             Template template = freemarkerConfiguration.getTemplate(templateName);
             result = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            LogManager.getLogger(MailEngine.class).error(e);
         }
 
         simpleMailMessage.setText(result);

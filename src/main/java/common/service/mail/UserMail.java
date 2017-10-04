@@ -95,7 +95,6 @@ public class UserMail {
     public String buildRecoveryPasswordUrl(User user, String url) {
         String token = passwordTokenManager.generateRecoveryToken(user);
         String username = user.getUsername();
-
         return messages.getMessage("company.url") + url + StringUtils.replaceEach("?username={username}&token={token}", new String[] { "{username}", "{token}" }, new String[] { username, token });
     }
 

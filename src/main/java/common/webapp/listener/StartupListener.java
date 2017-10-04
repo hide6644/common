@@ -25,9 +25,7 @@ import common.Constants;
 import common.model.LabelValue;
 import common.service.RoleManager;
 import common.service.UserManager;
-import common.webapp.converter.CsvFileConverter;
-import common.webapp.converter.XlsFileConverter;
-import common.webapp.converter.XmlFileConverter;
+import common.webapp.converter.FileType;
 import net.sf.ehcache.CacheManager;
 
 /**
@@ -36,21 +34,19 @@ import net.sf.ehcache.CacheManager;
 @Component
 public class StartupListener implements ServletContextListener {
 
-    /** ログ出力クラス */
-    private static final Logger log = LogManager.getLogger(StartupListener.class);
-
     /**
      * {@inheritDoc}
      */
     @Override
     public void contextInitialized(ServletContextEvent event) {
+        Logger log = LogManager.getLogger(StartupListener.class);
         ServletContext context = event.getServletContext();
 
         @SuppressWarnings("unchecked")
         Map<String, Object> config = (HashMap<String, Object>) context.getAttribute(Constants.CONFIG);
 
         if (config == null) {
-            config = new HashMap<String, Object>();
+            config = new HashMap<>();
         }
 
         context.setAttribute(Constants.CONFIG, config);
@@ -77,7 +73,7 @@ public class StartupListener implements ServletContextListener {
         // WARにバージョン番号が指定されていれば、それを使用する
         // そうでなければ、開発バージョンであると仮定し、ランダムな番号を生成する
         if (appVersion == null || appVersion.contains("SNAPSHOT")) {
-            appVersion = "" + new Random().nextInt(100000);
+            appVersion = String.valueOf(new Random().nextInt(100000));
         }
 
         log.info("Application version set to: " + appVersion);
@@ -99,10 +95,10 @@ public class StartupListener implements ServletContextListener {
      *            {@link ServletContext}
      */
     public static void setupContext(ServletContext context) {
-        List<LabelValue> fileTypeList = new ArrayList<LabelValue>();
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xml"), XmlFileConverter.FILE_TYPE));
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xls"), XlsFileConverter.FILE_TYPE));
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.csv"), CsvFileConverter.FILE_TYPE));
+        List<LabelValue> fileTypeList = new ArrayList<>();
+        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xml"), String.valueOf(FileType.XML.getValue())));
+        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xls"), String.valueOf(FileType.EXCEL.getValue())));
+        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.csv"), String.valueOf(FileType.CSV.getValue())));
         context.setAttribute("fileTypeList", fileTypeList);
 
         ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);

@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * エンティティリストの基底クラス.
  */
 @MappedSuperclass
-public abstract class BaseObjects<T> implements Serializable {
+public abstract class BaseObjects<T extends Serializable> implements Serializable {
 
     /** エンティティリスト */
     private List<T> objects;

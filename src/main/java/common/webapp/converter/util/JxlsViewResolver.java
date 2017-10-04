@@ -29,6 +29,6 @@ public class JxlsViewResolver extends UrlBasedViewResolver {
      */
     @Override
     protected boolean canHandle(String viewName, Locale locale) {
-        return viewName.indexOf("jxls/") > 0 && super.canHandle(viewName, locale);
+        return viewName.indexOf("jxls/") > -1 && super.canHandle(viewName, locale);
     }
 }

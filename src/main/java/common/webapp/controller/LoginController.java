@@ -24,7 +24,6 @@ public class LoginController extends BaseController {
         Model model = new ExtendedModelMap();
         model.addAttribute("username", "");
         model.addAttribute("password", "");
-
         return new ModelAndView("login", model.asMap());
     }
 
@@ -60,7 +59,6 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "login/accountDisabled", method = RequestMethod.GET)
     public String accountDisabled() {
         saveFlashError(getText("loginForm.accountDisabled"));
-
         return "redirect:/login";
     }
 
@@ -72,7 +70,6 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "login/accountLocked", method = RequestMethod.GET)
     public String accountLocked() {
         saveFlashError(getText("loginForm.accountLocked"));
-
         return "redirect:/login";
     }
 
@@ -84,7 +81,6 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "login/accountExpired", method = RequestMethod.GET)
     public String accountExpired() {
         saveFlashError(getText("loginForm.accountExpired"));
-
         return "redirect:/login";
     }
 
@@ -96,7 +92,6 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "login/credentialsExpired", method = RequestMethod.GET)
     public String credentialsExpired() {
         saveFlashError(getText("loginForm.credentialsExpired"));
-
         return "redirect:/login";
     }
 
@@ -108,7 +103,6 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "login/badCredentials", method = RequestMethod.GET)
     public String badCredentials() {
         saveFlashError(getText("loginForm.badCredentials"));
-
         return "redirect:/login";
     }
 }

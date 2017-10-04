@@ -70,12 +70,10 @@ public class UserController extends BaseController {
         String userId = request.getParameter("userId");
 
         // 管理者でない場合、自身以外のユーザを登録、更新することは出来ない
-        if (!request.isUserInRole(Constants.ADMIN_ROLE)) {
-            if (StringUtils.equals(request.getParameter("mode"), "Add") || userId != null) {
-                response.sendError(HttpServletResponse.SC_FORBIDDEN);
-                log.warn("User '" + request.getRemoteUser() + "' is trying to edit user with id '" + request.getParameter("id") + "'");
-                throw new AccessDeniedException("You do not have permission to modify other users.");
-            }
+        if (!request.isUserInRole(Constants.ADMIN_ROLE) && (StringUtils.equals(request.getParameter("mode"), "Add") || userId != null)) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            log.warn("User '" + request.getRemoteUser() + "' is trying to edit user with id '" + request.getParameter("id") + "'");
+            throw new AccessDeniedException("You do not have permission to modify other users.");
         }
 
         if (StringUtils.equals(request.getParameter("mode"), "Add")) {
@@ -112,31 +110,30 @@ public class UserController extends BaseController {
         }
 
         try {
-            user = userManager.saveUser(user);
+            User managedUser = userManager.saveUser(user);
+
+            if (StringUtils.equals(request.getParameter("from"), "list")) {
+                if (StringUtils.equals(request.getParameter("mode"), "Add")) {
+                    saveFlashMessage(getText("inserted"));
+
+                    // 登録完了メールを送信する
+                    userMail.sendCreatedEmail(managedUser);
+                    return "redirect:/admin/master/users";
+                } else {
+                    saveFlashMessage(getText("updated"));
+                    return "redirect:/admin/master/users";
+                }
+            } else {
+                saveFlashMessage(getText("updated"));
+                return "redirect:/top";
+            }
         } catch (AccessDeniedException e) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
             return null;
         } catch (DatabaseException e) {
+            log.error(e);
+
             return "user";
-        }
-
-        if (StringUtils.equals(request.getParameter("from"), "list")) {
-            if (StringUtils.equals(request.getParameter("mode"), "Add")) {
-                saveFlashMessage(getText("inserted"));
-
-                // 登録完了メールを送信する
-                userMail.sendCreatedEmail(user);
-
-                return "redirect:/admin/master/users";
-            } else {
-                saveFlashMessage(getText("updated"));
-
-                return "redirect:/admin/master/users";
-            }
-        } else {
-            saveFlashMessage(getText("updated"));
-
-            return "redirect:/top";
         }
     }
 }
