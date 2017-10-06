@@ -34,15 +34,12 @@
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         $(function() {
-            if ($.cookie('login_username') != null) {
-                $('#username').val($.cookie('login_username'));
-                $('#password').focus();
-            } else {
-                $('#username').focus();
-            }
+            $('#username').val(Cookies.get('login_username'));
+
+            $('#password').focus();
 
             $('#login').submit(function () {
-                $.cookie('login_username', $('#username').val(), { expires: 30, path: '[(@{'/'})]' });
+            	Cookies.set('login_username', $('#username').val(), { expires: 30, path: '[(@{'/'})]' });
             });
 
             $('#send').click(function() {
