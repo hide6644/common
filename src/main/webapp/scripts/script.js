@@ -1,10 +1,13 @@
 var checkAll = function(selectAll, ids) {
-    ids.each(function() {
-        if (this.prop('checked') == false) {
-            selectAll.prop('checked', false);
+	var checked = true;
+
+	ids.each(function() {
+        if (this.checked == false) {
+        	checked = false;
         }
     });
-    selectAll.prop('checked', true);
+
+    selectAll.prop('checked', checked);
 };
 
 $(function() {
@@ -13,12 +16,10 @@ $(function() {
     });
 
     $(':checkbox[name$=Ids]:not([disabled="disabled"])').click(function() {
-        if($('#toggle_checkAll').prop('checked') && this.prop('checked') == false) {
-            $('#toggle_checkAll').prop('checked', false);
-        }
-
-        if (this.prop('checked') == true) {
+        if(this.checked) {
             checkAll($('#toggle_checkAll'), $(':checkbox[name$=Ids]:not([disabled="disabled"])'));
+        } else {
+            $('#toggle_checkAll').prop('checked', false);
         }
     });
 });
