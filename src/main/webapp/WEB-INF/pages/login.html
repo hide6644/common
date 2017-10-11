@@ -47,7 +47,7 @@
                     alert('[(${#messages.msg('errors.required', '__#{loginForm.username}__')})]');
                     $('#username').focus();
                 } else {
-                    $(location).attr('href', '[(@{'/requestRecoveryToken'})]?username=' + $('#username').val());
+                    $(location).prop('href', '[(@{'/requestRecoveryToken'})]?username=' + $('#username').val());
                 }
                 return false;
             });
