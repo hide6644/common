@@ -1,25 +1,17 @@
-var checkAll = function(selectAll, ids) {
-    var flag = true;
-    ids.each(function() {
-        if (this.checked == false) {
-            flag = false;
-        }
-    });
-    selectAll.attr('checked', flag);
-};
-
 $(function() {
     $('#toggle_checkAll').click(function() {
-        $(':checkbox[name$=Ids]:not([disabled="disabled"])').attr('checked', this.checked);
+        $('input[name$=Ids]:not(:disabled)').prop('checked', this.checked);
     });
 
-    $(':checkbox[name$=Ids]:not([disabled="disabled"])').click(function() {
-        if($('#toggle_checkAll').attr('checked') == 'checked' && this.checked == false) {
-            $('#toggle_checkAll').attr('checked', false);
-        }
-
-        if (this.checked == true) {
-            checkAll($('#toggle_checkAll'), $(':checkbox[name$=Ids]:not([disabled="disabled"])'));
+    $('input[name$=Ids]:not(:disabled)').click(function() {
+        if(this.checked) {
+            if ($('input[name$=Ids]:not(:disabled):not(:checked)').length == 0) {
+                $('#toggle_checkAll').prop('checked', true);
+            } else {
+                $('#toggle_checkAll').prop('checked', false);
+            }
+        } else {
+            $('#toggle_checkAll').prop('checked', false);
         }
     });
 });

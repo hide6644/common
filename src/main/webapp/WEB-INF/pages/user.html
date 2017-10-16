@@ -135,15 +135,15 @@
         /*<![CDATA[*/
         $(function() {
             $('#accountExpiredDate').datetimepicker({
-                lang : '[(${#locale.language})]'
+            	locale : '[(${#locale.language})]'
             });
 
             $('#credentialsExpiredDate').datetimepicker({
-                lang : '[(${#locale.language})]'
+            	locale : '[(${#locale.language})]'
             });
 
             $('#button_cancel').click(function() {
-                $(location).attr('href', '[(${listMode} ? @{'/admin/master/users'} : @{'/top'})]');
+                $(location).prop('href', '[(${listMode} ? @{'/admin/master/users'} : @{'/top'})]');
             });
         });
         /*]]>*/

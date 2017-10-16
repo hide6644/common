@@ -12,7 +12,7 @@
     <div layout:fragment="content">
         <div class="col-sm-10">
             <h3 th:text="#{userForm.heading}">userForm.heading</h3>
-            <form class="form-inline" action="#" method="get" th:action="@{/admin/master/users}" th:object="${searchUser}">
+            <form class="form-inline" action="#" method="get" id="searchUser" th:action="@{/admin/master/users}" th:object="${searchUser}">
                 <input type="text" class="form-control input-sm" size="20" th:field="*{username}" th:placeholder="#{user.username}"/>
                 <input type="text" class="form-control input-sm" size="20" th:field="*{email}" th:placeholder="#{user.email}"/>
                 <button type="submit" class="btn btn-primary btn-sm">
@@ -26,7 +26,7 @@
             </div>
             <form action="#" method="post" th:action="@{/admin/master/users}">
                 <input type="hidden" name="_method" value="delete"/>
-                <table class="table table-condensed table-striped table-hover">
+                <table class="table table-condensed table-striped table-hover" id="">
                     <thead>
                         <tr>
                             <th><input type="checkbox" id="toggle_checkAll" /></th>
@@ -95,29 +95,29 @@
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         $(function() {
-            if ($(':checkbox[name$=Ids]').size() == 0) {
-                $('#button_edit').attr('disabled', true);
-                $('#button_delete').attr('disabled', true);
-                $('#button_download').attr('disabled', true);
+            if ($('input[name$=Ids]').length == 0) {
+                $('#button_edit').prop('disabled', true);
+                $('#button_delete').prop('disabled', true);
+                $('#button_download').prop('disabled', true);
             }
 
             $('#button_new').click(function() {
-                $(location).attr('href', $('#button_new').val());
+                $(location).prop('href', $('#button_new').val());
             });
 
             $('#button_edit').click(function() {
-                var ids = $(':checked[name$=Ids]');
-                if (ids.size() == 0) {
+                var ids = $('input[name$=Ids]:checked');
+                if (ids.length == 0) {
                 	alert('[(${#messages.msg('button.choose', '__#{button.edit_target}__')})]');
-                } else if (ids.size() > 1) {
+                } else if (ids.length > 1) {
                 	alert('[(${#messages.msg('button.no_more_choose', '__#{button.edit_target}__')})]');
                 } else {
-                    $(location).attr('href', $('#button_edit').val() + ids.attr({ checked: 'checked' }).val());
+                    $(location).prop('href', $('#button_edit').val() + ids.val());
                 }
             });
 
             $('#button_delete').click(function() {
-                if ($(':checked[name$=Ids]').size() == 0) {
+                if ($('input[name$=Ids]:checked').length == 0) {
                 	alert('[(${#messages.msg('button.choose', '__#{button.delete_target}__')})]');
                     return false;
                 } else {
@@ -126,28 +126,28 @@
             });
 
             $('#button_clear').click(function() {
-                $('#searchUser').find('input').attr('value', '');
+                $('#searchUser input[type=text]').val('');
                 $('#searchUser').submit();
             });
 
             $('#button_cancel').click(function() {
-                $(location).attr('href', '[(@{'/admin/master/top'})]');
+                $(location).prop('href', '[(@{'/admin/master/top'})]');
             });
 
             $('#button_upload').click(function() {
-                $(location).attr('href', '[(@{'/admin/master/uploadUsers'})]');
+                $(location).prop('href', '[(@{'/admin/master/uploadUsers'})]');
             });
 
             $('#dialog_download_csv').click(function() {
-                $(location).attr('href', '[(@{'/admin/master/users.csv'})]');
+                $(location).prop('href', '[(@{'/admin/master/users.csv'})]');
             });
 
             $('#dialog_download_xls').click(function() {
-                $(location).attr('href', '[(@{'/admin/master/users.xlsx'})]');
+                $(location).prop('href', '[(@{'/admin/master/users.xlsx'})]');
             });
 
             $('#dialog_download_xml').click(function() {
-                $(location).attr('href', '[(@{'/admin/master/users.xml'})]');
+                $(location).prop('href', '[(@{'/admin/master/users.xml'})]');
             });
         });
         /*]]>*/
