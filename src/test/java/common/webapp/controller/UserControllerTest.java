@@ -9,6 +9,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
+import org.springframework.web.bind.WebDataBinder;
+import org.subethamail.wiser.Wiser;
 
 import common.Constants;
 import common.model.User;
@@ -19,6 +21,11 @@ public class UserControllerTest extends BaseControllerTestCase {
 
     @Autowired
     private UserController c = null;
+
+    @Test
+    public void testInitBinder() throws Exception {
+        c.initBinder(new WebDataBinder(User.class));
+    }
 
     @Test
     public void testAdd() throws Exception {
@@ -97,7 +104,32 @@ public class UserControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testSaveFromList() throws Exception {
+    public void testSaveAddFromList() throws Exception {
+        MockHttpServletRequest request = newPost("/userform.html");
+        request.setParameter("from", "list");
+        request.setParameter("mode", "Add");
+        User user = new User("testuser");
+        user.setPassword("testuser");
+        user.setEmail("test@foo.bar");
+        user.setFirstName("First Name");
+        user.setConfirmPassword(user.getPassword());
+
+        request.setRemoteUser("administrator");
+
+        Wiser wiser = new Wiser();
+        wiser.setPort(getSmtpPort());
+        wiser.start();
+        BindingResult errors = new DataBinder(user).getBindingResult();
+        c.onSubmit(user, errors, request, new MockHttpServletResponse());
+        wiser.stop();
+
+        assertTrue(wiser.getMessages().size() == 1);
+        assertFalse(errors.hasErrors());
+        assertNotNull(FlashMap.get("flash_info_messages"));
+    }
+
+    @Test
+    public void testSaveEditFromList() throws Exception {
         MockHttpServletRequest request = newPost("/userform.html");
         request.setParameter("from", "list");
         request.setParameter("version", "1");

@@ -42,9 +42,9 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     public void testShowUpdatePasswordForm() throws Exception {
         String username = "administrator";
         MockHttpServletRequest request = newGet("/updatePassword");
-        request.addParameter("username", username);
+        request.setRemoteUser(username);
 
-        ModelAndView mav = c.showForm(username, null, request);
+        ModelAndView mav = c.showForm(null, null, request);
 
         assertEquals("password", mav.getViewName());
     }
