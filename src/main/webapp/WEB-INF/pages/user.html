@@ -93,12 +93,12 @@
                 <div class="row" th:if="${listMode}">
                     <div class="col-sm-6" th:classappend="${#fields.hasErrors('accountExpiredDate')} ? has-error">
                         <label for="accountExpiredDate" class="control-label" th:text="#{user.accountExpiredDate}">user.accountExpiredDate</label>
-                        <input type="text" class="form-control" th:field="*{accountExpiredDate}" th:placeholder="#{date.time.format}" />
+                        <input type="text" class="form-control" th:field="*{accountExpiredDate}" th:placeholder="#{datetimepicker.format}" />
                         <span class="help-block" th:each="err : ${#fields.errors('accountExpiredDate')}" th:text="${err}"></span>
                     </div>
                     <div class="col-sm-6" th:classappend="${#fields.hasErrors('credentialsExpiredDate')} ? has-error">
                         <label for="credentialsExpiredDate" class="control-label" th:text="#{user.credentialsExpiredDate}">user.credentialsExpiredDate</label>
-                        <input type="text" class="form-control" th:field="*{credentialsExpiredDate}" th:placeholder="#{date.time.format}" />
+                        <input type="text" class="form-control" th:field="*{credentialsExpiredDate}" th:placeholder="#{datetimepicker.format}" />
                         <span class="help-block" th:each="err : ${#fields.errors('credentialsExpiredDate')}" th:text="${err}"></span>
                     </div>
                 </div>
@@ -135,11 +135,13 @@
         /*<![CDATA[*/
         $(function() {
             $('#accountExpiredDate').datetimepicker({
-            	locale : '[(${#locale.language})]'
+            	locale : '[(${#locale.language})]',
+                format : '[(#{datetimepicker.format})]'
             });
 
             $('#credentialsExpiredDate').datetimepicker({
-            	locale : '[(${#locale.language})]'
+            	locale : '[(${#locale.language})]',
+                format : '[(#{datetimepicker.format})]'
             });
 
             $('#button_cancel').click(function() {
