@@ -30,6 +30,11 @@ public class UploadError {
         this.message = message;
     }
 
+    /**
+     * 行番号を取得する.
+     *
+     * @return 行番号
+     */
     public int getRowNo() {
         return rowNo;
     }
@@ -44,6 +49,11 @@ public class UploadError {
         this.rowNo = rowNo;
     }
 
+    /**
+     * 項目名を取得する.
+     *
+     * @return 項目名
+     */
     public String getFieldName() {
         return fieldName;
     }
@@ -58,6 +68,11 @@ public class UploadError {
         this.fieldName = fieldName;
     }
 
+    /**
+     * メッセージを取得する.
+     *
+     * @return メッセージ
+     */
     public String getMessage() {
         return message;
     }

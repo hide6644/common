@@ -47,23 +47,25 @@
                 </fieldset>
             </form>
         </div>
-        <table class="table table-condensed table-striped table-hover" th:if="${uploadForm.uploadErrors}">
-            <caption th:text="#{uploadError}">uploadError</caption>
-            <thead>
-                <tr>
-                    <th th:text="#{uploadError.rowNo}">uploadError.rowNo</th>
-                    <th th:text="#{uploadError.fieldName}">uploadError.fieldName</th>
-                    <th th:text="#{uploadError.message}">uploadError.message</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="uploadError : ${uploadForm.uploadErrors}">
-                    <td th:text="${uploadError.rowNo}">uploadError.rowNo</td>
-                    <td th:text="${uploadError.fieldName}">uploadError.fieldName</td>
-                    <td th:text="${uploadError.message}">uploadError.message</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="col-sm-7" th:if="${uploadForm.uploadResult}">
+            <table class="table table-condensed table-striped table-hover" th:if="${uploadForm.uploadResult.uploadErrors}">
+                <caption th:text="#{uploadError}">uploadError</caption>
+                <thead>
+                    <tr>
+                        <th th:text="#{uploadError.rowNo}">uploadError.rowNo</th>
+                        <th th:text="#{uploadError.fieldName}">uploadError.fieldName</th>
+                        <th th:text="#{uploadError.message}">uploadError.message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="uploadError : ${uploadForm.uploadResult.uploadErrors}">
+                        <td th:text="${uploadError.rowNo}">uploadError.rowNo</td>
+                        <td th:text="${uploadError.fieldName}">uploadError.fieldName</td>
+                        <td th:text="${uploadError.message}">uploadError.message</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div layout:fragment="scripts">
         <script type="text/javascript" th:inline="javascript">

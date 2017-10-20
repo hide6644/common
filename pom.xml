@@ -7,7 +7,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.2.4</version>
+    <version>1.2.5</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -22,6 +22,16 @@
         <tag>HEAD</tag>
     </scm>
 
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/hide6644/common/issues</url>
+    </issueManagement>
+
+    <ciManagement>
+        <system>Travis CI</system>
+        <url>https://travis-ci.org/hide6644/common</url>
+    </ciManagement>
+
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -33,8 +43,11 @@
     <developers>
         <developer>
             <id>hide6644</id>
-            <name>Hideyuki OKAWA</name>
+            <name>Hideyuki OHKAWA</name>
             <email>hide6644@gmail.com</email>
+            <roles>
+                <role>Project founder</role>
+            </roles>
             <timezone>+9</timezone>
         </developer>
     </developers>
@@ -107,6 +120,11 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>4.3.0</version>
             </plugin>
         </plugins>
         <pluginManagement>
@@ -598,7 +616,7 @@
         <wro4j-core.version>1.8.0</wro4j-core.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <copyright.year>2013-2017</copyright.year>
+        <copyright.year>2013</copyright.year>
     </properties>
 
 </project>

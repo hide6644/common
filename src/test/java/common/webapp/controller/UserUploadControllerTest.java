@@ -41,7 +41,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
         c.onSubmit(uploadForm, errors);
 
         assertFalse(errors.hasErrors());
-        assertEquals(1, uploadForm.getCount());
+        assertEquals(1, uploadForm.getUploadResult().getSuccessTotalCount());
     }
 
     @Test
@@ -58,8 +58,8 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
         c.onSubmit(uploadForm, errors);
 
         assertFalse(errors.hasErrors());
-        assertEquals(1, uploadForm.getCount());
-        assertTrue(uploadForm.getUploadErrors().size() > 0);
+        assertEquals(1, uploadForm.getUploadResult().getSuccessTotalCount());
+        assertTrue(uploadForm.getUploadResult().getUploadErrors().size() > 0);
     }
 
     @Test
@@ -76,8 +76,8 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
         c.onSubmit(uploadForm, errors);
 
         assertFalse(errors.hasErrors());
-        assertEquals(1, uploadForm.getCount());
-        assertTrue(uploadForm.getUploadErrors().size() > 0);
+        assertEquals(1, uploadForm.getUploadResult().getSuccessTotalCount());
+        assertTrue(uploadForm.getUploadResult().getUploadErrors().size() > 0);
     }
 
     @Test
@@ -94,7 +94,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
         c.onSubmit(uploadForm, errors);
 
         assertFalse(errors.hasErrors());
-        assertEquals(0, uploadForm.getCount());
+        assertEquals(0, uploadForm.getUploadResult().getSuccessTotalCount());
         assertNotNull(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getAttribute("error_messages"));
     }
 }

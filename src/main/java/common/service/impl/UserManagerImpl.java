@@ -27,8 +27,8 @@ import common.service.UserService;
 import common.service.mail.UserMail;
 import common.webapp.converter.FileType;
 import common.webapp.converter.UserFileConverterFactory;
-import common.webapp.form.UploadError;
 import common.webapp.form.UploadForm;
+import common.webapp.form.UploadResult;
 
 /**
  * ユーザ処理の実装クラス.
@@ -189,10 +189,9 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
      */
     @Override
     public void uploadUsers(UploadForm uploadForm) {
-        int rowNo = 2; // 1行目はヘッダー行のため、2から開始する
-        List<User> userList = UserFileConverterFactory.createConverter(FileType.of(uploadForm.getFileType())).convert(uploadForm.getFileData());
+        uploadForm.setUploadResult(new UploadResult(2)); // 1行目はヘッダー行のため、2から開始する
 
-        for (User user : userList) {
+        for (User user : UserFileConverterFactory.createConverter(FileType.of(uploadForm.getFileType())).convert(uploadForm.getFileData())) {
             // デフォルトの要再認証日時を設定する
             user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
             // 新規登録時は権限を一般で設定する
@@ -204,23 +203,22 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
 
             if (results.isEmpty()) {
                 saveUser(user);
-                uploadForm.setCount(uploadForm.getCount() + 1);
+                uploadForm.getUploadResult().addSuccessTotalCount();
             } else {
                 // エラー有りの場合
-                final int errorRowNo = rowNo;
-                uploadForm.addUploadErrors(results.stream().sorted((o1, o2) -> {
+                uploadForm.getUploadResult().addUploadErrors(results.stream().sorted((o1, o2) -> {
                     int c = o1.getPropertyPath().toString().compareTo(o2.getPropertyPath().toString());
                     return c == 0 ? o1.getMessage().compareTo(o2.getMessage()) : c;
                 })
                         .map(error -> {
                             String fieldName = getText("user." + error.getPropertyPath().toString());
                             String message = error.getMessage().replaceAll("\\{0\\}", fieldName);
-                            return new UploadError(errorRowNo, fieldName, message);
+                            return uploadForm.getUploadResult().createUploadError(fieldName, message);
                         })
                         .collect(Collectors.toList()));
             }
 
-            rowNo++;
+            uploadForm.getUploadResult().addProcessingCount();
         }
     }
 

@@ -1,8 +1,5 @@
 package common.webapp.form;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.hibernate.validator.constraints.Range;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,7 +7,7 @@ import common.validator.constraints.MaxFileSize;
 import common.validator.constraints.NotEmptyFile;
 
 /**
- * アップロードファイルの情報を保持するクラス.
+ * 取り込みファイルの情報を保持するクラス.
  */
 public class UploadForm {
 
@@ -18,16 +15,13 @@ public class UploadForm {
     @Range(min = 1, max = 3)
     private Integer fileType;
 
-    /** アップロードファイル情報 */
+    /** 取り込みファイル情報 */
     @NotEmptyFile
     @MaxFileSize(max = 2)
     private MultipartFile fileData;
 
-    /** 件数 */
-    private int count;
-
-    /** 取り込みエラー一覧 */
-    List<UploadError> uploadErrors;
+    /** 取り込み結果 */
+    private UploadResult uploadResult;
 
     /**
      * ファイル種別を取得する.
@@ -49,73 +43,40 @@ public class UploadForm {
     }
 
     /**
-     * アップロードファイル情報を取得する.
+     * 取り込みファイル情報を取得する.
      *
-     * @return アップロードファイル情報
+     * @return 取り込みファイル情報
      */
     public MultipartFile getFileData() {
         return fileData;
     }
 
     /**
-     * アップロードファイル情報を設定する.
+     * 取り込みファイル情報を設定する.
      *
      * @param fileData
-     *            アップロードファイル情報
+     *            取り込みファイル情報
      */
     public void setFileData(MultipartFile fileData) {
         this.fileData = fileData;
     }
 
     /**
-     * 件数を取得する.
+     * 取り込み結果を取得する.
      *
-     * @return 件数
+     * @return 取り込み結果
      */
-    public int getCount() {
-        return count;
+    public UploadResult getUploadResult() {
+        return uploadResult;
     }
 
     /**
-     * 件数を設定する.
+     * 取り込み結果を設定する.
      *
-     * @param count
-     *            件数
+     * @param uploadResult
+     *            取り込み結果
      */
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    /**
-     * 取り込みエラー一覧を取得する.
-     *
-     * @return 取り込みエラー一覧
-     */
-    public List<UploadError> getUploadErrors() {
-        return uploadErrors;
-    }
-
-    /**
-     * 取り込みエラー一覧を設定する.
-     *
-     * @param uploadErrors
-     *            取り込みエラー一覧
-     */
-    public void setUploadErrors(List<UploadError> uploadErrors) {
-        this.uploadErrors = uploadErrors;
-    }
-
-    /**
-     * 取り込みエラー一覧を追加する.
-     *
-     * @param uploadErrors
-     *            取り込みエラー一覧
-     */
-    public void addUploadErrors(List<UploadError> uploadErrors) {
-        if (this.uploadErrors == null) {
-            this.uploadErrors = new ArrayList<>();
-        }
-
-        this.uploadErrors.addAll(uploadErrors);
+    public void setUploadResult(UploadResult uploadResult) {
+        this.uploadResult = uploadResult;
     }
 }

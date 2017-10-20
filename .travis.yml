@@ -1,0 +1,10 @@
+language: java
+sudo: false
+jdk:
+  - oraclejdk8
+before_script:
+  - mysql -uroot -e "create database common"
+  - mysql -uroot common < src/config/schema.sql
+  - mysql -uroot common < src/config/data.sql
+after_success:
+  - mvn clean test jacoco:report coveralls:report
