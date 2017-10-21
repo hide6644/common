@@ -26,7 +26,7 @@
         <div th:replace="~{templates/menu :: navbar_div(${currentMenu})}">
         </div>
         <div id="switchLocale" th:if="${lang} != 'en'">
-            <a href="#" th:href="@{'?locale=en'}" th:text="|#{webapp.name} in English|">webapp.name in English</a>
+            <a href="#" id="switch_locale_url" th:text="|#{webapp.name} in English|">webapp.name in English</a>
         </div>
     </div>
     <div class="container" id="content">

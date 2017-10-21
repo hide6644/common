@@ -1,4 +1,6 @@
 $(function() {
+    $('#switch_locale_url').prop('href', location.href + (location.search ? '&' : '?') + 'locale=en');
+
     $('#toggle_checkAll').click(function() {
         $('input[name$=Ids]:not(:disabled)').prop('checked', this.checked);
     });
