@@ -224,33 +224,27 @@ public final class PaginatedList<T> {
      * @return ページリンク一覧
      */
     public List<Integer> getPageNumberList() {
-        List<Integer> resultList = new ArrayList<>();
-        for (int i = currentPageNumber - pageRangeSize; i > 0 && i < currentPageNumber; i++) {
-            resultList.add(i);
-        }
-
-        resultList.add(currentPageNumber);
-
-        for (int i = currentPageNumber + 1; i <= currentPageNumber + pageRangeSize && i <= getAllPageCount(); i++) {
-            resultList.add(i);
-        }
+        List<Integer> pageNumberList = new ArrayList<>();
+        pageNumberList.add(currentPageNumber);
 
         int limitSize = pageRangeSize * 2 + 1;
-        if (!resultList.isEmpty() && resultList.size() < limitSize) {
-            Integer firstElements = resultList.get(0);
-            Integer lastElements = resultList.get(resultList.size() - 1);
 
-            if (firstElements.intValue() > 1) {
-                for (int i = firstElements.intValue() - 1; resultList.size() < limitSize && i > 0; i--) {
-                    resultList.add(0, i);
-                }
-            }
-
-            for (int i = lastElements.intValue() + 1; resultList.size() < limitSize && i <= getAllPageCount(); i++) {
-                resultList.add(i);
+        if (currentPageNumber > 1) {
+            for (int i = currentPageNumber - 1; pageNumberList.size() <= pageRangeSize && i > 0; i--) {
+                pageNumberList.add(0, i);
             }
         }
 
-        return resultList;
+        for (int i = currentPageNumber + 1; pageNumberList.size() < limitSize && i <= getAllPageCount(); i++) {
+            pageNumberList.add(i);
+        }
+
+        if (pageNumberList.size() < limitSize) {
+            for (int i = pageNumberList.get(0) - 1; pageNumberList.size() < limitSize && i > 0; i--) {
+                pageNumberList.add(0, i);
+            }
+        }
+
+        return pageNumberList;
     }
 }

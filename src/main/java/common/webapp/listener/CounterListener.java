@@ -54,14 +54,10 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
      */
     @Override
     public void attributeAdded(HttpSessionBindingEvent event) {
-        if (event.getName().equals(EVENT_KEY) && !isAnonymous()) {
-            Authentication auth = ((SecurityContext) event.getValue()).getAuthentication();
+        User user = getUser(event);
 
-            if (auth != null && auth.getPrincipal() instanceof User) {
-                addUser((User) auth.getPrincipal(), event.getSession().getServletContext());
-            } else if (auth != null && auth.getDetails() instanceof User) {
-                addUser((User) auth.getDetails(), event.getSession().getServletContext());
-            }
+        if (user != null) {
+            addUser(user, event.getSession().getServletContext());
         }
     }
 
@@ -70,14 +66,10 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
      */
     @Override
     public void attributeRemoved(HttpSessionBindingEvent event) {
-        if (event.getName().equals(EVENT_KEY) && !isAnonymous()) {
-            Authentication auth = ((SecurityContext) event.getValue()).getAuthentication();
+        User user = getUser(event);
 
-            if (auth != null && auth.getPrincipal() instanceof User) {
-                removeUser((User) auth.getPrincipal(), event.getSession().getServletContext());
-            } else if (auth != null && auth.getDetails() instanceof User) {
-                removeUser((User) auth.getDetails(), event.getSession().getServletContext());
-            }
+        if (user != null) {
+            removeUser(user, event.getSession().getServletContext());
         }
     }
 
@@ -86,15 +78,30 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
      */
     @Override
     public void attributeReplaced(HttpSessionBindingEvent event) {
+        attributeAdded(event);
+    }
+
+    /**
+     * セッションイベントを発生させたユーザを取得する.
+     *
+     * @param event
+     *            {@link HttpSessionBindingEvent}
+     * @return ユーザ
+     */
+    private User getUser(HttpSessionBindingEvent event) {
+        User user = null;
+
         if (event.getName().equals(EVENT_KEY) && !isAnonymous()) {
             Authentication auth = ((SecurityContext) event.getValue()).getAuthentication();
 
             if (auth != null && auth.getPrincipal() instanceof User) {
-                addUser((User) auth.getPrincipal(), event.getSession().getServletContext());
+                user = (User) auth.getPrincipal();
             } else if (auth != null && auth.getDetails() instanceof User) {
-                addUser((User) auth.getDetails(), event.getSession().getServletContext());
+                user = (User) auth.getDetails();
             }
         }
+
+        return user;
     }
 
     /**
