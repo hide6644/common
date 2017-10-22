@@ -1,6 +1,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Build Status](https://travis-ci.org/hide6644/common.svg?branch=master)](https://travis-ci.org/hide6644/common)
 [![Coverage Status](https://coveralls.io/repos/github/hide6644/common/badge.svg?branch=master)](https://coveralls.io/github/hide6644/common?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/e528b68d81a09e07ef81/maintainability)](https://codeclimate.com/github/hide6644/common/maintainability)
 ***
 ## COMMON
 [AppFuse][]を参考に、技術検証のため独自に修正を加えている。
