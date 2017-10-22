@@ -38,19 +38,8 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
 
-        String username = obtainUsername(request);
-        String password = obtainPassword(request);
-
-        if (username == null) {
-            username = "";
-        }
-
-        if (password == null) {
-            password = "";
-        }
-
-        username = username.trim();
-
+        String username = getUsername(request);
+        String password = getPassword(request);
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
 
         // サブクラスに詳細情報を設定する
@@ -83,6 +72,43 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
 
             throw e;
         }
+    }
+
+    /**
+     * リクエストからユーザ名を取得する.
+     *
+     * @param request
+     *            {@link HttpServletRequest}
+     * @return ユーザ名
+     */
+    private String getUsername(HttpServletRequest request) {
+        String username = obtainUsername(request);
+
+        if (username == null) {
+            username = "";
+        } else {
+            username = username.trim();
+        }
+
+        return username;
+    }
+
+
+    /**
+     * リクエストからパスワードを取得する.
+     *
+     * @param request
+     *            {@link HttpServletRequest}
+     * @return パスワード
+     */
+    private String getPassword(HttpServletRequest request) {
+        String password = obtainPassword(request);
+
+        if (password == null) {
+            password = "";
+        }
+
+        return password;
     }
 
     /**
