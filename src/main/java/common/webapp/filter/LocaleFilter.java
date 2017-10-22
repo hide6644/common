@@ -25,19 +25,7 @@ public class LocaleFilter extends OncePerRequestFilter {
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String locale = request.getParameter("locale");
-        Locale preferredLocale = null;
-
-        if (locale != null) {
-            int indexOfUnderscore = locale.indexOf('_');
-            if (indexOfUnderscore != -1) {
-                String language = locale.substring(0, indexOfUnderscore);
-                String country = locale.substring(indexOfUnderscore + 1);
-                preferredLocale = new Locale(language, country);
-            } else {
-                preferredLocale = new Locale(locale);
-            }
-        }
-
+        Locale preferredLocale = getPreferredLocale(locale);
         HttpSession session = request.getSession(false);
 
         if (session != null) {
@@ -56,5 +44,30 @@ public class LocaleFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
 
         LocaleContextHolder.setLocaleContext(null);
+    }
+
+    /**
+     * 地域を表す文字列からLocalオブジェクトを生成する.
+     *
+     * @param locale
+     *            地域を表す文字列
+     * @return 地域
+     */
+    private Locale getPreferredLocale(String locale) {
+        Locale preferredLocale = null;
+
+        if (locale != null) {
+            int indexOfUnderscore = locale.indexOf('_');
+
+            if (indexOfUnderscore != -1) {
+                String language = locale.substring(0, indexOfUnderscore);
+                String country = locale.substring(indexOfUnderscore + 1);
+                preferredLocale = new Locale(language, country);
+            } else {
+                preferredLocale = new Locale(locale);
+            }
+        }
+
+        return preferredLocale;
     }
 }
