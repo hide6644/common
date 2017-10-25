@@ -17,6 +17,7 @@ public class PaginatedDaoTest extends BaseDaoTestCase {
     @Before
     public void setUp() {
         paginatedDao = new PaginatedDaoJpa<User, Long>(User.class, entityManager);
+        paginatedDao.reindexAll(false);
     }
 
     @Test
@@ -39,7 +40,7 @@ public class PaginatedDaoTest extends BaseDaoTestCase {
 
     @Test
     public void testSearchList() {
-        paginatedDao.reindexAll(false);
+        paginatedDao.reindex();
         List<User> userList = paginatedDao.searchList("foo", 1, 1);
 
         assertEquals(1, userList.size());

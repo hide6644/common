@@ -167,7 +167,6 @@ public class UserDaoTest extends BaseDaoTestCase {
     @Test
     public void testUserSearch() throws Exception {
         dao.reindex();
-
         List<User> userList = dao.search("admin");
         User adminUser = userList.get(0);
 
