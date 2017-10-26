@@ -44,7 +44,7 @@ public class UserSecurityAdviceTest {
     SecurityContext initialSecurityContext = null;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         initialSecurityContext = SecurityContextHolder.getContext();
 
         User user = new User("user");

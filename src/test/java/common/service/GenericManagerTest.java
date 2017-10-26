@@ -30,7 +30,7 @@ public class GenericManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testSearch() throws Exception {
+    public void testSearch() {
         genericManager.reindexAll(false);
         List<User> userList = genericManager.search("normaluser");
 
@@ -39,7 +39,7 @@ public class GenericManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testFacet() throws Exception {
+    public void testFacet() {
         genericManager.reindexAll(false);
         List<Facet> userFacet = genericManager.facet("firstNameFacet", 2);
 

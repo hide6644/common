@@ -43,7 +43,7 @@ public class PasswordTokenManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testConsumeRecoveryToken() throws Exception {
+    public void testConsumeRecoveryToken() {
         User user = userManager.getUserByUsername("normaluser");
         String token = passwordTokenManager.generateRecoveryToken(user);
 

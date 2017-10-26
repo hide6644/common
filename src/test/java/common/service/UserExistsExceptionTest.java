@@ -13,7 +13,7 @@ public class UserExistsExceptionTest extends BaseManagerTestCase {
     private UserManager manager;
 
     @Test(expected = DatabaseException.class)
-    public void testAddExistingUser() throws Exception {
+    public void testAddExistingUser() {
         User user = manager.getUser("-1");
 
         User newUser = new User();

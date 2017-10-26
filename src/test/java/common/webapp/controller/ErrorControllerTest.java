@@ -13,7 +13,7 @@ public class ErrorControllerTest extends BaseControllerTestCase {
     private ErrorController c = null;
 
     @Test
-    public void testRenderErrorPage() throws Exception {
+    public void testRenderErrorPage() {
         MockHttpServletRequest request = newGet("/error");
         request.setAttribute("javax.servlet.error.status_code", 400);
         ModelAndView mav = c.renderErrorPage(request);

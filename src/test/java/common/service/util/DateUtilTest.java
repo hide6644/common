@@ -2,7 +2,6 @@ package common.service.util;
 
 import static org.junit.Assert.*;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 
@@ -33,7 +32,7 @@ public class DateUtilTest {
         assertEquals(defaultPattern, fiPattern);
     }
 
-    public void testGetDate() throws Exception {
+    public void testGetDate() {
         if (log.isDebugEnabled()) {
             log.debug("db date to convert: " + new Date());
         }
@@ -66,7 +65,7 @@ public class DateUtilTest {
         assertEquals("", date);
     }
 
-    public void testGetToday() throws ParseException {
+    public void testGetToday() {
         assertNotNull(DateUtil.getToday());
     }
 }

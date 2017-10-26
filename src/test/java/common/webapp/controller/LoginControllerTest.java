@@ -14,7 +14,7 @@ public class LoginControllerTest extends BaseControllerTestCase {
     private LoginController c = null;
 
     @Test
-    public void testSetupLogin() throws Exception {
+    public void testSetupLogin() {
         ModelAndView mav = c.setupLogin();
 
         assertEquals("login", mav.getViewName());
@@ -31,7 +31,7 @@ public class LoginControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testAccountDisabled() throws Exception {
+    public void testAccountDisabled() {
         String rtn = c.accountDisabled();
 
         assertEquals("redirect:/login", rtn);
@@ -39,7 +39,7 @@ public class LoginControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testAccountLocked() throws Exception {
+    public void testAccountLocked() {
         String rtn = c.accountLocked();
 
         assertEquals("redirect:/login", rtn);
@@ -47,7 +47,7 @@ public class LoginControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testAccountExpired() throws Exception {
+    public void testAccountExpired() {
         String rtn = c.accountExpired();
 
         assertEquals("redirect:/login", rtn);
@@ -55,7 +55,7 @@ public class LoginControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testCredentialsExpired() throws Exception {
+    public void testCredentialsExpired() {
         String rtn = c.credentialsExpired();
 
         assertEquals("redirect:/login", rtn);
@@ -63,7 +63,7 @@ public class LoginControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testBadCredentials() throws Exception {
+    public void testBadCredentials() {
         String rtn = c.badCredentials();
 
         assertEquals("redirect:/login", rtn);

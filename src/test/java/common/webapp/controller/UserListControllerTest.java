@@ -29,7 +29,7 @@ public class UserListControllerTest extends BaseControllerTestCase {
     private UserListController c;
 
     @Test
-    public void testHandleRequest() throws Exception {
+    public void testHandleRequest() {
         ModelAndView mav = c.showForm(new User(), null);
         Map<String, Object> m = mav.getModel();
 
@@ -38,7 +38,7 @@ public class UserListControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testSearch() throws Exception {
+    public void testSearch() {
         UserManager userManager = (UserManager) applicationContext.getBean("userManager");
         userManager.reindex();
 
@@ -55,7 +55,7 @@ public class UserListControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testRemove() throws Exception {
+    public void testRemove() {
         MockHttpServletRequest request = newGet("/userform.html");
         request.setRemoteUser("administrator");
 

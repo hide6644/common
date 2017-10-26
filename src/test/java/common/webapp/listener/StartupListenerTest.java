@@ -24,7 +24,7 @@ public class StartupListenerTest {
     private ContextLoaderListener springListener = null;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         sc = new MockServletContext("");
         sc.addInitParameter(ContextLoader.CONFIG_LOCATION_PARAM, "classpath:common/dao/applicationContext-resources.xml, classpath:/common/dao/applicationContext-dao.xml, classpath:/applicationContext-service.xml");
 
@@ -34,7 +34,7 @@ public class StartupListenerTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         springListener.closeWebApplicationContext(sc);
         springListener.contextDestroyed(new ServletContextEvent(sc));
     }

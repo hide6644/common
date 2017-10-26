@@ -36,14 +36,14 @@ public class UserDaoTest extends BaseDaoTestCase {
     }
 
     @Test
-    public void testGetUsers() throws Exception {
+    public void testGetUsers() {
         List<User> userList = dao.getAllOrderByUsername();
 
         assertEquals(2, userList.size());
     }
 
     @Test
-    public void testGetUserPassword() throws Exception {
+    public void testGetUserPassword() {
         User user = dao.get(-1L);
         String password = dao.getPasswordById(user.getId());
 
@@ -53,7 +53,7 @@ public class UserDaoTest extends BaseDaoTestCase {
     }
 
     @Test(expected = JpaSystemException.class)
-    public void testUpdateUser() throws Exception {
+    public void testUpdateUser() {
         User user = dao.get(-1L);
 
         dao.saveUser(user);
@@ -73,7 +73,7 @@ public class UserDaoTest extends BaseDaoTestCase {
     }
 
     @Test
-    public void testAddUserRole() throws Exception {
+    public void testAddUserRole() {
         User user = dao.get(-1L);
 
         assertEquals(1, user.getRoles().size());
@@ -101,7 +101,7 @@ public class UserDaoTest extends BaseDaoTestCase {
     }
 
     @Test(expected = DataAccessException.class)
-    public void testAddAndRemoveUser() throws Exception {
+    public void testAddAndRemoveUser() {
         User user = new User("testuser");
         user.setConfirmPassword("testpass");
         user.setPassword("testpass");
@@ -125,7 +125,7 @@ public class UserDaoTest extends BaseDaoTestCase {
     }
 
     @Test(expected = DataAccessException.class)
-    public void testAddAndRemoveUserId() throws Exception {
+    public void testAddAndRemoveUserId() {
         User user = new User("testuser");
         user.setConfirmPassword("testpass");
         user.setPassword("testpass");
@@ -151,21 +151,21 @@ public class UserDaoTest extends BaseDaoTestCase {
     }
 
     @Test
-    public void testUserExists() throws Exception {
+    public void testUserExists() {
         boolean b = dao.exists(-1L);
 
         assertTrue(b);
     }
 
     @Test
-    public void testUserNotExists() throws Exception {
+    public void testUserNotExists() {
         boolean b = dao.exists(111L);
 
         assertFalse(b);
     }
 
     @Test
-    public void testUserSearch() throws Exception {
+    public void testUserSearch() {
         dao.reindex();
         List<User> userList = dao.search("admin");
         User adminUser = userList.get(0);
