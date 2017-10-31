@@ -35,7 +35,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
     private UserManagerImpl userManager = new UserManagerImpl();
 
     @Test
-    public void testGetUser() throws Exception {
+    public void testGetUser() {
         User testData = new User("1");
         testData.getRoles().add(new Role("user"));
 
@@ -49,7 +49,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
     }
 
     @Test
-    public void testSaveUser() throws Exception {
+    public void testSaveUser() {
         User testData = new User("1");
         testData.getRoles().add(new Role("user"));
 

@@ -35,7 +35,7 @@ public class ExtendedAuthenticationFilterTest {
     private ExtendedAuthenticationFilter filter = new ExtendedAuthenticationFilter();
 
     @Test
-    public void testNormalOperation() throws Exception {
+    public void testNormalOperation() {
         MockHttpServletRequest request = new MockHttpServletRequest("POST", "/");
         request.addParameter(
                 UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY,

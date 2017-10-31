@@ -21,7 +21,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
     private UserUploadController c;
 
     @Test
-    public void testSetupUpload() throws Exception {
+    public void testSetupUpload() {
         UploadForm uploadForm = c.setupUpload();
 
         assertEquals(Integer.valueOf(FileType.XML.getValue()), uploadForm.getFileType());

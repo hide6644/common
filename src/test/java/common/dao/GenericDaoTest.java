@@ -17,6 +17,7 @@ public class GenericDaoTest extends BaseDaoTestCase {
     @Before
     public void setUp() {
         genericDao = new GenericDaoJpa<User, Long>(User.class, entityManager);
+        genericDao.reindexAll(true);
     }
 
     @Test
@@ -48,6 +49,10 @@ public class GenericDaoTest extends BaseDaoTestCase {
 
         assertNotNull(userList.get(0));
         assertEquals("normaluser", userList.get(0).getUsername());
+
+        userList = genericDao.search("*");
+
+        assertEquals(2, userList.size());
     }
 
     @Test(expected = SearchException.class)

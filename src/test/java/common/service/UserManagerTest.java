@@ -19,7 +19,7 @@ public class UserManagerTest extends BaseManagerTestCase {
     private RoleManager roleManager;
 
     @Test
-    public void testGetUser() throws Exception {
+    public void testGetUser() {
         User user = mgr.getUserByUsername("normaluser");
 
         assertNotNull(user);
@@ -30,7 +30,7 @@ public class UserManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testSaveUser() throws Exception {
+    public void testSaveUser() {
         User user = mgr.getUserByUsername("normaluser");
         user.setConfirmPassword(user.getPassword());
         user.setLastName("smith");
@@ -67,7 +67,7 @@ public class UserManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testGetAll() throws Exception {
+    public void testGetAll() {
         List<User> found = mgr.getAll();
 
         log.debug("Users found: " + found);

@@ -239,10 +239,8 @@ public final class PaginatedList<T> {
             pageNumberList.add(i);
         }
 
-        if (pageNumberList.size() < limitSize) {
-            for (int i = pageNumberList.get(0) - 1; pageNumberList.size() < limitSize && i > 0; i--) {
-                pageNumberList.add(0, i);
-            }
+        for (int i = pageNumberList.get(0) - 1; pageNumberList.size() < limitSize && i > 0; i--) {
+            pageNumberList.add(0, i);
         }
 
         return pageNumberList;

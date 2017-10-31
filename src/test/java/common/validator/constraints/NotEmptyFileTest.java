@@ -21,7 +21,7 @@ public class NotEmptyFileTest {
     private MultipartFile fileData;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }

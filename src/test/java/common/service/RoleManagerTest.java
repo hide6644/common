@@ -15,7 +15,7 @@ public class RoleManagerTest extends BaseManagerTestCase {
     private RoleManager mgr;
 
     @Test
-    public void testGetUser() throws Exception {
+    public void testGetUser() {
         List<LabelValue> labelValueList = mgr.getLabelValues();
 
         assertNotNull(labelValueList);

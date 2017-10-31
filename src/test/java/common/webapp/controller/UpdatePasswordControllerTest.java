@@ -25,7 +25,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     private UserManager userManager;
 
     @Test
-    public void testRequestRecoveryToken() throws Exception {
+    public void testRequestRecoveryToken() {
         String username = "administrator";
 
         Wiser wiser = new Wiser();
@@ -39,7 +39,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testShowUpdatePasswordForm() throws Exception {
+    public void testShowUpdatePasswordForm() {
         String username = "administrator";
         MockHttpServletRequest request = newGet("/updatePassword");
         request.setRemoteUser(username);
@@ -50,7 +50,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testShowResetPasswordForm() throws Exception {
+    public void testShowResetPasswordForm() {
         String username = "administrator";
         String token = passwordTokenManager.generateRecoveryToken(userManager.getUserByUsername(username));
         MockHttpServletRequest request = newGet("/updatePassword");
@@ -63,7 +63,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testShowResetPasswordFormBadToken() throws Exception {
+    public void testShowResetPasswordFormBadToken() {
         String username = "administrator";
         String badtoken = new RandomStringGenerator.Builder().build().generate(32);
         MockHttpServletRequest request = newGet("/updatePassword");
@@ -76,7 +76,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testResetPassword() throws Exception {
+    public void testResetPassword() {
         String username = "administrator";
         String token = passwordTokenManager.generateRecoveryToken(userManager.getUserByUsername(username));
         String password = "new-pass";
@@ -97,7 +97,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testResetPasswordBadToken() throws Exception {
+    public void testResetPasswordBadToken() {
         String username = "administrator";
         String badToken = new RandomStringGenerator.Builder().build().generate(32);
         String password = "new-pass";
@@ -113,7 +113,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testUpdatePassword() throws Exception {
+    public void testUpdatePassword() {
         String username = "administrator";
         String currentPassword = "administrator";
         String password = "new-administrator";
@@ -130,7 +130,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testUpdatePasswordBadCurrentPassword() throws Exception {
+    public void testUpdatePasswordBadCurrentPassword() {
         String username = "administrator";
         String currentPassword = "bad-administrator";
         String password = "new-administrator";

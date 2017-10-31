@@ -28,7 +28,7 @@ public class CounterListenerTest {
     private CounterListener listener = null;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         sc = new MockServletContext("");
         sc.addInitParameter(ContextLoader.CONFIG_LOCATION_PARAM, "classpath:common/dao/applicationContext-resources.xml, classpath:/common/dao/applicationContext-dao.xml, classpath:/applicationContext-service.xml");
 

@@ -11,28 +11,28 @@ public class MiscControllerTest extends BaseControllerTestCase {
     private MiscController c = null;
 
     @Test
-    public void testTopRequest() throws Exception {
+    public void testTopRequest() {
         String rtn = c.topRequest();
 
         assertEquals("top", rtn);
     }
 
     @Test
-    public void testAdminTopRequest() throws Exception {
+    public void testAdminTopRequest() {
         String rtn = c.adminTopRequest();
 
         assertEquals("admin/top", rtn);
     }
 
     @Test
-    public void testAdminMasterTopRequest() throws Exception {
+    public void testAdminMasterTopRequest() {
         String rtn = c.adminMasterTopRequest();
 
         assertEquals("admin/master/top", rtn);
     }
 
     @Test
-    public void testActiveUsersRequest() throws Exception {
+    public void testActiveUsersRequest() {
         String rtn = c.activeUsersRequest();
 
         assertEquals("admin/activeUsers", rtn);

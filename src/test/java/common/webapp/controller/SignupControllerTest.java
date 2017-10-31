@@ -21,7 +21,7 @@ public class SignupControllerTest extends BaseControllerTestCase {
     private SignupController c = null;
 
     @Test
-    public void testDisplayForm() throws Exception {
+    public void testDisplayForm() {
         User user = c.showForm();
         assertNotNull(user);
     }

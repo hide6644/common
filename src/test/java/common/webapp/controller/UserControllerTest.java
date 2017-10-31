@@ -23,7 +23,7 @@ public class UserControllerTest extends BaseControllerTestCase {
     private UserController c = null;
 
     @Test
-    public void testInitBinder() throws Exception {
+    public void testInitBinder() {
         c.initBinder(new WebDataBinder(User.class));
     }
 

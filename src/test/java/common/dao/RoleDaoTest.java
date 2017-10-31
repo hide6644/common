@@ -17,21 +17,21 @@ public class RoleDaoTest extends BaseDaoTestCase {
     private RoleDao dao;
 
     @Test
-    public void testGetRoleInvalid() throws Exception {
+    public void testGetRoleInvalid() {
         Role role = dao.getByNameEquals("badrolename");
 
         assertNull(role);
     }
 
     @Test
-    public void testGetRole() throws Exception {
+    public void testGetRole() {
         Role role = dao.getByNameEquals(Constants.USER_ROLE);
 
         assertNotNull(role);
     }
 
     @Test
-    public void testUpdateRole() throws Exception {
+    public void testUpdateRole() {
         Role role = dao.getByNameEquals("ROLE_USER");
         role.setDescription("test descr");
         dao.save(role);
@@ -41,7 +41,7 @@ public class RoleDaoTest extends BaseDaoTestCase {
     }
 
     @Test
-    public void testAddAndRemoveRole() throws Exception {
+    public void testAddAndRemoveRole() {
         Role role = new Role("testrole");
         role.setDescription("new role descr");
         dao.save(role);
