@@ -7,7 +7,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.2.5</version>
+    <version>1.2.6</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -586,15 +586,15 @@
         <bootstrap.version>3.3.7-1</bootstrap.version>
         <bootswatch.version>3.3.7</bootswatch.version>
         <commons.fileupload.version>1.3.3</commons.fileupload.version>
-        <commons.io.version>2.5</commons.io.version>
+        <commons.io.version>2.6</commons.io.version>
         <datetimepicker.version>4.17.47</datetimepicker.version>
         <el.version>3.0.1-b08</el.version>
-        <freemarker.version>2.3.26-incubating</freemarker.version>
-        <groovy.version>2.4.12</groovy.version>
+        <freemarker.version>2.3.23</freemarker.version>
+        <groovy.version>2.4.13</groovy.version>
         <hibernate.version>5.2.12.Final</hibernate.version>
-        <hibernate.search.version>5.8.1.Final</hibernate.search.version>
-        <hibernate.validator.version>6.0.4.Final</hibernate.validator.version>
-        <HikariCP.version>2.7.2</HikariCP.version>
+        <hibernate.search.version>5.8.2.Final</hibernate.search.version>
+        <hibernate.validator.version>6.0.5.Final</hibernate.validator.version>
+        <HikariCP.version>2.7.4</HikariCP.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <javax.ws.rs-api.version>2.0.1</javax.ws.rs-api.version>
         <joda-time.version>2.9.9</joda-time.version>
@@ -607,14 +607,14 @@
         <log4j.version>2.9.1</log4j.version>
         <lucene.version>5.5.4</lucene.version>
         <mail.version>1.4.7</mail.version>
-        <mockito.version>2.11.0</mockito.version>
+        <mockito.version>2.13.0</mockito.version>
         <momentjs.version>2.18.1</momentjs.version>
-        <opencsv.version>4.0</opencsv.version>
+        <opencsv.version>4.1</opencsv.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <spring.version>4.3.12.RELEASE</spring.version>
+        <spring.version>4.3.13.RELEASE</spring.version>
         <spring.security.version>4.2.3.RELEASE</spring.security.version>
         <subethasmtp.version>3.1.7</subethasmtp.version>
-        <thymeleaf.spring4.version>3.0.8.RELEASE</thymeleaf.spring4.version>
+        <thymeleaf.spring4.version>3.0.9.RELEASE</thymeleaf.spring4.version>
         <thymeleaf.extras.springsecurity4.version>3.0.2.RELEASE</thymeleaf.extras.springsecurity4.version>
         <thymeleaf.layout.version>2.2.2</thymeleaf.layout.version>
         <urlrewritefilter.version>4.0.4</urlrewritefilter.version>
