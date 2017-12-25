@@ -67,7 +67,7 @@ import common.validator.constraints.UniqueKey;
                 columnNames = { "email" }
         )
     })
-public class User extends BaseObject implements Serializable, UserDetails {
+public final class User extends BaseObject implements Serializable, UserDetails {
 
     /** ユーザ名 */
     private String username;

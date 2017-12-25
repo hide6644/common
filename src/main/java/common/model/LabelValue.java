@@ -3,10 +3,13 @@ package common.model;
 import java.io.Serializable;
 import java.util.Comparator;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 /**
  * LabelとValueの保持するクラス.
  */
-public class LabelValue implements Comparable<LabelValue>, Serializable {
+public final class LabelValue implements Comparable<LabelValue>, Serializable {
 
     public static final Comparator<LabelValue> CASE_INSENSITIVE_ORDER = (LabelValue o1, LabelValue o2) -> o1.getValue().compareToIgnoreCase(o2.getValue());
 
@@ -86,10 +89,7 @@ public class LabelValue implements Comparable<LabelValue>, Serializable {
      */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((value == null) ? 0 : value.hashCode());
-        return result;
+        return new HashCodeBuilder().append(value).toHashCode();
     }
 
     /**
@@ -99,21 +99,13 @@ public class LabelValue implements Comparable<LabelValue>, Serializable {
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
-        }
-        if (obj == null) {
+        } else if (!(obj instanceof LabelValue)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        LabelValue other = (LabelValue) obj;
-        if (value == null) {
-            if (other.value != null) {
-                return false;
-            }
-        } else if (!value.equals(other.value)) {
-            return false;
-        }
-        return true;
+
+        LabelValue castObj = (LabelValue) obj;
+        return new EqualsBuilder()
+                .append(value, castObj.value)
+                .isEquals();
     }
 }
