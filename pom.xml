@@ -231,7 +231,7 @@
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>${commons.io.version}</version>
+                <version>${commons-io.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.xmlbeans</groupId>
@@ -309,7 +309,7 @@
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
-            <version>${commons.fileupload.version}</version>
+            <version>${commons-fileupload.version}</version>
         </dependency>
 
         <!-- Spring Framework -->
@@ -360,22 +360,22 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-aspects</artifactId>
-            <version>${spring.security.version}</version>
+            <version>${spring-security.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>${spring.security.version}</version>
+            <version>${spring-security.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
-            <version>${spring.security.version}</version>
+            <version>${spring-security.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
-            <version>${spring.security.version}</version>
+            <version>${spring-security.version}</version>
         </dependency>
 
         <!-- Hibernate Search & Lucene -->
@@ -404,13 +404,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-search-orm</artifactId>
-            <version>${hibernate.search.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.solr</groupId>
-                    <artifactId>solr-analysis-extras</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>${hibernate-search.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -427,12 +421,12 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator-cdi</artifactId>
-            <version>${hibernate.validator.version}</version>
+            <version>${hibernate-validator.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator-annotation-processor</artifactId>
-            <version>${hibernate.validator.version}</version>
+            <version>${hibernate-validator.version}</version>
         </dependency>
 
         <!-- Webjars -->
@@ -514,17 +508,17 @@
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring4</artifactId>
-            <version>${thymeleaf.spring4.version}</version>
+            <version>${thymeleaf-spring4.version}</version>
         </dependency>
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-            <version>${thymeleaf.extras.springsecurity4.version}</version>
+            <version>${thymeleaf-extras-springsecurity4.version}</version>
         </dependency>
         <dependency>
             <groupId>nz.net.ultraq.thymeleaf</groupId>
             <artifactId>thymeleaf-layout-dialect</artifactId>
-            <version>${thymeleaf.layout.version}</version>
+            <version>${thymeleaf-layout-dialect.version}</version>
         </dependency>
         <dependency>
             <groupId>ro.isdc.wro4j</groupId>
@@ -575,7 +569,7 @@
         <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
         <jdbc.groupId>mysql</jdbc.groupId>
         <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
-        <jdbc.version>5.1.44</jdbc.version>
+        <jdbc.version>5.1.45</jdbc.version>
         <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
         <jdbc.url>
             <![CDATA[jdbc:mysql://localhost/common?createDatabaseIfNotExist=true&amp;zeroDateTimeBehavior=convertToNull&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true]]>
@@ -585,15 +579,15 @@
 
         <bootstrap.version>3.3.7-1</bootstrap.version>
         <bootswatch.version>3.3.7</bootswatch.version>
-        <commons.fileupload.version>1.3.3</commons.fileupload.version>
-        <commons.io.version>2.6</commons.io.version>
+        <commons-fileupload.version>1.3.3</commons-fileupload.version>
+        <commons-io.version>2.6</commons-io.version>
         <datetimepicker.version>4.17.47</datetimepicker.version>
         <el.version>3.0.1-b08</el.version>
         <freemarker.version>2.3.23</freemarker.version>
         <groovy.version>2.4.13</groovy.version>
         <hibernate.version>5.2.12.Final</hibernate.version>
-        <hibernate.search.version>5.8.2.Final</hibernate.search.version>
-        <hibernate.validator.version>6.0.5.Final</hibernate.validator.version>
+        <hibernate-search.version>5.8.2.Final</hibernate-search.version>
+        <hibernate-validator.version>6.0.7.Final</hibernate-validator.version>
         <HikariCP.version>2.7.4</HikariCP.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <javax.ws.rs-api.version>2.0.1</javax.ws.rs-api.version>
@@ -601,8 +595,8 @@
         <jquery.version>3.2.1</jquery.version>
         <js-cookie.version>2.1.4</js-cookie.version>
         <junit.version>4.12</junit.version>
-        <jxls.version>2.4.2</jxls.version>
-        <jxls-poi.version>1.0.13</jxls-poi.version>
+        <jxls.version>2.4.3</jxls.version>
+        <jxls-poi.version>1.0.14</jxls-poi.version>
         <jxls-reader.version>2.0.3</jxls-reader.version>
         <log4j.version>2.9.1</log4j.version>
         <lucene.version>5.5.4</lucene.version>
@@ -612,11 +606,11 @@
         <opencsv.version>4.1</opencsv.version>
         <slf4j.version>1.7.25</slf4j.version>
         <spring.version>4.3.13.RELEASE</spring.version>
-        <spring.security.version>4.2.3.RELEASE</spring.security.version>
+        <spring-security.version>4.2.3.RELEASE</spring-security.version>
         <subethasmtp.version>3.1.7</subethasmtp.version>
-        <thymeleaf.spring4.version>3.0.9.RELEASE</thymeleaf.spring4.version>
-        <thymeleaf.extras.springsecurity4.version>3.0.2.RELEASE</thymeleaf.extras.springsecurity4.version>
-        <thymeleaf.layout.version>2.2.2</thymeleaf.layout.version>
+        <thymeleaf-spring4.version>3.0.9.RELEASE</thymeleaf-spring4.version>
+        <thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>
+        <thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
         <urlrewritefilter.version>4.0.4</urlrewritefilter.version>
         <xmlbeans.version>2.6.0</xmlbeans.version>
         <wro4j-core.version>1.8.0</wro4j-core.version>
