@@ -15,7 +15,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.LocalizedResourceHelper;
 import org.springframework.format.Formatter;
@@ -63,9 +62,11 @@ public class CsvView extends AbstractUrlBasedView {
      *             {@link IOException}
      */
     private void doRender(List<String[]> csv, HttpServletResponse response) throws IOException {
-        CSVWriter writer = new CSVWriter(new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8)));
-        writer.writeAll(csv);
-        IOUtils.closeQuietly(writer);
+        try (OutputStreamWriter osw = new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8);
+                PrintWriter pw = new PrintWriter(osw);
+                CSVWriter writer = new CSVWriter(pw)) {
+            writer.writeAll(csv);
+        }
     }
 
     /**

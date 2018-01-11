@@ -18,7 +18,7 @@ import org.springframework.security.core.GrantedAuthority;
 @Entity
 @Table(name = "role")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Role extends BaseObject implements Serializable, GrantedAuthority {
+public final class Role extends BaseObject implements Serializable, GrantedAuthority {
 
     /** 名称 */
     private String name;

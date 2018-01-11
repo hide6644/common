@@ -10,7 +10,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.jxls.area.Area;
 import org.jxls.builder.AreaBuilder;
 import org.jxls.builder.xls.XlsCommentAreaBuilder;
@@ -34,13 +33,8 @@ public class JxlsView extends AbstractUrlBasedView {
      */
     @Override
     protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        InputStream is = null;
-        OutputStream os = null;
-
-        try {
-            is = getTemplateSource(getUrl(), request);
-            os = response.getOutputStream();
-
+        try (InputStream is = getTemplateSource(getUrl(), request);
+                OutputStream os = response.getOutputStream()) {
             Transformer transformer = TransformerFactory.createTransformer(is, os);
             ((JexlExpressionEvaluator) transformer.getTransformationConfig().getExpressionEvaluator()).getJexlEngine().setSilent(true);
             AreaBuilder areaBuilder = new XlsCommentAreaBuilder(transformer);
@@ -52,9 +46,6 @@ public class JxlsView extends AbstractUrlBasedView {
 
             xlsArea.applyAt(new CellRef("Sheet1!A1"), context);
             transformer.write();
-        } finally {
-            IOUtils.closeQuietly(is);
-            IOUtils.closeQuietly(os);
         }
     }
 
