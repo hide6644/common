@@ -52,25 +52,37 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
             return newAuth;
         } catch (BadCredentialsException e) {
             // ログイン失敗
-            try {
-                if (countFailedLoginAttempts(request, username) < Constants.LOGIN_FAILURE_UPPER_LIMIT) {
-                    recordLoginAttempts(request, username, false);
-                } else {
-                    // ユーザをロックする
-                    User user = userManager.getUserByUsername(username);
-                    user.setConfirmPassword(user.getPassword());
-                    user.setAccountLocked(true);
-                    userManager.saveUser(user);
-                }
-            } catch (UsernameNotFoundException unfe) {
-                Logger log = LogManager.getLogger(ExtendedAuthenticationFilter.class);
-
-                if (log.isDebugEnabled()) {
-                    log.debug("Account not found: username=" + username);
-                }
-            }
+            loginFailure(username, request);
 
             throw e;
+        }
+    }
+
+    /**
+     * ログイン失敗時の処理を行う.
+     *
+     * @param request
+     *            ユーザ名
+     * @param request
+     *            {@link HttpServletRequest}
+     */
+    private void loginFailure(String username, HttpServletRequest request) {
+        try {
+            if (countFailedLoginAttempts(request, username) < Constants.LOGIN_FAILURE_UPPER_LIMIT) {
+                recordLoginAttempts(request, username, false);
+            } else {
+                // ユーザをロックする
+                User user = userManager.getUserByUsername(username);
+                user.setConfirmPassword(user.getPassword());
+                user.setAccountLocked(true);
+                userManager.saveUser(user);
+            }
+        } catch (UsernameNotFoundException unfe) {
+            Logger log = LogManager.getLogger(ExtendedAuthenticationFilter.class);
+
+            if (log.isDebugEnabled()) {
+                log.debug("Account not found: username=" + username);
+            }
         }
     }
 

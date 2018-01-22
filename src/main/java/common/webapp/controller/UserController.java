@@ -118,11 +118,11 @@ public class UserController extends BaseController {
 
                     // 登録完了メールを送信する
                     userMail.sendCreatedEmail(managedUser);
-                    return "redirect:/admin/master/users";
                 } else {
                     saveFlashMessage(getText("updated"));
-                    return "redirect:/admin/master/users";
                 }
+
+                return "redirect:/admin/master/users";
             } else {
                 saveFlashMessage(getText("updated"));
                 return "redirect:/top";
@@ -132,7 +132,6 @@ public class UserController extends BaseController {
             return null;
         } catch (DatabaseException e) {
             log.error(e);
-
             return "user";
         }
     }
