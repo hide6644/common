@@ -96,7 +96,6 @@ public class UserListControllerTest extends BaseControllerTestCase {
     @Test
     public void testXmlList() throws Exception {
         mockMvc.perform(get("/admin/master/users.xml"))
-                .andExpect(status().isOk())
                 .andExpect(content().contentType("Application/Octet-Stream"));
     }
 }
