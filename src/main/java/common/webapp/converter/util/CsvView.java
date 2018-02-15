@@ -40,7 +40,8 @@ public class CsvView extends AbstractUrlBasedView {
         List<String[]> csv = null;
 
         if (getUrl() != null) {
-            try (CSVReader reader = new CSVReaderBuilder(new InputStreamReader(getTemplateSource(getUrl(), request), Constants.ENCODING)).build();) {
+            try (InputStreamReader is = new InputStreamReader(getTemplateSource(getUrl(), request), Constants.ENCODING);
+                    CSVReader reader = new CSVReaderBuilder(is).build()) {
                 csv = reader.readAll();
             }
         } else {
@@ -62,8 +63,8 @@ public class CsvView extends AbstractUrlBasedView {
      *             {@link IOException}
      */
     private void doRender(List<String[]> csv, HttpServletResponse response) throws IOException {
-        try (OutputStreamWriter osw = new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8);
-                PrintWriter pw = new PrintWriter(osw);
+        try (OutputStreamWriter os = new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8);
+                PrintWriter pw = new PrintWriter(os);
                 CSVWriter writer = new CSVWriter(pw)) {
             writer.writeAll(csv);
         }

@@ -36,7 +36,7 @@ public class JxlsFileReader {
      */
     public XLSReadStatus read(Resource templateFile, MultipartFile excelFile, Map<?, ?> model) throws InvalidFormatException, IOException, SAXException {
         try (InputStream templateInputStream = templateFile.getInputStream();
-                InputStream excelInputStream = excelFile.getInputStream();) {
+                InputStream excelInputStream = excelFile.getInputStream()) {
             ReaderConfig.getInstance().setSkipErrors(true);
 
             return ReaderBuilder.buildFromXML(templateInputStream).read(excelInputStream, model);
