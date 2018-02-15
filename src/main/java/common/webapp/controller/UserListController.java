@@ -93,7 +93,7 @@ public class UserListController extends BaseController {
     @RequestMapping(value = "/admin/master/users*.xml", method = RequestMethod.GET)
     @ResponseBody
     public Users setupXmlList(HttpServletRequest request, HttpServletResponse response) {
-        response.setContentType("Application/Octet-Stream");
+        response.setContentType("text/xml");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
         return new Users(userManager.getAll());
     }
