@@ -64,7 +64,6 @@ public class MailEngine {
 
         helper.setText(bodyText);
         helper.setSubject(subject);
-
         helper.addAttachment(attachmentName, resource);
 
         ((JavaMailSenderImpl) mailSender).send(message);
@@ -81,17 +80,12 @@ public class MailEngine {
      *            入力値
      */
     public void sendMessage(SimpleMailMessage simpleMailMessage, String templateName, Map<String, Object> model) {
-        String result = null;
-
         try {
-            Template template = freemarkerConfiguration.getTemplate(templateName);
-            result = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+            simpleMailMessage.setText(FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerConfiguration.getTemplate(templateName), model));
+            send(simpleMailMessage);
         } catch (Exception e) {
             LogManager.getLogger(MailEngine.class).error(e);
         }
-
-        simpleMailMessage.setText(result);
-        send(simpleMailMessage);
     }
 
     /**
