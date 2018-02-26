@@ -1,7 +1,7 @@
 package common.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -94,10 +94,10 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     private boolean accountLocked;
 
     /** 有効期限切れ日時 */
-    private Date accountExpiredDate;
+    private LocalDateTime accountExpiredDate;
 
     /** 要再認証日時 */
-    private Date credentialsExpiredDate;
+    private LocalDateTime credentialsExpiredDate;
 
     /** 権限 */
     private Set<Role> roles = new HashSet<>();
@@ -311,8 +311,8 @@ public final class User extends BaseObject implements Serializable, UserDetails 
      * @return 有効期限切れ日時
      */
     @Column(name = "account_expired_date")
-    public Date getAccountExpiredDate() {
-        return accountExpiredDate == null ? null : (Date) accountExpiredDate.clone();
+    public LocalDateTime getAccountExpiredDate() {
+        return accountExpiredDate;
     }
 
     /**
@@ -321,8 +321,8 @@ public final class User extends BaseObject implements Serializable, UserDetails 
      * @param accountExpiredDate
      *            有効期限切れ日時
      */
-    public void setAccountExpiredDate(Date accountExpiredDate) {
-        this.accountExpiredDate = accountExpiredDate == null ? null : new Date(accountExpiredDate.getTime());
+    public void setAccountExpiredDate(LocalDateTime accountExpiredDate) {
+        this.accountExpiredDate = accountExpiredDate;
     }
 
     /**
@@ -331,7 +331,7 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     @Transient
     @Override
     public boolean isAccountNonExpired() {
-        return !(accountExpiredDate != null && accountExpiredDate.getTime() < System.currentTimeMillis());
+        return !(accountExpiredDate != null && accountExpiredDate.isBefore(LocalDateTime.now()));
     }
 
     /**
@@ -340,8 +340,8 @@ public final class User extends BaseObject implements Serializable, UserDetails 
      * @return 要再認証日時
      */
     @Column(name = "credentials_expired_date")
-    public Date getCredentialsExpiredDate() {
-        return credentialsExpiredDate == null ? null : (Date) credentialsExpiredDate.clone();
+    public LocalDateTime getCredentialsExpiredDate() {
+        return credentialsExpiredDate;
     }
 
     /**
@@ -350,8 +350,8 @@ public final class User extends BaseObject implements Serializable, UserDetails 
      * @param credentialsExpiredDate
      *            要再認証日時
      */
-    public void setCredentialsExpiredDate(Date credentialsExpiredDate) {
-        this.credentialsExpiredDate = credentialsExpiredDate == null ? null : new Date(credentialsExpiredDate.getTime());
+    public void setCredentialsExpiredDate(LocalDateTime credentialsExpiredDate) {
+        this.credentialsExpiredDate = credentialsExpiredDate;
     }
 
     /**
@@ -360,7 +360,7 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     @Transient
     @Override
     public boolean isCredentialsNonExpired() {
-        return !(credentialsExpiredDate != null && credentialsExpiredDate.getTime() < System.currentTimeMillis());
+        return !(credentialsExpiredDate != null && credentialsExpiredDate.isBefore(LocalDateTime.now()));
     }
 
     /**

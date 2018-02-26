@@ -1,5 +1,6 @@
 package common.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -9,7 +10,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -193,7 +193,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
 
         for (User user : UserFileConverterFactory.createConverter(FileType.of(uploadForm.getFileType())).convert(uploadForm.getFileData())) {
             // デフォルトの要再認証日時を設定する
-            user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
+            user.setCredentialsExpiredDate(LocalDateTime.now().plusDays(Constants.CREDENTIALS_EXPIRED_TERM));
             // 新規登録時は権限を一般で設定する
             user.addRole(new Role(Constants.USER_ROLE));
             user.setConfirmPassword(user.getPassword());
@@ -228,7 +228,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
     @Override
     public User saveSignupUser(User user) {
         // デフォルトの要再認証日時を設定する
-        user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
+        user.setCredentialsExpiredDate(LocalDateTime.now().plusDays(Constants.CREDENTIALS_EXPIRED_TERM));
         // 新規登録時は権限を一般で設定する
         user.addRole(new Role(Constants.USER_ROLE));
         User managedUser = saveUser(user);
