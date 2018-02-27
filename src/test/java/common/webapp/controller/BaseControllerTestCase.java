@@ -2,6 +2,8 @@ package common.webapp.controller;
 
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
+import java.util.Random;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -26,6 +28,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
                 "classpath:/common/webapp/controller/dispatcher-servlet.xml" })
 public abstract class BaseControllerTestCase extends AbstractTransactionalJUnit4SpringContextTests {
 
+    private int smtpPort = 25250;
+
     protected transient Logger log = LogManager.getLogger(getClass());
 
     @Autowired
@@ -33,11 +37,9 @@ public abstract class BaseControllerTestCase extends AbstractTransactionalJUnit4
 
     protected MockMvc mockMvc;
 
-    private int smtpPort = 25250;
-
     @Before
     public void setUp() {
-        smtpPort = smtpPort + (int) (Math.random() * 100);
+        smtpPort = smtpPort + new Random().nextInt(100);
         JavaMailSenderImpl mailSender = (JavaMailSenderImpl) applicationContext.getBean("mailSender");
         mailSender.setPort(getSmtpPort());
         mailSender.setHost("localhost");

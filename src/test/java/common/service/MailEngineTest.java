@@ -3,6 +3,7 @@ package common.service;
 import static org.junit.Assert.*;
 
 import java.util.Date;
+import java.util.Random;
 
 import javax.mail.BodyPart;
 import javax.mail.Part;
@@ -22,13 +23,15 @@ import common.service.mail.MailEngine;
 
 public class MailEngineTest extends BaseManagerTestCase {
 
-    @Autowired
-    MailEngine mailEngine;
+    private int smtpPort = 25250;
 
     @Autowired
-    SimpleMailMessage mailMessage;
+    private MailEngine mailEngine;
 
-    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+    @Autowired
+    private SimpleMailMessage mailMessage;
+
+    private JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
     @Before
     public void setUp() {
@@ -46,7 +49,7 @@ public class MailEngineTest extends BaseManagerTestCase {
         // mock smtp server
         Wiser wiser = new Wiser();
         // set the port to a random value so there's no conflicts between tests
-        int port = 2525 + (int) (Math.random() * 100);
+        int port = smtpPort + new Random().nextInt(100);
         mailSender.setPort(port);
         wiser.setPort(port);
         wiser.start();
@@ -76,7 +79,7 @@ public class MailEngineTest extends BaseManagerTestCase {
 
         //mock smtp server
         Wiser wiser = new Wiser();
-        int port = 2525 + (int) (Math.random() * 100);
+        int port = smtpPort + new Random().nextInt(100);
         mailSender.setPort(port);
         wiser.setPort(port);
         wiser.start();
@@ -106,12 +109,12 @@ public class MailEngineTest extends BaseManagerTestCase {
         for (int i = 0; i < numOfParts; i++) {
             BodyPart bp = multi.getBodyPart(i);
             String disp = bp.getDisposition();
-            if (disp == null) { //the body of the email
+            if (disp == null) { // the body of the email
                 Object innerContent = bp.getContent();
                 MimeMultipart innerMulti = (MimeMultipart) innerContent;
 
                 assertEquals(emailBody, innerMulti.getBodyPart(0).getContent());
-            } else if (disp.equals(Part.ATTACHMENT)) { //the attachment to the email
+            } else if (disp.equals(Part.ATTACHMENT)) { // the attachment to the email
                 hasTheAttachment = true;
 
                 assertEquals(attachmentName, bp.getFileName());
