@@ -2,6 +2,7 @@ package common.service;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -67,7 +68,7 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
         boolean administrator = auth.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals(Constants.ADMIN_ROLE));
         User currentUser = getCurrentUser(auth);
 
-        if (user.getId() != null && !user.getId().equals(currentUser.getId()) && !administrator) {
+        if (!Objects.equals(user.getId(), currentUser.getId()) && !administrator) {
             log.warn("Access Denied: '" + currentUser.getUsername() + "' tried to modify '" + user.getUsername() + "'!");
             throw new AccessDeniedException(ACCESS_DENIED);
         } else if (user.getId() != null && user.getId().equals(currentUser.getId()) && !administrator) {

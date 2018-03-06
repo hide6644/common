@@ -15,6 +15,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import freemarker.template.Configuration;
+import no.api.freemarker.java8.Java8ObjectWrapper;
 
 /**
  * メールを処理するクラス.
@@ -80,6 +81,7 @@ public class MailEngine {
      */
     public void sendMessage(SimpleMailMessage simpleMailMessage, String templateName, Map<String, Object> model) {
         try {
+            freemarkerConfiguration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_23));
             simpleMailMessage.setText(FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerConfiguration.getTemplate(templateName), model));
             send(simpleMailMessage);
         } catch (Exception e) {

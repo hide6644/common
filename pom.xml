@@ -462,9 +462,9 @@
             <version>${opencsv.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-            <version>${freemarker.version}</version>
+            <groupId>no.api.freemarker</groupId>
+            <artifactId>freemarker-java8</artifactId>
+            <version>${freemarker-java8.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
@@ -578,7 +578,7 @@
         <commons-io.version>2.6</commons-io.version>
         <datetimepicker.version>4.17.47</datetimepicker.version>
         <el.version>3.0.1-b08</el.version>
-        <freemarker.version>2.3.23</freemarker.version>
+        <freemarker-java8.version>1.2.0</freemarker-java8.version>
         <groovy.version>2.4.13</groovy.version>
         <hibernate.version>5.2.13.Final</hibernate.version>
         <hibernate-search.version>5.9.0.Final</hibernate-search.version>
