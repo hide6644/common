@@ -2,14 +2,14 @@ package common.webapp.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.access.AccessDeniedException;
@@ -70,15 +70,16 @@ public class UserController extends BaseController {
         String userId = request.getParameter("userId");
 
         // 管理者でない場合、自身以外のユーザを登録、更新することは出来ない
-        if (!request.isUserInRole(Constants.ADMIN_ROLE) && (StringUtils.equals(request.getParameter("mode"), "Add") || userId != null)) {
+        if (!request.isUserInRole(Constants.ADMIN_ROLE) && (Objects.equals(request.getParameter("mode"), "Add") || userId != null)) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
             log.warn("User '" + request.getRemoteUser() + "' is trying to edit user with id '" + request.getParameter("id") + "'");
             throw new AccessDeniedException("You do not have permission to modify other users.");
         }
 
-        if (StringUtils.equals(request.getParameter("mode"), "Add")) {
+        if (Objects.equals(request.getParameter("mode"), "Add")) {
             User user = new User();
-            user.setCredentialsExpiredDate(new DateTime().plusDays(Constants.CREDENTIALS_EXPIRED_TERM).toDate());
+            LocalDateTime.now().plusDays(Constants.CREDENTIALS_EXPIRED_TERM);
+            user.setCredentialsExpiredDate(LocalDateTime.now().plusDays(Constants.CREDENTIALS_EXPIRED_TERM));
             user.addRole(new Role(Constants.USER_ROLE));
             return user;
         } else if (userId != null) {
@@ -112,17 +113,17 @@ public class UserController extends BaseController {
         try {
             User managedUser = userManager.saveUser(user);
 
-            if (StringUtils.equals(request.getParameter("from"), "list")) {
-                if (StringUtils.equals(request.getParameter("mode"), "Add")) {
+            if (Objects.equals(request.getParameter("from"), "list")) {
+                if (Objects.equals(request.getParameter("mode"), "Add")) {
                     saveFlashMessage(getText("inserted"));
 
                     // 登録完了メールを送信する
                     userMail.sendCreatedEmail(managedUser);
-                    return "redirect:/admin/master/users";
                 } else {
                     saveFlashMessage(getText("updated"));
-                    return "redirect:/admin/master/users";
                 }
+
+                return "redirect:/admin/master/users";
             } else {
                 saveFlashMessage(getText("updated"));
                 return "redirect:/top";
@@ -132,7 +133,6 @@ public class UserController extends BaseController {
             return null;
         } catch (DatabaseException e) {
             log.error(e);
-
             return "user";
         }
     }

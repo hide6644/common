@@ -3,6 +3,7 @@ package common.service;
 import static org.junit.Assert.*;
 
 import java.util.Locale;
+import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,7 @@ public class PasswordTokenManagerTest extends BaseManagerTestCase {
     @Before
     public void setUp() {
         LocaleContextHolder.setLocale(Locale.JAPANESE);
-        smtpPort = smtpPort + (int) (Math.random() * 100);
+        smtpPort = smtpPort + new Random().nextInt(100);
 
         JavaMailSenderImpl mailSender = (JavaMailSenderImpl) applicationContext.getBean("mailSender");
         mailSender.setPort(smtpPort);

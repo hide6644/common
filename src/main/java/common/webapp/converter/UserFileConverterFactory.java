@@ -110,7 +110,8 @@ public class UserFileConverterFactory {
      */
     private static FileConverter<User> createCsvConverter() {
         return multipartFile -> {
-            try (CSVReader reader = new CSVReaderBuilder(new InputStreamReader(multipartFile.getInputStream(), Constants.ENCODING)).withSkipLines(1).build();) {
+            try (InputStreamReader is = new InputStreamReader(multipartFile.getInputStream(), Constants.ENCODING);
+                    CSVReader reader = new CSVReaderBuilder(is).withSkipLines(1).build()) {
                 return reader.readAll().stream().map(line -> {
                     try {
                         CsvFileReader csvFileReader = new CsvFileReader(

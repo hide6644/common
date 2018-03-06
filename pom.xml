@@ -7,7 +7,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.2.6</version>
+    <version>1.2.7</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -57,7 +57,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.7.0</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -66,7 +66,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.0.2</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
@@ -83,7 +83,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.0</version>
                 <configuration>
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
                 </configuration>
@@ -91,7 +91,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.20</version>
+                <version>2.20.1</version>
                 <configuration>
                     <reuseForks>false</reuseForks>
                     <argLine>${argLine} -Dcatalina.base=${project.build.directory}</argLine>
@@ -100,12 +100,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.20</version>
+                <version>2.20.1</version>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.9</version>
+                <version>0.8.0</version>
                 <executions>
                     <execution>
                         <goals>
@@ -156,19 +156,19 @@
     <reporting>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>3.0.4</version>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>3.1.1</version>
                 <configuration>
                     <effort>Max</effort>
                     <xmlOutput>true</xmlOutput>
-                    <excludeFilterFile>src/config/findbugs-exclude.xml</excludeFilterFile>
+                    <excludeFilterFile>src/config/spotbugs-exclude.xml</excludeFilterFile>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.17</version>
+                <version>3.0.0</version>
                 <configuration>
                     <configLocation>src/config/checkstyle.xml</configLocation>
                 </configuration>
@@ -196,7 +196,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
+                <version>3.0.0</version>
                 <configuration>
                     <author>true</author>
                     <source>1.8</source>
@@ -462,14 +462,9 @@
             <version>${opencsv.version}</version>
         </dependency>
         <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>${joda-time.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-            <version>${freemarker.version}</version>
+            <groupId>no.api.freemarker</groupId>
+            <artifactId>freemarker-java8</artifactId>
+            <version>${freemarker-java8.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
@@ -507,8 +502,8 @@
         </dependency>
         <dependency>
             <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf-spring4</artifactId>
-            <version>${thymeleaf-spring4.version}</version>
+            <artifactId>thymeleaf-spring5</artifactId>
+            <version>${thymeleaf-spring5.version}</version>
         </dependency>
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
@@ -583,34 +578,33 @@
         <commons-io.version>2.6</commons-io.version>
         <datetimepicker.version>4.17.47</datetimepicker.version>
         <el.version>3.0.1-b08</el.version>
-        <freemarker.version>2.3.23</freemarker.version>
+        <freemarker-java8.version>1.2.0</freemarker-java8.version>
         <groovy.version>2.4.13</groovy.version>
-        <hibernate.version>5.2.12.Final</hibernate.version>
-        <hibernate-search.version>5.8.2.Final</hibernate-search.version>
+        <hibernate.version>5.2.13.Final</hibernate.version>
+        <hibernate-search.version>5.9.0.Final</hibernate-search.version>
         <hibernate-validator.version>6.0.7.Final</hibernate-validator.version>
-        <HikariCP.version>2.7.4</HikariCP.version>
+        <HikariCP.version>2.7.7</HikariCP.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <javax.ws.rs-api.version>2.0.1</javax.ws.rs-api.version>
-        <joda-time.version>2.9.9</joda-time.version>
-        <jquery.version>3.2.1</jquery.version>
+        <jquery.version>3.3.1</jquery.version>
         <js-cookie.version>2.1.4</js-cookie.version>
         <junit.version>4.12</junit.version>
         <jxls.version>2.4.3</jxls.version>
         <jxls-poi.version>1.0.14</jxls-poi.version>
         <jxls-reader.version>2.0.3</jxls-reader.version>
         <log4j.version>2.9.1</log4j.version>
-        <lucene.version>5.5.4</lucene.version>
+        <lucene.version>5.5.5</lucene.version>
         <mail.version>1.4.7</mail.version>
-        <mockito.version>2.13.0</mockito.version>
-        <momentjs.version>2.18.1</momentjs.version>
+        <mockito.version>2.15.0</mockito.version>
+        <momentjs.version>2.20.1</momentjs.version>
         <opencsv.version>4.1</opencsv.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <spring.version>4.3.13.RELEASE</spring.version>
-        <spring-security.version>4.2.3.RELEASE</spring-security.version>
+        <spring.version>5.0.4.RELEASE</spring.version>
+        <spring-security.version>4.2.4.RELEASE</spring-security.version>
         <subethasmtp.version>3.1.7</subethasmtp.version>
-        <thymeleaf-spring4.version>3.0.9.RELEASE</thymeleaf-spring4.version>
+        <thymeleaf-spring5.version>3.0.9.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>
-        <thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
+        <thymeleaf-layout-dialect.version>2.3.0</thymeleaf-layout-dialect.version>
         <urlrewritefilter.version>4.0.4</urlrewritefilter.version>
         <xmlbeans.version>2.6.0</xmlbeans.version>
         <wro4j-core.version>1.8.0</wro4j-core.version>

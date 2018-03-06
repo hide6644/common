@@ -34,12 +34,14 @@ import net.sf.ehcache.CacheManager;
 @Component
 public class StartupListener implements ServletContextListener {
 
+    /** ログ出力クラス */
+    private Logger log = LogManager.getLogger(StartupListener.class);
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void contextInitialized(ServletContextEvent event) {
-        Logger log = LogManager.getLogger(StartupListener.class);
         ServletContext context = event.getServletContext();
 
         @SuppressWarnings("unchecked")
@@ -50,13 +52,41 @@ public class StartupListener implements ServletContextListener {
         }
 
         context.setAttribute(Constants.CONFIG, config);
+        setAppContext(context);
+        setAppVersion(context);
+    }
 
-        setupContext(context);
+    /**
+     * アプリケーション変数を初期化する.
+     *
+     * @param context
+     *            {@link ServletContext}
+     */
+    public static void setAppContext(ServletContext context) {
+        List<LabelValue> fileTypeList = new ArrayList<>();
+        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xml"), String.valueOf(FileType.XML.getValue())));
+        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xls"), String.valueOf(FileType.EXCEL.getValue())));
+        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.csv"), String.valueOf(FileType.CSV.getValue())));
+        context.setAttribute("fileTypeList", fileTypeList);
+
+        ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
+
+        context.setAttribute(Constants.AVAILABLE_ROLES, ((RoleManager) ctx.getBean("roleManager")).getLabelValues());
+
+        ((UserManager) ctx.getBean("userManager")).reindex();
+    }
+
+    /**
+     * アプリケーションバージョンを設定する.
+     *
+     * @param context
+     *            {@link ServletContext}
+     */
+    private void setAppVersion(ServletContext context) {
+        String appVersion = null;
 
         // バージョン番号を確認する
-        String appVersion = null;
-        try {
-            InputStream is = context.getResourceAsStream("/META-INF/MANIFEST.MF");
+        try (InputStream is = context.getResourceAsStream("/META-INF/MANIFEST.MF")) {
             if (is == null) {
                 log.warn("META-INF/MANIFEST.MF not found.");
             } else {
@@ -86,25 +116,5 @@ public class StartupListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         CacheManager.getInstance().shutdown();
-    }
-
-    /**
-     * アプリケーション変数を初期化する.
-     *
-     * @param context
-     *            {@link ServletContext}
-     */
-    public static void setupContext(ServletContext context) {
-        List<LabelValue> fileTypeList = new ArrayList<>();
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xml"), String.valueOf(FileType.XML.getValue())));
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xls"), String.valueOf(FileType.EXCEL.getValue())));
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.csv"), String.valueOf(FileType.CSV.getValue())));
-        context.setAttribute("fileTypeList", fileTypeList);
-
-        ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-
-        context.setAttribute(Constants.AVAILABLE_ROLES, ((RoleManager) ctx.getBean("roleManager")).getLabelValues());
-
-        ((UserManager) ctx.getBean("userManager")).reindex();
     }
 }
