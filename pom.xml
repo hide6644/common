@@ -126,6 +126,16 @@
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>4.3.0</version>
             </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <path>/common</path>
+                    <server>tomcat-localhost</server>
+                    <url>http://localhost:8080/manager/text</url>
+                </configuration>
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
