@@ -18,13 +18,13 @@ public class LocaleRequestWrapper extends HttpServletRequestWrapper {
     /**
      * Localeを設定する.
      *
-     * @param decorated
+     * @param request
      *            {@link HttpServletRequest}
      * @param userLocale
      *            {@link Locale}
      */
-    public LocaleRequestWrapper(HttpServletRequest decorated, Locale userLocale) {
-        super(decorated);
+    public LocaleRequestWrapper(HttpServletRequest request, Locale userLocale) {
+        super(request);
         preferredLocale = userLocale;
     }
 
