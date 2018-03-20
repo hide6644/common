@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-import org.subethamail.wiser.Wiser;
 
 import common.service.PasswordTokenManager;
 import common.service.UserManager;
@@ -26,15 +25,13 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testRequestRecoveryToken() {
+        greenMail.reset();
+
         String username = "administrator";
 
-        Wiser wiser = new Wiser();
-        wiser.setPort(getSmtpPort());
-        wiser.start();
         c.requestRecoveryToken(username);
-        wiser.stop();
 
-        assertTrue(wiser.getMessages().size() == 1);
+        assertTrue(greenMail.getReceivedMessages().length == 1);
         assertNotNull(FlashMap.get("flash_info_messages"));
     }
 
@@ -77,6 +74,8 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testResetPassword() {
+        greenMail.reset();
+
         String username = "administrator";
         String token = passwordTokenManager.generateRecoveryToken(userManager.getUserByUsername(username));
         String password = "new-pass";
@@ -85,13 +84,9 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         request.addParameter("token", token);
         request.addParameter("password", password);
 
-        Wiser wiser = new Wiser();
-        wiser.setPort(getSmtpPort());
-        wiser.start();
         c.onSubmit(username, token, null, password, request);
-        wiser.stop();
 
-        assertTrue(wiser.getMessages().size() == 1);
+        assertTrue(greenMail.getReceivedMessages().length == 1);
         assertNotNull(FlashMap.get("flash_info_messages"));
         assertNull(FlashMap.get("flash_error_messages"));
     }

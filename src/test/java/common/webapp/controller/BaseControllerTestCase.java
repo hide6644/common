@@ -2,8 +2,6 @@ package common.webapp.controller;
 
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
-import java.util.Random;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -20,6 +18,9 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.icegreen.greenmail.util.GreenMail;
+import com.icegreen.greenmail.util.ServerSetupTest;
+
 @WebAppConfiguration
 @ContextConfiguration(
         locations = { "classpath:/common/dao/applicationContext-resources.xml", "classpath:/common/dao/applicationContext-dao.xml",
@@ -28,20 +29,22 @@ import org.springframework.web.context.request.ServletRequestAttributes;
                 "classpath:/common/webapp/controller/dispatcher-servlet.xml" })
 public abstract class BaseControllerTestCase extends AbstractTransactionalJUnit4SpringContextTests {
 
-    private int smtpPort = 25250;
-
     protected transient Logger log = LogManager.getLogger(getClass());
 
     @Autowired
     protected WebApplicationContext wac;
 
+    protected GreenMail greenMail;
+
     protected MockMvc mockMvc;
 
     @Before
     public void setUp() {
-        smtpPort = smtpPort + new Random().nextInt(100);
+        greenMail = new GreenMail(ServerSetupTest.SMTP);
+        greenMail.start();
+
         JavaMailSenderImpl mailSender = (JavaMailSenderImpl) applicationContext.getBean("mailSender");
-        mailSender.setPort(getSmtpPort());
+        mailSender.setPort(greenMail.getSmtp().getPort());
         mailSender.setHost("localhost");
 
         MockHttpServletRequest request = new MockHttpServletRequest();
@@ -52,11 +55,9 @@ public abstract class BaseControllerTestCase extends AbstractTransactionalJUnit4
 
     @After
     public void tearDown() {
-        SecurityContextHolder.clearContext();
-    }
+        greenMail.stop();
 
-    protected int getSmtpPort() {
-        return smtpPort;
+        SecurityContextHolder.clearContext();
     }
 
     protected MockHttpServletRequest newPost(String url) {

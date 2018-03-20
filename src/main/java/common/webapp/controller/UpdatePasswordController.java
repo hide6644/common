@@ -91,6 +91,8 @@ public class UpdatePasswordController extends BaseController {
             saveError(getText("errors.required", getText("updatePasswordForm.newPassword")));
             return showForm(username, null, request);
         }
+        // ログイン中のユーザが自身のパスワード変更した場合
+        // パスワード忘れの案内からパスワードを変更した場合
 
         User user = null;
         boolean usingToken = StringUtils.isNotBlank(token);
