@@ -3,10 +3,10 @@ package common.service;
 import static org.junit.Assert.*;
 
 import java.util.Date;
-import java.util.Random;
 
 import javax.mail.BodyPart;
 import javax.mail.Part;
+import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import org.junit.After;
@@ -16,14 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.subethamail.wiser.Wiser;
-import org.subethamail.wiser.WiserMessage;
+
+import com.icegreen.greenmail.util.GreenMail;
+import com.icegreen.greenmail.util.ServerSetupTest;
 
 import common.service.mail.MailEngine;
 
 public class MailEngineTest extends BaseManagerTestCase {
-
-    private int smtpPort = 25250;
 
     @Autowired
     private MailEngine mailEngine;
@@ -31,10 +30,15 @@ public class MailEngineTest extends BaseManagerTestCase {
     @Autowired
     private SimpleMailMessage mailMessage;
 
-    private JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+    private GreenMail greenMail;
 
     @Before
     public void setUp() {
+        greenMail = new GreenMail(ServerSetupTest.SMTP);
+        greenMail.start();
+
+        JavaMailSenderImpl mailSender = (JavaMailSenderImpl) applicationContext.getBean("mailSender");
+        mailSender.setPort(greenMail.getSmtp().getPort());
         mailSender.setHost("localhost");
         mailEngine.setMailSender(mailSender);
     }
@@ -42,17 +46,13 @@ public class MailEngineTest extends BaseManagerTestCase {
     @After
     public void tearDown() {
         mailEngine.setMailSender(null);
+
+        greenMail.stop();
     }
 
     @Test
     public void testSend() throws Exception {
-        // mock smtp server
-        Wiser wiser = new Wiser();
-        // set the port to a random value so there's no conflicts between tests
-        int port = smtpPort + new Random().nextInt(100);
-        mailSender.setPort(port);
-        wiser.setPort(port);
-        wiser.start();
+        greenMail.reset();
 
         Date dte = new Date();
         mailMessage.setTo("foo@bar.com");
@@ -65,24 +65,18 @@ public class MailEngineTest extends BaseManagerTestCase {
         ClassPathResource cpResource = new ClassPathResource("/test-attachment.txt");
         mailEngine.send(mailMessage, emailBody, cpResource.getURL().getPath());
 
-        wiser.stop();
+        assertTrue(greenMail.getReceivedMessages().length == 2);
 
-        assertTrue(wiser.getMessages().size() == 2);
-        WiserMessage wm = wiser.getMessages().get(0);
-        assertEquals(emailSubject, wm.getMimeMessage().getSubject());
-        assertEquals(emailBody + "\r\n", wm.getMimeMessage().getContent());
+        MimeMessage mm = greenMail.getReceivedMessages()[0];
+        assertEquals(emailSubject, mm.getSubject());
+        assertEquals(emailBody + "\r\n", mm.getContent());
     }
 
     @Test
     public void testSendMessageWithAttachment() throws Exception {
         final String attachmentName = "boring-attachment.txt";
 
-        //mock smtp server
-        Wiser wiser = new Wiser();
-        int port = smtpPort + new Random().nextInt(100);
-        mailSender.setPort(port);
-        wiser.setPort(port);
-        wiser.start();
+        greenMail.reset();
 
         Date dte = new Date();
         String emailSubject = "grepster testSendMessageWithAttachment: " + dte;
@@ -93,12 +87,11 @@ public class MailEngineTest extends BaseManagerTestCase {
         mailEngine.sendMessage(new String[] { "foo@bar.com" }, null, emailBody, emailSubject, attachmentName, cpResource);
         mailEngine.sendMessage(new String[] { "foo@bar.com" }, mailMessage.getFrom(), emailBody, emailSubject, attachmentName, cpResource);
 
-        wiser.stop();
         // one without and one with from
-        assertTrue(wiser.getMessages().size() == 2);
+        assertTrue(greenMail.getReceivedMessages().length == 2);
 
-        WiserMessage wm = wiser.getMessages().get(0);
-        Object o = wm.getMimeMessage().getContent();
+        MimeMessage mm = greenMail.getReceivedMessages()[0];
+        Object o = mm.getContent();
 
         assertTrue(o instanceof MimeMultipart);
 
@@ -124,6 +117,6 @@ public class MailEngineTest extends BaseManagerTestCase {
         }
 
         assertTrue(hasTheAttachment);
-        assertEquals(emailSubject, wm.getMimeMessage().getSubject());
+        assertEquals(emailSubject, mm.getSubject());
     }
 }

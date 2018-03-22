@@ -96,8 +96,10 @@ public class UpdatePasswordController extends BaseController {
         boolean usingToken = StringUtils.isNotBlank(token);
 
         if (usingToken) {
+            // パスワード忘れの案内からパスワードを変更する場合
             user = userManager.updatePassword(username, null, token, password);
         } else {
+            // ログイン中のユーザが自身のパスワード変更する場合
             if (!username.equals(request.getRemoteUser())) {
                 throw new AccessDeniedException("You do not have permission to modify other users password.");
             }
@@ -105,22 +107,55 @@ public class UpdatePasswordController extends BaseController {
             user = userManager.updatePassword(username, currentPassword, null, password);
         }
 
-        if (user != null) {
-            saveFlashMessage(getText("updated"));
+        if (user == null) {
+            // ユーザが存在しない場合
+            return errorReturnView(username, usingToken, request);
         } else {
-            if (usingToken) {
-                saveFlashError(getText("updatePasswordForm.invalidToken"));
-                return new ModelAndView("redirect:/login");
-            } else {
-                saveError(getText("updatePasswordForm.invalidPassword"));
-                return showForm(username, null, request);
-            }
+            saveFlashMessage(getText("updated"));
+            return successReturnView(usingToken, request);
         }
+    }
 
+    /**
+     * パスワード変更失敗の場合の遷移先を取得する.
+     *
+     * @param username
+     *            ユーザ名
+     * @param usingToken
+     *            true:トークン有り、false:トークン無し
+     * @param request
+     *            {@link HttpServletRequest}
+     * @return 遷移先画面設定
+     */
+    private ModelAndView errorReturnView(String username, boolean usingToken, HttpServletRequest request) {
         if (usingToken) {
+            // パスワード忘れの案内からパスワードを変更した場合
+            saveFlashError(getText("updatePasswordForm.invalidToken"));
             return new ModelAndView("redirect:/login");
         } else {
+            // ログイン中のユーザが自身のパスワード変更した場合
+            saveError(getText("updatePasswordForm.invalidPassword"));
+            return showForm(username, null, request);
+        }
+    }
+
+    /**
+     * パスワード変更成功の場合の遷移先を取得する.
+     *
+     * @param usingToken
+     *            true:トークン有り、false:トークン無し
+     * @param request
+     *            {@link HttpServletRequest}
+     * @return 遷移先画面設定
+     */
+    private ModelAndView successReturnView(boolean usingToken, HttpServletRequest request) {
+        if (usingToken) {
+            // パスワード忘れの案内からパスワードを変更した場合
+            return new ModelAndView("redirect:/login");
+        } else {
+            // ログイン中のユーザが自身のパスワード変更した場合
             if (StringUtils.equals(request.getParameter("from"), "list")) {
+                // ユーザ一覧から遷移した場合
                 return new ModelAndView("redirect:/user?from=list");
             } else {
                 return new ModelAndView("redirect:/user");

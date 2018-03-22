@@ -49,7 +49,7 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Serial
      */
     @Override
     public boolean isValid(Serializable target, ConstraintValidatorContext context) {
-        boolean isValid = isValidCriteria(target);
+        boolean isValid = notExists(target);
 
         if (!isValid) {
             context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()).addPropertyNode(columnNames[0]).addConstraintViolation().disableDefaultConstraintViolation();
@@ -59,13 +59,13 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Serial
     }
 
     /**
-     * 検索クエリを作成する.
+     * 入力内容が既に登録済みか確認する.
      *
      * @param target
-     *            検索対象
-     * @return true:検索結果無し、false:検索結果有り
+     *            入力内容
+     * @return true:存在しない、false:存在する
      */
-    private boolean isValidCriteria(Serializable target) {
+    private boolean notExists(Serializable target) {
         if (entityManager == null) {
             return true;
         }
@@ -73,24 +73,57 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Serial
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
         Root<?> root = criteriaQuery.from(target.getClass());
+        BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(target);
         List<Predicate> preds = new ArrayList<>();
 
-        BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(target);
-        boolean nullFlag = true;
+        creatingWhereClauseByColumnNames(builder, root, beanWrapper, preds);
+        // 検索対象のカラムが全てnullであった場合
+        if (preds.isEmpty()) {
+            return true;
+        }
 
+        creatingWhereClauseById(builder, root, beanWrapper, preds);
+        criteriaQuery.select(builder.count(root));
+        criteriaQuery.where(builder.and(preds.toArray(new Predicate[preds.size()])));
+
+        return entityManager.createQuery(criteriaQuery).getSingleResult() == 0;
+    }
+
+    /**
+     * 検索クエリのWhere句(確認対象の列)を生成する.
+     *
+     * @param builder
+     *            {@link CriteriaBuilder}
+     * @param root
+     *            {@link Root}
+     * @param beanWrapper
+     *            {@link BeanWrapper}
+     * @param preds
+     *            検索条件
+     */
+    private void creatingWhereClauseByColumnNames(CriteriaBuilder builder, Root<?> root, BeanWrapper beanWrapper, List<Predicate> preds) {
         for (int i = 0; i < columnNames.length; i++) {
             Object propertyValue = beanWrapper.getPropertyValue(columnNames[i]);
 
             if (propertyValue != null) {
                 preds.add(builder.equal(root.get(columnNames[i]), propertyValue));
-                nullFlag = false;
             }
         }
-        // 検索対象のカラムが全てnullであった場合
-        if (nullFlag) {
-            return true;
-        }
+    }
 
+    /**
+     * 検索クエリのWhere句(ID列)を生成する.
+     *
+     * @param builder
+     *            {@link CriteriaBuilder}
+     * @param root
+     *            {@link Root}
+     * @param beanWrapper
+     *            {@link BeanWrapper}
+     * @param preds
+     *            検索条件
+     */
+    private void creatingWhereClauseById(CriteriaBuilder builder, Root<?> root, BeanWrapper beanWrapper, List<Predicate> preds) {
         for (PropertyDescriptor p : beanWrapper.getPropertyDescriptors()) {
             if (beanWrapper.getPropertyTypeDescriptor(p.getName()).getAnnotation(Id.class) != null) {
                 Object propertyValue = beanWrapper.getPropertyValue(p.getName());
@@ -100,10 +133,5 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Serial
                 }
             }
         }
-
-        criteriaQuery.select(builder.count(root));
-        criteriaQuery.where(builder.and(preds.toArray(new Predicate[] {})));
-
-        return entityManager.createQuery(criteriaQuery).getSingleResult() == 0;
     }
 }

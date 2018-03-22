@@ -2,15 +2,11 @@ package common.webapp.controller;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
-import org.subethamail.wiser.Wiser;
-import org.subethamail.wiser.WiserMessage;
 
 import common.model.User;
 import common.webapp.filter.FlashMap;
@@ -28,6 +24,8 @@ public class SignupControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testSignupUser() throws Exception {
+        greenMail.reset();
+
         User user = new User();
         user.setUsername("self-registered");
         user.setPassword("Password1");
@@ -36,21 +34,16 @@ public class SignupControllerTest extends BaseControllerTestCase {
         user.setLastName("Last");
         user.setEmail("self-registered@localhost");
 
-        Wiser wiser = new Wiser();
-        wiser.setPort(getSmtpPort());
-        wiser.start();
         BindingResult errors = new DataBinder(user).getBindingResult();
         c.onSubmit(user, errors);
 
         assertFalse("errors returned in model", errors.hasErrors());
 
-        List<WiserMessage> massageList = wiser.getMessages();
-        String content = (String) massageList.get(0).getMimeMessage().getContent();
+        String content = (String) greenMail.getReceivedMessages()[0].getContent();
         String token = content.substring(content.indexOf("token=") + "token=".length()).replaceAll("\r\n", "");
         c.complete("self-registered", token);
-        wiser.stop();
 
-        assertTrue(wiser.getMessages().size() == 1);
+        assertTrue(greenMail.getReceivedMessages().length == 1);
         assertNotNull(FlashMap.get("flash_info_messages"));
 
         SecurityContextHolder.getContext().setAuthentication(null);
