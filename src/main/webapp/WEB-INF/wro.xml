@@ -6,11 +6,11 @@
         <css>classpath:META-INF/resources/webjars/bootswatch/3.3.7/spacelab/bootstrap.min.css</css>
         <css>classpath:META-INF/resources/webjars/Eonasdan-bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css</css>
         <css>/styles/style.css</css>
-        <js>classpath:META-INF/resources/webjars/jquery/3.3.1/jquery.min.js</js>
+        <js>classpath:META-INF/resources/webjars/jquery/3.3.1-1/jquery.min.js</js>
         <js>classpath:META-INF/resources/webjars/js-cookie/2.1.4/src/js.cookie.js</js>
         <js>classpath:META-INF/resources/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js</js>
-        <js>classpath:META-INF/resources/webjars/momentjs/2.20.1/min/moment.min.js</js>
-        <js>classpath:META-INF/resources/webjars/momentjs/2.20.1/locale/ja.js</js>
+        <js>classpath:META-INF/resources/webjars/momentjs/2.21.0/min/moment.min.js</js>
+        <js>classpath:META-INF/resources/webjars/momentjs/2.21.0/locale/ja.js</js>
         <js>classpath:META-INF/resources/webjars/Eonasdan-bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js</js>
         <js>/scripts/script.js</js>
     </group>
