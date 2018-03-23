@@ -30,6 +30,14 @@ public class UserManagerTest extends BaseManagerTestCase {
     }
 
     @Test
+    public void testGetUsers() {
+        List<User> userList = mgr.getUsers();
+
+        assertNotNull(userList);
+        assertEquals(2, userList.size());
+    }
+
+    @Test
     public void testSaveUser() {
         User user = mgr.getUserByUsername("normaluser");
         user.setConfirmPassword(user.getPassword());
@@ -45,6 +53,26 @@ public class UserManagerTest extends BaseManagerTestCase {
 
     @Test
     public void testAddAndRemoveUser() throws Exception {
+        User user = new User();
+        user = (User) populate(user);
+        user.addRole(roleManager.getRole(Constants.USER_ROLE));
+        user = mgr.saveUser(user);
+
+        log.debug("removing user...");
+
+        mgr.removeUser(user);
+
+        try {
+            user = mgr.getUserByUsername("john");
+            fail("Expected 'Exception' not thrown");
+        } catch (Exception e) {
+            log.debug(e);
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    public void testAddAndRemoveUserByPK() throws Exception {
         User user = new User();
         user = (User) populate(user);
         user.addRole(roleManager.getRole(Constants.USER_ROLE));

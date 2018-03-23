@@ -10,7 +10,9 @@ import javax.persistence.PersistenceContext;
 import org.hibernate.search.query.facet.Facet;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import common.Constants;
 import common.dao.jpa.GenericDaoJpa;
 import common.model.User;
 import common.service.impl.GenericManagerImpl;
@@ -24,9 +26,65 @@ public class GenericManagerTest extends BaseManagerTestCase {
 
     GenericManager<User, Long> genericManager;
 
+    @Autowired
+    private RoleManager roleManager;
+
     @Before
     public void setUp() {
         genericManager = new GenericManagerImpl<User, Long>(new GenericDaoJpa<User, Long>(User.class, entityManager));
+    }
+
+    @Test
+    public void testGet() {
+        User user = genericManager.get(-1L);
+
+        assertNotNull(user);
+    }
+
+    @Test
+    public void testExists() {
+        assertTrue(genericManager.exists(-1L));
+        assertFalse(genericManager.exists(-10L));
+    }
+
+    @Test
+    public void testAddAndRemove() throws Exception {
+        User user = new User();
+        user = (User) populate(user);
+        user.addRole(roleManager.getRole(Constants.USER_ROLE));
+        user = genericManager.save(user);
+
+        assertNotNull(genericManager.get(user.getId()));
+
+        genericManager.remove(user);
+
+        try {
+            genericManager.get(user.getId());
+            fail("Expected 'Exception' not thrown");
+        } catch (Exception e) {
+            log.debug(e);
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    public void testAddAndRemoveByPK() throws Exception {
+        User user = new User();
+        user = (User) populate(user);
+        user.addRole(roleManager.getRole(Constants.USER_ROLE));
+        user = genericManager.save(user);
+
+        assertNotNull(genericManager.get(user.getId()));
+
+        genericManager.remove(user.getId());
+
+        try {
+            genericManager.get(user.getId());
+            fail("Expected 'Exception' not thrown");
+        } catch (Exception e) {
+            log.debug(e);
+            assertNotNull(e);
+        }
     }
 
     @Test
@@ -36,6 +94,11 @@ public class GenericManagerTest extends BaseManagerTestCase {
 
         assertNotNull(userList);
         assertEquals(1, userList.size());
+
+        userList = genericManager.search(null);
+
+        assertNotNull(userList);
+        assertEquals(2, userList.size());
     }
 
     @Test
