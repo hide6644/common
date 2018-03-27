@@ -17,9 +17,32 @@ public class SignupControllerTest extends BaseControllerTestCase {
     private SignupController c = null;
 
     @Test
-    public void testDisplayForm() {
+    public void testShowForm() {
         User user = c.showForm();
         assertNotNull(user);
+    }
+
+    @Test
+    public void testSignupUserHasErrors() throws Exception {
+        greenMail.reset();
+
+        User user = new User();
+        user.setUsername("testuser");
+
+        BindingResult errors = new DataBinder(user).getBindingResult();
+        errors.rejectValue("email", "errors.required", "{0} is a required field.");
+        String rtn = c.onSubmit(user, errors);
+
+        assertEquals("signup", rtn);
+    }
+
+    @Test
+    public void testCompleteHasErrors() throws Exception {
+        greenMail.reset();
+
+        String rtn = c.complete("normaluser", "test-token");
+
+        assertEquals("redirect:/login", rtn);
     }
 
     @Test

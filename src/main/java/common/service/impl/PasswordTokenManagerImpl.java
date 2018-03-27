@@ -45,7 +45,7 @@ public class PasswordTokenManagerImpl implements PasswordTokenManager {
      */
     @Override
     public boolean isRecoveryTokenValid(User user, String token) {
-        if (user != null && token != null) {
+        if (user != null && token != null && token.length() > EXPIRATION_DATE_FORMAT.length()) {
             String expirationTimeStamp = token.substring(0, EXPIRATION_DATE_FORMAT.length());
             String tokenWithoutTimestamp = token.substring(EXPIRATION_DATE_FORMAT.length());
             String tokenSource = expirationTimeStamp + getTokenSource(user);

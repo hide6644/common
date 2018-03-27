@@ -41,6 +41,7 @@ public class UserSecurityAdviceTest {
     private RoleManager roleManager;
 
     ApplicationContext ctx = null;
+
     SecurityContext initialSecurityContext = null;
 
     @Before

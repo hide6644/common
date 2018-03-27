@@ -81,6 +81,17 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
     }
 
     @Test
+    public void testHasErrors() throws Exception {
+        UploadForm uploadForm = new UploadForm();
+
+        BindingResult errors = new DataBinder(uploadForm).getBindingResult();
+        errors.rejectValue("fileType", "Range.message", "");
+        String rtn = c.onSubmit(uploadForm, errors);
+
+        assertEquals("admin/master/uploadUsers", rtn);
+    }
+
+    @Test
     public void testFileException() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream("common/webapp/controller/users.xml");
