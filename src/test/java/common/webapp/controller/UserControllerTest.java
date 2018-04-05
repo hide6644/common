@@ -2,11 +2,17 @@ package common.webapp.controller;
 
 import static org.junit.Assert.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.WebDataBinder;
@@ -84,6 +90,40 @@ public class UserControllerTest extends BaseControllerTestCase {
 
         User user = c.showForm(request, new MockHttpServletResponse());
         assertEquals("user", user.getFirstName());
+    }
+
+    @Test
+    public void testSaveHasErrors() throws Exception {
+        MockHttpServletRequest request = newPost("/userform.html");
+        User user = new User();
+        user.setUsername("testuser");
+
+        BindingResult errors = new DataBinder(user).getBindingResult();
+        errors.rejectValue("email", "errors.required", "{0} is a required field.");
+        String rtn = c.onSubmit(user, errors, request, new MockHttpServletResponse());
+
+        assertEquals("user", rtn);
+    }
+
+    @Test
+    public void testSaveWithoutPermission() throws Exception {
+        MockHttpServletRequest request = newPost("/userform.html");
+        User user = ((UserManager) applicationContext.getBean("userManager")).getUser("-2");
+        user.setConfirmPassword(user.getPassword());
+
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
+        token.setDetails(user);
+        SecurityContext context = new SecurityContextImpl();
+        context.setAuthentication(token);
+        SecurityContextHolder.setContext(context);
+
+        BindingResult errors = new DataBinder(user).getBindingResult();
+
+        User saveUser = ((UserManager) applicationContext.getBean("userManager")).getUser("-1");
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        c.onSubmit(saveUser, errors, request, response);
+
+        assertEquals(HttpServletResponse.SC_FORBIDDEN, response.getStatus());
     }
 
     @Test

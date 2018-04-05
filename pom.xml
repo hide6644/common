@@ -601,7 +601,7 @@
         <el.version>3.0.1-b08</el.version>
         <freemarker-java8.version>1.2.0</freemarker-java8.version>
         <greenmail.version>1.5.7</greenmail.version>
-        <groovy.version>2.4.14</groovy.version>
+        <groovy.version>2.4.13</groovy.version>
         <hibernate.version>5.2.15.Final</hibernate.version>
         <hibernate-search.version>5.9.1.Final</hibernate-search.version>
         <hibernate-validator.version>6.0.8.Final</hibernate-validator.version>
@@ -615,7 +615,7 @@
         <jxls.version>2.4.4</jxls.version>
         <jxls-poi.version>1.0.14</jxls-poi.version>
         <jxls-reader.version>2.0.3</jxls-reader.version>
-        <log4j.version>2.10.0</log4j.version>
+        <log4j.version>2.9.1</log4j.version>
         <lucene.version>5.5.5</lucene.version>
         <mail.version>1.6.1</mail.version>
         <mockito.version>2.16.0</mockito.version>

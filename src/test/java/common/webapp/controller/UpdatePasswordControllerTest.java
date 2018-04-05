@@ -2,10 +2,15 @@ package common.webapp.controller;
 
 import static org.junit.Assert.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.text.RandomStringGenerator;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import common.service.PasswordTokenManager;
@@ -125,6 +130,42 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
+    public void testUpdatePasswordFromList() {
+        String username = "administrator";
+        String currentPassword = "administrator";
+        String password = "new-administrator";
+        MockHttpServletRequest request = newGet("/updatePassword");
+        request.setRemoteUser(username);// user must ge logged in
+        request.addParameter("username", username);
+        request.addParameter("currentPassword", currentPassword);
+        request.addParameter("password", password);
+        request.addParameter("from", "list");
+
+        c.onSubmit(username, null, currentPassword, password, request);
+
+        assertNotNull(FlashMap.get("flash_info_messages"));
+        assertNull(FlashMap.get("flash_error_messages"));
+    }
+
+    @Test
+    public void testUpdatePasswordEmptyPassword() {
+        String username = "administrator";
+        String currentPassword = "administrator";
+        String password = "";
+        MockHttpServletRequest request = newGet("/updatePassword");
+        request.setRemoteUser(username);// user must ge logged in
+        request.addParameter("username", username);
+        request.addParameter("currentPassword", currentPassword);
+        request.addParameter("password", password);
+
+        c.onSubmit(username, null, currentPassword, password, request);
+
+        HttpServletRequest requestAttributes = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        assertNotNull(requestAttributes.getAttribute("error_messages"));
+        assertNull(FlashMap.get("flash_info_messages"));
+    }
+
+    @Test
     public void testUpdatePasswordBadCurrentPassword() {
         String username = "administrator";
         String currentPassword = "bad-administrator";
@@ -138,5 +179,24 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         c.onSubmit(username, null, currentPassword, password, request);
 
         assertNull(FlashMap.get("flash_info_messages"));
+    }
+
+    @Test
+    public void testUpdatePasswordWithoutPermission() {
+        String username = "administrator";
+        String currentPassword = "administrator";
+        String password = "new-administrator";
+        MockHttpServletRequest request = newGet("/updatePassword");
+        request.setRemoteUser("testuser");// user must ge logged in
+        request.addParameter("username", username);
+        request.addParameter("currentPassword", currentPassword);
+        request.addParameter("password", password);
+
+        try {
+            c.onSubmit(username, null, currentPassword, password, request);
+            fail("AccessDeniedException not thrown...");
+        } catch (AccessDeniedException ade) {
+            assertNotNull(ade.getMessage());
+        }
     }
 }

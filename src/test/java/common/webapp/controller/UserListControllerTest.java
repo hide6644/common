@@ -29,7 +29,7 @@ public class UserListControllerTest extends BaseControllerTestCase {
     private UserListController c;
 
     @Test
-    public void testHandleRequest() {
+    public void testShowForm() {
         ModelAndView mav = c.showForm(new User(), null);
         Map<String, Object> m = mav.getModel();
 
