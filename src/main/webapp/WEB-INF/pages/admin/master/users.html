@@ -16,10 +16,10 @@
                 <input type="text" class="form-control input-sm" size="20" th:field="*{username}" th:placeholder="#{user.username}"/>
                 <input type="text" class="form-control input-sm" size="20" th:field="*{email}" th:placeholder="#{user.email}"/>
                 <button type="submit" class="btn btn-primary btn-sm">
-                    <i class="glyphicon glyphicon-search"></i> <span th:text="#{button.search}" th:remove="tag">button.search</span>
+                    <em class="glyphicon glyphicon-search"></em> <span th:text="#{button.search}" th:remove="tag">button.search</span>
                 </button>
                 <button type="button" class="btn btn-default btn-sm" id="button_clear">
-                    <i class="glyphicon glyphicon-remove"></i> <span th:text="#{button.clear}" th:remove="tag">button.clear</span>
+                    <em class="glyphicon glyphicon-remove"></em> <span th:text="#{button.clear}" th:remove="tag">button.clear</span>
                 </button>
             </form>
             <div th:replace="~{templates/pagelinks :: row_div(${paginatedList})}">
@@ -47,24 +47,24 @@
                 <div class="form-group">
                     <p>
                         <button type="button" class="btn btn-primary" id="button_new" th:value="|@{'/user'}?mode=Add&from=list|">
-                            <i class="glyphicon glyphicon-plus"></i> <span th:text="#{button.add}" th:remove="tag">button.add</span>
+                            <em class="glyphicon glyphicon-plus"></em> <span th:text="#{button.add}" th:remove="tag">button.add</span>
                         </button>
                         <button type="button" class="btn btn-primary" id="button_edit" th:value="|@{'/user'}?from=list&userId=|">
-                            <i class="glyphicon glyphicon-pencil"></i> <span th:text="#{button.edit}" th:remove="tag">button.edit</span>
+                            <em class="glyphicon glyphicon-pencil"></em> <span th:text="#{button.edit}" th:remove="tag">button.edit</span>
                         </button>
                         <button type="submit" class="btn btn-warning" id="button_delete">
-                            <i class="glyphicon glyphicon-minus"></i> <span th:text="#{button.delete}" th:remove="tag">button.delete</span>
+                            <em class="glyphicon glyphicon-minus"></em> <span th:text="#{button.delete}" th:remove="tag">button.delete</span>
                         </button>
                         <button type="button" class="btn btn-default" id="button_cancel">
-                            <i class="glyphicon glyphicon-remove"></i> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
+                            <em class="glyphicon glyphicon-remove"></em> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
                         </button>
                     </p>
                     <p>
                         <button type="button" class="btn btn-default" id="button_upload">
-                            <i class="glyphicon glyphicon-import"></i> <span th:text="#{button.upload}" th:remove="tag">button.upload</span>
+                            <em class="glyphicon glyphicon-import"></em> <span th:text="#{button.upload}" th:remove="tag">button.upload</span>
                         </button>
                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#downloadModal" id="button_download">
-                            <i class="glyphicon glyphicon-export"></i> <span th:text="#{button.download}" th:remove="tag">button.download</span>
+                            <em class="glyphicon glyphicon-export"></em> <span th:text="#{button.download}" th:remove="tag">button.download</span>
                         </button>
                     </p>
                 </div>

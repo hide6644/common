@@ -61,17 +61,17 @@
                     <input type="text" class="form-control" th:field="*{email}" />
                     <span class="help-block" th:each="err : ${#fields.errors('email')}" th:text="${err}"></span>
                 </div>
-                <fieldset class="form-actions">
+                <div class="form-actions">
                     <button type="submit" class="btn btn-primary">
-                        <i class="glyphicon glyphicon-ok"></i> <span th:text="#{button.add}" th:remove="tag">button.add</span>
+                        <em class="glyphicon glyphicon-ok"></em> <span th:text="#{button.add}" th:remove="tag">button.add</span>
                     </button>
                     <button type="reset" class="btn btn-default">
-                        <i class="glyphicon glyphicon-refresh"></i> <span th:text="#{button.reset}" th:remove="tag">button.reset</span>
+                        <em class="glyphicon glyphicon-refresh"></em> <span th:text="#{button.reset}" th:remove="tag">button.reset</span>
                     </button>
                     <button type="button" class="btn btn-default" id="button_cancel">
-                        <i class="glyphicon glyphicon-remove"></i> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
+                        <em class="glyphicon glyphicon-remove"></em> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
                     </button>
-                </fieldset>
+                </div>
             </form>
         </div>
     </div>
