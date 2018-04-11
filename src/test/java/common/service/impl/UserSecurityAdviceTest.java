@@ -80,7 +80,7 @@ public class UserSecurityAdviceTest {
             fail("AccessDeniedException not thrown");
         } catch (AccessDeniedException expected) {
             assertNotNull(expected);
-            Assert.assertEquals(expected.getMessage(), UserSecurityAdvice.ACCESS_DENIED);
+            Assert.assertEquals(UserSecurityAdvice.ACCESS_DENIED, expected.getMessage());
         }
     }
 
@@ -131,7 +131,7 @@ public class UserSecurityAdviceTest {
             fail("AccessDeniedException not thrown");
         } catch (AccessDeniedException expected) {
             assertNotNull(expected);
-            assertEquals(expected.getMessage(), UserSecurityAdvice.ACCESS_DENIED);
+            assertEquals(UserSecurityAdvice.ACCESS_DENIED, expected.getMessage());
         }
     }
 
@@ -148,7 +148,7 @@ public class UserSecurityAdviceTest {
             fail("AccessDeniedException not thrown");
         } catch (AccessDeniedException expected) {
             assertNotNull(expected);
-            assertEquals(expected.getMessage(), UserSecurityAdvice.ACCESS_DENIED);
+            assertEquals(UserSecurityAdvice.ACCESS_DENIED, expected.getMessage());
         }
     }
 
