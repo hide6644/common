@@ -3,6 +3,7 @@
     xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Messages</title>
 </head>
 <body>
     <div th:each="error : ${error_messages}" th:fragment="alert_div" th:remove="tag">

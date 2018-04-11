@@ -3,6 +3,7 @@
     xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Navlist Menu</title>
 </head>
 <body>
     <ul class="nav nav-pills nav-stacked" th:fragment="nav_ul(currentNavlistMenu)" th:if="${currentNavlistMenu} == 'admin' or ${currentNavlistMenu} == 'activeUsersForm'">
