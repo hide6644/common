@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.jws.WebService;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
@@ -23,7 +22,6 @@ import common.model.User;
 import common.service.PasswordTokenManager;
 import common.service.RoleManager;
 import common.service.UserManager;
-import common.service.UserService;
 import common.service.mail.UserMail;
 import common.webapp.converter.FileType;
 import common.webapp.converter.UserFileConverterFactory;
@@ -34,8 +32,7 @@ import common.webapp.form.UploadResult;
  * ユーザ処理の実装クラス.
  */
 @Service("userManager")
-@WebService(serviceName = "UserService", endpointInterface = "common.service.UserService")
-public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements UserManager, UserService {
+public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements UserManager {
 
     /** ユーザDAO */
     private UserDao userDao;

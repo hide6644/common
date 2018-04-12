@@ -312,19 +312,6 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Javax -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${javax.servlet-api.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
-            <version>${javax.ws.rs-api.version}</version>
-        </dependency>
-
         <!-- Commons -->
         <dependency>
             <groupId>commons-fileupload</groupId>
@@ -482,6 +469,12 @@
             <version>${opencsv.version}</version>
         </dependency>
         <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javax.servlet-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>no.api.freemarker</groupId>
             <artifactId>freemarker-java8</artifactId>
             <version>${freemarker-java8.version}</version>
@@ -608,7 +601,6 @@
         <HikariCP.version>2.7.8</HikariCP.version>
         <javax.activation.version>1.1.1</javax.activation.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
-        <javax.ws.rs-api.version>2.1</javax.ws.rs-api.version>
         <jquery.version>3.3.1-1</jquery.version>
         <js-cookie.version>2.1.4</js-cookie.version>
         <junit.version>4.12</junit.version>
