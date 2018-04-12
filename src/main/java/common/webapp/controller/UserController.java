@@ -32,7 +32,7 @@ import common.service.mail.UserMail;
  * ユーザ登録情報変更処理クラス.
  */
 @Controller
-@RequestMapping("/user*")
+@RequestMapping("/user")
 public class UserController extends BaseController {
 
     /** Userメール処理クラス */
