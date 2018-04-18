@@ -1,5 +1,7 @@
 package common;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
 /**
@@ -39,7 +41,7 @@ public class Constants {
     public static final String UL_DIR = LOG_DIR + APP_BASE + FILE_SEP;
 
     /** デフォルトエンコード */
-    public static final String ENCODING = ResourceBundle.getBundle(BUNDLE_KEY).getString("encoding");
+    public static final Charset ENCODING = StandardCharsets.UTF_8;
 
     /** 管理者権限を表す文字列 */
     public static final String ADMIN_ROLE = "ROLE_ADMIN";
