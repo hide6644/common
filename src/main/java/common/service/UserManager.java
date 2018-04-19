@@ -5,13 +5,14 @@ import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import common.dao.UserDao;
+import common.model.PaginatedList;
 import common.model.User;
 import common.webapp.form.UploadForm;
 
 /**
  * ユーザ処理のインターフェース.
  */
-public interface UserManager extends PaginatedManager<User, Long> {
+public interface UserManager {
 
     /**
      * 全ユーザを取得する.
@@ -133,6 +134,22 @@ public interface UserManager extends PaginatedManager<User, Long> {
      * @return パスワード更新後のユーザ
      */
     User updatePassword(String username, String currentPassword, String recoveryToken, String newPassword);
+
+    /**
+     * オブジェクトをページング処理して取得する.
+     *
+     * @param searchCondition
+     *            検索オブジェクト
+     * @param page
+     *            表示するページの番号
+     * @return ページング情報保持モデル
+     */
+    PaginatedList<User> createPaginatedList(User searchCondition, Integer page);
+
+    /**
+     * インデックスを再作成する.
+     */
+    void reindex();
 
     /**
      * ユーザDAOを設定する.

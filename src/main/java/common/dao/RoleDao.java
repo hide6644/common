@@ -1,11 +1,13 @@
 package common.dao;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import common.model.Role;
 
 /**
  * 権限DAOインターフェイス.
  */
-public interface RoleDao extends GenericDao<Role, Long> {
+public interface RoleDao extends JpaRepository<Role, Long> {
 
     /**
      * 指定された名称の権限を取得する.
@@ -14,7 +16,7 @@ public interface RoleDao extends GenericDao<Role, Long> {
      *            名称
      * @return 権限
      */
-    Role getByNameEquals(String name);
+    Role findByName(String name);
 
     /**
      * 指定された名称の権限を削除する.
@@ -22,5 +24,5 @@ public interface RoleDao extends GenericDao<Role, Long> {
      * @param name
      *            名称
      */
-    void removeRole(String name);
+    void removeByName(String name);
 }

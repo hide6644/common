@@ -3,13 +3,12 @@ package common.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 /**
  * ページング処理情報保持クラス.
  */
 public final class PaginatedList<T> {
-
-    /** デフォルトの表示するページ番号 */
-    public static final int DEFAULT_CURRENT_PAGE_NUMBER = 1;
 
     /** デフォルトの1ページあたりのレコード数 */
     public static final int DEFAULT_PAGE_SIZE = 10;
@@ -17,47 +16,32 @@ public final class PaginatedList<T> {
     /** デフォルトのページリンク一覧の表示件数 */
     public static final int DEFAULT_RANGE_SIZE = 2;
 
-    /** 総レコード数 */
-    private long allRecordCount;
-
-    /** 検索条件 */
-    private Object searchCondition;
-
-    /** 現在のページ番号 */
-    private int currentPageNumber;
-
-    /** 1ページあたりのレコード数 */
-    private int pageSize;
+    /** TODO */
+    private Page<T> paged;
 
     /** ページリンク一覧の表示件数 */
     private int pageRangeSize;
 
-    /** 現在のページ */
-    private List<T> currentPage;
-
     /**
      * コンストラクタ.
      *
-     * @param currentPageNumber
-     *            表示するページ番号
+     * @param paged
+     *            TODO
      */
-    public PaginatedList(Integer currentPageNumber) {
-        this(currentPageNumber, null, null);
+    public PaginatedList(Page<T> paged) {
+        this(paged, null);
     }
 
     /**
      * コンストラクタ.
      *
-     * @param currentPageNumber
-     *            表示するページ番号
-     * @param pageSize
-     *            1ページあたりのレコード数
+     * @param paged
+     *            TODO
      * @param pageRangeSize
      *            ページリンク一覧の表示件数
      */
-    public PaginatedList(Integer currentPageNumber, Integer pageSize, Integer pageRangeSize) {
-        this.currentPageNumber = currentPageNumber != null ? currentPageNumber : DEFAULT_CURRENT_PAGE_NUMBER;
-        this.pageSize = pageSize != null ? pageSize : DEFAULT_PAGE_SIZE;
+    public PaginatedList(Page<T> paged, Integer pageRangeSize) {
+        this.paged = paged;
         this.pageRangeSize = pageRangeSize != null ? pageRangeSize : DEFAULT_RANGE_SIZE;
     }
 
@@ -67,36 +51,7 @@ public final class PaginatedList<T> {
      * @return ページングなしの総レコード数
      */
     public long getAllRecordCount() {
-        return allRecordCount;
-    }
-
-    /**
-     * ページングなしの総レコード数を設定する.
-     *
-     * @param allRecordCount
-     *            ページングなし総レコード数
-     */
-    public void setAllRecordCount(long allRecordCount) {
-        this.allRecordCount = allRecordCount;
-    }
-
-    /**
-     * 検索条件を取得する.
-     *
-     * @return 検索条件
-     */
-    public Object getSearchCondition() {
-        return searchCondition;
-    }
-
-    /**
-     * 検索条件を設定する.
-     *
-     * @param searchCondition
-     *            検索条件
-     */
-    public void setSearchCondition(Object searchCondition) {
-        this.searchCondition = searchCondition;
+        return paged.getTotalElements();
     }
 
     /**
@@ -105,17 +60,7 @@ public final class PaginatedList<T> {
      * @return 現在のページ番号
      */
     public int getCurrentPageNumber() {
-        return currentPageNumber;
-    }
-
-    /**
-     * 現在のページ番号を設定する.
-     *
-     * @param currentPageNumber
-     *            現在のページ番号
-     */
-    public void setCurrentPageNumber(int currentPageNumber) {
-        this.currentPageNumber = currentPageNumber;
+        return paged.getNumber() + 1;
     }
 
     /**
@@ -124,7 +69,7 @@ public final class PaginatedList<T> {
      * @return 1ページあたりのレコード数
      */
     public int getPageSize() {
-        return pageSize;
+        return paged.getSize();
     }
 
     /**
@@ -142,17 +87,7 @@ public final class PaginatedList<T> {
      * @return 現在のページ
      */
     public List<T> getCurrentPage() {
-        return currentPage;
-    }
-
-    /**
-     * 現在のページを設定する.
-     *
-     * @param page
-     *            現在のページ
-     */
-    public void setCurrentPage(List<T> page) {
-        this.currentPage = page;
+        return paged.getContent();
     }
 
     /**
@@ -161,7 +96,7 @@ public final class PaginatedList<T> {
      * @return 総ページ数
      */
     public int getAllPageCount() {
-        return (int) Math.ceil(((double) allRecordCount) / pageSize);
+        return paged.getTotalPages();
     }
 
     /**
@@ -170,7 +105,7 @@ public final class PaginatedList<T> {
      * @return true 存在する, false 存在しない
      */
     public boolean isExistPrePage() {
-        return getPrePageNumber() > 0;
+        return paged.hasPrevious();
     }
 
     /**
@@ -179,43 +114,7 @@ public final class PaginatedList<T> {
      * @return true 存在する, false 存在しない
      */
     public boolean isExistNextPage() {
-        return getNextPageNumber() < getAllPageCount() + 1;
-    }
-
-    /**
-     * 前のページ番号を取得する.
-     *
-     * @return 前のページ番号
-     */
-    public int getPrePageNumber() {
-        return currentPageNumber - 1;
-    }
-
-    /**
-     * 次のページ番号を取得する.
-     *
-     * @return 次のページ番号
-     */
-    public int getNextPageNumber() {
-        return currentPageNumber + 1;
-    }
-
-    /**
-     * 現在ページの最初のレコード番号を取得する.
-     *
-     * @return 現在ページの最初のレコード番号
-     */
-    public int getCurrentStartRecordNumber() {
-        return (currentPageNumber - 1) * pageSize + 1;
-    }
-
-    /**
-     * 現在ページの最後のレコード番号を取得する.
-     *
-     * @return 現在ページの最後のレコード番号
-     */
-    public int getCurrentEndRecordNumber() {
-        return currentPageNumber * pageSize;
+        return paged.hasNext();
     }
 
     /**
@@ -225,17 +124,17 @@ public final class PaginatedList<T> {
      */
     public List<Integer> getPageNumberList() {
         List<Integer> pageNumberList = new ArrayList<>();
-        pageNumberList.add(currentPageNumber);
+        pageNumberList.add(getCurrentPageNumber());
 
         int limitSize = pageRangeSize * 2 + 1;
 
-        if (currentPageNumber > 1) {
-            for (int i = currentPageNumber - 1; pageNumberList.size() <= pageRangeSize && i > 0; i--) {
+        if (getCurrentPageNumber() > 1) {
+            for (int i = getCurrentPageNumber() - 1; pageNumberList.size() <= pageRangeSize && i > 0; i--) {
                 pageNumberList.add(0, i);
             }
         }
 
-        for (int i = currentPageNumber + 1; pageNumberList.size() < limitSize && i <= getAllPageCount(); i++) {
+        for (int i = getCurrentPageNumber() + 1; pageNumberList.size() < limitSize && i <= getAllPageCount(); i++) {
             pageNumberList.add(i);
         }
 

@@ -43,6 +43,9 @@ public class Constants {
     /** デフォルトエンコード */
     public static final Charset ENCODING = StandardCharsets.UTF_8;
 
+    /** Entity Managerクラス名 */
+    public static final String PERSISTENCE_UNIT_NAME = "ApplicationEntityManager";
+
     /** 管理者権限を表す文字列 */
     public static final String ADMIN_ROLE = "ROLE_ADMIN";
 

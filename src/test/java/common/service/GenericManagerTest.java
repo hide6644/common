@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import common.Constants;
 import common.dao.jpa.GenericDaoJpa;
 import common.model.User;
-import common.service.impl.GenericManagerImpl;
+import common.service.impl.BaseManagerImpl;
 
 public class GenericManagerTest extends BaseManagerTestCase {
 
@@ -31,7 +31,7 @@ public class GenericManagerTest extends BaseManagerTestCase {
 
     @Before
     public void setUp() {
-        genericManager = new GenericManagerImpl<User, Long>(new GenericDaoJpa<User, Long>(User.class, entityManager));
+        genericManager = new BaseManagerImpl<User, Long>(new GenericDaoJpa<User, Long>(User.class, entityManager));
     }
 
     @Test

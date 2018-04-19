@@ -7,43 +7,43 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import common.dao.jpa.PaginatedDaoJpa;
+import common.dao.jpa.HibernateSearchJpa;
 import common.model.User;
 
 public class PaginatedDaoTest extends BaseDaoTestCase {
 
-    PaginatedDao<User, Long> paginatedDao;
+    HibernateSearch<User, Long> hibernateSearch;
 
     @Before
     public void setUp() {
-        paginatedDao = new PaginatedDaoJpa<User, Long>(User.class, entityManager);
-        paginatedDao.reindexAll(false);
+        hibernateSearch = new HibernateSearchJpa<User, Long>(User.class, entityManager);
+        hibernateSearch.reindexAll(false);
     }
 
     @Test
     public void testGetList() {
-        List<User> userList = paginatedDao.getList(null, 1, 1);
+        List<User> userList = hibernateSearch.getList(null, 1, 1);
 
         assertEquals(1, userList.size());
-        assertEquals(2, paginatedDao.getCount(null));
+        assertEquals(2, hibernateSearch.getCount(null));
 
         User user = new User();
         user.setFirstName("admin");
         user.setAccountLocked(false);
         user.setEnabled(true);
 
-        userList = paginatedDao.getList(user, 1, 1);
+        userList = hibernateSearch.getList(user, 1, 1);
 
         assertEquals(0, userList.size());
-        assertEquals(1, paginatedDao.getCount(user));
+        assertEquals(1, hibernateSearch.getCount(user));
     }
 
     @Test
     public void testSearchList() {
-        paginatedDao.reindex();
-        List<User> userList = paginatedDao.searchList("foo", 1, 1);
+        hibernateSearch.reindex();
+        List<User> userList = hibernateSearch.searchList("foo", 1, 1);
 
         assertEquals(1, userList.size());
-        assertEquals(2, paginatedDao.searchCount("foo"));
+        assertEquals(2, hibernateSearch.searchCount("foo"));
     }
 }

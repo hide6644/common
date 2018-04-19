@@ -363,6 +363,13 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <!-- Spring Data -->
+        <dependency>
+           <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring-data.version}</version>
+        </dependency>
+
         <!-- Spring Security -->
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -615,6 +622,7 @@
         <opencsv.version>4.1</opencsv.version>
         <slf4j.version>1.7.25</slf4j.version>
         <spring.version>5.0.5.RELEASE</spring.version>
+        <spring-data.version>2.0.6.RELEASE</spring-data.version>
         <spring-security.version>4.2.5.RELEASE</spring-security.version>
         <thymeleaf-spring5.version>3.0.9.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>

@@ -1,40 +1,14 @@
 package common.dao;
 
-import java.util.List;
-
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import common.model.User;
 
 /**
  * ユーザDAOインターフェイス.
  */
-public interface UserDao extends PaginatedDao<User, Long> {
-
-    /**
-     * すべてのユーザを取得する.
-     *
-     * @return ユーザ一覧
-     */
-    List<User> getAllOrderByUsername();
-
-    /**
-     * 指定されたユーザ名のユーザ情報を取得する.
-     *
-     * @param username
-     *            ユーザ名
-     * @return ユーザ情報
-     */
-    UserDetails loadUserByUsername(String username);
-
-    /**
-     * 指定されたユーザを永続化する.
-     *
-     * @param user
-     *            永続化するユーザ
-     * @return 永続化されたユーザ
-     */
-    User saveUser(User user);
+public interface UserDao extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
 
     /**
      * 指定されたユーザのパスワードを取得する.
@@ -43,5 +17,5 @@ public interface UserDao extends PaginatedDao<User, Long> {
      *            ユーザID
      * @return パスワード
      */
-    String getPasswordById(Long id);
+    String findPasswordById(Long id);
 }

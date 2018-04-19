@@ -1,5 +1,8 @@
 package common.service.impl;
 
+import static common.dao.jpa.UserSpecifications.*;
+import static org.springframework.data.jpa.domain.Specification.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -11,12 +14,18 @@ import javax.validation.Validator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import common.Constants;
+import common.dao.HibernateSearch;
 import common.dao.UserDao;
 import common.exception.DatabaseException;
+import common.model.PaginatedList;
 import common.model.Role;
 import common.model.User;
 import common.service.PasswordTokenManager;
@@ -32,10 +41,14 @@ import common.webapp.form.UploadResult;
  * ユーザ処理の実装クラス.
  */
 @Service("userManager")
-public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements UserManager {
+public class UserManagerImpl extends BaseManagerImpl implements UserManager {
 
     /** ユーザDAO */
     private UserDao userDao;
+
+    /** ユーザ認証 */
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     /** パスワードエンコーダー */
     @Autowired(required = false)
@@ -45,6 +58,10 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
     /** パスワードトークン処理のクラス */
     @Autowired(required = false)
     private PasswordTokenManager passwordTokenManager;
+
+    /** Hibernate Search DAO */
+    @Autowired
+    private HibernateSearch<User> hibernateSearch;
 
     /** Role処理クラス */
     @Autowired
@@ -72,7 +89,6 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
      */
     @Autowired
     public UserManagerImpl(UserDao userDao) {
-        super(userDao);
         this.userDao = userDao;
     }
 
@@ -81,7 +97,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
      */
     @Override
     public List<User> getUsers() {
-        return userDao.getAllDistinct();
+        return userDao.findAll();
     }
 
     /**
@@ -89,7 +105,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
      */
     @Override
     public User getUser(String userId) {
-        return userDao.get(Long.valueOf(userId));
+        return userDao.getOne(Long.valueOf(userId));
     }
 
     /**
@@ -97,7 +113,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
      */
     @Override
     public User getUserByUsername(String username) {
-        return (User) userDao.loadUserByUsername(username);
+        return (User) userDetailsService.loadUserByUsername(username);
     }
 
     /**
@@ -118,7 +134,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
 
         try {
             user.setRoles(roleManager.getRoles(user.getRoles()));
-            return userDao.saveUser(user);
+            return userDao.save(user);
         } catch (Exception e) {
             user.setPassword(null);
             user.setConfirmPassword(null);
@@ -145,7 +161,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
             passwordChanged = true;
         } else {
             // 更新の場合
-            String currentPassword = userDao.getPasswordById(user.getId());
+            String currentPassword = userDao.findPasswordById(user.getId());
 
             if (user.getPassword() == null) {
                 // パスワードが空の場合、パスワードは同じものを設定する
@@ -170,7 +186,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
      */
     @Override
     public void removeUser(User user) {
-        userDao.remove(user);
+        userDao.delete(user);
     }
 
     /**
@@ -178,7 +194,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
      */
     @Override
     public void removeUser(String userId) {
-        userDao.remove(Long.valueOf(userId));
+        userDao.deleteById(Long.valueOf(userId));
     }
 
     /**
@@ -244,7 +260,7 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
         user.setConfirmPassword(user.getPassword());
         user.setEnabled(true);
 
-        return save(user);
+        return userDao.save(user);
     }
 
     /**
@@ -294,6 +310,30 @@ public class UserManagerImpl extends PaginatedManagerImpl<User, Long> implements
         }
 
         return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public PaginatedList<User> createPaginatedList(User user, Integer page) {
+        PageRequest pageRequest = PageRequest.of(page - 1, PaginatedList.DEFAULT_PAGE_SIZE, Sort.by("username"));
+        Page<User> pagedUser = userDao.findAll(where(usernameContains(user.getUsername())).and(emailContains(user.getEmail())), pageRequest);
+
+        if (!pagedUser.hasContent()) {
+            pageRequest = PageRequest.of(pagedUser.getTotalPages() - 1, PaginatedList.DEFAULT_PAGE_SIZE, Sort.by("username"));
+            pagedUser = userDao.findAll(where(usernameContains(user.getUsername())).and(emailContains(user.getEmail())), pageRequest);
+        }
+
+        return new PaginatedList<>(pagedUser);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void reindex() {
+        hibernateSearch.reindex();
     }
 
     /**

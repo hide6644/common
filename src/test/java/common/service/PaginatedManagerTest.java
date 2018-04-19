@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 
-import common.dao.jpa.PaginatedDaoJpa;
+import common.dao.jpa.HibernateSearchJpa;
 import common.model.PaginatedList;
 import common.model.User;
 import common.service.impl.PaginatedManagerImpl;
@@ -33,7 +33,7 @@ public class PaginatedManagerTest extends BaseManagerTestCase {
 
     @Before
     public void setUp() throws Exception {
-        paginatedManager = new PaginatedManagerImpl<User, Long>(new PaginatedDaoJpa<User, Long>(User.class, entityManager));
+        paginatedManager = new PaginatedManagerImpl<User, Long>(new HibernateSearchJpa<User, Long>(User.class, entityManager));
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream("common/service/users.csv");
         MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);

@@ -9,7 +9,6 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <mapping-file>META-INF/jpa/app_user-orm.xml</mapping-file>
-        <mapping-file>META-INF/jpa/role-orm.xml</mapping-file>
 
         <class>common.model.Role</class>
         <class>common.model.User</class>
