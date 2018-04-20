@@ -24,7 +24,7 @@
         <intercept-url pattern="/app/admin/**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/app/**" access="isAuthenticated()" />
 
-        <remember-me user-service-ref="userDao" key="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
+        <remember-me user-service-ref="userDetails" key="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
         <logout logout-url="/logout" logout-success-url="/login" invalidate-session="true" delete-cookies="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
     </http>
 
@@ -39,7 +39,7 @@
     </beans:bean>
 
     <authentication-manager alias="authenticationManager">
-        <authentication-provider user-service-ref="userDao">
+        <authentication-provider user-service-ref="userDetails">
             <password-encoder ref="passwordEncoder" />
         </authentication-provider>
     </authentication-manager>
