@@ -50,6 +50,11 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    /** UserのHibernate Search DAO */
+    @Autowired
+    @Qualifier("userSearch")
+    private HibernateSearch<User> userSearch;
+
     /** パスワードエンコーダー */
     @Autowired(required = false)
     @Qualifier("passwordEncoder")
@@ -58,10 +63,6 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     /** パスワードトークン処理のクラス */
     @Autowired(required = false)
     private PasswordTokenManager passwordTokenManager;
-
-    /** Hibernate Search DAO */
-    @Autowired
-    private HibernateSearch<User> hibernateSearch;
 
     /** Role処理クラス */
     @Autowired
@@ -320,11 +321,6 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
         PageRequest pageRequest = PageRequest.of(page - 1, PaginatedList.DEFAULT_PAGE_SIZE, Sort.by("username"));
         Page<User> pagedUser = userDao.findAll(where(usernameContains(user.getUsername())).and(emailContains(user.getEmail())), pageRequest);
 
-        if (!pagedUser.hasContent()) {
-            pageRequest = PageRequest.of(pagedUser.getTotalPages() - 1, PaginatedList.DEFAULT_PAGE_SIZE, Sort.by("username"));
-            pagedUser = userDao.findAll(where(usernameContains(user.getUsername())).and(emailContains(user.getEmail())), pageRequest);
-        }
-
         return new PaginatedList<>(pagedUser);
     }
 
@@ -333,7 +329,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      */
     @Override
     public void reindex() {
-        hibernateSearch.reindex();
+        userSearch.reindex();
     }
 
     /**

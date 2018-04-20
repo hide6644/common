@@ -16,7 +16,7 @@ public final class PaginatedList<T> {
     /** デフォルトのページリンク一覧の表示件数 */
     public static final int DEFAULT_RANGE_SIZE = 2;
 
-    /** TODO */
+    /** {@link Page} */
     private Page<T> paged;
 
     /** ページリンク一覧の表示件数 */
@@ -26,7 +26,7 @@ public final class PaginatedList<T> {
      * コンストラクタ.
      *
      * @param paged
-     *            TODO
+     *            {@link Page}
      */
     public PaginatedList(Page<T> paged) {
         this(paged, null);
@@ -36,7 +36,7 @@ public final class PaginatedList<T> {
      * コンストラクタ.
      *
      * @param paged
-     *            TODO
+     *            {@link Page}
      * @param pageRangeSize
      *            ページリンク一覧の表示件数
      */

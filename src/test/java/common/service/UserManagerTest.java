@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import common.Constants;
+import common.model.PaginatedList;
 import common.model.User;
 
 public class UserManagerTest extends BaseManagerTestCase {
@@ -95,11 +96,39 @@ public class UserManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testGetAll() {
-        List<User> found = mgr.getAll();
+    public void testCreatePaginatedList() {
+        // 検索結果が1件の場合
+        User user = new User("normaluser");
+        user.setEnabled(true);
+        user.setAccountLocked(false);
+        PaginatedList<User> paginatedList = mgr.createPaginatedList(user, 1);
 
-        log.debug("Users found: " + found);
+        assertNotNull(paginatedList);
+        assertEquals(2, paginatedList.getPageRangeSize());
+        assertEquals(1, paginatedList.getAllRecordCount());
+        assertFalse(paginatedList.isExistPrePage());
+        assertFalse(paginatedList.isExistNextPage());
+        assertEquals(1, paginatedList.getPageNumberList().size());
+        assertEquals(1, paginatedList.getCurrentPage().size());
 
-        assertEquals(2, found.size());
+        // 検索結果が12件の場合
+        user.setUsername(null);
+        paginatedList = mgr.createPaginatedList(user, 1);
+
+        assertNotNull(paginatedList);
+        assertEquals(12, paginatedList.getAllRecordCount());
+        assertFalse(paginatedList.isExistPrePage());
+        assertTrue(paginatedList.isExistNextPage());
+        assertEquals(2, paginatedList.getPageNumberList().size());
+        assertEquals(Integer.valueOf(1), paginatedList.getPageNumberList().get(0));
+        assertEquals(Integer.valueOf(2), paginatedList.getPageNumberList().get(1));
+        assertEquals(10, paginatedList.getCurrentPage().size());
+
+        paginatedList = mgr.createPaginatedList(user, 2);
+
+        assertTrue(paginatedList.isExistPrePage());
+        assertFalse(paginatedList.isExistNextPage());
+        assertEquals(2, paginatedList.getPageNumberList().size());
+        assertEquals(10, paginatedList.getCurrentPage().size());
     }
 }

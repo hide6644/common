@@ -58,7 +58,7 @@
 
     <beans:bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
         <beans:constructor-arg value="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
-        <beans:constructor-arg ref="userDao" />
+        <beans:constructor-arg ref="userDetails" />
     </beans:bean>
 
     <global-method-security>

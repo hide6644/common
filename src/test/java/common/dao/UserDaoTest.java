@@ -170,7 +170,7 @@ public class UserDaoTest extends BaseDaoTestCase {
     }
 
     @Test
-    public void testFindByUsernameContainingAndEmailContainingOrderByUsername() {
+    public void testPaged() {
         String username = "";
         String email = "";
 
@@ -186,34 +186,11 @@ public class UserDaoTest extends BaseDaoTestCase {
         assertEquals(2, pagedUser.getTotalElements());
 
         username = "baduser";
+        email = "bademail";
 
         pagedUser = dao.findAll(where(usernameContains(username)).and(emailContains(email)), PageRequest.of(0, 10, Sort.by("username")));
 
         assertEquals(0, pagedUser.getTotalPages());
         assertEquals(0, pagedUser.getTotalElements());
     }
-
-//    @Test
-//    public void testUserSearch() {
-//        dao.reindex();
-//        List<User> userList = dao.search("admin");
-//        User adminUser = userList.get(0);
-//
-//        assertEquals(1, userList.size());
-//        assertEquals("admin", adminUser.getFirstName());
-//
-//        User user = dao.get(-2L);
-//        user.setConfirmPassword(user.getPassword());
-//        user.setFirstName("MattX");
-//        dao.saveUser(user);
-//        dao.reindex();
-//
-//        userList = dao.search("MattX");
-//        User normalUser = userList.get(0);
-//
-//        assertEquals(1, userList.size());
-//        assertEquals("MattX", normalUser.getFirstName());
-//
-//        assertFalse(adminUser.equals(normalUser));
-//    }
 }
