@@ -2,14 +2,18 @@ package common.service;
 
 import static org.junit.Assert.*;
 
+import java.io.InputStream;
 import java.util.List;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 
 import common.Constants;
 import common.model.PaginatedList;
 import common.model.User;
+import common.webapp.converter.FileType;
+import common.webapp.form.UploadForm;
 
 public class UserManagerTest extends BaseManagerTestCase {
 
@@ -96,7 +100,16 @@ public class UserManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testCreatePaginatedList() {
+    public void testCreatePaginatedList() throws Exception {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        InputStream input = classLoader.getResourceAsStream("common/service/users.csv");
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);
+
+        UploadForm uploadForm = new UploadForm();
+        uploadForm.setFileType(FileType.CSV.getValue());
+        uploadForm.setFileData(mockMultipartFile);
+        mgr.uploadUsers(uploadForm);
+
         // 検索結果が1件の場合
         User user = new User("normaluser");
         user.setEnabled(true);
@@ -129,6 +142,6 @@ public class UserManagerTest extends BaseManagerTestCase {
         assertTrue(paginatedList.isExistPrePage());
         assertFalse(paginatedList.isExistNextPage());
         assertEquals(2, paginatedList.getPageNumberList().size());
-        assertEquals(10, paginatedList.getCurrentPage().size());
+        assertEquals(2, paginatedList.getCurrentPage().size());
     }
 }
