@@ -19,12 +19,6 @@ public class BaseManagerImpl {
     protected MessageSourceAccessor messageSourceAccessor;
 
     /**
-     * デフォルト・コンストラクタ.
-     */
-    public BaseManagerImpl() {
-    }
-
-    /**
      * メッセージソースからメッセージを取得する.
      *
      * @param msgKey

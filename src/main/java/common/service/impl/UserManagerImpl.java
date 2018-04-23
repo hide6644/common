@@ -318,7 +318,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      */
     @Override
     public PaginatedList<User> createPaginatedList(User user, Integer page) {
-        PageRequest pageRequest = PageRequest.of(page - 1, PaginatedList.DEFAULT_PAGE_SIZE, Sort.by("username"));
+        PageRequest pageRequest = PageRequest.of(page == null ? 0 : page - 1, PaginatedList.DEFAULT_PAGE_SIZE, Sort.by("username"));
         Page<User> pagedUser = userDao.findAll(where(usernameContains(user.getUsername())).and(emailContains(user.getEmail())), pageRequest);
 
         return new PaginatedList<>(pagedUser);

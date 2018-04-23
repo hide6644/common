@@ -11,6 +11,12 @@ import common.model.User;
 public class UserSpecifications {
 
     /**
+     * プライベート・コンストラクタ.
+     */
+    private UserSpecifications() {
+    }
+
+    /**
      * 指定文字をユーザー名に含む.
      */
     public static Specification<User> usernameContains(String username) {

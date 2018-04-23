@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
  */
 public class LocaleRequestWrapper extends HttpServletRequestWrapper {
 
+    /** 優先Locale */
     private final Locale preferredLocale;
 
     /**

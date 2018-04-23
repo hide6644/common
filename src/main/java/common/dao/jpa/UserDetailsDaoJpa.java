@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import common.Constants;
 import common.model.User;
 
 /**
@@ -18,11 +19,8 @@ import common.model.User;
 @Repository("userDetails")
 public class UserDetailsDaoJpa implements UserDetailsService {
 
-    /** Entity Managerクラス名 */
-    public static final String PERSISTENCE_UNIT_NAME = "ApplicationEntityManager";
-
     /** Entity Managerクラス */
-    @PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
+    @PersistenceContext(unitName = Constants.PERSISTENCE_UNIT_NAME)
     private EntityManager entityManager;
 
     /**

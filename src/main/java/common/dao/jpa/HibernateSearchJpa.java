@@ -3,6 +3,7 @@ package common.dao.jpa;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -10,6 +11,7 @@ import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.facet.Facet;
 
+import common.Constants;
 import common.dao.HibernateSearch;
 
 /**
@@ -18,6 +20,7 @@ import common.dao.HibernateSearch;
 public class HibernateSearchJpa<T> implements HibernateSearch<T> {
 
     /** Entity Managerクラス */
+    @PersistenceContext(unitName = Constants.PERSISTENCE_UNIT_NAME)
     protected EntityManager entityManager;
 
     /** エンティティクラス */

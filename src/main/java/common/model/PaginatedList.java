@@ -6,27 +6,27 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 /**
- * ページング処理情報保持クラス.
+ * ページング処理、情報保持クラス.
  */
 public final class PaginatedList<T> {
 
     /** デフォルトの1ページあたりのレコード数 */
     public static final int DEFAULT_PAGE_SIZE = 10;
 
-    /** デフォルトのページリンク一覧の表示件数 */
+    /** デフォルトのページリンクの表示件数 */
     public static final int DEFAULT_RANGE_SIZE = 2;
 
-    /** {@link Page} */
+    /** ページング情報 */
     private Page<T> paged;
 
-    /** ページリンク一覧の表示件数 */
+    /** ページリンクの表示数 */
     private int pageRangeSize;
 
     /**
      * コンストラクタ.
      *
      * @param paged
-     *            {@link Page}
+     *            ページング情報
      */
     public PaginatedList(Page<T> paged) {
         this(paged, null);
@@ -36,9 +36,9 @@ public final class PaginatedList<T> {
      * コンストラクタ.
      *
      * @param paged
-     *            {@link Page}
+     *            ページング情報
      * @param pageRangeSize
-     *            ページリンク一覧の表示件数
+     *            ページリンクの表示数
      */
     public PaginatedList(Page<T> paged, Integer pageRangeSize) {
         this.paged = paged;
@@ -73,9 +73,9 @@ public final class PaginatedList<T> {
     }
 
     /**
-     * ページリンク一覧の表示件数を取得する.
+     * ページリンクの表示数を取得する.
      *
-     * @return ページリンク一覧の表示件数
+     * @return ページリンクの表示数
      */
     public int getPageRangeSize() {
         return pageRangeSize;
@@ -115,6 +115,42 @@ public final class PaginatedList<T> {
      */
     public boolean isExistNextPage() {
         return paged.hasNext();
+    }
+
+    /**
+     * 前のページ番号を取得する.
+     *
+     * @return 前のページ番号
+     */
+    public int getPrePageNumber() {
+        return paged.getNumber() - 1;
+    }
+
+    /**
+     * 次のページ番号を取得する.
+     *
+     * @return 次のページ番号
+     */
+    public int getNextPageNumber() {
+        return paged.getNumber() + 1;
+    }
+
+    /**
+     * 現在ページの最初のレコード番号を取得する.
+     *
+     * @return 現在ページの最初のレコード番号
+     */
+    public int getCurrentStartRecordNumber() {
+        return (paged.getNumber() - 1) * paged.getSize() + 1;
+    }
+
+    /**
+     * 現在ページの最後のレコード番号を取得する.
+     *
+     * @return 現在ページの最後のレコード番号
+     */
+    public int getCurrentEndRecordNumber() {
+        return paged.getNumber() * paged.getSize();
     }
 
     /**
