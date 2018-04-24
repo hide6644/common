@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import org.hibernate.search.query.facet.Facet;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.data.domain.Page;
@@ -53,4 +54,12 @@ public class HibernateSearchTest extends BaseDaoTestCase {
         assertEquals(1, pagedUser.getTotalElements());
         assertEquals(1, pagedUser.getContent().size());
     }
-}
+
+    @Test
+    public void testFacet() {
+        hibernateSearch.reindex();
+        List<Facet> userFacet = hibernateSearch.facet("firstNameFacet", 2);
+
+        assertNotNull(userFacet);
+        assertEquals(2, userFacet.size());
+    }}
