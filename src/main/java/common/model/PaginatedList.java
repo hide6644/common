@@ -123,7 +123,7 @@ public final class PaginatedList<T> {
      * @return 前のページ番号
      */
     public int getPrePageNumber() {
-        return paged.getNumber() - 1;
+        return paged.getNumber();
     }
 
     /**
@@ -132,7 +132,7 @@ public final class PaginatedList<T> {
      * @return 次のページ番号
      */
     public int getNextPageNumber() {
-        return paged.getNumber() + 1;
+        return paged.getNumber() + 2;
     }
 
     /**
@@ -141,7 +141,7 @@ public final class PaginatedList<T> {
      * @return 現在ページの最初のレコード番号
      */
     public int getCurrentStartRecordNumber() {
-        return (paged.getNumber() - 1) * paged.getSize() + 1;
+        return paged.getNumber() * paged.getSize() + 1;
     }
 
     /**
@@ -150,7 +150,7 @@ public final class PaginatedList<T> {
      * @return 現在ページの最後のレコード番号
      */
     public int getCurrentEndRecordNumber() {
-        return paged.getNumber() * paged.getSize();
+        return (paged.getNumber() + 1) * paged.getSize();
     }
 
     /**

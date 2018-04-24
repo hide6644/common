@@ -118,9 +118,12 @@ public class UserManagerTest extends BaseManagerTestCase {
 
         assertNotNull(paginatedList);
         assertEquals(2, paginatedList.getPageRangeSize());
+        assertEquals(10, paginatedList.getCurrentEndRecordNumber());
         assertEquals(1, paginatedList.getAllRecordCount());
         assertFalse(paginatedList.isExistPrePage());
         assertFalse(paginatedList.isExistNextPage());
+        assertEquals(0, paginatedList.getPrePageNumber());
+        assertEquals(2, paginatedList.getNextPageNumber());
         assertEquals(1, paginatedList.getPageNumberList().size());
         assertEquals(1, paginatedList.getCurrentPage().size());
 
@@ -139,8 +142,11 @@ public class UserManagerTest extends BaseManagerTestCase {
 
         paginatedList = mgr.createPaginatedList(user, 2);
 
+        assertEquals(20, paginatedList.getCurrentEndRecordNumber());
         assertTrue(paginatedList.isExistPrePage());
         assertFalse(paginatedList.isExistNextPage());
+        assertEquals(1, paginatedList.getPrePageNumber());
+        assertEquals(3, paginatedList.getNextPageNumber());
         assertEquals(2, paginatedList.getPageNumberList().size());
         assertEquals(2, paginatedList.getCurrentPage().size());
     }
