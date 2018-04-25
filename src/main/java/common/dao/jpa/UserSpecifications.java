@@ -21,6 +21,7 @@ public class UserSpecifications {
      *
      * @param username
      *            ユーザ名
+     * @return {@link Specification}
      */
     public static Specification<User> usernameContains(String username) {
         return StringUtils.isEmpty(username) ? null : (root, query, cb) -> {
@@ -33,6 +34,7 @@ public class UserSpecifications {
      *
      * @param email
      *            ｅメール
+     * @return {@link Specification}
      */
     public static Specification<User> emailContains(String email) {
         return StringUtils.isEmpty(email) ? null : (root, query, cb) -> {
