@@ -28,6 +28,9 @@ public class UserManagerTest extends BaseManagerTestCase {
         User user = mgr.getUserByUsername("normaluser");
 
         assertNotNull(user);
+        assertTrue(user.isAccountNonLocked());
+        assertTrue(user.isAccountNonExpired());
+        assertTrue(user.isCredentialsNonExpired());
 
         log.debug(user);
 
@@ -118,7 +121,8 @@ public class UserManagerTest extends BaseManagerTestCase {
 
         assertNotNull(paginatedList);
         assertEquals(2, paginatedList.getPageRangeSize());
-        assertEquals(10, paginatedList.getCurrentEndRecordNumber());
+        assertEquals(1, paginatedList.getCurrentStartRecordNumber());
+        assertEquals(5, paginatedList.getCurrentEndRecordNumber());
         assertEquals(1, paginatedList.getAllRecordCount());
         assertFalse(paginatedList.isExistPrePage());
         assertFalse(paginatedList.isExistNextPage());
@@ -135,19 +139,21 @@ public class UserManagerTest extends BaseManagerTestCase {
         assertEquals(12, paginatedList.getAllRecordCount());
         assertFalse(paginatedList.isExistPrePage());
         assertTrue(paginatedList.isExistNextPage());
-        assertEquals(2, paginatedList.getPageNumberList().size());
+        assertEquals(3, paginatedList.getPageNumberList().size());
         assertEquals(Integer.valueOf(1), paginatedList.getPageNumberList().get(0));
         assertEquals(Integer.valueOf(2), paginatedList.getPageNumberList().get(1));
-        assertEquals(10, paginatedList.getCurrentPage().size());
+        assertEquals(5, paginatedList.getCurrentPage().size());
 
-        paginatedList = mgr.createPaginatedList(user, 2);
+        paginatedList = mgr.createPaginatedList(user, 3);
 
-        assertEquals(20, paginatedList.getCurrentEndRecordNumber());
+        assertEquals(11, paginatedList.getCurrentStartRecordNumber());
+        assertEquals(15, paginatedList.getCurrentEndRecordNumber());
         assertTrue(paginatedList.isExistPrePage());
         assertFalse(paginatedList.isExistNextPage());
-        assertEquals(1, paginatedList.getPrePageNumber());
-        assertEquals(3, paginatedList.getNextPageNumber());
-        assertEquals(2, paginatedList.getPageNumberList().size());
+        assertEquals(2, paginatedList.getPrePageNumber());
+        assertEquals(4, paginatedList.getNextPageNumber());
+        assertEquals(3, paginatedList.getPageNumberList().size());
         assertEquals(2, paginatedList.getCurrentPage().size());
+        assertEquals(5, paginatedList.getPageSize());
     }
 }

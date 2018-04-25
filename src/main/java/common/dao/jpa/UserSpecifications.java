@@ -17,7 +17,10 @@ public class UserSpecifications {
     }
 
     /**
-     * 指定文字をユーザー名に含む.
+     * 指定文字をユーザ名に含む.
+     *
+     * @param username
+     *            ユーザ名
      */
     public static Specification<User> usernameContains(String username) {
         return StringUtils.isEmpty(username) ? null : (root, query, cb) -> {
@@ -26,7 +29,10 @@ public class UserSpecifications {
     }
 
     /**
-     * 指定文字をメールアドレスに含む.
+     * 指定文字をｅメールに含む.
+     *
+     * @param email
+     *            ｅメール
      */
     public static Specification<User> emailContains(String email) {
         return StringUtils.isEmpty(email) ? null : (root, query, cb) -> {
