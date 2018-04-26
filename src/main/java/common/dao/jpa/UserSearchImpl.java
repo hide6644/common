@@ -8,12 +8,12 @@ import common.model.User;
  * UserのHibernate Search DAOの実装クラス.
  */
 @Repository("userSearch")
-public class UserSearchJpa extends HibernateSearchJpa<User> {
+public class UserSearchImpl extends HibernateSearchImpl<User> {
 
     /**
      * デフォルト・コンストラクタ.
      */
-    public UserSearchJpa() {
+    public UserSearchImpl() {
         super(User.class);
     }
 }

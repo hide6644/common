@@ -15,9 +15,9 @@ import common.Constants;
 import common.dao.HibernateSearch;
 
 /**
- * Hibernate Search DAOの実装クラス.
+ * Hibernate Searchの実装クラス.
  */
-public class HibernateSearchJpa<T> implements HibernateSearch<T> {
+public class HibernateSearchImpl<T> implements HibernateSearch<T> {
 
     /** Entity Managerクラス */
     @PersistenceContext(unitName = Constants.PERSISTENCE_UNIT_NAME)
@@ -35,7 +35,7 @@ public class HibernateSearchJpa<T> implements HibernateSearch<T> {
      * @param persistentClass
      *            エンティティクラス
      */
-    public HibernateSearchJpa(Class<T> persistentClass) {
+    public HibernateSearchImpl(Class<T> persistentClass) {
         this.persistentClass = persistentClass;
         defaultAnalyzer = new StandardAnalyzer();
     }
@@ -48,7 +48,7 @@ public class HibernateSearchJpa<T> implements HibernateSearch<T> {
      * @param entityManager
      *            Entity Managerクラス
      */
-    public HibernateSearchJpa(Class<T> persistentClass, EntityManager entityManager) {
+    public HibernateSearchImpl(Class<T> persistentClass, EntityManager entityManager) {
         this.persistentClass = persistentClass;
         this.entityManager = entityManager;
         defaultAnalyzer = new StandardAnalyzer();
@@ -60,7 +60,7 @@ public class HibernateSearchJpa<T> implements HibernateSearch<T> {
     @SuppressWarnings("unchecked")
     @Override
     public List<T> search(String[] searchTerm, String[] searchField) {
-        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchJpaTools.generateQuery(searchTerm, searchField, persistentClass, entityManager, defaultAnalyzer), persistentClass).getResultList();
+        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerm, searchField, persistentClass, entityManager, defaultAnalyzer), persistentClass).getResultList();
     }
 
     /**
@@ -69,7 +69,7 @@ public class HibernateSearchJpa<T> implements HibernateSearch<T> {
     @SuppressWarnings("unchecked")
     @Override
     public List<T> search(String searchTerm) {
-        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchJpaTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass).getResultList();
+        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass).getResultList();
     }
 
     /**
@@ -77,7 +77,7 @@ public class HibernateSearchJpa<T> implements HibernateSearch<T> {
      */
     @Override
     public List<Facet> facet(String field, int maxCount) {
-        return HibernateSearchJpaTools.generateFacet(field, maxCount, persistentClass, entityManager);
+        return HibernateSearchTools.generateFacet(field, maxCount, persistentClass, entityManager);
     }
 
     /**
@@ -85,7 +85,7 @@ public class HibernateSearchJpa<T> implements HibernateSearch<T> {
      */
     @Override
     public void reindex() {
-        HibernateSearchJpaTools.reindex(persistentClass, entityManager);
+        HibernateSearchTools.reindex(persistentClass, entityManager);
     }
 
     /**
@@ -93,7 +93,7 @@ public class HibernateSearchJpa<T> implements HibernateSearch<T> {
      */
     @Override
     public void reindexAll(boolean async) {
-        HibernateSearchJpaTools.reindexAll(async, entityManager);
+        HibernateSearchTools.reindexAll(async, entityManager);
     }
 
     /**
@@ -102,7 +102,7 @@ public class HibernateSearchJpa<T> implements HibernateSearch<T> {
     @SuppressWarnings("unchecked")
     @Override
     public List<T> searchList(String searchTerm, Integer offset, Integer limit) {
-        FullTextQuery query = Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchJpaTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass);
+        FullTextQuery query = Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass);
 
         query.setFirstResult(offset);
         query.setMaxResults(limit);
@@ -115,7 +115,7 @@ public class HibernateSearchJpa<T> implements HibernateSearch<T> {
      */
     @Override
     public long searchCount(String searchTerm) {
-        FullTextQuery query = Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchJpaTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass);
+        FullTextQuery query = Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass);
         return query.getResultSize();
     }
 }

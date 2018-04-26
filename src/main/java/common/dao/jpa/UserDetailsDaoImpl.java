@@ -17,7 +17,7 @@ import common.model.User;
  * ユーザ認証DAOクラス.
  */
 @Repository("userDetails")
-public class UserDetailsDaoJpa implements UserDetailsService {
+public class UserDetailsDaoImpl implements UserDetailsService {
 
     /** Entity Managerクラス */
     @PersistenceContext(unitName = Constants.PERSISTENCE_UNIT_NAME)

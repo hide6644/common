@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import common.dao.jpa.HibernateSearchJpa;
+import common.dao.jpa.HibernateSearchImpl;
 import common.model.User;
 
 public class HibernateSearchTest extends BaseDaoTestCase {
@@ -20,7 +20,7 @@ public class HibernateSearchTest extends BaseDaoTestCase {
 
     @Before
     public void setUp() {
-        hibernateSearch = new HibernateSearchJpa<User>(User.class, entityManager);
+        hibernateSearch = new HibernateSearchImpl<User>(User.class, entityManager);
         hibernateSearch.reindexAll(true);
     }
 
