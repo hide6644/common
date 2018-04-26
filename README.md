@@ -11,14 +11,16 @@
 データベースアクセス、ログイン認証などの基本的な機能を含んでいる。
 
 また、実装には複数のオープンソースを使用している。代表的なものは以下の通り。
-* Bootswatch
+* Bootstrap
 * Freemarker
 * Hibernate
 * Hibernate Search
 * Hibernate Validator
 * HikariCP
+* JavaMail
 * Jxls
 * Spring
+* Spring Data
 * Spring Security
 * Thymeleaf
 
