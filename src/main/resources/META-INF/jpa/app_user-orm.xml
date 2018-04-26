@@ -5,17 +5,18 @@
         http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd"
     version="2.1">
 
-    <named-query name="User.findAllOrderByUsername">
+    <named-query name="User.findByUsername">
         <query><![CDATA[
             from User u
-                order by username
+                where u.username = :username
         ]]></query>
     </named-query>
 
-    <named-query name="User.findByUsernameEquals">
+    <named-query name="User.findPasswordById">
         <query><![CDATA[
-            from User u
-                where username = :username
+            select u.password
+                from User u
+                where u.id = ?1
         ]]></query>
     </named-query>
 

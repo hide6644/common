@@ -99,7 +99,7 @@ public class UserSecurityAdviceTest {
         final User adminUser = new User("admin");
         adminUser.setId(2L);
 
-        given(userDao.saveUser(adminUser)).willReturn(adminUser);
+        given(userDao.save(adminUser)).willReturn(adminUser);
         given(passwordEncoder.encode(adminUser.getPassword())).willReturn(adminUser.getPassword());
         given(roleManager.getRoles(adminUser.getRoles())).willReturn(adminUser.getRoles());
 
@@ -112,7 +112,7 @@ public class UserSecurityAdviceTest {
         user.setId(1L);
         user.getRoles().add(new Role(Constants.USER_ROLE));
 
-        given(userDao.saveUser(user)).willReturn(user);
+        given(userDao.save(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
         given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
 
@@ -169,7 +169,7 @@ public class UserSecurityAdviceTest {
         user.getRoles().add(new Role(Constants.ADMIN_ROLE));
         user.getRoles().add(new Role(Constants.USER_ROLE));
 
-        given(userDao.saveUser(user)).willReturn(user);
+        given(userDao.save(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
         given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
 
@@ -182,7 +182,7 @@ public class UserSecurityAdviceTest {
         user.setId(1L);
         user.getRoles().add(new Role(Constants.USER_ROLE));
 
-        given(userDao.saveUser(user)).willReturn(user);
+        given(userDao.save(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
         given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
 

@@ -57,7 +57,7 @@ public class UserListController extends BaseController {
         response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
 
         Model model = new ExtendedModelMap();
-        model.addAttribute("csv", userManager.getAll());
+        model.addAttribute("csv", userManager.getUsers());
         return new ModelAndView("admin/master/csv/users", model.asMap());
     }
 
@@ -76,7 +76,7 @@ public class UserListController extends BaseController {
         response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
 
         Model model = new ExtendedModelMap();
-        model.addAttribute("users", userManager.getAll());
+        model.addAttribute("users", userManager.getUsers());
         return new ModelAndView("admin/master/jxls/users", model.asMap());
     }
 
@@ -94,7 +94,7 @@ public class UserListController extends BaseController {
     public Users setupXmlList(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("text/xml");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
-        return new Users(userManager.getAll());
+        return new Users(userManager.getUsers());
     }
 
     /**

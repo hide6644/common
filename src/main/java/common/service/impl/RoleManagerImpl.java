@@ -18,7 +18,7 @@ import common.service.RoleManager;
  * 権限処理の実装クラス.
  */
 @Service("roleManager")
-public class RoleManagerImpl extends GenericManagerImpl<Role, Long> implements RoleManager {
+public class RoleManagerImpl implements RoleManager {
 
     /** 権限DAO */
     RoleDao roleDao;
@@ -31,7 +31,6 @@ public class RoleManagerImpl extends GenericManagerImpl<Role, Long> implements R
      */
     @Autowired
     public RoleManagerImpl(RoleDao roleDao) {
-        super(roleDao);
         this.roleDao = roleDao;
     }
 
@@ -40,7 +39,7 @@ public class RoleManagerImpl extends GenericManagerImpl<Role, Long> implements R
      */
     @Override
     public Role getRole(String rolename) {
-        return roleDao.getByNameEquals(rolename);
+        return roleDao.findByName(rolename);
     }
 
     /**
@@ -56,7 +55,7 @@ public class RoleManagerImpl extends GenericManagerImpl<Role, Long> implements R
      */
     @Override
     public void removeRole(String rolename) {
-        roleDao.removeRole(rolename);
+        roleDao.removeByName(rolename);
     }
 
     /**
@@ -64,7 +63,7 @@ public class RoleManagerImpl extends GenericManagerImpl<Role, Long> implements R
      */
     @Override
     public List<LabelValue> getLabelValues() {
-        return Optional.ofNullable(dao.getAll()).orElseGet(ArrayList::new).stream()
+        return Optional.ofNullable(roleDao.findAll()).orElseGet(ArrayList::new).stream()
                 .map(role -> new LabelValue(role.getDescription(), role.getName()))
                 .collect(Collectors.toList());
     }

@@ -9,7 +9,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 public class ReloadControllerTest extends BaseControllerTestCase {
 
     @Autowired
-    private ReloadController c = null;
+    private ReloadController c;
 
     @Test
     public void testHandleRequest() throws Exception {

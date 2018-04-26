@@ -2,9 +2,6 @@ package common.dao;
 
 import static org.junit.Assert.*;
 
-import java.util.HashMap;
-import java.util.List;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,24 +15,24 @@ public class RoleDaoTest extends BaseDaoTestCase {
 
     @Test
     public void testGetRoleInvalid() {
-        Role role = dao.getByNameEquals("badrolename");
+        Role role = dao.findByName("badrolename");
 
         assertNull(role);
     }
 
     @Test
     public void testGetRole() {
-        Role role = dao.getByNameEquals(Constants.USER_ROLE);
+        Role role = dao.findByName(Constants.USER_ROLE);
 
         assertNotNull(role);
     }
 
     @Test
     public void testUpdateRole() {
-        Role role = dao.getByNameEquals("ROLE_USER");
+        Role role = dao.findByName("ROLE_USER");
         role.setDescription("test descr");
         dao.save(role);
-        role = dao.getByNameEquals("ROLE_USER");
+        role = dao.findByName("ROLE_USER");
 
         assertEquals("test descr", role.getDescription());
     }
@@ -45,23 +42,13 @@ public class RoleDaoTest extends BaseDaoTestCase {
         Role role = new Role("testrole");
         role.setDescription("new role descr");
         dao.save(role);
-        role = dao.getByNameEquals("testrole");
+        role = dao.findByName("testrole");
 
         assertNotNull(role.getDescription());
 
-        dao.removeRole("testrole");
-        role = dao.getByNameEquals("testrole");
+        dao.removeByName("testrole");
+        role = dao.findByName("testrole");
 
         assertNull(role);
-    }
-
-    @Test
-    public void testFindByNamedQuery() {
-        HashMap<String, Object> queryParams = new HashMap<String, Object>();
-        queryParams.put("name", Constants.USER_ROLE);
-        List<Role> roles = dao.findByNamedQuery("Role.findByNameEquals", queryParams);
-
-        assertNotNull(roles);
-        assertTrue(roles.size() > 0);
     }
 }

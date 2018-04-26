@@ -25,7 +25,11 @@ public class RoleManagerTest extends BaseManagerTestCase {
         assertFalse(labelValueList.contains(newLabelValue));
 
         newLabelValue.setValue("ROLE_USER");
+        newLabelValue.setLabel("TEST_LABEL");
 
-        assertEquals(1, labelValueList.stream().filter(labelValue -> labelValue.equals(newLabelValue)).count());
+        LabelValue userLabelValue = labelValueList.stream().filter(labelValue -> labelValue.equals(newLabelValue)).findFirst().get();
+
+        assertEquals("ROLE_USER", userLabelValue.getValue());
+        assertEquals("Default role for all Users", userLabelValue.getLabel());
     }
 }
