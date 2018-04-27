@@ -40,9 +40,9 @@ public class UserSecurityAdviceTest {
     @Mock
     private RoleManager roleManager;
 
-    ApplicationContext ctx = null;
+    ApplicationContext ctx;
 
-    SecurityContext initialSecurityContext = null;
+    SecurityContext initialSecurityContext;
 
     @Before
     public void setUp() {
@@ -110,6 +110,7 @@ public class UserSecurityAdviceTest {
         User user = new User("user");
         user.setId(1L);
         user.getRoles().add(new Role(Constants.USER_ROLE));
+        user.setVersion(1L);
 
         given(userDao.save(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
@@ -123,6 +124,7 @@ public class UserSecurityAdviceTest {
         User user = new User("user");
         user.setId(1L);
         user.getRoles().add(new Role(Constants.ADMIN_ROLE));
+        user.setVersion(1L);
 
         try {
             makeInterceptedTarget().saveUser(user);
@@ -139,6 +141,7 @@ public class UserSecurityAdviceTest {
         user.setId(1L);
         user.getRoles().add(new Role(Constants.ADMIN_ROLE));
         user.getRoles().add(new Role(Constants.USER_ROLE));
+        user.setVersion(1L);
 
         try {
             makeInterceptedTarget().saveUser(user);
@@ -165,6 +168,7 @@ public class UserSecurityAdviceTest {
         user.setId(1L);
         user.getRoles().add(new Role(Constants.ADMIN_ROLE));
         user.getRoles().add(new Role(Constants.USER_ROLE));
+        user.setVersion(1L);
 
         given(userDao.save(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
@@ -178,6 +182,7 @@ public class UserSecurityAdviceTest {
         User user = new User("user");
         user.setId(1L);
         user.getRoles().add(new Role(Constants.USER_ROLE));
+        user.setVersion(1L);
 
         given(userDao.save(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
