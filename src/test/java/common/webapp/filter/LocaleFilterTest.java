@@ -83,4 +83,14 @@ public class LocaleFilterTest {
         assertNotNull(locale);
         assertEquals(new Locale("zh", "TW"), locale);
     }
+
+    @Test
+    public void testNullLocale() throws Exception {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpServletResponse response = new MockHttpServletResponse();
+
+        filter.doFilter(request, response, new MockFilterChain());
+
+        assertNull(request.getSession().getAttribute(Constants.PREFERRED_LOCALE_KEY));
+    }
 }

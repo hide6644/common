@@ -152,7 +152,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.1.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -168,7 +168,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.1.3</version>
                 <configuration>
                     <effort>Max</effort>
                     <xmlOutput>true</xmlOutput>
@@ -584,7 +584,7 @@
         <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
         <jdbc.groupId>mysql</jdbc.groupId>
         <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
-        <jdbc.version>5.1.46</jdbc.version>
+        <jdbc.version>6.0.6</jdbc.version>
         <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
         <jdbc.url>
             <![CDATA[jdbc:mysql://localhost/common?createDatabaseIfNotExist=true&amp;zeroDateTimeBehavior=convertToNull&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true]]>
@@ -602,10 +602,10 @@
         <freemarker-java8.version>1.2.0</freemarker-java8.version>
         <greenmail.version>1.5.7</greenmail.version>
         <groovy.version>2.4.15</groovy.version>
-        <hibernate.version>5.2.16.Final</hibernate.version>
+        <hibernate.version>5.2.17.Final</hibernate.version>
         <hibernate-search.version>5.9.1.Final</hibernate-search.version>
         <hibernate-validator.version>6.0.9.Final</hibernate-validator.version>
-        <HikariCP.version>2.7.9</HikariCP.version>
+        <HikariCP.version>3.1.0</HikariCP.version>
         <javax.activation.version>1.1.1</javax.activation.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <jquery.version>3.3.1-1</jquery.version>
