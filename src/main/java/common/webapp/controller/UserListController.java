@@ -26,7 +26,6 @@ import common.service.UserManager;
  */
 @Controller
 @SessionAttributes("searchUser")
-@RequestMapping("/admin/master/users*")
 public class UserListController extends BaseController {
 
     /** User処理クラス */
@@ -52,13 +51,13 @@ public class UserListController extends BaseController {
      *            {@link HttpServletResponse}
      * @return ユーザ一覧
      */
-    @RequestMapping(value = "/admin/master/users*.csv", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/master/users.csv", method = RequestMethod.GET)
     public ModelAndView setupCsvList(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("Application/Octet-Stream");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
 
         Model model = new ExtendedModelMap();
-        model.addAttribute("csv", userManager.getAll());
+        model.addAttribute("csv", userManager.getUsers());
         return new ModelAndView("admin/master/csv/users", model.asMap());
     }
 
@@ -71,13 +70,13 @@ public class UserListController extends BaseController {
      *            {@link HttpServletResponse}
      * @return ユーザ一覧
      */
-    @RequestMapping(value = "/admin/master/users*.xlsx", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/master/users.xlsx", method = RequestMethod.GET)
     public ModelAndView setupXlsList(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("Application/Vnd.ms-Excel");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
 
         Model model = new ExtendedModelMap();
-        model.addAttribute("users", userManager.getAll());
+        model.addAttribute("users", userManager.getUsers());
         return new ModelAndView("admin/master/jxls/users", model.asMap());
     }
 
@@ -90,12 +89,12 @@ public class UserListController extends BaseController {
      *            {@link HttpServletResponse}
      * @return ユーザ一覧
      */
-    @RequestMapping(value = "/admin/master/users*.xml", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/master/users.xml", method = RequestMethod.GET)
     @ResponseBody
     public Users setupXmlList(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("text/xml");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
-        return new Users(userManager.getAll());
+        return new Users(userManager.getUsers());
     }
 
     /**
@@ -107,7 +106,7 @@ public class UserListController extends BaseController {
      *            表示ページ数
      * @return 遷移先画面設定
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/master/users", method = RequestMethod.GET)
     public ModelAndView showForm(@ModelAttribute("searchUser") User user, @RequestParam(value = "page", required = false) Integer page) {
         Model model = new ExtendedModelMap();
         model.addAttribute("paginatedList", userManager.createPaginatedList(user, page));
@@ -123,7 +122,7 @@ public class UserListController extends BaseController {
      *            {@link HttpServletRequest}
      * @return 遷移先
      */
-    @RequestMapping(method = RequestMethod.DELETE)
+    @RequestMapping(value = "/admin/master/users", method = RequestMethod.DELETE)
     public String onSubmit(@RequestParam("userIds") String[] userIds, HttpServletRequest request) {
         boolean logoutFlg = Arrays.stream(userIds)
                 .anyMatch(userId -> userId.equals(String.valueOf(userManager.getUserByUsername(request.getRemoteUser()).getId())));

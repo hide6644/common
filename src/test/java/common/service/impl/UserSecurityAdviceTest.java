@@ -40,9 +40,9 @@ public class UserSecurityAdviceTest {
     @Mock
     private RoleManager roleManager;
 
-    ApplicationContext ctx = null;
+    ApplicationContext ctx;
 
-    SecurityContext initialSecurityContext = null;
+    SecurityContext initialSecurityContext;
 
     @Before
     public void setUp() {
@@ -71,16 +71,15 @@ public class UserSecurityAdviceTest {
 
         assertTrue(auth.isAuthenticated());
 
-        UserManager userManager = makeInterceptedTarget();
         User user = new User("admin");
         user.setId(2L);
 
         try {
-            userManager.saveUser(user);
+            makeInterceptedTarget().saveUser(user);
             fail("AccessDeniedException not thrown");
         } catch (AccessDeniedException expected) {
             assertNotNull(expected);
-            Assert.assertEquals(expected.getMessage(), UserSecurityAdvice.ACCESS_DENIED);
+            Assert.assertEquals(UserSecurityAdvice.ACCESS_DENIED, expected.getMessage());
         }
     }
 
@@ -96,10 +95,10 @@ public class UserSecurityAdviceTest {
         securityContext.setAuthentication(token);
         SecurityContextHolder.setContext(securityContext);
 
-        final User adminUser = new User("admin");
+        User adminUser = new User("admin");
         adminUser.setId(2L);
 
-        given(userDao.saveUser(adminUser)).willReturn(adminUser);
+        given(userDao.save(adminUser)).willReturn(adminUser);
         given(passwordEncoder.encode(adminUser.getPassword())).willReturn(adminUser.getPassword());
         given(roleManager.getRoles(adminUser.getRoles())).willReturn(adminUser.getRoles());
 
@@ -108,11 +107,12 @@ public class UserSecurityAdviceTest {
 
     @Test
     public void testUpdateUserProfile() throws Exception {
-        final User user = new User("user");
+        User user = new User("user");
         user.setId(1L);
         user.getRoles().add(new Role(Constants.USER_ROLE));
+        user.setVersion(1L);
 
-        given(userDao.saveUser(user)).willReturn(user);
+        given(userDao.save(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
         given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
 
@@ -121,55 +121,56 @@ public class UserSecurityAdviceTest {
 
     @Test
     public void testChangeToAdminRoleFromUserRole() throws Exception {
-        UserManager userManager = makeInterceptedTarget();
         User user = new User("user");
         user.setId(1L);
         user.getRoles().add(new Role(Constants.ADMIN_ROLE));
+        user.setVersion(1L);
 
         try {
-            userManager.saveUser(user);
+            makeInterceptedTarget().saveUser(user);
             fail("AccessDeniedException not thrown");
         } catch (AccessDeniedException expected) {
             assertNotNull(expected);
-            assertEquals(expected.getMessage(), UserSecurityAdvice.ACCESS_DENIED);
+            assertEquals(UserSecurityAdvice.ACCESS_DENIED, expected.getMessage());
         }
     }
 
     @Test
     public void testAddAdminRoleWhenAlreadyHasUserRole() throws Exception {
-        UserManager userManager = makeInterceptedTarget();
         User user = new User("user");
         user.setId(1L);
         user.getRoles().add(new Role(Constants.ADMIN_ROLE));
         user.getRoles().add(new Role(Constants.USER_ROLE));
+        user.setVersion(1L);
 
         try {
-            userManager.saveUser(user);
+            makeInterceptedTarget().saveUser(user);
             fail("AccessDeniedException not thrown");
         } catch (AccessDeniedException expected) {
             assertNotNull(expected);
-            assertEquals(expected.getMessage(), UserSecurityAdvice.ACCESS_DENIED);
+            assertEquals(UserSecurityAdvice.ACCESS_DENIED, expected.getMessage());
         }
     }
 
     @Test
     public void testAddUserRoleWhenHasAdminRole() throws Exception {
-        User user1 = new User("user");
-        user1.setId(1L);
-        user1.setPassword("password");
-        user1.addRole(new Role(Constants.ADMIN_ROLE));
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user1.getUsername(), user1.getPassword(), user1.getAuthorities());
-        token.setDetails(user1);
+        User user = new User("user");
+        user.setId(1L);
+        user.setPassword("password");
+        user.addRole(new Role(Constants.ADMIN_ROLE));
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
+        token.setDetails(user);
         SecurityContext securityContext = new SecurityContextImpl();
         securityContext.setAuthentication(token);
         SecurityContextHolder.setContext(securityContext);
 
-        final User user = new User("user");
+        user = new User("user");
         user.setId(1L);
         user.getRoles().add(new Role(Constants.ADMIN_ROLE));
         user.getRoles().add(new Role(Constants.USER_ROLE));
+        user.setVersion(1L);
 
-        given(userDao.saveUser(user)).willReturn(user);
+        given(userDao.save(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
         given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
 
@@ -178,11 +179,12 @@ public class UserSecurityAdviceTest {
 
     @Test
     public void testUpdateUserWithUserRole() throws Exception {
-        final User user = new User("user");
+        User user = new User("user");
         user.setId(1L);
         user.getRoles().add(new Role(Constants.USER_ROLE));
+        user.setVersion(1L);
 
-        given(userDao.saveUser(user)).willReturn(user);
+        given(userDao.save(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
         given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
 

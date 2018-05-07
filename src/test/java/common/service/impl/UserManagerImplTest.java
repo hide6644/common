@@ -39,7 +39,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
         User testData = new User("1");
         testData.getRoles().add(new Role("user"));
 
-        given(userDao.get(1L)).willReturn(testData);
+        given(userDao.getOne(1L)).willReturn(testData);
 
         User user = userManager.getUser("1");
 
@@ -53,12 +53,12 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
         User testData = new User("1");
         testData.getRoles().add(new Role("user"));
 
-        given(userDao.get(1L)).willReturn(testData);
+        given(userDao.getOne(1L)).willReturn(testData);
 
         final User user = userManager.getUser("1");
         user.setLastName("smith");
 
-        given(userDao.saveUser(user)).willReturn(user);
+        given(userDao.save(user)).willReturn(user);
         given(roleManager.getRoles(testData.getRoles())).willReturn(testData.getRoles());
 
         User returned = userManager.saveUser(user);
@@ -76,7 +76,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
         Role role = new Role(Constants.USER_ROLE);
         user.addRole(role);
 
-        given(userDao.saveUser(user)).willReturn(user);
+        given(userDao.save(user)).willReturn(user);
         given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
 
         user = userManager.saveUser(user);
@@ -84,16 +84,16 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
         assertTrue(user.getUsername().equals("john_elway"));
         assertTrue(user.getRoles().size() == 1);
 
-        willDoNothing().given(userDao).remove(5L);
+        willDoNothing().given(userDao).deleteById(5L);
         userManager.removeUser("5");
 
-        given(userDao.get(5L)).willReturn(null);
+        given(userDao.getOne(5L)).willReturn(null);
 
         user = userManager.getUser("5");
 
         //then
         assertNull(user);
-        verify(userDao).remove(5L);
+        verify(userDao).deleteById(5L);
     }
 
     @Test
@@ -101,7 +101,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
         final User user = new User("admin");
         user.setEmail("matt@raibledesigns.com");
 
-        willThrow(new DataIntegrityViolationException("")).given(userDao).saveUser(user);
+        willThrow(new DataIntegrityViolationException("")).given(userDao).save(user);
 
         try {
             userManager.saveUser(user);

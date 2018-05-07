@@ -31,20 +31,20 @@
                         <div class="input-append">
                             <input type="text" class="input-medium" id="fileData" readonly="readonly" />
                             <button type="button" class="btn btn-default" id="folderOpen">
-                                <i class="glyphicon glyphicon-folder-open"></i> <span th:text="#{uploadForm.folderOpen}" th:remove="tag">uploadForm.folderOpen</span>
+                                <em class="glyphicon glyphicon-folder-open"></em> <span th:text="#{uploadForm.folderOpen}" th:remove="tag">uploadForm.folderOpen</span>
                             </button>
                         </div>
                         <span class="help-block" th:each="err : ${#fields.errors('fileData')}" th:text="${err}"></span>
                     </div>
                 </div>
-                <fieldset class="form-actions">
+                <div class="form-actions">
                     <button type="submit" class="btn btn-primary">
-                        <i class="glyphicon glyphicon-ok"></i> <span th:text="#{button.upload}" th:remove="tag">button.upload</span>
+                        <em class="glyphicon glyphicon-ok"></em> <span th:text="#{button.upload}" th:remove="tag">button.upload</span>
                     </button>
                     <button type="button" class="btn btn-default" id="button_cancel">
-                        <i class="glyphicon glyphicon-remove"></i> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
+                        <em class="glyphicon glyphicon-remove"></em> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
                     </button>
-                </fieldset>
+                </div>
             </form>
         </div>
         <div class="col-sm-7" th:if="${uploadForm.uploadResult}">

@@ -32,7 +32,7 @@ import common.service.mail.UserMail;
  * ユーザ登録情報変更処理クラス.
  */
 @Controller
-@RequestMapping("/user*")
+@RequestMapping("/user")
 public class UserController extends BaseController {
 
     /** Userメール処理クラス */
@@ -78,7 +78,6 @@ public class UserController extends BaseController {
 
         if (Objects.equals(request.getParameter("mode"), "Add")) {
             User user = new User();
-            LocalDateTime.now().plusDays(Constants.CREDENTIALS_EXPIRED_TERM);
             user.setCredentialsExpiredDate(LocalDateTime.now().plusDays(Constants.CREDENTIALS_EXPIRED_TERM));
             user.addRole(new Role(Constants.USER_ROLE));
             return user;

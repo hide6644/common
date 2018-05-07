@@ -35,12 +35,12 @@ import common.dao.SearchException;
 /**
  * 全文検索クエリを処理するクラス.
  */
-class HibernateSearchJpaTools {
+class HibernateSearchTools {
 
     /**
      * プライベート・コンストラクタ.
      */
-    private HibernateSearchJpaTools() {
+    private HibernateSearchTools() {
     }
 
     /**
@@ -174,7 +174,7 @@ class HibernateSearchJpaTools {
         try {
             massIndexer.startAndWait();
         } catch (InterruptedException e) {
-            LogManager.getLogger(HibernateSearchJpaTools.class).warn("mass reindexing interrupted: " + e.getMessage());
+            LogManager.getLogger(HibernateSearchTools.class).warn("mass reindexing interrupted: " + e.getMessage());
             Thread.currentThread().interrupt();
         } finally {
             txtentityManager.flushToIndexes();
@@ -201,7 +201,7 @@ class HibernateSearchJpaTools {
                 massIndexer.start();
             }
         } catch (InterruptedException e) {
-            LogManager.getLogger(HibernateSearchJpaTools.class).warn("mass reindexing interrupted: " + e.getMessage());
+            LogManager.getLogger(HibernateSearchTools.class).warn("mass reindexing interrupted: " + e.getMessage());
             Thread.currentThread().interrupt();
         } finally {
             txtentityManager.flushToIndexes();

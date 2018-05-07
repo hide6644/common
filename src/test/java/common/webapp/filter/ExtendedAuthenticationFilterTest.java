@@ -18,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
@@ -53,6 +54,20 @@ public class ExtendedAuthenticationFilterTest {
     }
 
     @Test
+    public void testAuthenticationServiceException() {
+        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/");
+        request.setSession(new MockHttpSession());
+
+        filter.setAuthenticationManager(createAuthenticationManager());
+
+        try {
+            filter.attemptAuthentication(request, new MockHttpServletResponse());
+            fail("Expected AuthenticationException");
+        } catch (AuthenticationException e) {
+        }
+    }
+
+    @Test
     public void testFailedAuthenticationThrowsException() {
         MockHttpServletRequest request = new MockHttpServletRequest("POST", "/");
         request.addParameter(
@@ -61,11 +76,30 @@ public class ExtendedAuthenticationFilterTest {
         request.setSession(new MockHttpSession());
 
         AuthenticationManager am = mock(AuthenticationManager.class);
-        when(am.authenticate(any(Authentication.class))).thenThrow(
-                new BadCredentialsException(""));
+        when(am.authenticate(any(Authentication.class))).thenThrow(new BadCredentialsException(""));
         filter.setAuthenticationManager(am);
 
         given(userManager.getUserByUsername("user")).willReturn(new User("user"));
+
+        for (int i = 0; i <= Constants.LOGIN_FAILURE_UPPER_LIMIT; i++) {
+            try {
+                filter.attemptAuthentication(request, new MockHttpServletResponse());
+                fail("Expected AuthenticationException");
+            } catch (AuthenticationException e) {
+            }
+        }
+    }
+
+    @Test
+    public void testFailedAuthenticationUsernameNotFound() {
+        MockHttpServletRequest request = new MockHttpServletRequest("POST", "/");
+        request.setSession(new MockHttpSession());
+
+        AuthenticationManager am = mock(AuthenticationManager.class);
+        when(am.authenticate(any(Authentication.class))).thenThrow(new BadCredentialsException(""));
+        filter.setAuthenticationManager(am);
+
+        when(userManager.getUserByUsername("")).thenThrow(new UsernameNotFoundException(""));
 
         for (int i = 0; i <= Constants.LOGIN_FAILURE_UPPER_LIMIT; i++) {
             try {

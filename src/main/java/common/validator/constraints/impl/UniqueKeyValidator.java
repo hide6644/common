@@ -1,7 +1,5 @@
 package common.validator.constraints.impl;
 
-import static common.dao.jpa.GenericDaoJpa.*;
-
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,6 +19,7 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.stereotype.Component;
 
+import common.Constants;
 import common.validator.constraints.UniqueKey;
 
 /**
@@ -33,7 +32,7 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Serial
     private String[] columnNames;
 
     /** Entity Managerクラス */
-    @PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
+    @PersistenceContext(unitName = Constants.PERSISTENCE_UNIT_NAME)
     protected EntityManager entityManager;
 
     /**

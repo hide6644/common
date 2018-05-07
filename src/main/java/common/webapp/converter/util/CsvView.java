@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -40,8 +38,9 @@ public class CsvView extends AbstractUrlBasedView {
         List<String[]> csv = null;
 
         if (getUrl() != null) {
-            try (InputStreamReader is = new InputStreamReader(getTemplateSource(getUrl(), request), Constants.ENCODING);
-                    CSVReader reader = new CSVReaderBuilder(is).build()) {
+            try (InputStream is = getTemplateSource(getUrl(), request);
+                    InputStreamReader isr = new InputStreamReader(is, Constants.ENCODING);
+                    CSVReader reader = new CSVReaderBuilder(isr).build()) {
                 csv = reader.readAll();
             }
         } else {
@@ -63,9 +62,8 @@ public class CsvView extends AbstractUrlBasedView {
      *             {@link IOException}
      */
     private void doRender(List<String[]> csv, HttpServletResponse response) throws IOException {
-        try (OutputStreamWriter os = new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8);
-                PrintWriter pw = new PrintWriter(os);
-                CSVWriter writer = new CSVWriter(pw)) {
+        try (OutputStreamWriter os = new OutputStreamWriter(response.getOutputStream(), Constants.ENCODING);
+                CSVWriter writer = new CSVWriter(os)) {
             writer.writeAll(csv);
         }
     }

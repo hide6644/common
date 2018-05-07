@@ -32,7 +32,7 @@ public class UpdatePasswordController extends BaseController {
      *            ユーザ名
      * @return 遷移先
      */
-    @RequestMapping(value = "/requestRecoveryToken*", method = RequestMethod.GET)
+    @RequestMapping(value = "/requestRecoveryToken", method = RequestMethod.GET)
     public String requestRecoveryToken(@RequestParam(value = "username", required = true) String username) {
         try {
             userManager.recoveryPassword(username);
@@ -55,7 +55,7 @@ public class UpdatePasswordController extends BaseController {
      *            {@link HttpServletRequest}
      * @return 遷移先画面設定
      */
-    @RequestMapping(value = "/updatePassword*", method = RequestMethod.GET)
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.GET)
     public ModelAndView showForm(@RequestParam(value = "username", required = false) String username, @RequestParam(value = "token", required = false) String token, HttpServletRequest request) {
         if (StringUtils.isBlank(username)) {
             username = request.getRemoteUser();
@@ -84,7 +84,7 @@ public class UpdatePasswordController extends BaseController {
      *            {@link HttpServletRequest}
      * @return 遷移先画面設定
      */
-    @RequestMapping(value = "/updatePassword*", method = RequestMethod.POST)
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
     public ModelAndView onSubmit(@RequestParam(value = "username", required = true) String username, @RequestParam(value = "token", required = false) String token,
             @RequestParam(value = "currentPassword", required = false) String currentPassword, @RequestParam(value = "password", required = true) String password, HttpServletRequest request) {
         if (StringUtils.isEmpty(password)) {

@@ -9,7 +9,7 @@ import common.model.Role;
 /**
  * 権限処理のインターフェース.
  */
-public interface RoleManager extends GenericManager<Role, Long> {
+public interface RoleManager {
 
     /**
      * 指定された名称の権限を取得する.

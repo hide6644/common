@@ -45,6 +45,24 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
     }
 
     @Test
+    public void testOnSubmitCsvError() throws Exception {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        InputStream input = classLoader.getResourceAsStream("common/webapp/controller/usersError.csv");
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);
+
+        UploadForm uploadForm = new UploadForm();
+        uploadForm.setFileType(FileType.CSV.getValue());
+        uploadForm.setFileData(mockMultipartFile);
+
+        BindingResult errors = new DataBinder(uploadForm).getBindingResult();
+        c.onSubmit(uploadForm, errors);
+
+        assertEquals(2, uploadForm.getUploadResult().getUploadErrors().get(0).getRowNo());
+        assertTrue(uploadForm.getUploadResult().getUploadErrors().get(0).getFieldName().length() > 0);
+        assertTrue(uploadForm.getUploadResult().getUploadErrors().get(0).getMessage().length() > 0);
+    }
+
+    @Test
     public void testOnSubmitXls() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream("common/webapp/controller/users.xlsx");
