@@ -135,7 +135,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
 
         try {
             user.setRoles(roleManager.getRoles(user.getRoles()));
-            return userDao.save(user);
+            return userDao.saveAndFlush(user);
         } catch (Exception e) {
             user.setPassword(null);
             user.setConfirmPassword(null);
@@ -261,7 +261,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
         user.setConfirmPassword(user.getPassword());
         user.setEnabled(true);
 
-        return userDao.save(user);
+        return userDao.saveAndFlush(user);
     }
 
     /**

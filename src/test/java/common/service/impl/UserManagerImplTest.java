@@ -58,7 +58,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
         final User user = userManager.getUser("1");
         user.setLastName("smith");
 
-        given(userDao.save(user)).willReturn(user);
+        given(userDao.saveAndFlush(user)).willReturn(user);
         given(roleManager.getRoles(testData.getRoles())).willReturn(testData.getRoles());
 
         User returned = userManager.saveUser(user);
@@ -76,7 +76,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
         Role role = new Role(Constants.USER_ROLE);
         user.addRole(role);
 
-        given(userDao.save(user)).willReturn(user);
+        given(userDao.saveAndFlush(user)).willReturn(user);
         given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
 
         user = userManager.saveUser(user);
@@ -101,7 +101,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
         final User user = new User("admin");
         user.setEmail("matt@raibledesigns.com");
 
-        willThrow(new DataIntegrityViolationException("")).given(userDao).save(user);
+        willThrow(new DataIntegrityViolationException("")).given(userDao).saveAndFlush(user);
 
         try {
             userManager.saveUser(user);

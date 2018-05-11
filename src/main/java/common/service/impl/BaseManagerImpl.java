@@ -8,7 +8,7 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.MessageSourceAccessor;
 
 /**
- * 一般的なCRUD POJOsの実装クラス.
+ * 基底クラス.
  */
 public class BaseManagerImpl {
 
