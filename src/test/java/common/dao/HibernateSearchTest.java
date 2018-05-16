@@ -21,7 +21,7 @@ public class HibernateSearchTest extends BaseDaoTestCase {
     @Before
     public void setUp() {
         hibernateSearch = new HibernateSearchImpl<User>(User.class, entityManager);
-        hibernateSearch.reindexAll(true);
+        hibernateSearch.reindexAll(false);
     }
 
     @Test
@@ -62,4 +62,5 @@ public class HibernateSearchTest extends BaseDaoTestCase {
 
         assertNotNull(userFacet);
         assertEquals(2, userFacet.size());
-    }}
+    }
+}

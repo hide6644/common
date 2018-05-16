@@ -60,7 +60,7 @@ public class UserSecurityAdviceAnonymousTest {
         user.setId(1L);
         user.getRoles().add(new Role(Constants.USER_ROLE));
 
-        given(userDao.save(user)).willReturn(user);
+        given(userDao.saveAndFlush(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
         given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
 
