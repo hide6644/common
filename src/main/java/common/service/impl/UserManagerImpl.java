@@ -77,12 +77,6 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     private Validator validator;
 
     /**
-     * デフォルト・コンストラクタ.
-     */
-    public UserManagerImpl() {
-    }
-
-    /**
      * コンストラクタ.
      *
      * @param userDao
@@ -330,14 +324,6 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     @Override
     public void reindex() {
         userSearch.reindex();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
     }
 
     /**

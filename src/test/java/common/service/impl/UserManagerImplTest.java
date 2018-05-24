@@ -32,7 +32,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
     private RoleManager roleManager;
 
     @InjectMocks
-    private UserManagerImpl userManager = new UserManagerImpl();
+    private UserManagerImpl userManager = new UserManagerImpl(userDao);
 
     @Test
     public void testGetUser() {

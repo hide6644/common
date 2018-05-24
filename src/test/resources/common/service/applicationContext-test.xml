@@ -23,7 +23,12 @@
     <!-- Password reset token encoder -->
     <bean id="passwordTokenEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder" />
 
+    <bean id="userDao" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="common.dao.UserDao" />
+    </bean>
+
     <bean id="userManager" class="common.service.impl.UserManagerImpl">
+        <constructor-arg ref="userDao" />
         <property name="passwordEncoder" ref="passwordEncoder" />
     </bean>
 

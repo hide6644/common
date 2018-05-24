@@ -21,7 +21,6 @@ import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import common.Constants;
-import common.dao.UserDao;
 import common.model.Role;
 import common.model.User;
 import common.service.RoleManager;
@@ -30,9 +29,6 @@ import common.service.UserSecurityAdvice;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserSecurityAdviceTest {
-
-    @Mock
-    private UserDao userDao;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -98,7 +94,6 @@ public class UserSecurityAdviceTest {
         User adminUser = new User("admin");
         adminUser.setId(2L);
 
-        given(userDao.saveAndFlush(adminUser)).willReturn(adminUser);
         given(passwordEncoder.encode(adminUser.getPassword())).willReturn(adminUser.getPassword());
         given(roleManager.getRoles(adminUser.getRoles())).willReturn(adminUser.getRoles());
 
@@ -112,7 +107,6 @@ public class UserSecurityAdviceTest {
         user.getRoles().add(new Role(Constants.USER_ROLE));
         user.setVersion(1L);
 
-        given(userDao.saveAndFlush(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
         given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
 
@@ -170,7 +164,6 @@ public class UserSecurityAdviceTest {
         user.getRoles().add(new Role(Constants.USER_ROLE));
         user.setVersion(1L);
 
-        given(userDao.saveAndFlush(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
         given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
 
@@ -184,7 +177,6 @@ public class UserSecurityAdviceTest {
         user.getRoles().add(new Role(Constants.USER_ROLE));
         user.setVersion(1L);
 
-        given(userDao.saveAndFlush(user)).willReturn(user);
         given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
         given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
 
@@ -195,7 +187,6 @@ public class UserSecurityAdviceTest {
         ctx = new ClassPathXmlApplicationContext("/common/service/applicationContext-test.xml");
 
         UserManager userManager = (UserManager) ctx.getBean("target");
-        userManager.setUserDao(userDao);
         userManager.setPasswordEncoder(passwordEncoder);
         userManager.setRoleManager(roleManager);
 

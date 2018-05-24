@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import common.dao.UserDao;
 import common.model.PaginatedList;
 import common.model.User;
 import common.webapp.form.UploadForm;
@@ -150,14 +149,6 @@ public interface UserManager {
      * インデックスを再作成する.
      */
     void reindex();
-
-    /**
-     * ユーザDAOを設定する.
-     *
-     * @param userDao
-     *            ユーザDAO
-     */
-    void setUserDao(UserDao userDao);
 
     /**
      * パスワードエンコーダーを設定する.
