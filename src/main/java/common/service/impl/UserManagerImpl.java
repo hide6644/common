@@ -65,7 +65,6 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     private PasswordTokenManager passwordTokenManager;
 
     /** Role処理クラス */
-    @Autowired
     private RoleManager roleManager;
 
     /** Userメール処理クラス */
@@ -81,10 +80,13 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      *
      * @param userDao
      *            ユーザDAO
+     * @param roleManager
+     *            Role処理クラス
      */
     @Autowired
-    public UserManagerImpl(UserDao userDao) {
+    public UserManagerImpl(UserDao userDao, RoleManager roleManager) {
         this.userDao = userDao;
+        this.roleManager = roleManager;
     }
 
     /**
@@ -324,21 +326,5 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     @Override
     public void reindex() {
         userSearch.reindex();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setRoleManager(RoleManager roleManager) {
-        this.roleManager = roleManager;
     }
 }

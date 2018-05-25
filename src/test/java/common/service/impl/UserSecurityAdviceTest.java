@@ -1,14 +1,12 @@
 package common.service.impl;
 
 import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -18,23 +16,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import common.Constants;
 import common.model.Role;
 import common.model.User;
-import common.service.RoleManager;
 import common.service.UserManager;
 import common.service.UserSecurityAdvice;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserSecurityAdviceTest {
-
-    @Mock
-    private PasswordEncoder passwordEncoder;
-
-    @Mock
-    private RoleManager roleManager;
 
     ApplicationContext ctx;
 
@@ -94,9 +84,6 @@ public class UserSecurityAdviceTest {
         User adminUser = new User("admin");
         adminUser.setId(2L);
 
-        given(passwordEncoder.encode(adminUser.getPassword())).willReturn(adminUser.getPassword());
-        given(roleManager.getRoles(adminUser.getRoles())).willReturn(adminUser.getRoles());
-
         makeInterceptedTarget().saveUser(adminUser);
     }
 
@@ -106,9 +93,6 @@ public class UserSecurityAdviceTest {
         user.setId(1L);
         user.getRoles().add(new Role(Constants.USER_ROLE));
         user.setVersion(1L);
-
-        given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
-        given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
 
         makeInterceptedTarget().saveUser(user);
     }
@@ -164,9 +148,6 @@ public class UserSecurityAdviceTest {
         user.getRoles().add(new Role(Constants.USER_ROLE));
         user.setVersion(1L);
 
-        given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
-        given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
-
         makeInterceptedTarget().saveUser(user);
     }
 
@@ -177,9 +158,6 @@ public class UserSecurityAdviceTest {
         user.getRoles().add(new Role(Constants.USER_ROLE));
         user.setVersion(1L);
 
-        given(passwordEncoder.encode(user.getPassword())).willReturn(user.getPassword());
-        given(roleManager.getRoles(user.getRoles())).willReturn(user.getRoles());
-
         makeInterceptedTarget().saveUser(user);
     }
 
@@ -187,8 +165,6 @@ public class UserSecurityAdviceTest {
         ctx = new ClassPathXmlApplicationContext("/common/service/applicationContext-test.xml");
 
         UserManager userManager = (UserManager) ctx.getBean("target");
-        userManager.setPasswordEncoder(passwordEncoder);
-        userManager.setRoleManager(roleManager);
 
         return userManager;
     }

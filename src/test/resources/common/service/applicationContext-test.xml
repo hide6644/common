@@ -18,18 +18,17 @@
     <!-- Advice Class -->
     <bean id="userSecurityAdvice" class="common.service.UserSecurityAdvice" />
 
-    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-
-    <!-- Password reset token encoder -->
-    <bean id="passwordTokenEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder" />
-
     <bean id="userDao" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="common.dao.UserDao" />
     </bean>
 
+    <bean id="roleManager" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="common.service.RoleManager" />
+    </bean>
+
     <bean id="userManager" class="common.service.impl.UserManagerImpl">
         <constructor-arg ref="userDao" />
-        <property name="passwordEncoder" ref="passwordEncoder" />
+        <constructor-arg ref="roleManager" />
     </bean>
 
     <bean id="target" class="org.springframework.aop.framework.ProxyFactoryBean">

@@ -2,8 +2,6 @@ package common.service;
 
 import java.util.List;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import common.model.PaginatedList;
 import common.model.User;
 import common.webapp.form.UploadForm;
@@ -149,20 +147,4 @@ public interface UserManager {
      * インデックスを再作成する.
      */
     void reindex();
-
-    /**
-     * パスワードエンコーダーを設定する.
-     *
-     * @param passwordEncoder
-     *            パスワードエンコーダー
-     */
-    void setPasswordEncoder(PasswordEncoder passwordEncoder);
-
-    /**
-     * Role処理クラスを設定する.
-     *
-     * @param roleManager
-     *            Role処理クラス
-     */
-    void setRoleManager(RoleManager roleManager);
 }
