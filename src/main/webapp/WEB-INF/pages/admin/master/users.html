@@ -106,7 +106,7 @@
             });
 
             $('#button_edit').click(function() {
-                var ids = $('input[name$=Ids]:checked');
+                let ids = $('input[name$=Ids]:checked');
                 if (ids.length == 0) {
                 	alert('[(${#messages.msg('button.choose', '__#{button.edit_target}__')})]');
                 } else if (ids.length > 1) {
