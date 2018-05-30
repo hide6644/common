@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -17,7 +15,6 @@ import org.springframework.security.core.GrantedAuthority;
  */
 @Entity
 @Table(name = "role")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public final class Role extends BaseObject implements Serializable, GrantedAuthority {
 
     /** 名称 */

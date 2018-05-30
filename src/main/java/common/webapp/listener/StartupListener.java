@@ -26,7 +26,6 @@ import common.model.LabelValue;
 import common.service.RoleManager;
 import common.service.UserManager;
 import common.webapp.converter.FileType;
-import net.sf.ehcache.CacheManager;
 
 /**
  * アプリケーション初期化処理を実行するクラス.
@@ -115,6 +114,6 @@ public class StartupListener implements ServletContextListener {
      */
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        CacheManager.getInstance().shutdown();
+        // 何もしない
     }
 }
