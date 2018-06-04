@@ -24,7 +24,7 @@ public class SignupControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testSignupUserHasErrors() throws Exception {
-        greenMail.reset();
+        greenMail.purgeEmailFromAllMailboxes();
 
         User user = new User();
         user.setUsername("testuser");
@@ -38,7 +38,7 @@ public class SignupControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testCompleteHasErrors() throws Exception {
-        greenMail.reset();
+        greenMail.purgeEmailFromAllMailboxes();
 
         String rtn = c.complete("normaluser", "test-token");
 
@@ -47,7 +47,7 @@ public class SignupControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testSignupUser() throws Exception {
-        greenMail.reset();
+        greenMail.purgeEmailFromAllMailboxes();
 
         User user = new User();
         user.setUsername("self-registered");

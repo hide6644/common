@@ -144,7 +144,7 @@ public class UserControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testSaveAddFromList() throws Exception {
-        greenMail.reset();
+        greenMail.purgeEmailFromAllMailboxes();
 
         MockHttpServletRequest request = newPost("/userform.html");
         request.setParameter("from", "list");
