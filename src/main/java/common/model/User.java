@@ -26,8 +26,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Facet;
@@ -47,7 +45,6 @@ import common.validator.constraints.UniqueKey;
  */
 @Entity
 @Table(name = "app_user")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Indexed
 @Analyzer(impl = JapaneseAnalyzer.class)
 @XmlRootElement
