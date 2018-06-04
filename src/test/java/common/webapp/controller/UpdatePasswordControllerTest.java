@@ -29,8 +29,8 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     private UserManager userManager;
 
     @Test
-    public void testRequestRecoveryToken() {
-        greenMail.reset();
+    public void testRequestRecoveryToken() throws Exception {
+        greenMail.purgeEmailFromAllMailboxes();
 
         String username = "administrator";
 
@@ -78,8 +78,8 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testResetPassword() {
-        greenMail.reset();
+    public void testResetPassword() throws Exception {
+        greenMail.purgeEmailFromAllMailboxes();
 
         String username = "administrator";
         String token = passwordTokenManager.generateRecoveryToken(userManager.getUserByUsername(username));

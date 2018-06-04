@@ -52,7 +52,7 @@ public class MailEngineTest extends BaseManagerTestCase {
 
     @Test
     public void testSend() throws Exception {
-        greenMail.reset();
+        greenMail.purgeEmailFromAllMailboxes();
 
         Date dte = new Date();
         mailMessage.setTo("foo@bar.com");
@@ -74,9 +74,9 @@ public class MailEngineTest extends BaseManagerTestCase {
 
     @Test
     public void testSendMessageWithAttachment() throws Exception {
-        final String attachmentName = "boring-attachment.txt";
+        greenMail.purgeEmailFromAllMailboxes();
 
-        greenMail.reset();
+        final String attachmentName = "boring-attachment.txt";
 
         Date dte = new Date();
         String emailSubject = "grepster testSendMessageWithAttachment: " + dte;

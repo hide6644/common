@@ -53,8 +53,8 @@ public class PasswordTokenManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testConsumeRecoveryToken() {
-        greenMail.reset();
+    public void testConsumeRecoveryToken() throws Exception {
+        greenMail.purgeEmailFromAllMailboxes();
 
         User user = userManager.getUserByUsername("normaluser");
         String token = passwordTokenManager.generateRecoveryToken(user);
