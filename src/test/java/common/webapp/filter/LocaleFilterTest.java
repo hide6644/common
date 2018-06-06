@@ -32,10 +32,12 @@ public class LocaleFilterTest {
 
         filter.doFilter(request, response, new MockFilterChain());
 
-        // no session, should result in null
-        assertNull(request.getSession().getAttribute(Constants.PREFERRED_LOCALE_KEY));
-        // thread locale should always have it, regardless of session
+        // no session, should result in not null
+        Locale locale = (Locale) request.getSession().getAttribute(Constants.PREFERRED_LOCALE_KEY);
+
+        assertNotNull(locale);
         assertNotNull(LocaleContextHolder.getLocale());
+        assertEquals(new Locale("es"), locale);
     }
 
     @Test
@@ -88,6 +90,7 @@ public class LocaleFilterTest {
     public void testNullLocale() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
+        request.setSession(new MockHttpSession(null));
 
         filter.doFilter(request, response, new MockFilterChain());
 
