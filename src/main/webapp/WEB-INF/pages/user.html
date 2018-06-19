@@ -29,7 +29,7 @@
                     <input type="text" class="form-control" th:field="*{username}" />
                     <span class="help-block" th:each="err : ${#fields.errors('username')}" th:text="${err}"></span>
                 </div>
-                <div class="control-group" th:unless="${addMode}">
+                <div class="form-group" th:unless="${addMode}">
                     <label for="username" class="control-label" th:text="#{user.username}">user.username</label>
                     <input type="text" class="form-control" readonly="readonly" th:field="*{username}" />
                 </div>
