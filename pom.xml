@@ -623,19 +623,19 @@
         <jquery.version>3.3.1-1</jquery.version>
         <js-cookie.version>2.2.0</js-cookie.version>
         <junit.version>4.12</junit.version>
-        <jxls.version>2.4.4</jxls.version>
-        <jxls-poi.version>1.0.14</jxls-poi.version>
+        <jxls.version>2.4.5</jxls.version>
+        <jxls-poi.version>1.0.15</jxls-poi.version>
         <jxls-reader.version>2.0.3</jxls-reader.version>
         <log4j.version>2.9.1</log4j.version>
         <lucene.version>5.5.5</lucene.version>
         <mail.version>1.6.1</mail.version>
         <mockito.version>2.18.3</mockito.version>
-        <momentjs.version>2.21.0</momentjs.version>
-        <opencsv.version>4.1</opencsv.version>
+        <momentjs.version>2.22.1</momentjs.version>
+        <opencsv.version>4.2</opencsv.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <spring.version>5.0.6.RELEASE</spring.version>
-        <spring-data.version>2.0.7.RELEASE</spring-data.version>
-        <spring-security.version>4.2.6.RELEASE</spring-security.version>
+        <spring.version>5.0.7.RELEASE</spring.version>
+        <spring-data.version>2.0.8.RELEASE</spring-data.version>
+        <spring-security.version>4.2.7.RELEASE</spring-security.version>
         <thymeleaf-spring5.version>3.0.9.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>
         <thymeleaf-layout-dialect.version>2.3.0</thymeleaf-layout-dialect.version>
