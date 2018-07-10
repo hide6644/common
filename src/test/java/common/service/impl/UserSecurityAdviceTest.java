@@ -1,13 +1,12 @@
 package common.service.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.access.AccessDeniedException;
@@ -23,14 +22,14 @@ import common.model.User;
 import common.service.UserManager;
 import common.service.UserSecurityAdvice;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class UserSecurityAdviceTest {
 
     ApplicationContext ctx;
 
     SecurityContext initialSecurityContext;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         initialSecurityContext = SecurityContextHolder.getContext();
 
@@ -46,7 +45,7 @@ public class UserSecurityAdviceTest {
         SecurityContextHolder.setContext(context);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         SecurityContextHolder.setContext(initialSecurityContext);
     }
@@ -65,7 +64,7 @@ public class UserSecurityAdviceTest {
             fail("AccessDeniedException not thrown");
         } catch (AccessDeniedException expected) {
             assertNotNull(expected);
-            Assert.assertEquals(UserSecurityAdvice.ACCESS_DENIED, expected.getMessage());
+            assertEquals(UserSecurityAdvice.ACCESS_DENIED, expected.getMessage());
         }
     }
 

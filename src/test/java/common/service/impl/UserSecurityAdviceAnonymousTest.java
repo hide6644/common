@@ -1,10 +1,11 @@
 package common.service.impl;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -18,14 +19,14 @@ import common.model.Role;
 import common.model.User;
 import common.service.UserManager;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class UserSecurityAdviceAnonymousTest {
 
     ApplicationContext ctx;
 
     SecurityContext initialSecurityContext;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         initialSecurityContext = SecurityContextHolder.getContext();
 
@@ -34,7 +35,7 @@ public class UserSecurityAdviceAnonymousTest {
         SecurityContextHolder.setContext(context);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         SecurityContextHolder.setContext(initialSecurityContext);
     }

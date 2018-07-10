@@ -12,12 +12,18 @@ import javax.persistence.PersistenceContext;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:/common/dao/applicationContext-resources.xml",
         "classpath:/common/dao/applicationContext-dao.xml", "classpath*:/applicationContext.xml" })
-public abstract class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTests {
+@Transactional
+@Rollback
+public abstract class BaseDaoTestCase {
 
     public static final String PERSISTENCE_UNIT_NAME = "ApplicationEntityManager";
 

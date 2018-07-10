@@ -1,12 +1,13 @@
 package common.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
 import org.hibernate.search.query.facet.Facet;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +19,7 @@ public class HibernateSearchTest extends BaseDaoTestCase {
 
     HibernateSearch<User> hibernateSearch;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         hibernateSearch = new HibernateSearchImpl<User>(User.class, entityManager);
         hibernateSearch.reindexAll(false);
@@ -37,9 +38,11 @@ public class HibernateSearchTest extends BaseDaoTestCase {
         assertEquals(2, userList.size());
     }
 
-    @Test(expected = SearchException.class)
+    @Test
     public void testSearchException() {
-        hibernateSearch.search(new String[]{""}, new String[]{""});
+        Assertions.assertThrows(SearchException.class, () -> {
+            hibernateSearch.search(new String[]{""}, new String[]{""});
+        });
     }
 
     @Test

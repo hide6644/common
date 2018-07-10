@@ -1,13 +1,13 @@
 package common.webapp.listener;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.ContextLoaderListener;
@@ -23,7 +23,7 @@ public class StartupListenerTest {
 
     private ContextLoaderListener springListener = null;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         sc = new MockServletContext("");
         sc.addInitParameter(ContextLoader.CONFIG_LOCATION_PARAM, "classpath:common/dao/applicationContext-resources.xml, classpath:/common/dao/applicationContext-dao.xml, classpath:/applicationContext-service.xml");
@@ -33,7 +33,7 @@ public class StartupListenerTest {
         listener = new StartupListener();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         springListener.closeWebApplicationContext(sc);
         springListener.contextDestroyed(new ServletContextEvent(sc));

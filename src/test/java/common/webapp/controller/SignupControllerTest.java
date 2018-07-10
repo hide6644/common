@@ -1,8 +1,8 @@
 package common.webapp.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
@@ -60,7 +60,7 @@ public class SignupControllerTest extends BaseControllerTestCase {
         BindingResult errors = new DataBinder(user).getBindingResult();
         c.onSubmit(user, errors);
 
-        assertFalse("errors returned in model", errors.hasErrors());
+        assertFalse(errors.hasErrors());
 
         String content = (String) greenMail.getReceivedMessages()[0].getContent();
         String token = content.substring(content.indexOf("token=") + "token=".length()).replaceAll("\r\n", "");

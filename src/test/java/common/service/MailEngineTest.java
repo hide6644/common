@@ -1,6 +1,6 @@
 package common.service;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Date;
 
@@ -9,9 +9,9 @@ import javax.mail.Part;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.SimpleMailMessage;
@@ -32,7 +32,7 @@ public class MailEngineTest extends BaseManagerTestCase {
 
     private GreenMail greenMail;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         greenMail = new GreenMail(ServerSetupTest.SMTP);
         greenMail.start();
@@ -43,7 +43,7 @@ public class MailEngineTest extends BaseManagerTestCase {
         mailEngine.setMailSender(mailSender);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         mailEngine.setMailSender(null);
 

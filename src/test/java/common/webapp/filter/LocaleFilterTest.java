@@ -1,11 +1,11 @@
 package common.webapp.filter;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Locale;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mock.web.MockFilterConfig;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -18,7 +18,7 @@ public class LocaleFilterTest {
 
     private LocaleFilter filter = null;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         filter = new LocaleFilter();
         filter.init(new MockFilterConfig());
