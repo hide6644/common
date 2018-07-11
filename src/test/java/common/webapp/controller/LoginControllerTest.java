@@ -11,7 +11,7 @@ import common.webapp.filter.FlashMap;
 public class LoginControllerTest extends BaseControllerTestCase {
 
     @Autowired
-    private LoginController c = null;
+    private LoginController c;
 
     @Test
     public void testSetupLogin() {

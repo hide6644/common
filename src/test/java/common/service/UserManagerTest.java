@@ -18,14 +18,14 @@ import common.webapp.form.UploadForm;
 public class UserManagerTest extends BaseManagerTestCase {
 
     @Autowired
-    private UserManager mgr;
+    private UserManager userManager;
 
     @Autowired
     private RoleManager roleManager;
 
     @Test
     public void testGetUser() {
-        User user = mgr.getUserByUsername("normaluser");
+        User user = userManager.getUserByUsername("normaluser");
 
         assertNotNull(user);
         assertTrue(user.isAccountNonLocked());
@@ -39,7 +39,7 @@ public class UserManagerTest extends BaseManagerTestCase {
 
     @Test
     public void testGetUsers() {
-        List<User> userList = mgr.getUsers();
+        List<User> userList = userManager.getUsers();
 
         assertNotNull(userList);
         assertEquals(2, userList.size());
@@ -47,13 +47,13 @@ public class UserManagerTest extends BaseManagerTestCase {
 
     @Test
     public void testSaveUser() {
-        User user = mgr.getUserByUsername("normaluser");
+        User user = userManager.getUserByUsername("normaluser");
         user.setConfirmPassword(user.getPassword());
         user.setLastName("smith");
 
         log.debug("saving user with updated last name: " + user);
 
-        user = mgr.saveUser(user);
+        user = userManager.saveUser(user);
 
         assertEquals("smith", user.getLastName());
         assertEquals(1, user.getRoles().size());
@@ -64,14 +64,14 @@ public class UserManagerTest extends BaseManagerTestCase {
         User user = new User();
         user = (User) populate(user);
         user.addRole(roleManager.getRole(Constants.USER_ROLE));
-        user = mgr.saveUser(user);
+        user = userManager.saveUser(user);
 
         log.debug("removing user...");
 
-        mgr.removeUser(user);
+        userManager.removeUser(user);
 
         try {
-            user = mgr.getUserByUsername("john");
+            user = userManager.getUserByUsername("john");
             fail("Expected 'Exception' not thrown");
         } catch (Exception e) {
             log.debug(e);
@@ -84,17 +84,17 @@ public class UserManagerTest extends BaseManagerTestCase {
         User user = new User();
         user = (User) populate(user);
         user.addRole(roleManager.getRole(Constants.USER_ROLE));
-        user = mgr.saveUser(user);
+        user = userManager.saveUser(user);
 
         assertEquals("john_elway", user.getUsername());
         assertEquals(1, user.getRoles().size());
 
         log.debug("removing user...");
 
-        mgr.removeUser(user.getId().toString());
+        userManager.removeUser(user.getId().toString());
 
         try {
-            user = mgr.getUserByUsername("john");
+            user = userManager.getUserByUsername("john");
             fail("Expected 'Exception' not thrown");
         } catch (Exception e) {
             log.debug(e);
@@ -111,13 +111,13 @@ public class UserManagerTest extends BaseManagerTestCase {
         UploadForm uploadForm = new UploadForm();
         uploadForm.setFileType(FileType.CSV.getValue());
         uploadForm.setFileData(mockMultipartFile);
-        mgr.uploadUsers(uploadForm);
+        userManager.uploadUsers(uploadForm);
 
         // 検索結果が1件の場合
         User user = new User("normaluser");
         user.setEnabled(true);
         user.setAccountLocked(false);
-        PaginatedList<User> paginatedList = mgr.createPaginatedList(user, 1);
+        PaginatedList<User> paginatedList = userManager.createPaginatedList(user, 1);
 
         assertNotNull(paginatedList);
         assertEquals(2, paginatedList.getPageRangeSize());
@@ -133,7 +133,7 @@ public class UserManagerTest extends BaseManagerTestCase {
 
         // 検索結果が12件の場合
         user.setUsername(null);
-        paginatedList = mgr.createPaginatedList(user, 1);
+        paginatedList = userManager.createPaginatedList(user, 1);
 
         assertNotNull(paginatedList);
         assertEquals(12, paginatedList.getAllRecordCount());
@@ -144,7 +144,7 @@ public class UserManagerTest extends BaseManagerTestCase {
         assertEquals(Integer.valueOf(2), paginatedList.getPageNumberList().get(1));
         assertEquals(5, paginatedList.getCurrentPage().size());
 
-        paginatedList = mgr.createPaginatedList(user, 3);
+        paginatedList = userManager.createPaginatedList(user, 3);
 
         assertEquals(11, paginatedList.getCurrentStartRecordNumber());
         assertEquals(15, paginatedList.getCurrentEndRecordNumber());

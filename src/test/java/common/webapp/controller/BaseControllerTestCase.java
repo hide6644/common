@@ -4,7 +4,9 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.icegreen.greenmail.store.FolderException;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetupTest;
 
@@ -44,15 +47,19 @@ public abstract class BaseControllerTestCase {
     @Autowired
     protected ApplicationContext applicationContext;
 
-    protected GreenMail greenMail;
+    protected static GreenMail greenMail;
 
     protected MockMvc mockMvc;
 
-    @BeforeEach
-    public void setUp() {
+    @BeforeAll
+    public static void setUpClass() {
         greenMail = new GreenMail(ServerSetupTest.SMTP);
         greenMail.start();
+    }
 
+    @BeforeEach
+    public void setUp() throws FolderException {
+        greenMail.purgeEmailFromAllMailboxes();
         JavaMailSenderImpl mailSender = (JavaMailSenderImpl) applicationContext.getBean("mailSender");
         mailSender.setPort(greenMail.getSmtp().getPort());
         mailSender.setHost("localhost");
@@ -65,9 +72,12 @@ public abstract class BaseControllerTestCase {
 
     @AfterEach
     public void tearDown() {
-        greenMail.stop();
-
         SecurityContextHolder.clearContext();
+    }
+
+    @AfterAll
+    public static void tearDownClass() {
+        greenMail.stop();
     }
 
     protected MockHttpServletRequest newPost(String url) {

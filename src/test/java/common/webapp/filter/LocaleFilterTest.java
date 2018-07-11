@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Locale;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mock.web.MockFilterConfig;
@@ -16,10 +16,10 @@ import common.Constants;
 
 public class LocaleFilterTest {
 
-    private LocaleFilter filter = null;
+    private static LocaleFilter filter;
 
-    @BeforeEach
-    public void setUp() throws Exception {
+    @BeforeAll
+    public static void setUpClass() throws Exception {
         filter = new LocaleFilter();
         filter.init(new MockFilterConfig());
     }

@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import javax.servlet.ServletRequest;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockFilterConfig;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -16,10 +16,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 public class FlashMapFilterTest {
 
-    private FlashMapFilter filter = null;
+    private static FlashMapFilter filter;
 
-    @BeforeEach
-    public void setUp() throws Exception {
+    @BeforeAll
+    public static void setUpClass() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 

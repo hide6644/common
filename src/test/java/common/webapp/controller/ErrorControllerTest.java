@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ErrorControllerTest extends BaseControllerTestCase {
 
     @Autowired
-    private ErrorController c = null;
+    private ErrorController c;
 
     @Test
     public void testRenderErrorPage() {

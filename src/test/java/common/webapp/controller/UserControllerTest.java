@@ -25,7 +25,7 @@ import common.webapp.filter.FlashMap;
 public class UserControllerTest extends BaseControllerTestCase {
 
     @Autowired
-    private UserController c = null;
+    private UserController c;
 
     @Test
     public void testInitBinder() {
@@ -144,8 +144,6 @@ public class UserControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testSaveAddFromList() throws Exception {
-        greenMail.purgeEmailFromAllMailboxes();
-
         MockHttpServletRequest request = newPost("/userform.html");
         request.setParameter("from", "list");
         request.setParameter("mode", "Add");

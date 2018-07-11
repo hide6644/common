@@ -17,11 +17,11 @@ import common.Constants;
 
 public class StartupListenerTest {
 
-    private MockServletContext sc = null;
+    private MockServletContext sc;
 
-    private ServletContextListener listener = null;
+    private ServletContextListener listener;
 
-    private ContextLoaderListener springListener = null;
+    private ContextLoaderListener springListener;
 
     @BeforeEach
     public void setUp() {

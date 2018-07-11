@@ -12,11 +12,11 @@ import common.model.LabelValue;
 public class RoleManagerTest extends BaseManagerTestCase {
 
     @Autowired
-    private RoleManager mgr;
+    private RoleManager manager;
 
     @Test
     public void testGetLabelValues() {
-        List<LabelValue> labelValueList = mgr.getLabelValues();
+        List<LabelValue> labelValueList = manager.getLabelValues();
 
         assertNotNull(labelValueList);
 

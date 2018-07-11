@@ -23,9 +23,9 @@ import common.model.User;
 
 public class CounterListenerTest {
 
-    private MockServletContext sc = null;
+    private MockServletContext sc;
 
-    private CounterListener listener = null;
+    private CounterListener listener;
 
     @BeforeEach
     public void setUp() {

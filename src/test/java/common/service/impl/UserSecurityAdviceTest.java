@@ -2,12 +2,11 @@ package common.service.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,14 +24,17 @@ import common.service.UserSecurityAdvice;
 @ExtendWith(MockitoExtension.class)
 public class UserSecurityAdviceTest {
 
-    ApplicationContext ctx;
+    private static UserManager userManager;
 
-    SecurityContext initialSecurityContext;
+    @BeforeAll
+    public static void setUpClass() {
+        try (ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("/common/service/applicationContext-test.xml")) {
+            userManager = (UserManager) ctx.getBean("target");
+        }
+    }
 
     @BeforeEach
     public void setUp() {
-        initialSecurityContext = SecurityContextHolder.getContext();
-
         User user = new User("user");
         user.setId(1L);
         user.setPassword("password");
@@ -45,11 +47,6 @@ public class UserSecurityAdviceTest {
         SecurityContextHolder.setContext(context);
     }
 
-    @AfterEach
-    public void tearDown() {
-        SecurityContextHolder.setContext(initialSecurityContext);
-    }
-
     @Test
     public void testAddUserWithoutAdminRole() throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -60,7 +57,7 @@ public class UserSecurityAdviceTest {
         user.setId(2L);
 
         try {
-            makeInterceptedTarget().saveUser(user);
+            userManager.saveUser(user);
             fail("AccessDeniedException not thrown");
         } catch (AccessDeniedException expected) {
             assertNotNull(expected);
@@ -83,7 +80,7 @@ public class UserSecurityAdviceTest {
         User adminUser = new User("admin");
         adminUser.setId(2L);
 
-        makeInterceptedTarget().saveUser(adminUser);
+        userManager.saveUser(adminUser);
     }
 
     @Test
@@ -93,7 +90,7 @@ public class UserSecurityAdviceTest {
         user.getRoles().add(new Role(Constants.USER_ROLE));
         user.setVersion(1L);
 
-        makeInterceptedTarget().saveUser(user);
+        userManager.saveUser(user);
     }
 
     @Test
@@ -104,7 +101,7 @@ public class UserSecurityAdviceTest {
         user.setVersion(1L);
 
         try {
-            makeInterceptedTarget().saveUser(user);
+            userManager.saveUser(user);
             fail("AccessDeniedException not thrown");
         } catch (AccessDeniedException expected) {
             assertNotNull(expected);
@@ -121,7 +118,7 @@ public class UserSecurityAdviceTest {
         user.setVersion(1L);
 
         try {
-            makeInterceptedTarget().saveUser(user);
+            userManager.saveUser(user);
             fail("AccessDeniedException not thrown");
         } catch (AccessDeniedException expected) {
             assertNotNull(expected);
@@ -147,7 +144,7 @@ public class UserSecurityAdviceTest {
         user.getRoles().add(new Role(Constants.USER_ROLE));
         user.setVersion(1L);
 
-        makeInterceptedTarget().saveUser(user);
+        userManager.saveUser(user);
     }
 
     @Test
@@ -157,14 +154,6 @@ public class UserSecurityAdviceTest {
         user.getRoles().add(new Role(Constants.USER_ROLE));
         user.setVersion(1L);
 
-        makeInterceptedTarget().saveUser(user);
-    }
-
-    private UserManager makeInterceptedTarget() throws Exception {
-        ctx = new ClassPathXmlApplicationContext("/common/service/applicationContext-test.xml");
-
-        UserManager userManager = (UserManager) ctx.getBean("target");
-
-        return userManager;
+        userManager.saveUser(user);
     }
 }

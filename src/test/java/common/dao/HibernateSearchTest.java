@@ -17,7 +17,7 @@ import common.model.User;
 
 public class HibernateSearchTest extends BaseDaoTestCase {
 
-    HibernateSearch<User> hibernateSearch;
+    private HibernateSearch<User> hibernateSearch;
 
     @BeforeEach
     public void setUp() {

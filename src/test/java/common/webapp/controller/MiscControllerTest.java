@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class MiscControllerTest extends BaseControllerTestCase {
 
     @Autowired
-    private MiscController c = null;
+    private MiscController c;
 
     @Test
     public void testTopRequest() {
