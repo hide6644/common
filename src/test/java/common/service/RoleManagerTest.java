@@ -1,10 +1,10 @@
 package common.service;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import common.model.LabelValue;
@@ -12,11 +12,11 @@ import common.model.LabelValue;
 public class RoleManagerTest extends BaseManagerTestCase {
 
     @Autowired
-    private RoleManager mgr;
+    private RoleManager manager;
 
     @Test
     public void testGetLabelValues() {
-        List<LabelValue> labelValueList = mgr.getLabelValues();
+        List<LabelValue> labelValueList = manager.getLabelValues();
 
         assertNotNull(labelValueList);
 

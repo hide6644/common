@@ -1,6 +1,6 @@
 package common.validator.constraints;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.InputStream;
 
@@ -8,20 +8,20 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 public class NotEmptyFileTest {
 
-    private Validator validator;
+    private static Validator validator;
 
     @NotEmptyFile
     private MultipartFile fileData;
 
-    @Before
-    public void setUp(){
+    @BeforeAll
+    public static void setUpClass(){
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }

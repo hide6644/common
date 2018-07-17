@@ -1,10 +1,10 @@
 package common.webapp.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -25,7 +25,7 @@ import common.webapp.filter.FlashMap;
 public class UserControllerTest extends BaseControllerTestCase {
 
     @Autowired
-    private UserController c = null;
+    private UserController c;
 
     @Test
     public void testInitBinder() {
@@ -144,8 +144,6 @@ public class UserControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testSaveAddFromList() throws Exception {
-        greenMail.purgeEmailFromAllMailboxes();
-
         MockHttpServletRequest request = newPost("/userform.html");
         request.setParameter("from", "list");
         request.setParameter("mode", "Add");

@@ -1,11 +1,11 @@
 package common.webapp.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.text.RandomStringGenerator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.access.AccessDeniedException;
@@ -29,9 +29,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     private UserManager userManager;
 
     @Test
-    public void testRequestRecoveryToken() throws Exception {
-        greenMail.purgeEmailFromAllMailboxes();
-
+    public void testRequestRecoveryToken() {
         String username = "administrator";
 
         c.requestRecoveryToken(username);
@@ -78,9 +76,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testResetPassword() throws Exception {
-        greenMail.purgeEmailFromAllMailboxes();
-
+    public void testResetPassword() {
         String username = "administrator";
         String token = passwordTokenManager.generateRecoveryToken(userManager.getUserByUsername(username));
         String password = "new-pass";

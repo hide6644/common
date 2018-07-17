@@ -1,8 +1,8 @@
 package common.webapp.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
@@ -14,7 +14,7 @@ import common.webapp.filter.FlashMap;
 public class SignupControllerTest extends BaseControllerTestCase {
 
     @Autowired
-    private SignupController c = null;
+    private SignupController c;
 
     @Test
     public void testShowForm() {
@@ -23,9 +23,7 @@ public class SignupControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testSignupUserHasErrors() throws Exception {
-        greenMail.purgeEmailFromAllMailboxes();
-
+    public void testSignupUserHasErrors() {
         User user = new User();
         user.setUsername("testuser");
 
@@ -37,9 +35,7 @@ public class SignupControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testCompleteHasErrors() throws Exception {
-        greenMail.purgeEmailFromAllMailboxes();
-
+    public void testCompleteHasErrors() {
         String rtn = c.complete("normaluser", "test-token");
 
         assertEquals("redirect:/login", rtn);
@@ -47,8 +43,6 @@ public class SignupControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testSignupUser() throws Exception {
-        greenMail.purgeEmailFromAllMailboxes();
-
         User user = new User();
         user.setUsername("self-registered");
         user.setPassword("Password1");
@@ -60,7 +54,7 @@ public class SignupControllerTest extends BaseControllerTestCase {
         BindingResult errors = new DataBinder(user).getBindingResult();
         c.onSubmit(user, errors);
 
-        assertFalse("errors returned in model", errors.hasErrors());
+        assertFalse(errors.hasErrors());
 
         String content = (String) greenMail.getReceivedMessages()[0].getContent();
         String token = content.substring(content.indexOf("token=") + "token=".length()).replaceAll("\r\n", "");

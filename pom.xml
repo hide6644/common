@@ -76,6 +76,7 @@
                         </goals>
                         <configuration>
                             <outputDirectory>src/main/webapp/WEB-INF/lib</outputDirectory>
+                            <excludeGroupIds>org.apache.maven.surefire</excludeGroupIds>
                         </configuration>
                     </execution>
                 </executions>
@@ -96,6 +97,13 @@
                     <reuseForks>false</reuseForks>
                     <argLine>${argLine} -Dcatalina.base=${project.build.directory}</argLine>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>${junit-platform.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -584,19 +592,44 @@
             <artifactId>greenmail</artifactId>
             <version>${greenmail.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <optional>true</optional>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>${junit-platform.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
+            <artifactId>mockito-junit-jupiter</artifactId>
             <version>${mockito.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.surefire</groupId>
+            <artifactId>surefire-logger-api</artifactId>
+            <version>2.22.0</version>
+            <!-- to get around bug https://github.com/junit-team/junit5/issues/1367 -->
+            <scope>test</scope>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 
@@ -633,7 +666,8 @@
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <jquery.version>3.3.1-1</jquery.version>
         <js-cookie.version>2.2.0</js-cookie.version>
-        <junit.version>4.12</junit.version>
+        <junit-jupiter.version>5.2.0</junit-jupiter.version>
+        <junit-platform.version>1.2.0</junit-platform.version>
         <jxls.version>2.4.5</jxls.version>
         <jxls-poi.version>1.0.15</jxls-poi.version>
         <jxls-reader.version>2.0.3</jxls-reader.version>

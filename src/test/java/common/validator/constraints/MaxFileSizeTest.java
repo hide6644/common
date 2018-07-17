@@ -1,19 +1,19 @@
 package common.validator.constraints;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 public class MaxFileSizeTest {
 
-    private Validator validator;
+    private static Validator validator;
 
     @MaxFileSize(max = 3, unitSign = "")
     private MultipartFile fileData;
@@ -24,8 +24,8 @@ public class MaxFileSizeTest {
     @MaxFileSize(max = 3)
     private MultipartFile fileDataM;
 
-    @Before
-    public void setUp() {
+    @BeforeAll
+    public static void setUpClass() {
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }

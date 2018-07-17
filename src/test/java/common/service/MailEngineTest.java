@@ -1,6 +1,6 @@
 package common.service;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Date;
 
@@ -9,14 +9,16 @@ import javax.mail.Part;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import com.icegreen.greenmail.store.FolderException;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetupTest;
 
@@ -30,30 +32,30 @@ public class MailEngineTest extends BaseManagerTestCase {
     @Autowired
     private SimpleMailMessage mailMessage;
 
-    private GreenMail greenMail;
+    private static GreenMail greenMail;
 
-    @Before
-    public void setUp() {
+    @BeforeAll
+    public static void setUpClass() {
         greenMail = new GreenMail(ServerSetupTest.SMTP);
         greenMail.start();
+    }
 
+    @BeforeEach
+    public void setUp() throws FolderException {
+        greenMail.purgeEmailFromAllMailboxes();
         JavaMailSenderImpl mailSender = (JavaMailSenderImpl) applicationContext.getBean("mailSender");
         mailSender.setPort(greenMail.getSmtp().getPort());
         mailSender.setHost("localhost");
         mailEngine.setMailSender(mailSender);
     }
 
-    @After
-    public void tearDown() {
-        mailEngine.setMailSender(null);
-
+    @AfterAll
+    public static void tearDownClass() {
         greenMail.stop();
     }
 
     @Test
     public void testSend() throws Exception {
-        greenMail.purgeEmailFromAllMailboxes();
-
         Date dte = new Date();
         mailMessage.setTo("foo@bar.com");
         String emailSubject = "grepster testSend: " + dte;
@@ -74,8 +76,6 @@ public class MailEngineTest extends BaseManagerTestCase {
 
     @Test
     public void testSendMessageWithAttachment() throws Exception {
-        greenMail.purgeEmailFromAllMailboxes();
-
         final String attachmentName = "boring-attachment.txt";
 
         Date dte = new Date();

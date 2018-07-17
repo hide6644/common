@@ -1,12 +1,13 @@
 package common.dao;
 
 import static common.dao.jpa.UserSpecifications.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.data.jpa.domain.Specification.*;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -26,9 +27,11 @@ public class UserDaoTest extends BaseDaoTestCase {
     @Autowired
     private RoleDao rdao;
 
-    @Test(expected = DataAccessException.class)
+    @Test
     public void testGetUserInvalid() throws Exception {
-        dao.getOne(1000L);
+        Assertions.assertThrows(DataAccessException.class, () -> {
+            dao.getOne(1000L);
+        });
     }
 
     @Test
@@ -57,7 +60,7 @@ public class UserDaoTest extends BaseDaoTestCase {
         log.debug("password: " + password);
     }
 
-    @Test(expected = JpaSystemException.class)
+    @Test
     public void testUpdateUser() {
         User user = dao.getOne(-1L);
 
@@ -74,7 +77,9 @@ public class UserDaoTest extends BaseDaoTestCase {
         newUser.setRoles(user.getRoles());
         newUser.setUsername(user.getUsername());
 
-        dao.save(newUser);
+        Assertions.assertThrows(JpaSystemException.class, () -> {
+            dao.save(newUser);
+        });
     }
 
     @Test
@@ -95,7 +100,7 @@ public class UserDaoTest extends BaseDaoTestCase {
         dao.save(user);
         user = dao.getOne(-1L);
 
-        assertEquals("more than 2 roles", 2, user.getRoles().size());
+        assertEquals(2, user.getRoles().size());
 
         user.removeRole(role);
         dao.save(user);
@@ -105,7 +110,7 @@ public class UserDaoTest extends BaseDaoTestCase {
         assertEquals(1, user.getRoleList().size());
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test
     public void testAddAndRemoveUser() {
         User user = new User("testuser");
         user.setConfirmPassword("testpass");
@@ -121,15 +126,17 @@ public class UserDaoTest extends BaseDaoTestCase {
 
         assertNotNull(user.getId());
 
-        user = dao.getOne(user.getId());
+        final User delUser = dao.getOne(user.getId());
 
-        assertEquals("testpass", user.getPassword());
+        assertEquals("testpass", delUser.getPassword());
 
-        dao.delete(user);
-        dao.getOne(user.getId());
+        dao.delete(delUser);
+        Assertions.assertThrows(DataAccessException.class, () -> {
+            dao.getOne(delUser.getId());
+        });
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test
     public void testAddAndRemoveUserId() {
         User user = new User("testuser");
         user.setConfirmPassword("testpass");
@@ -147,12 +154,14 @@ public class UserDaoTest extends BaseDaoTestCase {
 
         assertNotNull(user.getId());
 
-        user = dao.getOne(user.getId());
+        final User delUser = dao.getOne(user.getId());
 
-        assertEquals("testpass", user.getPassword());
+        assertEquals("testpass", delUser.getPassword());
 
-        dao.deleteById(user.getId());
-        dao.getOne(user.getId());
+        dao.deleteById(delUser.getId());
+        Assertions.assertThrows(DataAccessException.class, () -> {
+            dao.getOne(delUser.getId());
+        });
     }
 
     @Test
