@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -15,8 +14,9 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.servlet.ModelAndView;
 
+import common.dto.UserSearchCriteria;
+import common.dto.UserSearchResults;
 import common.model.PaginatedList;
 import common.model.Role;
 import common.model.User;
@@ -30,11 +30,9 @@ public class UserListControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testShowForm() {
-        ModelAndView mav = c.showForm(new User(), null);
-        Map<String, Object> m = mav.getModel();
+        PaginatedList<UserSearchResults> paginatedList = c.showForm(new UserSearchCriteria(), null);
 
-        assertNotNull(m.get("paginatedList"));
-        assertEquals("admin/master/users", mav.getViewName());
+        assertNotNull(paginatedList);
     }
 
     @Test
@@ -42,16 +40,13 @@ public class UserListControllerTest extends BaseControllerTestCase {
         UserManager userManager = (UserManager) applicationContext.getBean("userManager");
         userManager.reindex();
 
-        User user = new User("admin");
-        user.setEmail("admin");
-        ModelAndView mav = c.showForm(user, null);
-        Map<String, Object> m = mav.getModel();
-        @SuppressWarnings("unchecked")
-        PaginatedList<User> results = (PaginatedList<User>) m.get("paginatedList");
+        UserSearchCriteria userSearchCriteria = new UserSearchCriteria();
+        userSearchCriteria.setUsername("admin");
+        userSearchCriteria.setEmail("admin");
+        PaginatedList<UserSearchResults> results = c.showForm(userSearchCriteria, null);
 
         assertNotNull(results);
         assertTrue(results.getAllRecordCount() >= 1);
-        assertEquals("admin/master/users", mav.getViewName());
     }
 
     @Test

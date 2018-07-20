@@ -58,10 +58,12 @@ import common.validator.constraints.UniqueKey;
     })
 @UniqueKey.List({
         @UniqueKey(
-                columnNames = { "username" }
+                columnNames = { "username" },
+                model = User.class
         ),
         @UniqueKey(
-                columnNames = { "email" }
+                columnNames = { "email" },
+                model = User.class
         )
     })
 public final class User extends BaseObject implements Serializable, UserDetails {

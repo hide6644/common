@@ -2,9 +2,13 @@ package common.service;
 
 import java.util.List;
 
+import common.dto.PasswordForm;
+import common.dto.SignupUserForm;
+import common.dto.UploadForm;
+import common.dto.UserSearchCriteria;
+import common.dto.UserSearchResults;
 import common.model.PaginatedList;
 import common.model.User;
-import common.webapp.form.UploadForm;
 
 /**
  * ユーザ処理のインターフェース.
@@ -72,11 +76,11 @@ public interface UserManager {
     /**
      * 指定された新規登録ユーザを永続化する.
      *
-     * @param user
-     *            ユーザ
+     * @param signupUser
+     *            新規登録ユーザ
      * @return 永続化されたユーザ
      */
-    User saveSignupUser(User user);
+    User saveSignupUser(SignupUserForm signupUser);
 
     /**
      * 指定された新規登録ユーザを有効にする.
@@ -118,30 +122,25 @@ public interface UserManager {
     void recoveryPassword(String username);
 
     /**
-     * 指定されたユーザ名のユーザのパスワードを更新する.
+     * 指定されたユーザのパスワードを更新する.
      *
-     * @param username
-     *            ユーザ名
-     * @param currentPassword
-     *            現在のパスワード
-     * @param recoveryToken
-     *            リカバリートークン
-     * @param newPassword
-     *            新しいパスワード
-     * @return パスワード更新後のユーザ
+     * @param passwordForm
+     *            パスワード変更情報
+     *
+     * @return 永続化されたユーザ
      */
-    User updatePassword(String username, String currentPassword, String recoveryToken, String newPassword);
+    User updatePassword(PasswordForm passwordForm);
 
     /**
      * オブジェクトをページング処理して取得する.
      *
-     * @param searchCondition
+     * @param userSearchCriteria
      *            検索オブジェクト
      * @param page
      *            表示するページの番号
      * @return ページング情報保持モデル
      */
-    PaginatedList<User> createPaginatedList(User searchCondition, Integer page);
+    PaginatedList<UserSearchResults> createPaginatedList(UserSearchCriteria userSearchCriteria, Integer page);
 
     /**
      * インデックスを再作成する.

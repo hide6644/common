@@ -11,10 +11,11 @@ import java.util.stream.Collectors;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,6 +25,12 @@ import org.springframework.stereotype.Service;
 import common.Constants;
 import common.dao.HibernateSearch;
 import common.dao.UserDao;
+import common.dto.PasswordForm;
+import common.dto.SignupUserForm;
+import common.dto.UploadForm;
+import common.dto.UploadResult;
+import common.dto.UserSearchCriteria;
+import common.dto.UserSearchResults;
 import common.exception.DatabaseException;
 import common.model.PaginatedList;
 import common.model.Role;
@@ -34,8 +41,6 @@ import common.service.UserManager;
 import common.service.mail.UserMail;
 import common.webapp.converter.FileType;
 import common.webapp.converter.UserFileConverterFactory;
-import common.webapp.form.UploadForm;
-import common.webapp.form.UploadResult;
 
 /**
  * ユーザ処理の実装クラス.
@@ -236,7 +241,9 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
-    public User saveSignupUser(User user) {
+    public User saveSignupUser(SignupUserForm signupUser) {
+        User user = new User();
+        BeanUtils.copyProperties(signupUser, user);
         // デフォルトの要再認証日時を設定する
         user.setCredentialsExpiredDate(LocalDateTime.now().plusDays(Constants.CREDENTIALS_EXPIRED_TERM));
         // 新規登録時は権限を一般で設定する
@@ -288,19 +295,19 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
-    public User updatePassword(String username, String currentPassword, String recoveryToken, String newPassword) {
-        User user = getUserByUsername(username);
+    public User updatePassword(PasswordForm passwordForm) {
+        User user = getUserByUsername(passwordForm.getUsername());
 
-        if (isRecoveryTokenValid(user, recoveryToken)) {
-            user.setPassword(newPassword);
+        if (isRecoveryTokenValid(user, passwordForm.getToken())) {
+            user.setPassword(passwordForm.getNewPassword());
             user.setEnabled(true);
             user = saveUser(user);
 
             userMail.sendUpdatePasswordEmail(user);
 
             return user;
-        } else if (StringUtils.isNotBlank(currentPassword) && passwordEncoder.matches(currentPassword, user.getPassword())) {
-            user.setPassword(newPassword);
+        } else if (passwordEncoder.matches(passwordForm.getCurrentPassword(), user.getPassword())) {
+            user.setPassword(passwordForm.getNewPassword());
             user = saveUser(user);
 
             return user;
@@ -313,11 +320,13 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
-    public PaginatedList<User> createPaginatedList(User user, Integer page) {
+    public PaginatedList<UserSearchResults> createPaginatedList(UserSearchCriteria userSearchCriteria, Integer page) {
         PageRequest pageRequest = PageRequest.of(page == null ? 0 : page - 1, 5, Sort.by("username"));
-        Page<User> pagedUser = userDao.findAll(where(usernameContains(user.getUsername())).and(emailContains(user.getEmail())), pageRequest);
-
-        return new PaginatedList<>(pagedUser);
+        Page<User> pagedUser = userDao.findAll(where(usernameContains(userSearchCriteria.getUsername())).and(emailContains(userSearchCriteria.getEmail())), pageRequest);
+        return new PaginatedList<>(new PageImpl<>(
+                pagedUser.stream()
+                .map(user -> new UserSearchResults(user))
+                .collect(Collectors.toList()), pagedUser.getPageable(), pagedUser.getTotalElements()));
     }
 
     /**

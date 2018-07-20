@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 
 import common.Constants;
+import common.dto.UploadForm;
+import common.dto.UserSearchCriteria;
+import common.dto.UserSearchResults;
 import common.model.PaginatedList;
 import common.model.User;
 import common.webapp.converter.FileType;
-import common.webapp.form.UploadForm;
 
 public class UserManagerTest extends BaseManagerTestCase {
 
@@ -114,10 +116,9 @@ public class UserManagerTest extends BaseManagerTestCase {
         userManager.uploadUsers(uploadForm);
 
         // 検索結果が1件の場合
-        User user = new User("normaluser");
-        user.setEnabled(true);
-        user.setAccountLocked(false);
-        PaginatedList<User> paginatedList = userManager.createPaginatedList(user, 1);
+        UserSearchCriteria userSearchCriteria = new UserSearchCriteria();
+        userSearchCriteria.setUsername("normaluser");
+        PaginatedList<UserSearchResults> paginatedList = userManager.createPaginatedList(userSearchCriteria, 1);
 
         assertNotNull(paginatedList);
         assertEquals(2, paginatedList.getPageRangeSize());
@@ -132,8 +133,8 @@ public class UserManagerTest extends BaseManagerTestCase {
         assertEquals(1, paginatedList.getCurrentPage().size());
 
         // 検索結果が12件の場合
-        user.setUsername(null);
-        paginatedList = userManager.createPaginatedList(user, 1);
+        userSearchCriteria.setUsername(null);
+        paginatedList = userManager.createPaginatedList(userSearchCriteria, 1);
 
         assertNotNull(paginatedList);
         assertEquals(12, paginatedList.getAllRecordCount());
@@ -144,7 +145,7 @@ public class UserManagerTest extends BaseManagerTestCase {
         assertEquals(Integer.valueOf(2), paginatedList.getPageNumberList().get(1));
         assertEquals(5, paginatedList.getCurrentPage().size());
 
-        paginatedList = userManager.createPaginatedList(user, 3);
+        paginatedList = userManager.createPaginatedList(userSearchCriteria, 3);
 
         assertEquals(11, paginatedList.getCurrentStartRecordNumber());
         assertEquals(15, paginatedList.getCurrentEndRecordNumber());

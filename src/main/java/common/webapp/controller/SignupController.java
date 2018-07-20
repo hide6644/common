@@ -8,14 +8,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import common.Constants;
+import common.dto.SignupUserForm;
 import common.exception.DatabaseException;
-import common.model.Role;
 import common.model.User;
 import common.service.UserManager;
 
@@ -34,12 +33,10 @@ public class SignupController extends BaseController {
      *
      * @return ユーザ
      */
-    @ModelAttribute
-    @RequestMapping(value = "signup", method = RequestMethod.GET)
-    public User showForm() {
-        User user = new User();
-        user.addRole(new Role(Constants.USER_ROLE));
-        return user;
+    @ModelAttribute("user")
+    @GetMapping("signup")
+    public SignupUserForm showForm() {
+        return new SignupUserForm();
     }
 
     /**
@@ -51,14 +48,14 @@ public class SignupController extends BaseController {
      *            エラーチェック結果
      * @return 遷移先
      */
-    @RequestMapping(value = "signup", method = RequestMethod.POST)
-    public String onSubmit(@Valid User user, BindingResult result) {
+    @PostMapping("signup")
+    public String onSubmit(@ModelAttribute("user") @Valid SignupUserForm signupUser, BindingResult result) {
         if (result.hasErrors()) {
             return "signup";
         }
 
         try {
-            userManager.saveSignupUser(user);
+            userManager.saveSignupUser(signupUser);
             saveFlashMessage(getText("signupForm.provisional.message"));
         } catch (DatabaseException e) {
             log.error(e);
@@ -77,7 +74,7 @@ public class SignupController extends BaseController {
      *            ユーザ認証用トークン
      * @return 遷移先
      */
-    @RequestMapping(value = "signupComplete", method = RequestMethod.GET)
+    @GetMapping("signupComplete")
     public String complete(@RequestParam("username") String username, @RequestParam("token") String token) {
         try {
             if (StringUtils.isNotBlank(token) && !userManager.isRecoveryTokenValid(username, token)) {
