@@ -9,7 +9,7 @@ import common.validator.constraints.CompareStrings;
 import common.validator.constraints.ComparisonMode;
 
 /**
- * パスワード変更情報を保持するクラス.
+ * パスワード情報を保持するクラス.
  */
 @CompareStrings.List({
         @CompareStrings(

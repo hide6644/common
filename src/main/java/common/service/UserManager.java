@@ -125,7 +125,7 @@ public interface UserManager {
      * 指定されたユーザのパスワードを更新する.
      *
      * @param passwordForm
-     *            パスワード変更情報
+     *            パスワード情報
      *
      * @return 永続化されたユーザ
      */
