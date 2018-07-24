@@ -41,7 +41,7 @@ public interface UserManager {
     User getUserByUsername(String username);
 
     /**
-     * 指定されたユーザを永続化する.
+     * ユーザを永続化する.
      *
      * @param user
      *            ユーザ
@@ -74,7 +74,7 @@ public interface UserManager {
     void uploadUsers(UploadForm uploadForm);
 
     /**
-     * 指定された新規登録ユーザを永続化する.
+     * 新規登録ユーザを永続化する.
      *
      * @param signupUser
      *            新規登録ユーザ
@@ -83,7 +83,7 @@ public interface UserManager {
     User saveSignupUser(SignupUserForm signupUser);
 
     /**
-     * 指定された新規登録ユーザを有効にする.
+     * 新規登録ユーザを有効にする.
      *
      * @param user
      *            ユーザ
@@ -122,7 +122,7 @@ public interface UserManager {
     void recoveryPassword(String username);
 
     /**
-     * 指定されたユーザのパスワードを更新する.
+     * ユーザのパスワードを更新する.
      *
      * @param passwordForm
      *            パスワード情報
@@ -135,10 +135,10 @@ public interface UserManager {
      * オブジェクトをページング処理して取得する.
      *
      * @param userSearchCriteria
-     *            検索オブジェクト
+     *            ユーザ検索条件
      * @param page
      *            表示するページの番号
-     * @return ページング情報保持モデル
+     * @return ページング処理、情報
      */
     PaginatedList<UserSearchResults> createPaginatedList(UserSearchCriteria userSearchCriteria, Integer page);
 

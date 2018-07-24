@@ -69,7 +69,7 @@ public class PasswordTokenManagerTest extends BaseManagerTestCase {
         PasswordForm passwordForm = new PasswordForm();
         passwordForm.setUsername(user.getUsername());
         passwordForm.setToken(token);
-        passwordForm.setPassword("pass");
+        passwordForm.setNewPassword("pass");
         user = userManager.updatePassword(passwordForm);
 
         assertTrue(greenMail.getReceivedMessages().length == 1);

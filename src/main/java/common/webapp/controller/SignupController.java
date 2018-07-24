@@ -42,8 +42,8 @@ public class SignupController extends BaseController {
     /**
      * ユーザ登録処理.
      *
-     * @param user
-     *            画面入力値保持モデル
+     * @param signupUser
+     *            新規登録ユーザ情報を
      * @param result
      *            エラーチェック結果
      * @return 遷移先

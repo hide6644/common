@@ -304,16 +304,14 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
             user = saveUser(user);
 
             userMail.sendUpdatePasswordEmail(user);
-
-            return user;
-        } else if (passwordEncoder.matches(passwordForm.getCurrentPassword(), user.getPassword())) {
+        } else if (passwordForm.getCurrentPassword() != null && passwordEncoder.matches(passwordForm.getCurrentPassword(), user.getPassword())) {
             user.setPassword(passwordForm.getNewPassword());
             user = saveUser(user);
-
-            return user;
+        } else {
+            throw new IllegalArgumentException();
         }
 
-        return null;
+        return user;
     }
 
     /**

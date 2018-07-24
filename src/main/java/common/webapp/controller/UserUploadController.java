@@ -15,6 +15,9 @@ import common.exception.FileException;
 import common.service.UserManager;
 import common.webapp.converter.FileType;
 
+/**
+ * ユーザ取込処理クラス.
+ */
 @Controller
 @RequestMapping("/admin/master/uploadUsers")
 public class UserUploadController extends BaseController {
@@ -26,7 +29,7 @@ public class UserUploadController extends BaseController {
     /**
      * ユーザ取込画面初期処理.
      *
-     * @return 画面入力値保持モデル
+     * @return 取り込みファイルの情報
      */
     @ModelAttribute
     @GetMapping
@@ -40,7 +43,7 @@ public class UserUploadController extends BaseController {
      * ユーザ取り込み処理.
      *
      * @param uploadForm
-     *            アップロードファイルの情報を保持
+     *            取り込みファイルの情報
      * @param result
      *            エラーチェック結果
      * @return 遷移先

@@ -1,5 +1,7 @@
 package common.webapp.controller;
 
+import java.util.Objects;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -63,7 +65,7 @@ public class UpdatePasswordController extends BaseController {
             username = request.getRemoteUser();
         }
 
-        if (StringUtils.isNotBlank(token) && !userManager.isRecoveryTokenValid(username, token)) {
+        if (token != null && !userManager.isRecoveryTokenValid(username, token)) {
             saveFlashError(getText("passwordForm.invalidToken"));
             return new ModelAndView("redirect:/login");
         }
@@ -78,17 +80,13 @@ public class UpdatePasswordController extends BaseController {
     /**
      * パスワード変更画面保存処理.
      *
-     * @param username
-     *            ユーザ名
-     * @param token
-     *            トークン
-     * @param currentPassword
-     *            現在のパスワード
-     * @param password
-     *            パスワード
+     * @param passwordForm
+     *            パスワード情報
+     * @param result
+     *            エラーチェック結果
      * @param request
      *            {@link HttpServletRequest}
-     * @return 遷移先画面設定
+     * @return 遷移先
      */
     @PostMapping("/updatePassword")
     public String onSubmit(@Valid PasswordForm passwordForm, BindingResult result, HttpServletRequest request) {
@@ -110,25 +108,21 @@ public class UpdatePasswordController extends BaseController {
 
                 userManager.updatePassword(passwordForm);
             }
-        } catch (UsernameNotFoundException e) {
-            // ユーザが存在しない場合
+        } catch (IllegalArgumentException | UsernameNotFoundException e) {
+            // 引き数が正しくない、ユーザが存在しない場合
             return errorReturnView(usingToken);
         }
 
         saveFlashMessage(getText("updated"));
-        return successReturnView(usingToken, request);
+        return successReturnView(usingToken, Objects.equals(request.getParameter("from"), "list"));
     }
 
     /**
      * パスワード変更失敗の場合の遷移先を取得する.
      *
-     * @param username
-     *            ユーザ名
      * @param usingToken
      *            true:トークン有り、false:トークン無し
-     * @param request
-     *            {@link HttpServletRequest}
-     * @return 遷移先画面設定
+     * @return 遷移先
      */
     private String errorReturnView(boolean usingToken) {
         if (usingToken) {
@@ -147,17 +141,17 @@ public class UpdatePasswordController extends BaseController {
      *
      * @param usingToken
      *            true:トークン有り、false:トークン無し
-     * @param request
-     *            {@link HttpServletRequest}
-     * @return 遷移先画面設定
+     * @param fromList
+     *            true:ユーザ一覧から遷移、false:ユーザ一覧以外の画面から遷移
+     * @return 遷移先
      */
-    private String successReturnView(boolean usingToken, HttpServletRequest request) {
+    private String successReturnView(boolean usingToken, boolean fromList) {
         if (usingToken) {
             // パスワード忘れの案内からパスワードを変更した場合
             return "redirect:/login";
         } else {
             // ログイン中のユーザが自身のパスワード変更した場合
-            if (StringUtils.equals(request.getParameter("from"), "list")) {
+            if (fromList) {
                 // ユーザ一覧から遷移した場合
                 return "redirect:/user?from=list";
             } else {

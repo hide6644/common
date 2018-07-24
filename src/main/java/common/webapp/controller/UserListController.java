@@ -31,7 +31,7 @@ public class UserListController extends BaseController {
     private UserManager userManager;
 
     /**
-     * 画面入力値保持モデル初期化
+     * ユーザ一覧画面初期処理.
      *
      * @return ユーザ
      */
@@ -94,8 +94,8 @@ public class UserListController extends BaseController {
     /**
      * ユーザ一覧表示画面処理.
      *
-     * @param user
-     *            ユーザ
+     * @param userSearchCriteria
+     *            ユーザ検索条件
      * @param page
      *            表示ページ数
      * @return 遷移先画面設定
