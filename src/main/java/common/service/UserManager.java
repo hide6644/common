@@ -5,6 +5,7 @@ import java.util.List;
 import common.dto.PasswordForm;
 import common.dto.SignupUserForm;
 import common.dto.UploadForm;
+import common.dto.UserDetailsForm;
 import common.dto.UserSearchCriteria;
 import common.dto.UserSearchResults;
 import common.model.PaginatedList;
@@ -39,6 +40,15 @@ public interface UserManager {
      * @return ユーザ
      */
     User getUserByUsername(String username);
+
+    /**
+     * ユーザを永続化する.
+     *
+     * @param userDetailsForm
+     *            ユーザ情報
+     * @return 永続化されたユーザ
+     */
+    User saveUserDetails(UserDetailsForm userDetailsForm);
 
     /**
      * ユーザを永続化する.
@@ -85,11 +95,18 @@ public interface UserManager {
     /**
      * 新規登録ユーザを有効にする.
      *
-     * @param user
-     *            ユーザ
-     * @return 永続化されたユーザ
+     * @param username
+     *            ユーザ名
      */
-    User enableUser(User user);
+    void enableUser(String username);
+
+    /**
+     * ユーザをロックする.
+     *
+     * @param username
+     *            ユーザ名
+     */
+    void lockoutUser(String username);
 
     /**
      * リカバリートークンが一致するか確認する.

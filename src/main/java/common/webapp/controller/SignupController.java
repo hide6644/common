@@ -4,8 +4,6 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import common.dto.SignupUserForm;
 import common.exception.DatabaseException;
-import common.model.User;
 import common.service.UserManager;
 
 /**
@@ -82,13 +79,7 @@ public class SignupController extends BaseController {
                 return "redirect:/login";
             }
 
-            User user = userManager.getUserByUsername(username);
-            // 登録した"username"、"password"でログイン処理を行う
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
-            auth.setDetails(user);
-            SecurityContextHolder.getContext().setAuthentication(auth);
-
-            userManager.enableUser(user);
+            userManager.enableUser(username);
             saveFlashMessage(getText("signupForm.complete.message"));
         } catch (DatabaseException e) {
             log.error(e);

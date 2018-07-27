@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -18,6 +19,7 @@ import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.WebDataBinder;
 
 import common.Constants;
+import common.dto.UserDetailsForm;
 import common.model.User;
 import common.service.UserManager;
 import common.webapp.filter.FlashMap;
@@ -95,12 +97,12 @@ public class UserControllerTest extends BaseControllerTestCase {
     @Test
     public void testSaveHasErrors() throws Exception {
         MockHttpServletRequest request = newPost("/userform.html");
-        User user = new User();
-        user.setUsername("testuser");
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        userDetailsForm.setUsername("testuser");
 
-        BindingResult errors = new DataBinder(user).getBindingResult();
+        BindingResult errors = new DataBinder(userDetailsForm).getBindingResult();
         errors.rejectValue("email", "errors.required", "{0} is a required field.");
-        String rtn = c.onSubmit(user, errors, request, new MockHttpServletResponse());
+        String rtn = c.onSubmitByPostMethod(userDetailsForm, errors, request, new MockHttpServletResponse());
 
         assertEquals("user", rtn);
     }
@@ -120,8 +122,10 @@ public class UserControllerTest extends BaseControllerTestCase {
         BindingResult errors = new DataBinder(user).getBindingResult();
 
         User saveUser = ((UserManager) applicationContext.getBean("userManager")).getUser("-1");
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        BeanUtils.copyProperties(userDetailsForm, saveUser);
         MockHttpServletResponse response = new MockHttpServletResponse();
-        c.onSubmit(saveUser, errors, request, response);
+        c.onSubmitByPutMethod(userDetailsForm, errors, request, response);
 
         assertEquals(HttpServletResponse.SC_FORBIDDEN, response.getStatus());
     }
@@ -132,11 +136,13 @@ public class UserControllerTest extends BaseControllerTestCase {
         User user = ((UserManager) applicationContext.getBean("userManager")).getUser("-1");
         user.setConfirmPassword(user.getPassword());
         user.setLastName("Updated Last Name");
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        BeanUtils.copyProperties(userDetailsForm, user);
 
         request.setRemoteUser(user.getUsername());
 
         BindingResult errors = new DataBinder(user).getBindingResult();
-        c.onSubmit(user, errors, request, new MockHttpServletResponse());
+        c.onSubmitByPutMethod(userDetailsForm, errors, request, new MockHttpServletResponse());
 
         assertFalse(errors.hasErrors());
         assertNotNull(FlashMap.get("flash_info_messages"));
@@ -147,16 +153,17 @@ public class UserControllerTest extends BaseControllerTestCase {
         MockHttpServletRequest request = newPost("/userform.html");
         request.setParameter("from", "list");
         request.setParameter("mode", "Add");
-        User user = new User("testuser");
-        user.setPassword("testuser");
-        user.setEmail("test@foo.bar");
-        user.setFirstName("First Name");
-        user.setConfirmPassword(user.getPassword());
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        userDetailsForm.setUsername("testuser");
+        userDetailsForm.setPassword("testuser");
+        userDetailsForm.setEmail("test@foo.bar");
+        userDetailsForm.setFirstName("First Name");
+        userDetailsForm.setConfirmPassword(userDetailsForm.getPassword());
 
         request.setRemoteUser("administrator");
 
-        BindingResult errors = new DataBinder(user).getBindingResult();
-        c.onSubmit(user, errors, request, new MockHttpServletResponse());
+        BindingResult errors = new DataBinder(userDetailsForm).getBindingResult();
+        c.onSubmitByPostMethod(userDetailsForm, errors, request, new MockHttpServletResponse());
 
         assertTrue(greenMail.getReceivedMessages().length == 1);
         assertFalse(errors.hasErrors());
@@ -171,11 +178,13 @@ public class UserControllerTest extends BaseControllerTestCase {
         User user = ((UserManager) applicationContext.getBean("userManager")).getUser("-1");
         user.setConfirmPassword(user.getPassword());
         user.setLastName("Updated Last Name");
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        BeanUtils.copyProperties(userDetailsForm, user);
 
         request.setRemoteUser(user.getUsername());
 
         BindingResult errors = new DataBinder(user).getBindingResult();
-        c.onSubmit(user, errors, request, new MockHttpServletResponse());
+        c.onSubmitByPutMethod(userDetailsForm, errors, request, new MockHttpServletResponse());
 
         assertFalse(errors.hasErrors());
         assertNotNull(FlashMap.get("flash_info_messages"));

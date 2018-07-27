@@ -107,7 +107,6 @@ public class UserDaoTest extends BaseDaoTestCase {
         user = dao.getOne(-1L);
 
         assertEquals(1, user.getRoles().size());
-        assertEquals(1, user.getRoleList().size());
     }
 
     @Test

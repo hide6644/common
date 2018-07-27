@@ -17,7 +17,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import common.Constants;
-import common.model.User;
 import common.service.UserManager;
 
 /**
@@ -72,10 +71,7 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
                 recordLoginAttempts(request, username, false);
             } else {
                 // ユーザをロックする
-                User user = userManager.getUserByUsername(username);
-                user.setConfirmPassword(user.getPassword());
-                user.setAccountLocked(true);
-                userManager.saveUser(user);
+                userManager.lockoutUser(username);
             }
         } catch (UsernameNotFoundException unfe) {
             Logger log = LogManager.getLogger(ExtendedAuthenticationFilter.class);

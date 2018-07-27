@@ -19,7 +19,7 @@
                 <legend th:if="${addMode}" th:text="#{button.add}">button.add</legend>
                 <legend th:unless="${addMode}" th:text="#{button.edit}">button.edit</legend>
             </fieldset>
-            <form class="well" action="#" method="post" autocomplete="off" th:action="@{/user(mode=${param.mode}, from=${param.from})}" th:object="${user}">
+            <form class="well" action="#" method="post" autocomplete="off" th:action="@{/user(mode=${param.mode}, from=${param.from})}" th:object="${user}" th:method="${addMode} ? 'post' : 'put'">
                 <input type="hidden" th:field="*{id}" />
                 <input type="hidden" th:field="*{version}" />
                 <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? has-error" th:if="${addMode}">
@@ -109,11 +109,6 @@
                     </select>
                     <span class="help-block" th:each="err : ${#fields.errors('roles')}" th:text="${err}"></span>
                 </div>
-                <input type="hidden" name="roles" th:each="role : *{roles}" th:value="${role.name}" th:unless="${listMode}" />
-                <input type="hidden" th:field="*{enabled}" th:unless="${listMode}" />
-                <input type="hidden" th:field="*{accountLocked}" th:unless="${listMode}" />
-                <input type="hidden" th:field="*{accountExpiredDate}" th:unless="${listMode}" />
-                <input type="hidden" th:field="*{credentialsExpiredDate}" th:unless="${listMode}" />
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">
                         <em class="glyphicon glyphicon-ok"></em>

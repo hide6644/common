@@ -6,9 +6,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.groups.Default;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
+
+import common.validator.groups.Modify;
 
 /**
  * 権限.
@@ -44,7 +49,7 @@ public final class Role extends BaseObject implements Serializable, GrantedAutho
      *
      * @return 名称
      */
-    @Length(max = 16)
+    @Length(max = 16, groups = { Default.class, Modify.class })
     @Column(length = 16)
     public String getName() {
         return name;
@@ -65,7 +70,7 @@ public final class Role extends BaseObject implements Serializable, GrantedAutho
      *
      * @return 説明
      */
-    @Length(max = 64)
+    @Length(max = 64, groups = { Default.class, Modify.class })
     @Column(length = 64)
     public String getDescription() {
         return description;
@@ -88,5 +93,30 @@ public final class Role extends BaseObject implements Serializable, GrantedAutho
     @Override
     public String getAuthority() {
         return getName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(name).toHashCode();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        } else if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Role castObj = (Role) obj;
+        return new EqualsBuilder()
+                .append(name, castObj.name)
+                .isEquals();
     }
 }

@@ -18,6 +18,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ import common.dto.PasswordForm;
 import common.dto.SignupUserForm;
 import common.dto.UploadForm;
 import common.dto.UploadResult;
+import common.dto.UserDetailsForm;
 import common.dto.UserSearchCriteria;
 import common.dto.UserSearchResults;
 import common.exception.DatabaseException;
@@ -122,20 +125,49 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
+    public User saveUserDetails(UserDetailsForm userDetailsForm) {
+        User user = null;
+
+        if (userDetailsForm.getVersion() == null) {
+            // 登録の場合
+            user = new User();
+            BeanUtils.copyProperties(userDetailsForm, user);
+        } else {
+            user = getUserByUsername(userDetailsForm.getUsername());
+            // 入力項目のみコピーする
+            if (userDetailsForm.getRoles().isEmpty()) {
+                BeanUtils.copyProperties(userDetailsForm, user, "password", "enabled", "accountLocked", "accountExpiredDate", "credentialsExpiredDate", "roles");
+            } else {
+                BeanUtils.copyProperties(userDetailsForm, user, "password");
+                user.setRoles(roleManager.getRoles(user.getRoles()));
+            }
+        }
+
+        return saveUser(user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public User saveUser(User user) {
+        String currentPassword = null;
+
         if (user.getVersion() == null) {
             // 登録の場合
             user.setUsername(user.getUsername().toLowerCase());
+            user.setRoles(roleManager.getRoles(user.getRoles()));
+        } else {
+            currentPassword = userDao.findPasswordById(user.getId());
         }
 
         if (passwordEncoder != null) {
-            passwordEncode(user);
+            user.setPassword(passwordEncode(currentPassword, user.getPassword()));
         } else {
             log.warn("PasswordEncoder not set, skipping password encryption...");
         }
 
         try {
-            user.setRoles(roleManager.getRoles(user.getRoles()));
             return userDao.saveAndFlush(user);
         } catch (Exception e) {
             user.setPassword(null);
@@ -152,34 +184,30 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     /**
      * ユーザのパスワードを暗号化する.
      *
-     * @param user
-     *            ユーザ
+     * @param currentPassword
+     *            現在のパスワード
+     * @param newPassword
+     *            新しいパスワード
+     * @return 暗号化済みパスワード
      */
-    private void passwordEncode(User user) {
+    private String passwordEncode(String currentPassword, String newPassword) {
         boolean passwordChanged = false;
 
-        if (user.getVersion() == null) {
+        if (currentPassword == null) {
             // 登録の場合
             passwordChanged = true;
         } else {
             // 更新の場合
-            String currentPassword = userDao.findPasswordById(user.getId());
-
-            if (user.getPassword() == null) {
-                // パスワードが空の場合、パスワードは同じものを設定する
-                user.setPassword(currentPassword);
-                user.setConfirmPassword(user.getPassword());
-            }
-
-            if (currentPassword == null || !currentPassword.equals(user.getPassword())) {
+            if (!currentPassword.equals(newPassword)) {
                 passwordChanged = true;
             }
         }
 
         if (passwordChanged) {
-            // パスワードが変更されていた場合
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setConfirmPassword(user.getPassword());
+            // パスワードが変更有りの場合
+            return passwordEncoder.encode(newPassword);
+        } else {
+            return newPassword;
         }
     }
 
@@ -260,11 +288,28 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
-    public User enableUser(User user) {
+    public void enableUser(String username) {
+        User user = getUserByUsername(username);
         user.setConfirmPassword(user.getPassword());
         user.setEnabled(true);
 
-        return userDao.saveAndFlush(user);
+        // 登録した"username"、"password"でログイン処理を行う
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
+        auth.setDetails(user);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        userDao.saveAndFlush(user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void lockoutUser(String username) {
+        User user = getUserByUsername(username);
+        user.setConfirmPassword(user.getPassword());
+        user.setAccountLocked(true);
+        userDao.saveAndFlush(user);
     }
 
     /**
@@ -299,14 +344,14 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
         User user = getUserByUsername(passwordForm.getUsername());
 
         if (isRecoveryTokenValid(user, passwordForm.getToken())) {
-            user.setPassword(passwordForm.getNewPassword());
+            user.setPassword(passwordEncode(user.getPassword(), passwordForm.getNewPassword()));
             user.setEnabled(true);
-            user = saveUser(user);
+            user = userDao.saveAndFlush(user);
 
             userMail.sendUpdatePasswordEmail(user);
         } else if (passwordForm.getCurrentPassword() != null && passwordEncoder.matches(passwordForm.getCurrentPassword(), user.getPassword())) {
-            user.setPassword(passwordForm.getNewPassword());
-            user = saveUser(user);
+            user.setPassword(passwordEncode(user.getPassword(), passwordForm.getNewPassword()));
+            user = userDao.saveAndFlush(user);
         } else {
             throw new IllegalArgumentException();
         }
