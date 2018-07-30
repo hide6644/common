@@ -6,6 +6,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import common.Constants;
+import common.dto.UserDetailsForm;
 import common.exception.DatabaseException;
 import common.model.Role;
 import common.model.User;
@@ -19,15 +20,15 @@ public class UserExistsExceptionTest extends BaseManagerTestCase {
     public void testAddExistingUser() {
         User user = manager.getUser("-1");
 
-        User newUser = new User();
-        BeanUtils.copyProperties(user, newUser);
-        newUser.setId(null);
-        newUser.setVersion(null);
-        newUser.getRoles().clear();
-        newUser.addRole(new Role(Constants.USER_ROLE));
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        BeanUtils.copyProperties(user, userDetailsForm);
+        userDetailsForm.setId(null);
+        userDetailsForm.setVersion(null);
+        userDetailsForm.getRoles().clear();
+        userDetailsForm.addRole(new Role(Constants.USER_ROLE));
 
         Assertions.assertThrows(DatabaseException.class, () -> {
-            manager.saveUser(newUser);
+            manager.saveUserDetails(userDetailsForm);
         });
     }
 }

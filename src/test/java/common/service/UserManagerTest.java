@@ -6,11 +6,13 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 
 import common.Constants;
 import common.dto.UploadForm;
+import common.dto.UserDetailsForm;
 import common.dto.UserSearchCriteria;
 import common.dto.UserSearchResults;
 import common.model.PaginatedList;
@@ -50,23 +52,25 @@ public class UserManagerTest extends BaseManagerTestCase {
     @Test
     public void testSaveUser() {
         User user = userManager.getUserByUsername("normaluser");
-        user.setConfirmPassword(user.getPassword());
-        user.setLastName("smith");
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        BeanUtils.copyProperties(user, userDetailsForm);
+        userDetailsForm.setConfirmPassword(user.getPassword());
+        userDetailsForm.setLastName("smith");
 
-        log.debug("saving user with updated last name: " + user);
+        log.debug("saving user with updated last name: " + userDetailsForm);
 
-        user = userManager.saveUser(user);
+        user = userManager.saveUserDetails(userDetailsForm);
 
         assertEquals("smith", user.getLastName());
         assertEquals(1, user.getRoles().size());
     }
 
     @Test
-    public void testAddAndRemoveUser() throws Exception {
-        User user = new User();
-        user = (User) populate(user);
-        user.addRole(roleManager.getRole(Constants.USER_ROLE));
-        user = userManager.saveUser(user);
+    public void testAddAndRemoveUser() {
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        userDetailsForm = (UserDetailsForm) populate(userDetailsForm);
+        userDetailsForm.addRole(roleManager.getRole(Constants.USER_ROLE));
+        User user = userManager.saveUserDetails(userDetailsForm);
 
         log.debug("removing user...");
 
@@ -82,11 +86,11 @@ public class UserManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testAddAndRemoveUserByPK() throws Exception {
-        User user = new User();
-        user = (User) populate(user);
-        user.addRole(roleManager.getRole(Constants.USER_ROLE));
-        user = userManager.saveUser(user);
+    public void testAddAndRemoveUserByPK() {
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        userDetailsForm = (UserDetailsForm) populate(userDetailsForm);
+        userDetailsForm.addRole(roleManager.getRole(Constants.USER_ROLE));
+        User user = userManager.saveUserDetails(userDetailsForm);
 
         assertEquals("john_elway", user.getUsername());
         assertEquals(1, user.getRoles().size());

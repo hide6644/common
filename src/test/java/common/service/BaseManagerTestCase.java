@@ -1,5 +1,6 @@
 package common.service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -15,7 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import common.service.util.ConvertUtil;
+import common.webapp.util.ConvertUtil;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:/common/service/applicationContext-resources.xml",
@@ -38,15 +39,19 @@ public abstract class BaseManagerTestCase {
 
         try {
             rb = ResourceBundle.getBundle(className);
-        } catch (MissingResourceException mre) {
-            log.trace("No resource bundle found for: " + className);
+        } catch (MissingResourceException e) {
+            log.trace("No resource bundle found for: " + className, e);
         }
     }
 
-    protected Object populate(Object obj) throws Exception {
+    protected Object populate(Object obj) {
         Map<String, String> map = ConvertUtil.convertBundleToMap(rb);
 
-        BeanUtils.copyProperties(obj, map);
+        try {
+            BeanUtils.copyProperties(obj, map);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            log.trace("Copy failed: ", e);
+        }
 
         return obj;
     }

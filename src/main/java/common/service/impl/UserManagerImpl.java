@@ -55,7 +55,6 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     private UserDao userDao;
 
     /** ユーザ認証 */
-    @Autowired
     private UserDetailsService userDetailsService;
 
     /** UserのHibernate Search DAO */
@@ -88,12 +87,15 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      *
      * @param userDao
      *            ユーザDAO
+     * @param userDetailsService
+     *            ユーザ認証
      * @param roleManager
      *            Role処理クラス
      */
     @Autowired
-    public UserManagerImpl(UserDao userDao, RoleManager roleManager) {
+    public UserManagerImpl(UserDao userDao, UserDetailsService userDetailsService, RoleManager roleManager) {
         this.userDao = userDao;
+        this.userDetailsService = userDetailsService;
         this.roleManager = roleManager;
     }
 

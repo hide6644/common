@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -123,7 +123,7 @@ public class UserControllerTest extends BaseControllerTestCase {
 
         User saveUser = ((UserManager) applicationContext.getBean("userManager")).getUser("-1");
         UserDetailsForm userDetailsForm = new UserDetailsForm();
-        BeanUtils.copyProperties(userDetailsForm, saveUser);
+        BeanUtils.copyProperties(saveUser, userDetailsForm);
         MockHttpServletResponse response = new MockHttpServletResponse();
         c.onSubmitByPutMethod(userDetailsForm, errors, request, response);
 
@@ -137,7 +137,7 @@ public class UserControllerTest extends BaseControllerTestCase {
         user.setConfirmPassword(user.getPassword());
         user.setLastName("Updated Last Name");
         UserDetailsForm userDetailsForm = new UserDetailsForm();
-        BeanUtils.copyProperties(userDetailsForm, user);
+        BeanUtils.copyProperties(user, userDetailsForm);
 
         request.setRemoteUser(user.getUsername());
 
@@ -179,7 +179,7 @@ public class UserControllerTest extends BaseControllerTestCase {
         user.setConfirmPassword(user.getPassword());
         user.setLastName("Updated Last Name");
         UserDetailsForm userDetailsForm = new UserDetailsForm();
-        BeanUtils.copyProperties(userDetailsForm, user);
+        BeanUtils.copyProperties(user, userDetailsForm);
 
         request.setRemoteUser(user.getUsername());
 
