@@ -2,8 +2,12 @@ package common.dto;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -11,6 +15,7 @@ import javax.validation.groups.Default;
 
 import org.hibernate.validator.constraints.Length;
 
+import common.model.LabelValue;
 import common.model.Role;
 import common.model.User;
 import common.validator.constraints.BasicLatin;
@@ -23,12 +28,12 @@ import common.validator.groups.Modify;
  * ユーザ情報を保持するクラス.
  */
 @CompareStrings.List({
-    @CompareStrings(
-            propertyNames = { "confirmPassword", "password" },
-            comparisonMode = ComparisonMode.EQUAL,
-            message = "{common.validator.constraints.confirmPassword.message}"
-    )
-})
+        @CompareStrings(
+                propertyNames = { "confirmPassword", "password" },
+                comparisonMode = ComparisonMode.EQUAL,
+                message = "{common.validator.constraints.confirmPassword.message}"
+        )
+    })
 @UniqueKey.List({
         @UniqueKey(
                 columnNames = { "username" },
@@ -338,6 +343,18 @@ public class UserDetailsForm {
      */
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    /**
+     * 権限の表示用リストを取得する.
+     *
+     * @return 権限の表示用リスト
+     */
+    @Transient
+    public List<LabelValue> getRoleList() {
+        return Optional.ofNullable(roles).orElseGet(HashSet::new).stream()
+                .map(role -> new LabelValue(role.getDescription(), role.getName()))
+                .collect(Collectors.toList());
     }
 
     /**

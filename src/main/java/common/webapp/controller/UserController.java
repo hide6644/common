@@ -79,9 +79,9 @@ public class UserController extends BaseController {
      * @throws IOException
      *             {@link IOException}
      */
-    @ModelAttribute
+    @ModelAttribute("user")
     @GetMapping
-    public User showForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public UserDetailsForm showForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String userId = request.getParameter("userId");
 
         // 管理者でない場合、自身以外のユーザを登録、更新することは出来ない
@@ -92,14 +92,14 @@ public class UserController extends BaseController {
         }
 
         if (Objects.equals(request.getParameter("mode"), "Add")) {
-            User user = new User();
-            user.setCredentialsExpiredDate(LocalDateTime.now().plusDays(Constants.CREDENTIALS_EXPIRED_TERM));
-            user.addRole(new Role(Constants.USER_ROLE));
-            return user;
+            UserDetailsForm userDetailsForm = new UserDetailsForm();
+            userDetailsForm.setCredentialsExpiredDate(LocalDateTime.now().plusDays(Constants.CREDENTIALS_EXPIRED_TERM));
+            userDetailsForm.addRole(new Role(Constants.USER_ROLE));
+            return userDetailsForm;
         } else if (userId != null) {
-            return userManager.getUser(userId);
+            return userManager.getUserDetailse(userManager.getUser(userId));
         } else {
-            return userManager.getUserByUsername(request.getRemoteUser());
+            return userManager.getUserDetailse(userManager.getUserByUsername(request.getRemoteUser()));
         }
     }
 

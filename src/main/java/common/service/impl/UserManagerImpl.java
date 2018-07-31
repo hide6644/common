@@ -127,6 +127,16 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
+    public UserDetailsForm getUserDetailse(User user) {
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        BeanUtils.copyProperties(user, userDetailsForm);
+        return userDetailsForm;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public User saveUserDetails(UserDetailsForm userDetailsForm) {
         User user = null;
 

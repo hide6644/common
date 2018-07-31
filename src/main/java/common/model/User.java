@@ -4,10 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -387,18 +384,6 @@ public final class User extends BaseObject implements Serializable, UserDetails 
      */
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    /**
-     * 権限の表示用リストを取得する.
-     *
-     * @return 権限の表示用リスト
-     */
-    @Transient
-    public List<LabelValue> getRoleList() {
-        return Optional.ofNullable(roles).orElseGet(HashSet::new).stream()
-                .map(role -> new LabelValue(role.getDescription(), role.getName()))
-                .collect(Collectors.toList());
     }
 
     /**

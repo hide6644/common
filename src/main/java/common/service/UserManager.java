@@ -42,6 +42,15 @@ public interface UserManager {
     User getUserByUsername(String username);
 
     /**
+     * 指定されたユーザのユーザ情報を取得する.
+     *
+     * @param user
+     *            ユーザ
+     * @return ユーザ情報
+     */
+    UserDetailsForm getUserDetailse(User user);
+
+    /**
      * ユーザを永続化する.
      *
      * @param userDetailsForm

@@ -93,6 +93,10 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
      */
     @Override
     public void afterReturning(Object returnValue, Method method, Object[] args, Object target) throws Throwable {
+        if (returnValue == null) {
+            return;
+        }
+
         User user = (User) returnValue;
 
         if (user.getVersion() != null) {

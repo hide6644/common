@@ -41,8 +41,8 @@ public class UserControllerTest extends BaseControllerTestCase {
         request.addParameter("mode", "Add");
         request.addUserRole(Constants.ADMIN_ROLE);
 
-        User user = c.showForm(request, new MockHttpServletResponse());
-        assertNull(user.getUsername());
+        UserDetailsForm userDetailsForm = c.showForm(request, new MockHttpServletResponse());
+        assertNull(userDetailsForm.getUsername());
     }
 
     @Test
@@ -66,8 +66,8 @@ public class UserControllerTest extends BaseControllerTestCase {
         request.addParameter("userId", "-1");
         request.addUserRole(Constants.ADMIN_ROLE);
 
-        User user = c.showForm(request, new MockHttpServletResponse());
-        assertEquals("admin", user.getFirstName());
+        UserDetailsForm userDetailsForm = c.showForm(request, new MockHttpServletResponse());
+        assertEquals("admin", userDetailsForm.getFirstName());
     }
 
     @Test
@@ -90,8 +90,8 @@ public class UserControllerTest extends BaseControllerTestCase {
         MockHttpServletRequest request = newGet("/userform.html");
         request.setRemoteUser("normaluser");
 
-        User user = c.showForm(request, new MockHttpServletResponse());
-        assertEquals("user", user.getFirstName());
+        UserDetailsForm userDetailsForm = c.showForm(request, new MockHttpServletResponse());
+        assertEquals("user", userDetailsForm.getFirstName());
     }
 
     @Test
