@@ -41,6 +41,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
         c.onSubmit(uploadForm, errors);
 
         assertFalse(errors.hasErrors());
+        assertEquals(3, uploadForm.getUploadResult().getProcessingCount());
         assertEquals(1, uploadForm.getUploadResult().getSuccessTotalCount());
     }
 

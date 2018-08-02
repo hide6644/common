@@ -25,14 +25,15 @@ public class RoleDaoTest extends BaseDaoTestCase {
         Role role = dao.findByName(Constants.USER_ROLE);
 
         assertNotNull(role);
+        assertTrue(role.equals(new Role(Constants.USER_ROLE)));
     }
 
     @Test
     public void testUpdateRole() {
-        Role role = dao.findByName("ROLE_USER");
+        Role role = dao.findByName(Constants.USER_ROLE);
         role.setDescription("test descr");
         dao.save(role);
-        role = dao.findByName("ROLE_USER");
+        role = dao.findByName(Constants.USER_ROLE);
 
         assertEquals("test descr", role.getDescription());
     }

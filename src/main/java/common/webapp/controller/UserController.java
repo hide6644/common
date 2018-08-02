@@ -97,9 +97,9 @@ public class UserController extends BaseController {
             userDetailsForm.addRole(new Role(Constants.USER_ROLE));
             return userDetailsForm;
         } else if (userId != null) {
-            return userManager.getUserDetailse(userManager.getUser(userId));
+            return userManager.getUserDetails(userManager.getUser(userId));
         } else {
-            return userManager.getUserDetailse(userManager.getUserByUsername(request.getRemoteUser()));
+            return userManager.getUserDetails(userManager.getUserByUsername(request.getRemoteUser()));
         }
     }
 

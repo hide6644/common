@@ -16,6 +16,7 @@ import common.dto.UserDetailsForm;
 import common.dto.UserSearchCriteria;
 import common.dto.UserSearchResults;
 import common.model.PaginatedList;
+import common.model.Role;
 import common.model.User;
 import common.webapp.converter.FileType;
 
@@ -50,6 +51,15 @@ public class UserManagerTest extends BaseManagerTestCase {
     }
 
     @Test
+    public void testGetUserDetails() {
+        User user = userManager.getUserByUsername("normaluser");
+        UserDetailsForm userDetails = userManager.getUserDetails(user);
+
+        assertNotNull(userDetails);
+        assertEquals(1, userDetails.getRoleList().size());
+    }
+
+    @Test
     public void testSaveUser() {
         User user = userManager.getUserByUsername("normaluser");
         UserDetailsForm userDetailsForm = new UserDetailsForm();
@@ -62,6 +72,11 @@ public class UserManagerTest extends BaseManagerTestCase {
         user = userManager.saveUserDetails(userDetailsForm);
 
         assertEquals("smith", user.getLastName());
+        assertEquals(1, user.getRoles().size());
+
+        userDetailsForm.removeRole(new Role(Constants.USER_ROLE));
+        user = userManager.saveUserDetails(userDetailsForm);
+
         assertEquals(1, user.getRoles().size());
     }
 
@@ -83,6 +98,18 @@ public class UserManagerTest extends BaseManagerTestCase {
             log.debug(e);
             assertNotNull(e);
         }
+    }
+
+    @Test
+    public void testLockoutUser() {
+        User user = userManager.getUserByUsername("normaluser");
+
+        assertFalse(user.isAccountLocked());
+
+        userManager.lockoutUser("normaluser");
+        user = userManager.getUserByUsername("normaluser");
+
+        assertTrue(user.isAccountLocked());
     }
 
     @Test
@@ -135,6 +162,11 @@ public class UserManagerTest extends BaseManagerTestCase {
         assertEquals(2, paginatedList.getNextPageNumber());
         assertEquals(1, paginatedList.getPageNumberList().size());
         assertEquals(1, paginatedList.getCurrentPage().size());
+        UserSearchResults userSearchResults = paginatedList.getCurrentPage().get(0);
+        assertEquals(Long.valueOf(-2), userSearchResults.getId());
+        assertEquals("normaluser", userSearchResults.getUsername());
+        assertEquals("user@foo.bar", userSearchResults.getEmail());
+        assertTrue(userSearchResults.isEnabled());
 
         // 検索結果が12件の場合
         userSearchCriteria.setUsername(null);

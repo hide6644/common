@@ -2,6 +2,7 @@ package common.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,10 @@ public class RoleManagerTest extends BaseManagerTestCase {
 
         newLabelValue.setValue("ROLE_USER");
         newLabelValue.setLabel("TEST_LABEL");
+
+        Collections.sort(labelValueList);
+        assertFalse(labelValueList.get(0).equals(newLabelValue));
+        assertTrue(labelValueList.get(1).equals(newLabelValue));
 
         LabelValue userLabelValue = labelValueList.stream().filter(labelValue -> labelValue.equals(newLabelValue)).findFirst().get();
 

@@ -48,7 +48,7 @@ public interface UserManager {
      *            ユーザ
      * @return ユーザ情報
      */
-    UserDetailsForm getUserDetailse(User user);
+    UserDetailsForm getUserDetails(User user);
 
     /**
      * ユーザを永続化する.
