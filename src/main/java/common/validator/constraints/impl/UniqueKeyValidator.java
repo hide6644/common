@@ -1,7 +1,6 @@
 package common.validator.constraints.impl;
 
 import java.beans.PropertyDescriptor;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +25,13 @@ import common.validator.constraints.UniqueKey;
  * ユニークか確認する実装クラス.
  */
 @Component
-public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Serializable> {
+public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Object> {
 
     /** 確認対象の列名 */
     private String[] columnNames;
+
+    /** 確認対象のエンティティクラス */
+    Class<?> model;
 
     /** Entity Managerクラス */
     @PersistenceContext(unitName = Constants.PERSISTENCE_UNIT_NAME)
@@ -41,13 +43,14 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Serial
     @Override
     public void initialize(UniqueKey constraintAnnotation) {
         this.columnNames = constraintAnnotation.columnNames();
+        this.model = constraintAnnotation.model();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean isValid(Serializable target, ConstraintValidatorContext context) {
+    public boolean isValid(Object target, ConstraintValidatorContext context) {
         boolean isValid = notExists(target);
 
         if (!isValid) {
@@ -64,14 +67,14 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Serial
      *            入力内容
      * @return true:存在しない、false:存在する
      */
-    private boolean notExists(Serializable target) {
+    private boolean notExists(Object target) {
         if (entityManager == null) {
             return true;
         }
 
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
-        Root<?> root = criteriaQuery.from(target.getClass());
+        Root<?> root = criteriaQuery.from(model);
         BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(target);
         List<Predicate> preds = new ArrayList<>();
 

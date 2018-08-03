@@ -16,6 +16,7 @@ import com.icegreen.greenmail.store.FolderException;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetupTest;
 
+import common.dto.PasswordForm;
 import common.model.User;
 
 public class PasswordTokenManagerTest extends BaseManagerTestCase {
@@ -65,7 +66,11 @@ public class PasswordTokenManagerTest extends BaseManagerTestCase {
         assertNotNull(token);
         assertTrue(passwordTokenManager.isRecoveryTokenValid(user, token));
 
-        user = userManager.updatePassword(user.getUsername(), null, token, "pass");
+        PasswordForm passwordForm = new PasswordForm();
+        passwordForm.setUsername(user.getUsername());
+        passwordForm.setToken(token);
+        passwordForm.setNewPassword("pass");
+        user = userManager.updatePassword(passwordForm);
 
         assertTrue(greenMail.getReceivedMessages().length == 1);
         assertFalse(passwordTokenManager.isRecoveryTokenValid(user, token));

@@ -1,4 +1,4 @@
-package common.webapp.form;
+package common.dto;
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.web.multipart.MultipartFile;

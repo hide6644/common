@@ -1,7 +1,6 @@
 package common.dao;
 
-import java.util.Enumeration;
-import java.util.HashMap;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -17,6 +16,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
+
+import common.webapp.util.ConvertUtil;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:/common/dao/applicationContext-resources.xml",
@@ -39,20 +40,19 @@ public abstract class BaseDaoTestCase {
 
         try {
             rb = ResourceBundle.getBundle(className);
-        } catch (MissingResourceException mre) {
-            log.trace("No resource bundle found for: " + className);
+        } catch (MissingResourceException e) {
+            log.trace("No resource bundle found for: " + className, e);
         }
     }
 
-    protected Object populate(final Object obj) throws Exception {
-        Map<String, String> map = new HashMap<String, String>();
+    protected Object populate(final Object obj) {
+        Map<String, String> map = ConvertUtil.convertBundleToMap(rb);
 
-        for (Enumeration<String> keys = rb.getKeys(); keys.hasMoreElements();) {
-            String key = keys.nextElement();
-            map.put(key, rb.getString(key));
+        try {
+            BeanUtils.copyProperties(obj, map);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            log.trace("Copy failed: ", e);
         }
-
-        BeanUtils.copyProperties(obj, map);
 
         return obj;
     }

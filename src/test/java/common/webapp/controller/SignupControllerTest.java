@@ -8,7 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
 
-import common.model.User;
+import common.dto.SignupUserForm;
 import common.webapp.filter.FlashMap;
 
 public class SignupControllerTest extends BaseControllerTestCase {
@@ -18,18 +18,18 @@ public class SignupControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testShowForm() {
-        User user = c.showForm();
-        assertNotNull(user);
+        SignupUserForm signupUser = c.showForm();
+        assertNotNull(signupUser);
     }
 
     @Test
     public void testSignupUserHasErrors() {
-        User user = new User();
-        user.setUsername("testuser");
+        SignupUserForm signupUser = new SignupUserForm();
+        signupUser.setUsername("testuser");
 
-        BindingResult errors = new DataBinder(user).getBindingResult();
+        BindingResult errors = new DataBinder(signupUser).getBindingResult();
         errors.rejectValue("email", "errors.required", "{0} is a required field.");
-        String rtn = c.onSubmit(user, errors);
+        String rtn = c.onSubmit(signupUser, errors);
 
         assertEquals("signup", rtn);
     }
@@ -43,16 +43,16 @@ public class SignupControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testSignupUser() throws Exception {
-        User user = new User();
-        user.setUsername("self-registered");
-        user.setPassword("Password1");
-        user.setConfirmPassword("Password1");
-        user.setFirstName("First");
-        user.setLastName("Last");
-        user.setEmail("self-registered@localhost");
+        SignupUserForm signupUser = new SignupUserForm();
+        signupUser.setUsername("self-registered");
+        signupUser.setPassword("Password1");
+        signupUser.setConfirmPassword("Password1");
+        signupUser.setFirstName("First");
+        signupUser.setLastName("Last");
+        signupUser.setEmail("self-registered@localhost");
 
-        BindingResult errors = new DataBinder(user).getBindingResult();
-        c.onSubmit(user, errors);
+        BindingResult errors = new DataBinder(signupUser).getBindingResult();
+        c.onSubmit(signupUser, errors);
 
         assertFalse(errors.hasErrors());
 

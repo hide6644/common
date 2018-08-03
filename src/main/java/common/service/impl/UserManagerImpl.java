@@ -11,12 +11,15 @@ import java.util.stream.Collectors;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,13 @@ import org.springframework.stereotype.Service;
 import common.Constants;
 import common.dao.HibernateSearch;
 import common.dao.UserDao;
+import common.dto.PasswordForm;
+import common.dto.SignupUserForm;
+import common.dto.UploadForm;
+import common.dto.UploadResult;
+import common.dto.UserDetailsForm;
+import common.dto.UserSearchCriteria;
+import common.dto.UserSearchResults;
 import common.exception.DatabaseException;
 import common.model.PaginatedList;
 import common.model.Role;
@@ -34,8 +44,6 @@ import common.service.UserManager;
 import common.service.mail.UserMail;
 import common.webapp.converter.FileType;
 import common.webapp.converter.UserFileConverterFactory;
-import common.webapp.form.UploadForm;
-import common.webapp.form.UploadResult;
 
 /**
  * ユーザ処理の実装クラス.
@@ -47,7 +55,6 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     private UserDao userDao;
 
     /** ユーザ認証 */
-    @Autowired
     private UserDetailsService userDetailsService;
 
     /** UserのHibernate Search DAO */
@@ -80,12 +87,15 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      *
      * @param userDao
      *            ユーザDAO
+     * @param userDetailsService
+     *            ユーザ認証
      * @param roleManager
      *            Role処理クラス
      */
     @Autowired
-    public UserManagerImpl(UserDao userDao, RoleManager roleManager) {
+    public UserManagerImpl(UserDao userDao, UserDetailsService userDetailsService, RoleManager roleManager) {
         this.userDao = userDao;
+        this.userDetailsService = userDetailsService;
         this.roleManager = roleManager;
     }
 
@@ -117,20 +127,59 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
+    public UserDetailsForm getUserDetails(User user) {
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        BeanUtils.copyProperties(user, userDetailsForm);
+        return userDetailsForm;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public User saveUserDetails(UserDetailsForm userDetailsForm) {
+        User user = null;
+
+        if (userDetailsForm.getVersion() == null) {
+            // 登録の場合
+            user = new User();
+            BeanUtils.copyProperties(userDetailsForm, user);
+        } else {
+            user = getUserByUsername(userDetailsForm.getUsername());
+            // 入力項目のみコピーする
+            if (userDetailsForm.getRoles().isEmpty()) {
+                BeanUtils.copyProperties(userDetailsForm, user, "password", "enabled", "accountLocked", "accountExpiredDate", "credentialsExpiredDate", "roles");
+            } else {
+                BeanUtils.copyProperties(userDetailsForm, user, "password");
+                user.setRoles(roleManager.getRoles(user.getRoles()));
+            }
+        }
+
+        return saveUser(user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public User saveUser(User user) {
+        String currentPassword = null;
+
         if (user.getVersion() == null) {
             // 登録の場合
             user.setUsername(user.getUsername().toLowerCase());
+            user.setRoles(roleManager.getRoles(user.getRoles()));
+        } else {
+            currentPassword = userDao.findPasswordById(user.getId());
         }
 
         if (passwordEncoder != null) {
-            passwordEncode(user);
+            user.setPassword(passwordEncode(currentPassword, user.getPassword()));
         } else {
             log.warn("PasswordEncoder not set, skipping password encryption...");
         }
 
         try {
-            user.setRoles(roleManager.getRoles(user.getRoles()));
             return userDao.saveAndFlush(user);
         } catch (Exception e) {
             user.setPassword(null);
@@ -147,34 +196,30 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     /**
      * ユーザのパスワードを暗号化する.
      *
-     * @param user
-     *            ユーザ
+     * @param currentPassword
+     *            現在のパスワード
+     * @param newPassword
+     *            新しいパスワード
+     * @return 暗号化済みパスワード
      */
-    private void passwordEncode(User user) {
+    private String passwordEncode(String currentPassword, String newPassword) {
         boolean passwordChanged = false;
 
-        if (user.getVersion() == null) {
+        if (currentPassword == null) {
             // 登録の場合
             passwordChanged = true;
         } else {
             // 更新の場合
-            String currentPassword = userDao.findPasswordById(user.getId());
-
-            if (user.getPassword() == null) {
-                // パスワードが空の場合、パスワードは同じものを設定する
-                user.setPassword(currentPassword);
-                user.setConfirmPassword(user.getPassword());
-            }
-
-            if (currentPassword == null || !currentPassword.equals(user.getPassword())) {
+            if (!currentPassword.equals(newPassword)) {
                 passwordChanged = true;
             }
         }
 
         if (passwordChanged) {
-            // パスワードが変更されていた場合
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setConfirmPassword(user.getPassword());
+            // パスワードが変更有りの場合
+            return passwordEncoder.encode(newPassword);
+        } else {
+            return newPassword;
         }
     }
 
@@ -236,7 +281,9 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
-    public User saveSignupUser(User user) {
+    public User saveSignupUser(SignupUserForm signupUser) {
+        User user = new User();
+        BeanUtils.copyProperties(signupUser, user);
         // デフォルトの要再認証日時を設定する
         user.setCredentialsExpiredDate(LocalDateTime.now().plusDays(Constants.CREDENTIALS_EXPIRED_TERM));
         // 新規登録時は権限を一般で設定する
@@ -253,11 +300,28 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
-    public User enableUser(User user) {
+    public void enableUser(String username) {
+        User user = getUserByUsername(username);
         user.setConfirmPassword(user.getPassword());
         user.setEnabled(true);
 
-        return userDao.saveAndFlush(user);
+        // 登録した"username"、"password"でログイン処理を行う
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
+        auth.setDetails(user);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        userDao.saveAndFlush(user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void lockoutUser(String username) {
+        User user = getUserByUsername(username);
+        user.setConfirmPassword(user.getPassword());
+        user.setAccountLocked(true);
+        userDao.saveAndFlush(user);
     }
 
     /**
@@ -288,36 +352,36 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
-    public User updatePassword(String username, String currentPassword, String recoveryToken, String newPassword) {
-        User user = getUserByUsername(username);
+    public User updatePassword(PasswordForm passwordForm) {
+        User user = getUserByUsername(passwordForm.getUsername());
 
-        if (isRecoveryTokenValid(user, recoveryToken)) {
-            user.setPassword(newPassword);
+        if (isRecoveryTokenValid(user, passwordForm.getToken())) {
+            user.setPassword(passwordEncode(user.getPassword(), passwordForm.getNewPassword()));
             user.setEnabled(true);
-            user = saveUser(user);
+            user = userDao.saveAndFlush(user);
 
             userMail.sendUpdatePasswordEmail(user);
-
-            return user;
-        } else if (StringUtils.isNotBlank(currentPassword) && passwordEncoder.matches(currentPassword, user.getPassword())) {
-            user.setPassword(newPassword);
-            user = saveUser(user);
-
-            return user;
+        } else if (passwordForm.getCurrentPassword() != null && passwordEncoder.matches(passwordForm.getCurrentPassword(), user.getPassword())) {
+            user.setPassword(passwordEncode(user.getPassword(), passwordForm.getNewPassword()));
+            user = userDao.saveAndFlush(user);
+        } else {
+            throw new IllegalArgumentException();
         }
 
-        return null;
+        return user;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public PaginatedList<User> createPaginatedList(User user, Integer page) {
+    public PaginatedList<UserSearchResults> createPaginatedList(UserSearchCriteria userSearchCriteria, Integer page) {
         PageRequest pageRequest = PageRequest.of(page == null ? 0 : page - 1, 5, Sort.by("username"));
-        Page<User> pagedUser = userDao.findAll(where(usernameContains(user.getUsername())).and(emailContains(user.getEmail())), pageRequest);
-
-        return new PaginatedList<>(pagedUser);
+        Page<User> pagedUser = userDao.findAll(where(usernameContains(userSearchCriteria.getUsername())).and(emailContains(userSearchCriteria.getEmail())), pageRequest);
+        return new PaginatedList<>(new PageImpl<>(
+                pagedUser.stream()
+                .map(user -> new UserSearchResults(user))
+                .collect(Collectors.toList()), pagedUser.getPageable(), pagedUser.getTotalElements()));
     }
 
     /**

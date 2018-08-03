@@ -23,7 +23,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 import common.Constants;
-import common.model.User;
 import common.service.UserManager;
 
 @ExtendWith(MockitoExtension.class)
@@ -87,8 +86,6 @@ public class ExtendedAuthenticationFilterTest {
         when(am.authenticate(any(Authentication.class))).thenThrow(new BadCredentialsException(""));
         filter.setAuthenticationManager(am);
 
-        given(userManager.getUserByUsername("user")).willReturn(new User("user"));
-
         for (int i = 0; i <= Constants.LOGIN_FAILURE_UPPER_LIMIT; i++) {
             try {
                 filter.attemptAuthentication(request, new MockHttpServletResponse());
@@ -107,7 +104,7 @@ public class ExtendedAuthenticationFilterTest {
         when(am.authenticate(any(Authentication.class))).thenThrow(new BadCredentialsException(""));
         filter.setAuthenticationManager(am);
 
-        when(userManager.getUserByUsername("")).thenThrow(new UsernameNotFoundException(""));
+        doThrow(new UsernameNotFoundException("")).when(userManager).lockoutUser("");
 
         for (int i = 0; i <= Constants.LOGIN_FAILURE_UPPER_LIMIT; i++) {
             try {

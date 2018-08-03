@@ -2,9 +2,14 @@ package common.service;
 
 import java.util.List;
 
+import common.dto.PasswordForm;
+import common.dto.SignupUserForm;
+import common.dto.UploadForm;
+import common.dto.UserDetailsForm;
+import common.dto.UserSearchCriteria;
+import common.dto.UserSearchResults;
 import common.model.PaginatedList;
 import common.model.User;
-import common.webapp.form.UploadForm;
 
 /**
  * ユーザ処理のインターフェース.
@@ -37,7 +42,25 @@ public interface UserManager {
     User getUserByUsername(String username);
 
     /**
-     * 指定されたユーザを永続化する.
+     * 指定されたユーザのユーザ情報を取得する.
+     *
+     * @param user
+     *            ユーザ
+     * @return ユーザ情報
+     */
+    UserDetailsForm getUserDetails(User user);
+
+    /**
+     * ユーザを永続化する.
+     *
+     * @param userDetailsForm
+     *            ユーザ情報
+     * @return 永続化されたユーザ
+     */
+    User saveUserDetails(UserDetailsForm userDetailsForm);
+
+    /**
+     * ユーザを永続化する.
      *
      * @param user
      *            ユーザ
@@ -70,22 +93,29 @@ public interface UserManager {
     void uploadUsers(UploadForm uploadForm);
 
     /**
-     * 指定された新規登録ユーザを永続化する.
+     * 新規登録ユーザを永続化する.
      *
-     * @param user
-     *            ユーザ
+     * @param signupUser
+     *            新規登録ユーザ
      * @return 永続化されたユーザ
      */
-    User saveSignupUser(User user);
+    User saveSignupUser(SignupUserForm signupUser);
 
     /**
-     * 指定された新規登録ユーザを有効にする.
+     * 新規登録ユーザを有効にする.
      *
-     * @param user
-     *            ユーザ
-     * @return 永続化されたユーザ
+     * @param username
+     *            ユーザ名
      */
-    User enableUser(User user);
+    void enableUser(String username);
+
+    /**
+     * ユーザをロックする.
+     *
+     * @param username
+     *            ユーザ名
+     */
+    void lockoutUser(String username);
 
     /**
      * リカバリートークンが一致するか確認する.
@@ -118,30 +148,25 @@ public interface UserManager {
     void recoveryPassword(String username);
 
     /**
-     * 指定されたユーザ名のユーザのパスワードを更新する.
+     * ユーザのパスワードを更新する.
      *
-     * @param username
-     *            ユーザ名
-     * @param currentPassword
-     *            現在のパスワード
-     * @param recoveryToken
-     *            リカバリートークン
-     * @param newPassword
-     *            新しいパスワード
-     * @return パスワード更新後のユーザ
+     * @param passwordForm
+     *            パスワード情報
+     *
+     * @return 永続化されたユーザ
      */
-    User updatePassword(String username, String currentPassword, String recoveryToken, String newPassword);
+    User updatePassword(PasswordForm passwordForm);
 
     /**
      * オブジェクトをページング処理して取得する.
      *
-     * @param searchCondition
-     *            検索オブジェクト
+     * @param userSearchCriteria
+     *            ユーザ検索条件
      * @param page
      *            表示するページの番号
-     * @return ページング情報保持モデル
+     * @return ページング処理、情報
      */
-    PaginatedList<User> createPaginatedList(User searchCondition, Integer page);
+    PaginatedList<UserSearchResults> createPaginatedList(UserSearchCriteria userSearchCriteria, Integer page);
 
     /**
      * インデックスを再作成する.

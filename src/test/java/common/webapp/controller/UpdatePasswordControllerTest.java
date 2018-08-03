@@ -2,17 +2,16 @@ package common.webapp.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.text.RandomStringGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.DataBinder;
 import org.springframework.web.servlet.ModelAndView;
 
+import common.dto.PasswordForm;
 import common.service.PasswordTokenManager;
 import common.service.UserManager;
 import common.webapp.filter.FlashMap;
@@ -77,15 +76,15 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testResetPassword() {
-        String username = "administrator";
-        String token = passwordTokenManager.generateRecoveryToken(userManager.getUserByUsername(username));
-        String password = "new-pass";
         MockHttpServletRequest request = newGet("/updatePassword");
-        request.addParameter("username", username);
-        request.addParameter("token", token);
-        request.addParameter("password", password);
+        PasswordForm passwordForm = new PasswordForm();
+        passwordForm.setUsername("administrator");
+        passwordForm.setToken(passwordTokenManager.generateRecoveryToken(userManager.getUserByUsername(passwordForm.getUsername())));
+        passwordForm.setNewPassword("new-pass");
+        passwordForm.setConfirmPassword("new-pass");
 
-        c.onSubmit(username, token, null, password, request);
+        BindingResult errors = new DataBinder(passwordForm).getBindingResult();
+        c.onSubmit(passwordForm, errors, request);
 
         assertTrue(greenMail.getReceivedMessages().length == 1);
         assertNotNull(FlashMap.get("flash_info_messages"));
@@ -94,15 +93,15 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testResetPasswordBadToken() {
-        String username = "administrator";
-        String badToken = new RandomStringGenerator.Builder().build().generate(32);
-        String password = "new-pass";
         MockHttpServletRequest request = newGet("/updatePassword");
-        request.addParameter("username", username);
-        request.addParameter("token", badToken);
-        request.addParameter("password", password);
+        PasswordForm passwordForm = new PasswordForm();
+        passwordForm.setUsername("administrator");
+        passwordForm.setToken(new RandomStringGenerator.Builder().build().generate(32));
+        passwordForm.setNewPassword("new-pass");
+        passwordForm.setConfirmPassword("new-pass");
 
-        c.onSubmit(username, badToken, null, password, request);
+        BindingResult errors = new DataBinder(passwordForm).getBindingResult();
+        c.onSubmit(passwordForm, errors, request);
 
         assertNull(FlashMap.get("flash_info_messages"));
         assertNotNull(FlashMap.get("flash_error_messages"));
@@ -110,16 +109,16 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testUpdatePassword() {
-        String username = "administrator";
-        String currentPassword = "administrator";
-        String password = "new-administrator";
         MockHttpServletRequest request = newGet("/updatePassword");
-        request.setRemoteUser(username);// user must ge logged in
-        request.addParameter("username", username);
-        request.addParameter("currentPassword", currentPassword);
-        request.addParameter("password", password);
+        PasswordForm passwordForm = new PasswordForm();
+        passwordForm.setUsername("administrator");
+        passwordForm.setCurrentPassword("administrator");
+        passwordForm.setNewPassword("new-administrator");
+        passwordForm.setConfirmPassword("new-administrator");
+        request.setRemoteUser(passwordForm.getUsername()); // user must ge logged in
 
-        c.onSubmit(username, null, currentPassword, password, request);
+        BindingResult errors = new DataBinder(passwordForm).getBindingResult();
+        c.onSubmit(passwordForm, errors, request);
 
         assertNotNull(FlashMap.get("flash_info_messages"));
         assertNull(FlashMap.get("flash_error_messages"));
@@ -127,17 +126,17 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testUpdatePasswordFromList() {
-        String username = "administrator";
-        String currentPassword = "administrator";
-        String password = "new-administrator";
         MockHttpServletRequest request = newGet("/updatePassword");
-        request.setRemoteUser(username);// user must ge logged in
-        request.addParameter("username", username);
-        request.addParameter("currentPassword", currentPassword);
-        request.addParameter("password", password);
+        PasswordForm passwordForm = new PasswordForm();
+        passwordForm.setUsername("administrator");
+        passwordForm.setCurrentPassword("administrator");
+        passwordForm.setNewPassword("new-administrator");
+        passwordForm.setConfirmPassword("new-administrator");
+        request.setRemoteUser(passwordForm.getUsername()); // user must ge logged in
         request.addParameter("from", "list");
 
-        c.onSubmit(username, null, currentPassword, password, request);
+        BindingResult errors = new DataBinder(passwordForm).getBindingResult();
+        c.onSubmit(passwordForm, errors, request);
 
         assertNotNull(FlashMap.get("flash_info_messages"));
         assertNull(FlashMap.get("flash_error_messages"));
@@ -145,51 +144,48 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testUpdatePasswordEmptyPassword() {
-        String username = "administrator";
-        String currentPassword = "administrator";
-        String password = "";
         MockHttpServletRequest request = newGet("/updatePassword");
-        request.setRemoteUser(username);// user must ge logged in
-        request.addParameter("username", username);
-        request.addParameter("currentPassword", currentPassword);
-        request.addParameter("password", password);
+        PasswordForm passwordForm = new PasswordForm();
+        passwordForm.setUsername("administrator");
+        passwordForm.setCurrentPassword("administrator");
+        request.setRemoteUser(passwordForm.getUsername()); // user must ge logged in
 
-        c.onSubmit(username, null, currentPassword, password, request);
+        BindingResult errors = new DataBinder(passwordForm).getBindingResult();
+        errors.rejectValue("newPassword", "errors.required", "{0} is a required field.");
+        String rtn = c.onSubmit(passwordForm, errors, request);
 
-        HttpServletRequest requestAttributes = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        assertNotNull(requestAttributes.getAttribute("error_messages"));
-        assertNull(FlashMap.get("flash_info_messages"));
+        assertEquals("password", rtn);
     }
 
     @Test
     public void testUpdatePasswordBadCurrentPassword() {
-        String username = "administrator";
-        String currentPassword = "bad-administrator";
-        String password = "new-administrator";
         MockHttpServletRequest request = newGet("/updatePassword");
-        request.setRemoteUser(username);// user must ge logged in
-        request.addParameter("username", username);
-        request.addParameter("currentPassword", currentPassword);
-        request.addParameter("password", password);
+        PasswordForm passwordForm = new PasswordForm();
+        passwordForm.setUsername("administrator");
+        passwordForm.setCurrentPassword("bad-administrator");
+        passwordForm.setNewPassword("new-administrator");
+        passwordForm.setConfirmPassword("new-administrator");
+        request.setRemoteUser(passwordForm.getUsername()); // user must ge logged in
 
-        c.onSubmit(username, null, currentPassword, password, request);
+        BindingResult errors = new DataBinder(passwordForm).getBindingResult();
+        c.onSubmit(passwordForm, errors, request);
 
         assertNull(FlashMap.get("flash_info_messages"));
     }
 
     @Test
     public void testUpdatePasswordWithoutPermission() {
-        String username = "administrator";
-        String currentPassword = "administrator";
-        String password = "new-administrator";
         MockHttpServletRequest request = newGet("/updatePassword");
-        request.setRemoteUser("testuser");// user must ge logged in
-        request.addParameter("username", username);
-        request.addParameter("currentPassword", currentPassword);
-        request.addParameter("password", password);
+        PasswordForm passwordForm = new PasswordForm();
+        passwordForm.setUsername("administrator");
+        passwordForm.setCurrentPassword("administrator");
+        passwordForm.setNewPassword("new-administrator");
+        passwordForm.setConfirmPassword("new-administrator");
+        request.setRemoteUser("testuser"); // user must ge logged in
 
         try {
-            c.onSubmit(username, null, currentPassword, password, request);
+            BindingResult errors = new DataBinder(passwordForm).getBindingResult();
+            c.onSubmit(passwordForm, errors, request);
             fail("AccessDeniedException not thrown...");
         } catch (AccessDeniedException ade) {
             assertNotNull(ade.getMessage());

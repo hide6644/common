@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -14,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 
 import common.Constants;
+import common.dto.UserDetailsForm;
 import common.model.Role;
 import common.model.User;
 import common.service.UserManager;
@@ -27,6 +29,11 @@ public class UserSecurityAdviceAnonymousTest {
     public static void setUpClass() {
         try (ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("/common/service/applicationContext-test.xml")) {
             userManager = (UserManager) ctx.getBean("target");
+            User user = new User("user");
+            user.setId(1L);
+            user.setVersion(1L);
+            Mockito.when(userManager.getUserByUsername("user")).thenReturn(user);
+            Mockito.when(userManager.saveUser(user)).thenReturn(user);
         }
     }
 
@@ -39,10 +46,11 @@ public class UserSecurityAdviceAnonymousTest {
 
     @Test
     public void testAddUser() throws Exception {
-        User user = new User("user");
-        user.setId(1L);
-        user.getRoles().add(new Role(Constants.USER_ROLE));
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        userDetailsForm.setUsername("user");
+        userDetailsForm.setId(1L);
+        userDetailsForm.getRoles().add(new Role(Constants.USER_ROLE));
 
-        userManager.saveUser(user);
+        userManager.saveUserDetails(userDetailsForm);
     }
 }

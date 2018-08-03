@@ -6,14 +6,19 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 
 import common.Constants;
+import common.dto.UploadForm;
+import common.dto.UserDetailsForm;
+import common.dto.UserSearchCriteria;
+import common.dto.UserSearchResults;
 import common.model.PaginatedList;
+import common.model.Role;
 import common.model.User;
 import common.webapp.converter.FileType;
-import common.webapp.form.UploadForm;
 
 public class UserManagerTest extends BaseManagerTestCase {
 
@@ -46,25 +51,41 @@ public class UserManagerTest extends BaseManagerTestCase {
     }
 
     @Test
+    public void testGetUserDetails() {
+        User user = userManager.getUserByUsername("normaluser");
+        UserDetailsForm userDetails = userManager.getUserDetails(user);
+
+        assertNotNull(userDetails);
+        assertEquals(1, userDetails.getRoleList().size());
+    }
+
+    @Test
     public void testSaveUser() {
         User user = userManager.getUserByUsername("normaluser");
-        user.setConfirmPassword(user.getPassword());
-        user.setLastName("smith");
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        BeanUtils.copyProperties(user, userDetailsForm);
+        userDetailsForm.setConfirmPassword(user.getPassword());
+        userDetailsForm.setLastName("smith");
 
-        log.debug("saving user with updated last name: " + user);
+        log.debug("saving user with updated last name: " + userDetailsForm);
 
-        user = userManager.saveUser(user);
+        user = userManager.saveUserDetails(userDetailsForm);
 
         assertEquals("smith", user.getLastName());
+        assertEquals(1, user.getRoles().size());
+
+        userDetailsForm.removeRole(new Role(Constants.USER_ROLE));
+        user = userManager.saveUserDetails(userDetailsForm);
+
         assertEquals(1, user.getRoles().size());
     }
 
     @Test
-    public void testAddAndRemoveUser() throws Exception {
-        User user = new User();
-        user = (User) populate(user);
-        user.addRole(roleManager.getRole(Constants.USER_ROLE));
-        user = userManager.saveUser(user);
+    public void testAddAndRemoveUser() {
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        userDetailsForm = (UserDetailsForm) populate(userDetailsForm);
+        userDetailsForm.addRole(roleManager.getRole(Constants.USER_ROLE));
+        User user = userManager.saveUserDetails(userDetailsForm);
 
         log.debug("removing user...");
 
@@ -80,11 +101,23 @@ public class UserManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testAddAndRemoveUserByPK() throws Exception {
-        User user = new User();
-        user = (User) populate(user);
-        user.addRole(roleManager.getRole(Constants.USER_ROLE));
-        user = userManager.saveUser(user);
+    public void testLockoutUser() {
+        User user = userManager.getUserByUsername("normaluser");
+
+        assertFalse(user.isAccountLocked());
+
+        userManager.lockoutUser("normaluser");
+        user = userManager.getUserByUsername("normaluser");
+
+        assertTrue(user.isAccountLocked());
+    }
+
+    @Test
+    public void testAddAndRemoveUserByPK() {
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        userDetailsForm = (UserDetailsForm) populate(userDetailsForm);
+        userDetailsForm.addRole(roleManager.getRole(Constants.USER_ROLE));
+        User user = userManager.saveUserDetails(userDetailsForm);
 
         assertEquals("john_elway", user.getUsername());
         assertEquals(1, user.getRoles().size());
@@ -114,10 +147,9 @@ public class UserManagerTest extends BaseManagerTestCase {
         userManager.uploadUsers(uploadForm);
 
         // 検索結果が1件の場合
-        User user = new User("normaluser");
-        user.setEnabled(true);
-        user.setAccountLocked(false);
-        PaginatedList<User> paginatedList = userManager.createPaginatedList(user, 1);
+        UserSearchCriteria userSearchCriteria = new UserSearchCriteria();
+        userSearchCriteria.setUsername("normaluser");
+        PaginatedList<UserSearchResults> paginatedList = userManager.createPaginatedList(userSearchCriteria, 1);
 
         assertNotNull(paginatedList);
         assertEquals(2, paginatedList.getPageRangeSize());
@@ -130,10 +162,15 @@ public class UserManagerTest extends BaseManagerTestCase {
         assertEquals(2, paginatedList.getNextPageNumber());
         assertEquals(1, paginatedList.getPageNumberList().size());
         assertEquals(1, paginatedList.getCurrentPage().size());
+        UserSearchResults userSearchResults = paginatedList.getCurrentPage().get(0);
+        assertEquals(Long.valueOf(-2), userSearchResults.getId());
+        assertEquals("normaluser", userSearchResults.getUsername());
+        assertEquals("user@foo.bar", userSearchResults.getEmail());
+        assertTrue(userSearchResults.isEnabled());
 
         // 検索結果が12件の場合
-        user.setUsername(null);
-        paginatedList = userManager.createPaginatedList(user, 1);
+        userSearchCriteria.setUsername(null);
+        paginatedList = userManager.createPaginatedList(userSearchCriteria, 1);
 
         assertNotNull(paginatedList);
         assertEquals(12, paginatedList.getAllRecordCount());
@@ -144,7 +181,7 @@ public class UserManagerTest extends BaseManagerTestCase {
         assertEquals(Integer.valueOf(2), paginatedList.getPageNumberList().get(1));
         assertEquals(5, paginatedList.getCurrentPage().size());
 
-        paginatedList = userManager.createPaginatedList(user, 3);
+        paginatedList = userManager.createPaginatedList(userSearchCriteria, 3);
 
         assertEquals(11, paginatedList.getCurrentStartRecordNumber());
         assertEquals(15, paginatedList.getCurrentEndRecordNumber());
