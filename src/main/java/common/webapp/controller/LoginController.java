@@ -3,8 +3,8 @@ package common.webapp.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,7 +19,7 @@ public class LoginController extends BaseController {
      *
      * @return 遷移先画面設定
      */
-    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @GetMapping("login")
     public ModelAndView setupLogin() {
         Model model = new ExtendedModelMap();
         model.addAttribute("username", "");
@@ -38,7 +38,7 @@ public class LoginController extends BaseController {
      *            パスワード
      * @return 遷移先
      */
-    @RequestMapping(value = "login", method = RequestMethod.POST)
+    @PostMapping("login")
     public String login(@RequestParam(value = "remember-me", required = false) boolean rememberMeFlg,
             @RequestParam(value = "username", required = true) String username,
             @RequestParam(value = "password", required = true) String password) {
@@ -56,7 +56,7 @@ public class LoginController extends BaseController {
      *
      * @return 遷移先
      */
-    @RequestMapping(value = "login/accountDisabled", method = RequestMethod.GET)
+    @GetMapping("login/accountDisabled")
     public String accountDisabled() {
         saveFlashError(getText("loginForm.accountDisabled"));
         return "redirect:/login";
@@ -67,7 +67,7 @@ public class LoginController extends BaseController {
      *
      * @return 遷移先
      */
-    @RequestMapping(value = "login/accountLocked", method = RequestMethod.GET)
+    @GetMapping("login/accountLocked")
     public String accountLocked() {
         saveFlashError(getText("loginForm.accountLocked"));
         return "redirect:/login";
@@ -78,7 +78,7 @@ public class LoginController extends BaseController {
      *
      * @return 遷移先
      */
-    @RequestMapping(value = "login/accountExpired", method = RequestMethod.GET)
+    @GetMapping("login/accountExpired")
     public String accountExpired() {
         saveFlashError(getText("loginForm.accountExpired"));
         return "redirect:/login";
@@ -89,7 +89,7 @@ public class LoginController extends BaseController {
      *
      * @return 遷移先
      */
-    @RequestMapping(value = "login/credentialsExpired", method = RequestMethod.GET)
+    @GetMapping("login/credentialsExpired")
     public String credentialsExpired() {
         saveFlashError(getText("loginForm.credentialsExpired"));
         return "redirect:/login";
@@ -100,7 +100,7 @@ public class LoginController extends BaseController {
      *
      * @return 遷移先
      */
-    @RequestMapping(value = "login/badCredentials", method = RequestMethod.GET)
+    @GetMapping("login/badCredentials")
     public String badCredentials() {
         saveFlashError(getText("loginForm.badCredentials"));
         return "redirect:/login";

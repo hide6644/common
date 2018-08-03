@@ -24,9 +24,8 @@ public class UserSpecifications {
      * @return {@link Specification}
      */
     public static Specification<User> usernameContains(String username) {
-        return StringUtils.isEmpty(username) ? null : (root, query, cb) -> {
-            return cb.like(root.get("username"), "%" + username + "%");
-        };
+        return StringUtils.isEmpty(username) ? null : (root, query, cb) -> cb.like(root.get("username"), "%" + username + "%");
+
     }
 
     /**
@@ -37,8 +36,6 @@ public class UserSpecifications {
      * @return {@link Specification}
      */
     public static Specification<User> emailContains(String email) {
-        return StringUtils.isEmpty(email) ? null : (root, query, cb) -> {
-            return cb.like(root.get("email"), "%" + email + "%");
-        };
+        return StringUtils.isEmpty(email) ? null : (root, query, cb) -> cb.like(root.get("email"), "%" + email + "%");
     }
 }
