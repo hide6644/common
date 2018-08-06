@@ -22,17 +22,12 @@
         <constructor-arg value="common.dao.UserDao" />
     </bean>
 
-    <bean id="userDetailsService" class="org.mockito.Mockito" factory-method="mock">
-        <constructor-arg value="org.springframework.security.core.userdetails.UserDetailsService" />
-    </bean>
-
     <bean id="roleManager" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="common.service.RoleManager" />
     </bean>
 
     <bean id="userManager" class="common.service.impl.UserManagerImpl">
         <constructor-arg ref="userDao" />
-        <constructor-arg ref="userDetailsService" />
         <constructor-arg ref="roleManager" />
     </bean>
 

@@ -20,7 +20,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -54,9 +53,6 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     /** ユーザDAO */
     private UserDao userDao;
 
-    /** ユーザ認証 */
-    private UserDetailsService userDetailsService;
-
     /** UserのHibernate Search DAO */
     @Autowired
     @Qualifier("userSearch")
@@ -87,15 +83,12 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      *
      * @param userDao
      *            ユーザDAO
-     * @param userDetailsService
-     *            ユーザ認証
      * @param roleManager
      *            Role処理クラス
      */
     @Autowired
-    public UserManagerImpl(UserDao userDao, UserDetailsService userDetailsService, RoleManager roleManager) {
+    public UserManagerImpl(UserDao userDao, RoleManager roleManager) {
         this.userDao = userDao;
-        this.userDetailsService = userDetailsService;
         this.roleManager = roleManager;
     }
 
@@ -120,7 +113,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      */
     @Override
     public User getUserByUsername(String username) {
-        return (User) userDetailsService.loadUserByUsername(username);
+        return userDao.findByUsername(username);
     }
 
     /**

@@ -8,7 +8,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import common.Constants;
@@ -26,9 +25,6 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
     private UserDao userDao;
 
     @Mock
-    private UserDetailsService userDetailsService;
-
-    @Mock
     private PasswordEncoder passwordEncoder;
 
     @Mock
@@ -38,7 +34,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
     private RoleManager roleManager;
 
     @InjectMocks
-    private UserManagerImpl userManager = new UserManagerImpl(userDao, userDetailsService, roleManager);
+    private UserManagerImpl userManager = new UserManagerImpl(userDao, roleManager);
 
     @Test
     public void testGetUser() {
@@ -49,9 +45,8 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
 
         User user = userManager.getUser("1");
 
-        assertTrue(user != null);
-        assert user != null;
-        assertTrue(user.getRoles().size() == 1);
+        assertNotNull(user);
+        assertEquals(1, user.getRoles().size());
     }
 
     @Test
@@ -71,8 +66,8 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
         BeanUtils.copyProperties(user, userDetailsForm);
         User returned = userManager.saveUserDetails(userDetailsForm);
 
-        assertTrue(returned.getLastName().equals("smith"));
-        assertTrue(returned.getRoles().size() == 1);
+        assertEquals("smith", returned.getLastName());
+        assertEquals(1, returned.getRoles().size());
     }
 
     @Test
@@ -91,8 +86,8 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
         BeanUtils.copyProperties(user, userDetailsForm);
         user = userManager.saveUserDetails(userDetailsForm);
 
-        assertTrue(user.getUsername().equals("john_elway"));
-        assertTrue(user.getRoles().size() == 1);
+        assertEquals("john_elway", user.getUsername());
+        assertEquals(1, user.getRoles().size());
 
         willDoNothing().given(userDao).deleteById(5L);
         userManager.removeUser("5");

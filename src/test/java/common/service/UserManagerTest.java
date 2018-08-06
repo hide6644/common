@@ -91,13 +91,7 @@ public class UserManagerTest extends BaseManagerTestCase {
 
         userManager.removeUser(user);
 
-        try {
-            user = userManager.getUserByUsername("john");
-            fail("Expected 'Exception' not thrown");
-        } catch (Exception e) {
-            log.debug(e);
-            assertNotNull(e);
-        }
+        assertNull(userManager.getUserByUsername("john"));
     }
 
     @Test
@@ -126,13 +120,7 @@ public class UserManagerTest extends BaseManagerTestCase {
 
         userManager.removeUser(user.getId().toString());
 
-        try {
-            user = userManager.getUserByUsername("john");
-            fail("Expected 'Exception' not thrown");
-        } catch (Exception e) {
-            log.debug(e);
-            assertNotNull(e);
-        }
+        assertNull(userManager.getUserByUsername("john"));
     }
 
     @Test
