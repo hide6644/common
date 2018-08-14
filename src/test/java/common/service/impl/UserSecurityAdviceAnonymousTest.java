@@ -16,8 +16,8 @@ import org.springframework.security.core.context.SecurityContextImpl;
 
 import common.Constants;
 import common.dto.UserDetailsForm;
-import common.model.Role;
-import common.model.User;
+import common.entity.Role;
+import common.entity.User;
 import common.service.UserManager;
 
 @ExtendWith(MockitoExtension.class)

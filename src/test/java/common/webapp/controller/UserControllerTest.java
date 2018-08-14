@@ -20,7 +20,7 @@ import org.springframework.web.bind.WebDataBinder;
 
 import common.Constants;
 import common.dto.UserDetailsForm;
-import common.model.User;
+import common.entity.User;
 import common.service.UserManager;
 import common.webapp.filter.FlashMap;
 

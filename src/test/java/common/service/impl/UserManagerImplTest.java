@@ -13,9 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import common.Constants;
 import common.dao.UserDao;
 import common.dto.UserDetailsForm;
+import common.entity.Role;
+import common.entity.User;
 import common.exception.DatabaseException;
-import common.model.Role;
-import common.model.User;
 import common.service.PasswordTokenManager;
 import common.service.RoleManager;
 

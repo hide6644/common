@@ -17,7 +17,7 @@ import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetupTest;
 
 import common.dto.PasswordForm;
-import common.model.User;
+import common.entity.User;
 
 public class PasswordTokenManagerTest extends BaseManagerTestCase {
 

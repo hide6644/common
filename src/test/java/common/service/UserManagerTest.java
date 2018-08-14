@@ -11,13 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 
 import common.Constants;
+import common.dto.PaginatedList;
 import common.dto.UploadForm;
 import common.dto.UserDetailsForm;
 import common.dto.UserSearchCriteria;
 import common.dto.UserSearchResults;
-import common.model.PaginatedList;
-import common.model.Role;
-import common.model.User;
+import common.entity.Role;
+import common.entity.User;
 import common.webapp.converter.FileType;
 
 public class UserManagerTest extends BaseManagerTestCase {

@@ -3,8 +3,8 @@ package common.service;
 import java.util.List;
 import java.util.Set;
 
-import common.model.LabelValue;
-import common.model.Role;
+import common.dto.LabelValue;
+import common.entity.Role;
 
 /**
  * 権限処理のインターフェース.

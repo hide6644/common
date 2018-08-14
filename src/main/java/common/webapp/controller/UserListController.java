@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import common.dto.PaginatedList;
 import common.dto.UserSearchCriteria;
 import common.dto.UserSearchResults;
-import common.model.PaginatedList;
-import common.model.Users;
+import common.entity.Users;
 import common.service.UserManager;
 
 /**

@@ -1,4 +1,4 @@
-package common.model;
+package common.dto;
 
 import java.io.Serializable;
 import java.util.Comparator;

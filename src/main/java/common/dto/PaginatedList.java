@@ -1,4 +1,4 @@
-package common.model;
+package common.dto;
 
 import java.util.ArrayList;
 import java.util.List;

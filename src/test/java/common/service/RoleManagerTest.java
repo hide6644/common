@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import common.model.LabelValue;
+import common.dto.LabelValue;
 
 public class RoleManagerTest extends BaseManagerTestCase {
 

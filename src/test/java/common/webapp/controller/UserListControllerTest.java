@@ -15,11 +15,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import common.dto.PaginatedList;
 import common.dto.UserSearchCriteria;
 import common.dto.UserSearchResults;
-import common.model.PaginatedList;
-import common.model.Role;
-import common.model.User;
+import common.entity.Role;
+import common.entity.User;
 import common.service.UserManager;
 import common.webapp.filter.FlashMap;
 

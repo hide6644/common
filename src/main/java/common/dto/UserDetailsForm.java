@@ -16,9 +16,8 @@ import javax.validation.groups.Default;
 
 import org.hibernate.validator.constraints.Length;
 
-import common.model.LabelValue;
-import common.model.Role;
-import common.model.User;
+import common.entity.Role;
+import common.entity.User;
 import common.validator.constraints.BasicLatin;
 import common.validator.constraints.CompareStrings;
 import common.validator.constraints.ComparisonMode;

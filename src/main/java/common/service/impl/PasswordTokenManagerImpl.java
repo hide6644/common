@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import common.model.User;
+import common.entity.User;
 import common.service.PasswordTokenManager;
 
 /**

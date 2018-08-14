@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import common.Constants;
 import common.dto.UserDetailsForm;
+import common.entity.Role;
+import common.entity.User;
 import common.exception.DatabaseException;
-import common.model.Role;
-import common.model.User;
 import common.service.UserManager;
 import common.service.mail.UserMail;
 import common.validator.groups.Modify;

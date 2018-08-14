@@ -13,7 +13,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import common.dao.jpa.HibernateSearchImpl;
-import common.model.User;
+import common.entity.User;
 
 public class HibernateSearchTest extends BaseDaoTestCase {
 

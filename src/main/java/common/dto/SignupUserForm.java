@@ -7,7 +7,7 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-import common.model.User;
+import common.entity.User;
 import common.validator.constraints.BasicLatin;
 import common.validator.constraints.CompareStrings;
 import common.validator.constraints.ComparisonMode;

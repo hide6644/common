@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import common.Constants;
-import common.model.LabelValue;
+import common.dto.LabelValue;
 import common.service.RoleManager;
 import common.service.UserManager;
 import common.webapp.converter.FileType;

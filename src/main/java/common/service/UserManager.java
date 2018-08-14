@@ -2,14 +2,14 @@ package common.service;
 
 import java.util.List;
 
+import common.dto.PaginatedList;
 import common.dto.PasswordForm;
 import common.dto.SignupUserForm;
 import common.dto.UploadForm;
 import common.dto.UserDetailsForm;
 import common.dto.UserSearchCriteria;
 import common.dto.UserSearchResults;
-import common.model.PaginatedList;
-import common.model.User;
+import common.entity.User;
 
 /**
  * ユーザ処理のインターフェース.

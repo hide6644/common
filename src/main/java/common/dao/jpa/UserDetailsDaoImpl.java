@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import common.Constants;
-import common.model.User;
+import common.entity.User;
 
 /**
  * ユーザ認証DAOクラス.

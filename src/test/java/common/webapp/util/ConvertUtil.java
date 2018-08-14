@@ -12,7 +12,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import common.model.LabelValue;
+import common.dto.LabelValue;
 
 /**
  * オブジェクト変換のUtilityクラス.

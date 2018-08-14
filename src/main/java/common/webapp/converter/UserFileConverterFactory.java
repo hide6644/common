@@ -22,10 +22,10 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
 import common.Constants;
+import common.entity.BaseObjects;
+import common.entity.User;
+import common.entity.Users;
 import common.exception.FileException;
-import common.model.BaseObjects;
-import common.model.User;
-import common.model.Users;
 import common.webapp.converter.util.CsvFileReader;
 import common.webapp.converter.util.JxlsFileReader;
 import common.webapp.converter.util.XmlFileReader;

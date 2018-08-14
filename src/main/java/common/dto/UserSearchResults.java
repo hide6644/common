@@ -2,7 +2,7 @@ package common.dto;
 
 import java.io.Serializable;
 
-import common.model.User;
+import common.entity.User;
 
 /**
  * ユーザ検索結果を保持するクラス.
