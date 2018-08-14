@@ -1,11 +1,13 @@
 package common.dto;
 
+import java.io.Serializable;
+
 import common.model.User;
 
 /**
  * ユーザ検索結果を保持するクラス.
  */
-public class UserSearchResults {
+public class UserSearchResults implements Serializable {
 
     /** ID */
     private Long id;

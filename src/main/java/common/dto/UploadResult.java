@@ -1,12 +1,13 @@
 package common.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 取り込み結果を保持するクラス.
  */
-public class UploadResult {
+public class UploadResult implements Serializable {
 
     /** 取り込み成功総数 */
     private int successTotalCount;
@@ -19,7 +20,7 @@ public class UploadResult {
 
     /**
      * コンストラクタ
-     * 
+     *
      * @param processingCount
      *            取り込み中の行番号
      */

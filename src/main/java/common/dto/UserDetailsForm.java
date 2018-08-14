@@ -1,5 +1,6 @@
 package common.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -44,7 +45,7 @@ import common.validator.groups.Modify;
                 model = User.class
         )
     })
-public class UserDetailsForm {
+public class UserDetailsForm implements Serializable {
 
     /** ID */
     private Long id;

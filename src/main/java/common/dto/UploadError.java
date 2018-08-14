@@ -1,9 +1,11 @@
 package common.dto;
 
+import java.io.Serializable;
+
 /**
  * 取り込みエラーの情報を保持するクラス.
  */
-public class UploadError {
+public class UploadError implements Serializable {
 
     /** 行番号 */
     private int rowNo;
@@ -16,7 +18,7 @@ public class UploadError {
 
     /**
      * コンストラクタ
-     * 
+     *
      * @param rowNo
      *            行番号
      * @param fieldName

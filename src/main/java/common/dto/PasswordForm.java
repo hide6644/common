@@ -1,5 +1,7 @@
 package common.dto;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
@@ -18,7 +20,7 @@ import common.validator.constraints.ComparisonMode;
                 message = "{common.validator.constraints.confirmPassword.message}"
         )
     })
-public class PasswordForm {
+public class PasswordForm implements Serializable {
 
     /** ユーザ名 */
     private String username;

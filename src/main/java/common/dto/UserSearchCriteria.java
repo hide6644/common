@@ -1,5 +1,7 @@
 package common.dto;
 
+import java.io.Serializable;
+
 import org.hibernate.validator.constraints.Length;
 
 import common.validator.constraints.BasicLatin;
@@ -7,7 +9,7 @@ import common.validator.constraints.BasicLatin;
 /**
  * ユーザ検索条件を保持するクラス.
  */
-public class UserSearchCriteria {
+public class UserSearchCriteria implements Serializable {
 
     /** ユーザ名 */
     private String username;

@@ -1,5 +1,7 @@
 package common.dto;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
@@ -31,7 +33,7 @@ import common.validator.constraints.UniqueKey;
                 model = User.class
         )
     })
-public class SignupUserForm {
+public class SignupUserForm implements Serializable {
 
     /** ユーザ名 */
     private String username;
