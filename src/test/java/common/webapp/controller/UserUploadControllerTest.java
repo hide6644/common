@@ -1,10 +1,10 @@
 package common.webapp.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.InputStream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.validation.BindingResult;
@@ -12,8 +12,8 @@ import org.springframework.validation.DataBinder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import common.dto.UploadForm;
 import common.webapp.converter.FileType;
-import common.webapp.form.UploadForm;
 
 public class UserUploadControllerTest extends BaseControllerTestCase {
 
@@ -41,6 +41,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
         c.onSubmit(uploadForm, errors);
 
         assertFalse(errors.hasErrors());
+        assertEquals(3, uploadForm.getUploadResult().getProcessingCount());
         assertEquals(1, uploadForm.getUploadResult().getSuccessTotalCount());
     }
 

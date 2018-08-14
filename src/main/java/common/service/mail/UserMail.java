@@ -70,7 +70,7 @@ public class UserMail {
      *            ユーザ
      */
     public void sendPasswordRecoveryEmail(User user) {
-        sendEmail(user, passwordRecoveryTemplate, messages.getMessage("updatePasswordForm.email.subject"), messages.getMessage("updatePasswordForm.recovery.email.message"), buildRecoveryPasswordUrl(user, "/updatePassword"));
+        sendEmail(user, passwordRecoveryTemplate, messages.getMessage("passwordForm.email.subject"), messages.getMessage("passwordForm.recovery.email.message"), buildRecoveryPasswordUrl(user, "/updatePassword"));
     }
 
     /**
@@ -80,7 +80,7 @@ public class UserMail {
      *            ユーザ
      */
     public void sendUpdatePasswordEmail(User user) {
-        sendEmail(user, passwordUpdatedTemplate, messages.getMessage("updatePasswordForm.email.subject"), messages.getMessage("updatePasswordForm.email.message"), "");
+        sendEmail(user, passwordUpdatedTemplate, messages.getMessage("passwordForm.email.subject"), messages.getMessage("passwordForm.email.message"), "");
     }
 
     /**

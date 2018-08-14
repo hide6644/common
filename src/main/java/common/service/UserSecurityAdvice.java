@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import common.Constants;
+import common.dto.UserDetailsForm;
 import common.model.User;
 
 /**
@@ -44,14 +45,14 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
 
         if (ctx.getAuthentication() != null) {
             Authentication auth = ctx.getAuthentication();
-            User user = (User) args[0];
+            UserDetailsForm userDetailsForm = (UserDetailsForm) args[0];
 
             if (new AuthenticationTrustResolverImpl().isAnonymous(auth)) {
                 if (log.isDebugEnabled()) {
-                    log.debug("Registering new user '" + user.getUsername() + "'");
+                    log.debug("Registering new user '" + userDetailsForm.getUsername() + "'");
                 }
             } else {
-                checkAuthentication(auth, user);
+                checkAuthentication(auth, userDetailsForm);
             }
         }
     }
@@ -61,19 +62,19 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
      *
      * @param auth
      *            {@link Authentication}
-     * @param user
-     *            ユーザ
+     * @param userDetailsForm
+     *            ユーザ情報
      */
-    private void checkAuthentication(Authentication auth, User user) {
+    private void checkAuthentication(Authentication auth, UserDetailsForm userDetailsForm) {
         boolean administrator = auth.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals(Constants.ADMIN_ROLE));
         User currentUser = getCurrentUser(auth);
 
-        if (!Objects.equals(user.getId(), currentUser.getId()) && !administrator) {
-            log.warn("Access Denied: '" + currentUser.getUsername() + "' tried to modify '" + user.getUsername() + "'!");
+        if (!Objects.equals(userDetailsForm.getId(), currentUser.getId()) && !administrator) {
+            log.warn("Access Denied: '" + currentUser.getUsername() + "' tried to modify '" + userDetailsForm.getUsername() + "'!");
             throw new AccessDeniedException(ACCESS_DENIED);
-        } else if (user.getId() != null && user.getId().equals(currentUser.getId()) && !administrator) {
+        } else if (userDetailsForm.getId() != null && userDetailsForm.getId().equals(currentUser.getId()) && !administrator) {
             // 入力されたユーザの権限
-            Set<String> userRoles = Optional.ofNullable(user.getRoles()).orElseGet(HashSet::new).stream()
+            Set<String> userRoles = Optional.ofNullable(userDetailsForm.getRoles()).orElseGet(HashSet::new).stream()
                     .map(role -> role.getName()).collect(Collectors.toSet());
 
             // ログインユーザの権限
@@ -92,7 +93,11 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
      */
     @Override
     public void afterReturning(Object returnValue, Method method, Object[] args, Object target) throws Throwable {
-        User user = (User) args[0];
+        if (returnValue == null) {
+            return;
+        }
+
+        User user = (User) returnValue;
 
         if (user.getVersion() != null) {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -1,8 +1,8 @@
 package common.webapp.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -11,7 +11,7 @@ import common.webapp.filter.FlashMap;
 public class LoginControllerTest extends BaseControllerTestCase {
 
     @Autowired
-    private LoginController c = null;
+    private LoginController c;
 
     @Test
     public void testSetupLogin() {

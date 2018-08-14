@@ -1,8 +1,8 @@
 package common.webapp.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ErrorControllerTest extends BaseControllerTestCase {
 
     @Autowired
-    private ErrorController c = null;
+    private ErrorController c;
 
     @Test
     public void testRenderErrorPage() {
@@ -19,22 +19,22 @@ public class ErrorControllerTest extends BaseControllerTestCase {
         ModelAndView mav = c.renderErrorPage(request);
 
         assertEquals("error", mav.getModelMap().get("errorTitle"));
-        
+
         request.setAttribute("javax.servlet.error.status_code", 401);
         mav = c.renderErrorPage(request);
 
         assertEquals("403", mav.getModelMap().get("errorTitle"));
-        
+
         request.setAttribute("javax.servlet.error.status_code", 403);
         mav = c.renderErrorPage(request);
 
         assertEquals("403", mav.getModelMap().get("errorTitle"));
-        
+
         request.setAttribute("javax.servlet.error.status_code", 404);
         mav = c.renderErrorPage(request);
 
         assertEquals("404", mav.getModelMap().get("errorTitle"));
-        
+
         request.setAttribute("javax.servlet.error.status_code", 500);
         mav = c.renderErrorPage(request);
 

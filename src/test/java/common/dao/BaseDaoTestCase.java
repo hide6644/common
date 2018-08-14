@@ -1,7 +1,6 @@
 package common.dao;
 
-import java.util.Enumeration;
-import java.util.HashMap;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -12,12 +11,20 @@ import javax.persistence.PersistenceContext;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
+import common.webapp.util.ConvertUtil;
+
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "classpath:/common/dao/applicationContext-resources.xml",
         "classpath:/common/dao/applicationContext-dao.xml", "classpath*:/applicationContext.xml" })
-public abstract class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTests {
+@Transactional
+@Rollback
+public abstract class BaseDaoTestCase {
 
     public static final String PERSISTENCE_UNIT_NAME = "ApplicationEntityManager";
 
@@ -33,20 +40,19 @@ public abstract class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringC
 
         try {
             rb = ResourceBundle.getBundle(className);
-        } catch (MissingResourceException mre) {
-            log.trace("No resource bundle found for: " + className);
+        } catch (MissingResourceException e) {
+            log.trace("No resource bundle found for: " + className, e);
         }
     }
 
-    protected Object populate(final Object obj) throws Exception {
-        Map<String, String> map = new HashMap<String, String>();
+    protected Object populate(final Object obj) {
+        Map<String, String> map = ConvertUtil.convertBundleToMap(rb);
 
-        for (Enumeration<String> keys = rb.getKeys(); keys.hasMoreElements();) {
-            String key = keys.nextElement();
-            map.put(key, rb.getString(key));
+        try {
+            BeanUtils.copyProperties(obj, map);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            log.trace("Copy failed: ", e);
         }
-
-        BeanUtils.copyProperties(obj, map);
 
         return obj;
     }

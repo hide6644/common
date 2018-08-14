@@ -1,5 +1,6 @@
 package common.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -7,12 +8,12 @@ import java.util.ResourceBundle;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import common.service.util.ConvertUtil;
+import common.webapp.util.ConvertUtil;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public abstract class BaseManagerMockTestCase {
 
     protected transient Logger log = LogManager.getLogger(getClass());
@@ -24,15 +25,19 @@ public abstract class BaseManagerMockTestCase {
 
         try {
             rb = ResourceBundle.getBundle(className);
-        } catch (MissingResourceException mre) {
-            log.trace("No resource bundle found for: " + className);
+        } catch (MissingResourceException e) {
+            log.trace("No resource bundle found for: " + className, e);
         }
     }
 
-    protected Object populate(Object obj) throws Exception {
+    protected Object populate(Object obj) {
         Map<String, String> map = ConvertUtil.convertBundleToMap(rb);
 
-        BeanUtils.copyProperties(obj, map);
+        try {
+            BeanUtils.copyProperties(obj, map);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            log.trace("Copy failed: ", e);
+        }
 
         return obj;
     }

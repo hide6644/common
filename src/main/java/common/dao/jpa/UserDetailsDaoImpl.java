@@ -27,7 +27,7 @@ public class UserDetailsDaoImpl implements UserDetailsService {
      * {@inheritDoc}
      */
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) {
         try {
             return entityManager.createNamedQuery("User.findByUsername", User.class).setParameter("username", username).getSingleResult();

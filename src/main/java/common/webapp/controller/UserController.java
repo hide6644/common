@@ -1,32 +1,36 @@
 package common.webapp.controller;
 
+import java.beans.PropertyEditorSupport;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import common.Constants;
+import common.dto.UserDetailsForm;
 import common.exception.DatabaseException;
 import common.model.Role;
 import common.model.User;
 import common.service.UserManager;
 import common.service.mail.UserMail;
+import common.validator.groups.Modify;
 
 /**
  * ユーザ登録情報変更処理クラス.
@@ -50,7 +54,18 @@ public class UserController extends BaseController {
     @Override
     public void initBinder(WebDataBinder binder) {
         super.initBinder(binder);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(getText("date.time.format")), true));
+        binder.registerCustomEditor(LocalDateTime.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) {
+                try {
+                    if (text != null) {
+                        setValue(LocalDateTime.parse(text, DateTimeFormatter.ofPattern(getText("date.time.format"))));
+                    }
+                } catch (DateTimeParseException e) {
+                    // 何もしない
+                }
+            }
+        });
     }
 
     /**
@@ -64,9 +79,9 @@ public class UserController extends BaseController {
      * @throws IOException
      *             {@link IOException}
      */
-    @ModelAttribute
-    @RequestMapping(method = RequestMethod.GET)
-    public User showForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @ModelAttribute("user")
+    @GetMapping
+    public UserDetailsForm showForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String userId = request.getParameter("userId");
 
         // 管理者でない場合、自身以外のユーザを登録、更新することは出来ない
@@ -77,22 +92,22 @@ public class UserController extends BaseController {
         }
 
         if (Objects.equals(request.getParameter("mode"), "Add")) {
-            User user = new User();
-            user.setCredentialsExpiredDate(LocalDateTime.now().plusDays(Constants.CREDENTIALS_EXPIRED_TERM));
-            user.addRole(new Role(Constants.USER_ROLE));
-            return user;
+            UserDetailsForm userDetailsForm = new UserDetailsForm();
+            userDetailsForm.setCredentialsExpiredDate(LocalDateTime.now().plusDays(Constants.CREDENTIALS_EXPIRED_TERM));
+            userDetailsForm.addRole(new Role(Constants.USER_ROLE));
+            return userDetailsForm;
         } else if (userId != null) {
-            return userManager.getUser(userId);
+            return userManager.getUserDetails(userManager.getUser(userId));
         } else {
-            return userManager.getUserByUsername(request.getRemoteUser());
+            return userManager.getUserDetails(userManager.getUserByUsername(request.getRemoteUser()));
         }
     }
 
     /**
-     * ユーザ画面保存処理.
+     * ユーザ登録処理.
      *
-     * @param user
-     *            画面入力値保持モデル
+     * @param userDetailsForm
+     *            ユーザ情報
      * @param result
      *            エラーチェック結果
      * @param request
@@ -103,28 +118,57 @@ public class UserController extends BaseController {
      * @throws IOException
      *             {@link IOException}
      */
-    @RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
-    public String onSubmit(@ModelAttribute("user") @Valid User user, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (result.hasErrors() && result.getFieldErrors().stream().anyMatch(error -> !error.getField().equals("password"))) {
+    @PostMapping
+    public String onSubmitByPostMethod(@ModelAttribute("user") @Validated UserDetailsForm userDetailsForm, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (result.hasErrors()) {
             return "user";
         }
 
         try {
-            User managedUser = userManager.saveUser(user);
+            User managedUser = userManager.saveUserDetails(userDetailsForm);
+            saveFlashMessage(getText("inserted"));
+
+            // 登録完了メールを送信する
+            userMail.sendCreatedEmail(managedUser);
+
+            return "redirect:/admin/master/users";
+        } catch (AccessDeniedException e) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+        } catch (DatabaseException e) {
+            log.error(e);
+            return "user";
+        }
+    }
+
+    /**
+     * ユーザ更新処理.
+     *
+     * @param userDetailsForm
+     *            ユーザ情報
+     * @param result
+     *            エラーチェック結果
+     * @param request
+     *            {@link HttpServletRequest}
+     * @param response
+     *            {@link HttpServletResponse}
+     * @return 遷移先
+     * @throws IOException
+     *             {@link IOException}
+     */
+    @PutMapping
+    public String onSubmitByPutMethod(@ModelAttribute("user") @Validated(Modify.class) UserDetailsForm userDetailsForm, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (result.hasErrors()) {
+            return "user";
+        }
+
+        try {
+            userManager.saveUserDetails(userDetailsForm);
+            saveFlashMessage(getText("updated"));
 
             if (Objects.equals(request.getParameter("from"), "list")) {
-                if (Objects.equals(request.getParameter("mode"), "Add")) {
-                    saveFlashMessage(getText("inserted"));
-
-                    // 登録完了メールを送信する
-                    userMail.sendCreatedEmail(managedUser);
-                } else {
-                    saveFlashMessage(getText("updated"));
-                }
-
                 return "redirect:/admin/master/users";
             } else {
-                saveFlashMessage(getText("updated"));
                 return "redirect:/top";
             }
         } catch (AccessDeniedException e) {

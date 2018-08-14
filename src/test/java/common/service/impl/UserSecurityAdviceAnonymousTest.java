@@ -1,11 +1,12 @@
 package common.service.impl;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.context.ApplicationContext;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -14,45 +15,42 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 
 import common.Constants;
+import common.dto.UserDetailsForm;
 import common.model.Role;
 import common.model.User;
 import common.service.UserManager;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class UserSecurityAdviceAnonymousTest {
 
-    ApplicationContext ctx;
+    private static UserManager userManager;
 
-    SecurityContext initialSecurityContext;
+    @BeforeAll
+    public static void setUpClass() {
+        try (ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("/common/service/applicationContext-test.xml")) {
+            userManager = (UserManager) ctx.getBean("target");
+            User user = new User("user");
+            user.setId(1L);
+            user.setVersion(1L);
+            Mockito.when(userManager.getUserByUsername("user")).thenReturn(user);
+            Mockito.when(userManager.saveUser(user)).thenReturn(user);
+        }
+    }
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        initialSecurityContext = SecurityContextHolder.getContext();
-
         SecurityContext context = new SecurityContextImpl();
         context.setAuthentication(new AnonymousAuthenticationToken("key", "anonymousUser", AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")));
         SecurityContextHolder.setContext(context);
     }
 
-    @After
-    public void tearDown() {
-        SecurityContextHolder.setContext(initialSecurityContext);
-    }
-
     @Test
     public void testAddUser() throws Exception {
-        User user = new User("user");
-        user.setId(1L);
-        user.getRoles().add(new Role(Constants.USER_ROLE));
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        userDetailsForm.setUsername("user");
+        userDetailsForm.setId(1L);
+        userDetailsForm.getRoles().add(new Role(Constants.USER_ROLE));
 
-        makeInterceptedTarget().saveUser(user);
-    }
-
-    private UserManager makeInterceptedTarget() throws Exception {
-        ctx = new ClassPathXmlApplicationContext("/common/service/applicationContext-test.xml");
-
-        UserManager userManager = (UserManager) ctx.getBean("target");
-
-        return userManager;
+        userManager.saveUserDetails(userDetailsForm);
     }
 }

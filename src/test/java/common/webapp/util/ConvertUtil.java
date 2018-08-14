@@ -1,4 +1,4 @@
-package common.service.util;
+package common.webapp.util;
 
 import java.util.Enumeration;
 import java.util.HashMap;

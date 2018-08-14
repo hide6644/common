@@ -19,7 +19,7 @@
                 <legend th:if="${addMode}" th:text="#{button.add}">button.add</legend>
                 <legend th:unless="${addMode}" th:text="#{button.edit}">button.edit</legend>
             </fieldset>
-            <form class="well" action="#" method="post" autocomplete="off" th:action="@{/user(mode=${param.mode}, from=${param.from})}" th:object="${user}">
+            <form class="well" action="#" method="post" autocomplete="off" th:action="@{/user(mode=${param.mode}, from=${param.from})}" th:object="${user}" th:method="${addMode} ? 'post' : 'put'">
                 <input type="hidden" th:field="*{id}" />
                 <input type="hidden" th:field="*{version}" />
                 <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? has-error" th:if="${addMode}">
@@ -29,19 +29,19 @@
                     <input type="text" class="form-control" th:field="*{username}" />
                     <span class="help-block" th:each="err : ${#fields.errors('username')}" th:text="${err}"></span>
                 </div>
-                <div class="control-group" th:unless="${addMode}">
+                <div class="form-group" th:unless="${addMode}">
                     <label for="username" class="control-label" th:text="#{user.username}">user.username</label>
                     <input type="text" class="form-control" readonly="readonly" th:field="*{username}" />
                 </div>
                 <div class="row" th:if="${addMode}">
-                    <div class="col-sm-6" th:classappend="${#fields.hasErrors('password')} ? has-error">
+                    <div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('password')} ? has-error">
                         <label for="password" class="control-label">
                             <span th:text="#{user.password}" th:remove="tag">user.password</span> <span class="required">*</span>
                         </label>
                         <input type="password" class="form-control" th:field="*{password}" />
                         <span class="help-block" th:each="err : ${#fields.errors('password')}" th:text="${err}"></span>
                     </div>
-                    <div class="col-sm-6" th:classappend="${#fields.hasErrors('confirmPassword')} ? has-error">
+                    <div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('confirmPassword')} ? has-error">
                         <label for="confirmPassword" class="control-label" th:text="#{user.confirmPassword}">user.confirmPassword</label>
                         <input type="password" class="form-control" th:field="*{confirmPassword}" />
                         <span class="help-block" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></span>
@@ -59,14 +59,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6" th:classappend="${#fields.hasErrors('firstName')} ? has-error">
+                    <div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('firstName')} ? has-error">
                         <label for="firstName" class="control-label">
                             <span th:text="#{user.firstName}" th:remove="tag">user.firstName</span> <span class="required">*</span>
                         </label>
                         <input type="text" class="form-control" th:field="*{firstName}" />
                         <span class="help-block" th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></span>
                     </div>
-                    <div class="col-sm-6" th:classappend="${#fields.hasErrors('lastName')} ? has-error">
+                    <div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('lastName')} ? has-error">
                         <label for="lastName" class="control-label" th:text="#{user.lastName}">user.lastName</label>
                         <input type="text" class="form-control" th:field="*{lastName}" />
                         <span class="help-block" th:each="err : ${#fields.errors('lastName')}" th:text="${err}"></span>
@@ -109,11 +109,6 @@
                     </select>
                     <span class="help-block" th:each="err : ${#fields.errors('roles')}" th:text="${err}"></span>
                 </div>
-                <input type="hidden" name="roles" th:each="role : *{roles}" th:value="${role.name}" th:unless="${listMode}" />
-                <input type="hidden" th:field="*{enabled}" th:unless="${listMode}" />
-                <input type="hidden" th:field="*{accountLocked}" th:unless="${listMode}" />
-                <input type="hidden" th:field="*{accountExpiredDate}" th:unless="${listMode}" />
-                <input type="hidden" th:field="*{credentialsExpiredDate}" th:unless="${listMode}" />
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">
                         <em class="glyphicon glyphicon-ok"></em>

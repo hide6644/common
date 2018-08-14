@@ -1,14 +1,13 @@
 package common.service.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.context.ApplicationContext;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,22 +17,31 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 
 import common.Constants;
+import common.dto.UserDetailsForm;
 import common.model.Role;
 import common.model.User;
 import common.service.UserManager;
 import common.service.UserSecurityAdvice;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class UserSecurityAdviceTest {
 
-    ApplicationContext ctx;
+    private static UserManager userManager;
 
-    SecurityContext initialSecurityContext;
+    @BeforeAll
+    public static void setUpClass() {
+        try (ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("/common/service/applicationContext-test.xml")) {
+            userManager = (UserManager) ctx.getBean("target");
+            User user = new User("user");
+            user.setId(1L);
+            user.setVersion(1L);
+            Mockito.when(userManager.getUserByUsername("user")).thenReturn(user);
+            Mockito.when(userManager.saveUser(user)).thenReturn(user);
+        }
+    }
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        initialSecurityContext = SecurityContextHolder.getContext();
-
         User user = new User("user");
         user.setId(1L);
         user.setPassword("password");
@@ -46,26 +54,22 @@ public class UserSecurityAdviceTest {
         SecurityContextHolder.setContext(context);
     }
 
-    @After
-    public void tearDown() {
-        SecurityContextHolder.setContext(initialSecurityContext);
-    }
-
     @Test
     public void testAddUserWithoutAdminRole() throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         assertTrue(auth.isAuthenticated());
 
-        User user = new User("admin");
-        user.setId(2L);
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        userDetailsForm.setUsername("admin");
+        userDetailsForm.setId(2L);
 
         try {
-            makeInterceptedTarget().saveUser(user);
+            userManager.saveUserDetails(userDetailsForm);
             fail("AccessDeniedException not thrown");
         } catch (AccessDeniedException expected) {
             assertNotNull(expected);
-            Assert.assertEquals(UserSecurityAdvice.ACCESS_DENIED, expected.getMessage());
+            assertEquals(UserSecurityAdvice.ACCESS_DENIED, expected.getMessage());
         }
     }
 
@@ -81,31 +85,34 @@ public class UserSecurityAdviceTest {
         securityContext.setAuthentication(token);
         SecurityContextHolder.setContext(securityContext);
 
-        User adminUser = new User("admin");
-        adminUser.setId(2L);
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        userDetailsForm.setUsername("user");
+        userDetailsForm.setId(1L);
 
-        makeInterceptedTarget().saveUser(adminUser);
+        userManager.saveUserDetails(userDetailsForm);
     }
 
     @Test
     public void testUpdateUserProfile() throws Exception {
-        User user = new User("user");
-        user.setId(1L);
-        user.getRoles().add(new Role(Constants.USER_ROLE));
-        user.setVersion(1L);
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        userDetailsForm.setUsername("user");
+        userDetailsForm.setId(1L);
+        userDetailsForm.getRoles().add(new Role(Constants.USER_ROLE));
+        userDetailsForm.setVersion(1L);
 
-        makeInterceptedTarget().saveUser(user);
+        userManager.saveUserDetails(userDetailsForm);
     }
 
     @Test
     public void testChangeToAdminRoleFromUserRole() throws Exception {
-        User user = new User("user");
-        user.setId(1L);
-        user.getRoles().add(new Role(Constants.ADMIN_ROLE));
-        user.setVersion(1L);
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        userDetailsForm.setUsername("user");
+        userDetailsForm.setId(1L);
+        userDetailsForm.getRoles().add(new Role(Constants.ADMIN_ROLE));
+        userDetailsForm.setVersion(1L);
 
         try {
-            makeInterceptedTarget().saveUser(user);
+            userManager.saveUserDetails(userDetailsForm);
             fail("AccessDeniedException not thrown");
         } catch (AccessDeniedException expected) {
             assertNotNull(expected);
@@ -115,14 +122,15 @@ public class UserSecurityAdviceTest {
 
     @Test
     public void testAddAdminRoleWhenAlreadyHasUserRole() throws Exception {
-        User user = new User("user");
-        user.setId(1L);
-        user.getRoles().add(new Role(Constants.ADMIN_ROLE));
-        user.getRoles().add(new Role(Constants.USER_ROLE));
-        user.setVersion(1L);
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        userDetailsForm.setUsername("user");
+        userDetailsForm.setId(1L);
+        userDetailsForm.getRoles().add(new Role(Constants.ADMIN_ROLE));
+        userDetailsForm.getRoles().add(new Role(Constants.USER_ROLE));
+        userDetailsForm.setVersion(1L);
 
         try {
-            makeInterceptedTarget().saveUser(user);
+            userManager.saveUserDetails(userDetailsForm);
             fail("AccessDeniedException not thrown");
         } catch (AccessDeniedException expected) {
             assertNotNull(expected);
@@ -142,30 +150,24 @@ public class UserSecurityAdviceTest {
         securityContext.setAuthentication(token);
         SecurityContextHolder.setContext(securityContext);
 
-        user = new User("user");
-        user.setId(1L);
-        user.getRoles().add(new Role(Constants.ADMIN_ROLE));
-        user.getRoles().add(new Role(Constants.USER_ROLE));
-        user.setVersion(1L);
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        userDetailsForm.setUsername("user");
+        userDetailsForm.setId(1L);
+        userDetailsForm.getRoles().add(new Role(Constants.ADMIN_ROLE));
+        userDetailsForm.getRoles().add(new Role(Constants.USER_ROLE));
+        userDetailsForm.setVersion(1L);
 
-        makeInterceptedTarget().saveUser(user);
+        userManager.saveUserDetails(userDetailsForm);
     }
 
     @Test
     public void testUpdateUserWithUserRole() throws Exception {
-        User user = new User("user");
-        user.setId(1L);
-        user.getRoles().add(new Role(Constants.USER_ROLE));
-        user.setVersion(1L);
+        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        userDetailsForm.setUsername("user");
+        userDetailsForm.setId(1L);
+        userDetailsForm.getRoles().add(new Role(Constants.USER_ROLE));
+        userDetailsForm.setVersion(1L);
 
-        makeInterceptedTarget().saveUser(user);
-    }
-
-    private UserManager makeInterceptedTarget() throws Exception {
-        ctx = new ClassPathXmlApplicationContext("/common/service/applicationContext-test.xml");
-
-        UserManager userManager = (UserManager) ctx.getBean("target");
-
-        return userManager;
+        userManager.saveUserDetails(userDetailsForm);
     }
 }

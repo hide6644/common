@@ -1,45 +1,41 @@
 package common.webapp.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
 
-import common.model.User;
+import common.dto.SignupUserForm;
 import common.webapp.filter.FlashMap;
 
 public class SignupControllerTest extends BaseControllerTestCase {
 
     @Autowired
-    private SignupController c = null;
+    private SignupController c;
 
     @Test
     public void testShowForm() {
-        User user = c.showForm();
-        assertNotNull(user);
+        SignupUserForm signupUser = c.showForm();
+        assertNotNull(signupUser);
     }
 
     @Test
-    public void testSignupUserHasErrors() throws Exception {
-        greenMail.purgeEmailFromAllMailboxes();
+    public void testSignupUserHasErrors() {
+        SignupUserForm signupUser = new SignupUserForm();
+        signupUser.setUsername("testuser");
 
-        User user = new User();
-        user.setUsername("testuser");
-
-        BindingResult errors = new DataBinder(user).getBindingResult();
+        BindingResult errors = new DataBinder(signupUser).getBindingResult();
         errors.rejectValue("email", "errors.required", "{0} is a required field.");
-        String rtn = c.onSubmit(user, errors);
+        String rtn = c.onSubmit(signupUser, errors);
 
         assertEquals("signup", rtn);
     }
 
     @Test
-    public void testCompleteHasErrors() throws Exception {
-        greenMail.purgeEmailFromAllMailboxes();
-
+    public void testCompleteHasErrors() {
         String rtn = c.complete("normaluser", "test-token");
 
         assertEquals("redirect:/login", rtn);
@@ -47,20 +43,18 @@ public class SignupControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testSignupUser() throws Exception {
-        greenMail.purgeEmailFromAllMailboxes();
+        SignupUserForm signupUser = new SignupUserForm();
+        signupUser.setUsername("self-registered");
+        signupUser.setPassword("Password1");
+        signupUser.setConfirmPassword("Password1");
+        signupUser.setFirstName("First");
+        signupUser.setLastName("Last");
+        signupUser.setEmail("self-registered@localhost");
 
-        User user = new User();
-        user.setUsername("self-registered");
-        user.setPassword("Password1");
-        user.setConfirmPassword("Password1");
-        user.setFirstName("First");
-        user.setLastName("Last");
-        user.setEmail("self-registered@localhost");
+        BindingResult errors = new DataBinder(signupUser).getBindingResult();
+        c.onSubmit(signupUser, errors);
 
-        BindingResult errors = new DataBinder(user).getBindingResult();
-        c.onSubmit(user, errors);
-
-        assertFalse("errors returned in model", errors.hasErrors());
+        assertFalse(errors.hasErrors());
 
         String content = (String) greenMail.getReceivedMessages()[0].getContent();
         String token = content.substring(content.indexOf("token=") + "token=".length()).replaceAll("\r\n", "");

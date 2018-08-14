@@ -12,7 +12,7 @@
     <div layout:fragment="content">
         <div class="col-sm-10">
             <h3 th:text="#{userForm.heading}">userForm.heading</h3>
-            <form class="form-inline" action="#" method="get" id="searchUser" th:action="@{/admin/master/users}" th:object="${searchUser}">
+            <form class="form-inline" action="#" method="get" id="searchUser" th:action="@{/admin/master/users}" th:object="${userSearchCriteria}">
                 <input type="text" class="form-control input-sm" size="20" th:field="*{username}" th:placeholder="#{user.username}"/>
                 <input type="text" class="form-control input-sm" size="20" th:field="*{email}" th:placeholder="#{user.email}"/>
                 <button type="submit" class="btn btn-primary btn-sm">
@@ -24,9 +24,8 @@
             </form>
             <div th:replace="~{templates/pagelinks :: row_div(${paginatedList})}">
             </div>
-            <form action="#" method="post" th:action="@{/admin/master/users}">
-                <input type="hidden" name="_method" value="delete"/>
-                <table class="table table-condensed table-striped table-hover" id="">
+            <form action="#" th:action="@{/admin/master/users}" th:method="delete">
+                <table class="table table-condensed table-striped table-hover">
                     <thead>
                         <tr>
                             <th><input type="checkbox" id="toggle_checkAll" /></th>
@@ -44,7 +43,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="form-group">
+                <div class="form-actions">
                     <p>
                         <button type="button" class="btn btn-primary" id="button_new" th:value="|@{'/user'}?mode=Add&from=list|">
                             <em class="glyphicon glyphicon-plus"></em> <span th:text="#{button.add}" th:remove="tag">button.add</span>

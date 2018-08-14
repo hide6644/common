@@ -5,15 +5,19 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
+import common.dto.UploadForm;
 import common.exception.FileException;
 import common.service.UserManager;
 import common.webapp.converter.FileType;
-import common.webapp.form.UploadForm;
 
+/**
+ * ユーザ取込処理クラス.
+ */
 @Controller
 @RequestMapping("/admin/master/uploadUsers")
 public class UserUploadController extends BaseController {
@@ -25,10 +29,10 @@ public class UserUploadController extends BaseController {
     /**
      * ユーザ取込画面初期処理.
      *
-     * @return 画面入力値保持モデル
+     * @return 取り込みファイルの情報
      */
     @ModelAttribute
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public UploadForm setupUpload() {
         UploadForm uploadForm = new UploadForm();
         uploadForm.setFileType(FileType.XML.getValue());
@@ -39,12 +43,12 @@ public class UserUploadController extends BaseController {
      * ユーザ取り込み処理.
      *
      * @param uploadForm
-     *            アップロードファイルの情報を保持
+     *            取り込みファイルの情報
      * @param result
      *            エラーチェック結果
      * @return 遷移先
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public String onSubmit(@Valid UploadForm uploadForm, BindingResult result) {
         if (result.hasErrors()) {
             return "admin/master/uploadUsers";

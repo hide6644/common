@@ -1,10 +1,11 @@
 package common.service;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Collections;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import common.model.LabelValue;
@@ -12,11 +13,11 @@ import common.model.LabelValue;
 public class RoleManagerTest extends BaseManagerTestCase {
 
     @Autowired
-    private RoleManager mgr;
+    private RoleManager manager;
 
     @Test
     public void testGetLabelValues() {
-        List<LabelValue> labelValueList = mgr.getLabelValues();
+        List<LabelValue> labelValueList = manager.getLabelValues();
 
         assertNotNull(labelValueList);
 
@@ -26,6 +27,10 @@ public class RoleManagerTest extends BaseManagerTestCase {
 
         newLabelValue.setValue("ROLE_USER");
         newLabelValue.setLabel("TEST_LABEL");
+
+        Collections.sort(labelValueList);
+        assertFalse(labelValueList.get(0).equals(newLabelValue));
+        assertTrue(labelValueList.get(1).equals(newLabelValue));
 
         LabelValue userLabelValue = labelValueList.stream().filter(labelValue -> labelValue.equals(newLabelValue)).findFirst().get();
 

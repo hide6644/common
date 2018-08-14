@@ -18,7 +18,6 @@
                 <legend th:text="#{button.add}">button.add</legend>
             </fieldset>
             <form class="well" action="#" method="post" th:action="@{/signup}" th:object="${user}">
-                <input type="hidden" name="roles" value="registration" />
                 <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? has-error">
                     <label for="username" class="control-label">
                         <span th:text="#{user.username}" th:remove="tag">user.username</span> <span class="required">*</span>
@@ -27,28 +26,28 @@
                     <span class="help-block" th:each="err : ${#fields.errors('username')}" th:text="${err}"></span>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6" th:classappend="${#fields.hasErrors('password')} ? has-error">
+                    <div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('password')} ? has-error">
                         <label for="password" class="control-label">
                             <span th:text="#{user.password}" th:remove="tag">user.password</span> <span class="required">*</span>
                         </label>
                         <input type="password" class="form-control" th:field="*{password}" />
                         <span class="help-block" th:each="err : ${#fields.errors('password')}" th:text="${err}"></span>
                     </div>
-                    <div class="col-sm-6" th:classappend="${#fields.hasErrors('confirmPassword')} ? has-error">
+                    <div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('confirmPassword')} ? has-error">
                         <label for="confirmPassword" class="control-label" th:text="#{user.confirmPassword}">user.confirmPassword</label>
                         <input type="password" class="form-control" th:field="*{confirmPassword}" />
                         <span class="help-block" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></span>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6" th:classappend="${#fields.hasErrors('firstName')} ? has-error">
+                    <div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('firstName')} ? has-error">
                         <label for="firstName" class="control-label">
                             <span th:text="#{user.firstName}" th:remove="tag">user.firstName</span> <span class="required">*</span>
                         </label>
                         <input type="text" class="form-control" th:field="*{firstName}" />
                         <span class="help-block" th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></span>
                     </div>
-                    <div class="col-sm-6" th:classappend="${#fields.hasErrors('lastName')} ? has-error">
+                    <div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('lastName')} ? has-error">
                         <label for="lastName" class="control-label" th:text="#{user.lastName}">user.lastName</label>
                         <input type="text" class="form-control" th:field="*{lastName}" />
                         <span class="help-block" th:each="err : ${#fields.errors('lastName')}" th:text="${err}"></span>

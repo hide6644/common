@@ -34,11 +34,11 @@ public class ConstraintValidatorUtil {
         case EQUAL_IGNORE_CASE:
             ignoreCase = true;
         case EQUAL:
-            return changePropertyValues(propertyValues, ignoreCase).size() == 1 ? true : false;
+            return changePropertyValues(propertyValues, ignoreCase).size() == 1;
         case NOT_EQUAL_IGNORE_CASE:
             ignoreCase = true;
         case NOT_EQUAL:
-            return changePropertyValues(propertyValues, ignoreCase).size() == propertyValues.size() ? true : false;
+            return changePropertyValues(propertyValues, ignoreCase).size() == propertyValues.size();
         }
 
         return true;

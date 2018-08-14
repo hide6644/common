@@ -1,4 +1,4 @@
-package common.webapp.form;
+package common.dto;
 
 /**
  * 取り込みエラーの情報を保持するクラス.

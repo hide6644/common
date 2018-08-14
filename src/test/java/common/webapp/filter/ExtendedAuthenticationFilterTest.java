@@ -1,15 +1,15 @@
 package common.webapp.filter;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.*;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -23,10 +23,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 import common.Constants;
-import common.model.User;
 import common.service.UserManager;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ExtendedAuthenticationFilterTest {
 
     @Mock
@@ -46,7 +45,14 @@ public class ExtendedAuthenticationFilterTest {
                 "pass");
         request.setSession(new MockHttpSession());
 
-        filter.setAuthenticationManager(createAuthenticationManager());
+        AuthenticationManager am = mock(AuthenticationManager.class);
+        when(am.authenticate(any(Authentication.class))).thenAnswer(
+                new Answer<Authentication>() {
+                    public Authentication answer(InvocationOnMock invocation) throws Throwable {
+                        return (Authentication) invocation.getArguments()[0];
+                    }
+                });
+        filter.setAuthenticationManager(am);
 
         Authentication result = filter.attemptAuthentication(request, new MockHttpServletResponse());
         assertNotNull(result);
@@ -58,7 +64,8 @@ public class ExtendedAuthenticationFilterTest {
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/");
         request.setSession(new MockHttpSession());
 
-        filter.setAuthenticationManager(createAuthenticationManager());
+        AuthenticationManager am = mock(AuthenticationManager.class);
+        filter.setAuthenticationManager(am);
 
         try {
             filter.attemptAuthentication(request, new MockHttpServletResponse());
@@ -79,8 +86,6 @@ public class ExtendedAuthenticationFilterTest {
         when(am.authenticate(any(Authentication.class))).thenThrow(new BadCredentialsException(""));
         filter.setAuthenticationManager(am);
 
-        given(userManager.getUserByUsername("user")).willReturn(new User("user"));
-
         for (int i = 0; i <= Constants.LOGIN_FAILURE_UPPER_LIMIT; i++) {
             try {
                 filter.attemptAuthentication(request, new MockHttpServletResponse());
@@ -99,7 +104,7 @@ public class ExtendedAuthenticationFilterTest {
         when(am.authenticate(any(Authentication.class))).thenThrow(new BadCredentialsException(""));
         filter.setAuthenticationManager(am);
 
-        when(userManager.getUserByUsername("")).thenThrow(new UsernameNotFoundException(""));
+        doThrow(new UsernameNotFoundException("")).when(userManager).lockoutUser("");
 
         for (int i = 0; i <= Constants.LOGIN_FAILURE_UPPER_LIMIT; i++) {
             try {
@@ -108,17 +113,5 @@ public class ExtendedAuthenticationFilterTest {
             } catch (AuthenticationException e) {
             }
         }
-    }
-
-    private AuthenticationManager createAuthenticationManager() {
-        AuthenticationManager am = mock(AuthenticationManager.class);
-        when(am.authenticate(any(Authentication.class))).thenAnswer(
-                new Answer<Authentication>() {
-                    public Authentication answer(InvocationOnMock invocation) throws Throwable {
-                        return (Authentication) invocation.getArguments()[0];
-                    }
-                });
-
-        return am;
     }
 }
