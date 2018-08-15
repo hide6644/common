@@ -21,12 +21,9 @@ public class RoleManagerTest extends BaseManagerTestCase {
 
         assertNotNull(labelValueList);
 
-        LabelValue newLabelValue = new LabelValue();
+        assertFalse(labelValueList.contains(new LabelValue("", "")));
 
-        assertFalse(labelValueList.contains(newLabelValue));
-
-        newLabelValue.setValue("ROLE_USER");
-        newLabelValue.setLabel("TEST_LABEL");
+        LabelValue newLabelValue = new LabelValue("TEST_LABEL", "ROLE_USER");
 
         Collections.sort(labelValueList);
         assertFalse(labelValueList.get(0).equals(newLabelValue));

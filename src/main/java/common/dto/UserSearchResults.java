@@ -7,7 +7,7 @@ import common.entity.User;
 /**
  * ユーザ検索結果を保持するクラス.
  */
-public class UserSearchResults implements Serializable {
+public final class UserSearchResults implements Serializable {
 
     /** ID */
     private Long id;
@@ -44,32 +44,12 @@ public class UserSearchResults implements Serializable {
     }
 
     /**
-     * IDを設定する.
-     *
-     * @param id
-     *            ID
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
      * ユーザ名を取得する.
      *
      * @return ユーザ名
      */
     public String getUsername() {
         return username;
-    }
-
-    /**
-     * ユーザ名を設定する.
-     *
-     * @param username
-     *            ユーザ名
-     */
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     /**
@@ -82,31 +62,11 @@ public class UserSearchResults implements Serializable {
     }
 
     /**
-     * ｅメールを設定する.
-     *
-     * @param email
-     *            ｅメール
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
      * 有効を取得する.
      *
      * @return 有効
      */
     public boolean isEnabled() {
         return enabled;
-    }
-
-    /**
-     * 有効を設定する.
-     *
-     * @param enabled
-     *            有効
-     */
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 }

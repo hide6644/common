@@ -20,12 +20,6 @@ public final class LabelValue implements Comparable<LabelValue>, Serializable {
     private String value;
 
     /**
-     * デフォルト・コンストラクタ
-     */
-    public LabelValue() {
-    }
-
-    /**
      * コンストラクタ
      *
      * @param label
@@ -48,32 +42,12 @@ public final class LabelValue implements Comparable<LabelValue>, Serializable {
     }
 
     /**
-     * ラベルを設定する.
-     *
-     * @param label
-     *            ラベル
-     */
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    /**
      * 値を取得する.
      *
      * @return 値
      */
     public String getValue() {
         return value;
-    }
-
-    /**
-     * 値を設定する.
-     *
-     * @param value
-     *            値
-     */
-    public void setValue(String value) {
-        this.value = value;
     }
 
     /**
