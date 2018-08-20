@@ -373,7 +373,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
         Page<User> pagedUser = userDao.findAll(where(usernameContains(userSearchCriteria.getUsername())).and(emailContains(userSearchCriteria.getEmail())), pageRequest);
         return new PaginatedList<>(new PageImpl<>(
                 pagedUser.stream()
-                .map(user -> new UserSearchResults(user))
+                .map(user -> UserSearchResults.of(user))
                 .collect(Collectors.toList()), pagedUser.getPageable(), pagedUser.getTotalElements()));
     }
 

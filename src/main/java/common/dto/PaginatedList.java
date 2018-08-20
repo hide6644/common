@@ -17,10 +17,10 @@ public final class PaginatedList<T> {
     public static final int DEFAULT_RANGE_SIZE = 2;
 
     /** ページング情報 */
-    private Page<T> paged;
+    private final Page<T> paged;
 
     /** ページリンクの表示数 */
-    private int pageRangeSize;
+    private final int pageRangeSize;
 
     /**
      * コンストラクタ.

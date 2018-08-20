@@ -63,9 +63,9 @@ public class StartupListener implements ServletContextListener {
      */
     public static void setAppContext(ServletContext context) {
         List<LabelValue> fileTypeList = new ArrayList<>();
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xml"), String.valueOf(FileType.XML.getValue())));
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xls"), String.valueOf(FileType.EXCEL.getValue())));
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.csv"), String.valueOf(FileType.CSV.getValue())));
+        fileTypeList.add(LabelValue.of(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xml"), String.valueOf(FileType.XML.getValue())));
+        fileTypeList.add(LabelValue.of(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xls"), String.valueOf(FileType.EXCEL.getValue())));
+        fileTypeList.add(LabelValue.of(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.csv"), String.valueOf(FileType.CSV.getValue())));
         context.setAttribute("fileTypeList", fileTypeList);
 
         ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);

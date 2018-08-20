@@ -64,7 +64,7 @@ public class RoleManagerImpl implements RoleManager {
     @Override
     public List<LabelValue> getLabelValues() {
         return Optional.ofNullable(roleDao.findAll()).orElseGet(ArrayList::new).stream()
-                .map(role -> new LabelValue(role.getDescription(), role.getName()))
+                .map(role -> LabelValue.of(role.getDescription(), role.getName()))
                 .collect(Collectors.toList());
     }
 }

@@ -353,7 +353,7 @@ public class UserDetailsForm implements Serializable {
     @Transient
     public List<LabelValue> getRoleList() {
         return Optional.ofNullable(roles).orElseGet(HashSet::new).stream()
-                .map(role -> new LabelValue(role.getDescription(), role.getName()))
+                .map(role -> LabelValue.of(role.getDescription(), role.getName()))
                 .collect(Collectors.toList());
     }
 

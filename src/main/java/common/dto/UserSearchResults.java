@@ -10,28 +10,34 @@ import common.entity.User;
 public final class UserSearchResults implements Serializable {
 
     /** ID */
-    private Long id;
+    private final Long id;
 
     /** ユーザ名 */
-    private String username;
+    private final String username;
 
     /** ｅメール */
-    private String email;
+    private final String email;
 
     /** 有効 */
-    private boolean enabled;
+    private final boolean enabled;
 
     /**
      * コンストラクタ
      *
-     * @param user
-     *            ユーザ
+     * @param id
+     *            ID
+     * @param username
+     *            ユーザ名
+     * @param email
+     *            ｅメール
+     * @param enabled
+     *            有効
      */
-    public UserSearchResults(User user) {
-        id = user.getId();
-        username = user.getUsername();
-        email = user.getEmail();
-        enabled = user.isEnabled();
+    private UserSearchResults(Long id, String username, String email, boolean enabled) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.enabled = enabled;
     }
 
     /**
@@ -68,5 +74,16 @@ public final class UserSearchResults implements Serializable {
      */
     public boolean isEnabled() {
         return enabled;
+    }
+
+    /**
+     * {@code UserSearchResults}のインスタンスを取得する.
+     *
+     * @param user
+     *            ユーザ
+     * @return {@code UserSearchResults}のインスタンス
+     */
+    public static UserSearchResults of(User user) {
+        return new UserSearchResults(user.getId(), user.getUsername(), user.getEmail(), user.isEnabled());
     }
 }
