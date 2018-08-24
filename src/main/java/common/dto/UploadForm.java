@@ -20,7 +20,7 @@ public class UploadForm implements Serializable {
     /** 取り込みファイル情報 */
     @NotEmptyFile
     @MaxFileSize(max = 2)
-    private MultipartFile fileData;
+    private transient MultipartFile fileData;
 
     /** 取り込み結果 */
     private UploadResult uploadResult;

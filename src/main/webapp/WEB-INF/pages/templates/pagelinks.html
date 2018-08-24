@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -7,22 +7,22 @@
 </head>
 <body>
     <div class="row" th:fragment="row_div(paginatedList)">
-        <div class="col-sm-6" th:switch="${paginatedList.allPageCount}">
+        <div class="col-md-6" th:switch="${paginatedList.allPageCount}">
             <span th:case="0" th:text="#{paging.no_items_found}" th:remove="tag"></span>
             <span th:case="1" th:text="${#messages.msg('paging.all_items_found', '__${paginatedList.allRecordCount}__')}" th:remove="tag"></span>
             <span th:case="*" th:text="${#messages.msg('paging.some_items_found', '__${paginatedList.allRecordCount}__', '__${paginatedList.currentStartRecordNumber}__', '__${paginatedList.allRecordCount} &lt; ${paginatedList.currentEndRecordNumber} ? ${paginatedList.allRecordCount} : ${paginatedList.currentEndRecordNumber}__')}" th:remove="tag"></span>
         </div>
-        <div class="col-sm-6">
-            <ul class="pagination pagination-sm pull-right" th:if="${paginatedList.allPageCount > 0}">
-                <li th:if="${paginatedList.existPrePage}"><a href="?page=1" th:text="#{button.first}"></a></li>
-                <li th:if="${paginatedList.existPrePage}"><a href="#" th:href="|?page=${paginatedList.prePageNumber}|" th:text="#{button.previous}"></a></li>
-                <li class="disabled" th:unless="${paginatedList.existPrePage}"><a href="#" th:text="#{button.first}"></a></li>
-                <li class="disabled" th:unless="${paginatedList.existPrePage}"><a href="#" th:text="#{button.previous}"></a></li>
-                <li th:class="${page == paginatedList.currentPageNumber} ? 'active'" th:each="page : ${paginatedList.pageNumberList}"><a href="#" th:href="${page != paginatedList.currentPageNumber} ? '?page=' + ${page}" th:text="${page}"></a></li>
-                <li th:if="${paginatedList.existNextPage}"><a href="#" th:href="'?page=' + ${paginatedList.nextPageNumber}" th:text="#{button.next}"></a></li>
-                <li th:if="${paginatedList.existNextPage}"><a href="#" th:href="'?page=' + ${paginatedList.allPageCount}" th:text="#{button.last}"></a></li>
-                <li class="disabled" th:unless="${paginatedList.existNextPage}"><a href="#" th:text="#{button.next}"></a></li>
-                <li class="disabled" th:unless="${paginatedList.existNextPage}"><a href="#" th:text="#{button.last}"></a></li>
+        <div class="col-md-6">
+            <ul class="pagination pagination-sm float-right" th:if="${paginatedList.allPageCount > 0}">
+                <li class="page-item" th:if="${paginatedList.existPrePage}"><a href="?page=1" class="page-link" th:text="#{button.first}"></a></li>
+                <li class="page-item" th:if="${paginatedList.existPrePage}"><a href="#" class="page-link" th:href="|?page=${paginatedList.prePageNumber}|" th:text="#{button.previous}"></a></li>
+                <li class="page-item disabled" th:unless="${paginatedList.existPrePage}"><a href="#" class="page-link" th:text="#{button.first}"></a></li>
+                <li class="page-item disabled" th:unless="${paginatedList.existPrePage}"><a href="#" class="page-link" th:text="#{button.previous}"></a></li>
+                <li class="page-item" th:classappend="${page == paginatedList.currentPageNumber} ? 'active'" th:each="page : ${paginatedList.pageNumberList}"><a href="#" class="page-link" th:href="${page != paginatedList.currentPageNumber} ? '?page=' + ${page}" th:text="${page}"></a></li>
+                <li class="page-item" th:if="${paginatedList.existNextPage}"><a href="#" class="page-link" th:href="'?page=' + ${paginatedList.nextPageNumber}" th:text="#{button.next}"></a></li>
+                <li class="page-item" th:if="${paginatedList.existNextPage}"><a href="#" class="page-link" th:href="'?page=' + ${paginatedList.allPageCount}" th:text="#{button.last}"></a></li>
+                <li class="page-item disabled" th:unless="${paginatedList.existNextPage}"><a href="#" class="page-link" th:text="#{button.next}"></a></li>
+                <li class="page-item disabled" th:unless="${paginatedList.existNextPage}"><a href="#" class="page-link" th:text="#{button.last}"></a></li>
             </ul>
         </div>
     </div>

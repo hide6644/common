@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -9,65 +9,65 @@
 </head>
 <body>
     <div layout:fragment="content">
-        <div class="col-sm-2">
+        <div class="col-md-2">
             <h3 th:text="#{signupForm.heading}">signupForm.heading</h3>
             <p th:text="#{signupForm.message}">signupForm.message</p>
         </div>
-        <div class="col-sm-7">
+        <div class="col-md-7">
             <fieldset id="legend">
                 <legend th:text="#{button.add}">button.add</legend>
             </fieldset>
-            <form class="well" action="#" method="post" th:action="@{/signup}" th:object="${user}">
-                <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? has-error">
-                    <label for="username" class="control-label">
+            <form class="card bg-light card-body mb-3" action="#" method="post" th:action="@{/signup}" th:object="${user}">
+                <div class="mb-3">
+                    <label for="username">
                         <span th:text="#{user.username}" th:remove="tag">user.username</span> <span class="required">*</span>
                     </label>
-                    <input type="text" class="form-control" th:field="*{username}" />
-                    <span class="help-block" th:each="err : ${#fields.errors('username')}" th:text="${err}"></span>
+                    <input type="text" class="form-control" th:classappend="${#fields.hasErrors('username')} ? is-invalid" th:field="*{username}" />
+                    <span class="invalid-feedback" th:each="err : ${#fields.errors('username')}" th:text="${err}"></span>
                 </div>
-                <div class="row">
-                    <div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('password')} ? has-error">
-                        <label for="password" class="control-label">
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label for="password">
                             <span th:text="#{user.password}" th:remove="tag">user.password</span> <span class="required">*</span>
                         </label>
-                        <input type="password" class="form-control" th:field="*{password}" />
-                        <span class="help-block" th:each="err : ${#fields.errors('password')}" th:text="${err}"></span>
+                        <input type="password" class="form-control" th:classappend="${#fields.hasErrors('password')} ? is-invalid" th:field="*{password}" />
+                        <span class="invalid-feedback" th:each="err : ${#fields.errors('password')}" th:text="${err}"></span>
                     </div>
-                    <div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('confirmPassword')} ? has-error">
-                        <label for="confirmPassword" class="control-label" th:text="#{user.confirmPassword}">user.confirmPassword</label>
-                        <input type="password" class="form-control" th:field="*{confirmPassword}" />
-                        <span class="help-block" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></span>
+                    <div class="col-md-6 mb-3">
+                        <label for="confirmPassword" th:text="#{user.confirmPassword}">user.confirmPassword</label>
+                        <input type="password" class="form-control" th:classappend="${#fields.hasErrors('confirmPassword')} ? is-invalid" th:field="*{confirmPassword}" />
+                        <span class="invalid-feedback" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></span>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('firstName')} ? has-error">
-                        <label for="firstName" class="control-label">
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName">
                             <span th:text="#{user.firstName}" th:remove="tag">user.firstName</span> <span class="required">*</span>
                         </label>
-                        <input type="text" class="form-control" th:field="*{firstName}" />
-                        <span class="help-block" th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></span>
+                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('firstName')} ? is-invalid" th:field="*{firstName}" />
+                        <span class="invalid-feedback" th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></span>
                     </div>
-                    <div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('lastName')} ? has-error">
-                        <label for="lastName" class="control-label" th:text="#{user.lastName}">user.lastName</label>
-                        <input type="text" class="form-control" th:field="*{lastName}" />
-                        <span class="help-block" th:each="err : ${#fields.errors('lastName')}" th:text="${err}"></span>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName" th:text="#{user.lastName}">user.lastName</label>
+                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('lastName')} ? is-invalid" th:field="*{lastName}" />
+                        <span class="invalid-feedback" th:each="err : ${#fields.errors('lastName')}" th:text="${err}"></span>
                     </div>
                 </div>
-                <div class="form-group" th:classappend="${#fields.hasErrors('email')} ? has-error">
-                    <label for="email" class="control-label">
+                <div class="mb-3">
+                    <label for="email">
                         <span th:text="#{user.email}" th:remove="tag">user.email</span> <span class="required">*</span>
                     </label>
-                    <input type="text" class="form-control" th:field="*{email}" />
-                    <span class="help-block" th:each="err : ${#fields.errors('email')}" th:text="${err}"></span>
+                    <input type="text" class="form-control" th:classappend="${#fields.hasErrors('email')} ? is-invalid" th:field="*{email}" />
+                    <span class="invalid-feedback" th:each="err : ${#fields.errors('email')}" th:text="${err}"></span>
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">
                         <em class="glyphicon glyphicon-ok"></em> <span th:text="#{button.add}" th:remove="tag">button.add</span>
                     </button>
-                    <button type="reset" class="btn btn-default">
+                    <button type="reset" class="btn btn-secondary">
                         <em class="glyphicon glyphicon-refresh"></em> <span th:text="#{button.reset}" th:remove="tag">button.reset</span>
                     </button>
-                    <button type="button" class="btn btn-default" id="button_cancel">
+                    <button type="button" class="btn btn-secondary" id="button_cancel">
                         <em class="glyphicon glyphicon-remove"></em> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
                     </button>
                 </div>
