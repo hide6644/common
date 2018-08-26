@@ -9,11 +9,11 @@
 </head>
 <body>
     <div layout:fragment="content">
-        <div class="col-md-2">
+        <div class="col-md-3">
             <h3 th:text="#{signupForm.heading}">signupForm.heading</h3>
             <p th:text="#{signupForm.message}">signupForm.message</p>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-6">
             <fieldset id="legend">
                 <legend th:text="#{button.add}">button.add</legend>
             </fieldset>
@@ -62,13 +62,16 @@
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">
-                        <em class="glyphicon glyphicon-ok"></em> <span th:text="#{button.add}" th:remove="tag">button.add</span>
+                        <em class="fa fa-check" aria-hidden="true"></em>
+                        <span th:text="#{button.add}" th:remove="tag">button.add</span>
                     </button>
                     <button type="reset" class="btn btn-secondary">
-                        <em class="glyphicon glyphicon-refresh"></em> <span th:text="#{button.reset}" th:remove="tag">button.reset</span>
+                        <em class="fa fa-refresh" aria-hidden="true"></em>
+                        <span th:text="#{button.reset}" th:remove="tag">button.reset</span>
                     </button>
                     <button type="button" class="btn btn-secondary" id="button_cancel">
-                        <em class="glyphicon glyphicon-remove"></em> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
+                        <em class="fa fa-undo" aria-hidden="true"></em>
+                        <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
                     </button>
                 </div>
             </form>

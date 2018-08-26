@@ -19,8 +19,9 @@
                 <input type="checkbox" name="remember-me" tabindex="3" th:text="#{loginForm.rememberMe}" />
             </label>
             <p>
-                <button type="submit" class="btn btn-lg btn-primary btn-block" tabindex="4" th:text="#{button.login}">
-                    button.login
+                <button type="submit" class="btn btn-lg btn-primary btn-block" tabindex="4">
+                    <em class="fa fa-sign-in" aria-hidden="true"></em>
+                    <span th:text="#{button.login}" th:remove="tag">button.login</span>
                 </button>
             </p>
             <p>

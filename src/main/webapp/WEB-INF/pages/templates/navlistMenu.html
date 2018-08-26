@@ -14,18 +14,18 @@
             </a>
             <ul class="dropdown-menu">
                 <li class="dropdown-item"><a href="#" th:href="@{'/admin/master/users'}" th:text="#{user}"></a></li>
-                <li class="dropdown-item divider"></li>
+                <li class="dropdown-divider"></li>
                 <li class="dropdown-item"><a href="#" th:href="@{'/admin/reload'}" th:text="#{admin.master.topForm.reload}"></a></li>
             </ul>
         </li>
-        <li class="nav-item" th:classappend="${currentNavlistMenu} == 'activeUsersForm' ? 'active'">
-            <a href="#" class="nav-link" th:href="@{'/admin/activeUsers'}" th:text="#{activeUsersForm}"></a>
+        <li class="nav-item">
+            <a href="#" class="nav-link" th:classappend="${currentNavlistMenu} == 'activeUsersForm' ? 'active'" th:href="@{'/admin/activeUsers'}" th:text="#{activeUsersForm}"></a>
         </li>
     </ul>
     <ul class="nav nav-pills flex-column" th:fragment="nav_ul(currentNavlistMenu)" th:if="${currentNavlistMenu} == 'master' or ${currentNavlistMenu} == 'userForm'">
         <li class="nav-item nav-header" th:text="#{admin.master.topForm}"></li>
-        <li class="nav-item" th:classappend="${currentNavlistMenu} == 'userForm' ? 'active'">
-            <a href="#" class="nav-link" th:href="@{'/admin/master/users'}" th:text="#{user}"></a>
+        <li class="nav-item">
+            <a href="#" class="nav-link" th:classappend="${currentNavlistMenu} == 'userForm' ? 'active'" th:href="@{'/admin/master/users'}" th:text="#{user}"></a>
         </li>
         <li class="nav-item"><a href="#" class="nav-link" th:href="@{'/admin/reload'}" th:text="#{admin.master.topForm.reload}"></a></li>
     </ul>

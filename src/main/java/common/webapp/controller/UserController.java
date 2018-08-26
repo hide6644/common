@@ -56,6 +56,19 @@ public class UserController extends BaseController {
         super.initBinder(binder);
         binder.registerCustomEditor(LocalDateTime.class, new PropertyEditorSupport() {
             @Override
+            public String getAsText() {
+                try {
+                    if (getValue() != null) {
+                        return ((LocalDateTime) getValue()).format(DateTimeFormatter.ofPattern(getText("date.time.format")));
+                    }
+                } catch (DateTimeParseException e) {
+                    // 何もしない
+                }
+
+                return null;
+            }
+
+            @Override
             public void setAsText(String text) {
                 try {
                     if (text != null) {

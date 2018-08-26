@@ -10,11 +10,11 @@
 </head>
 <body th:with="listMode = ${param.from} != null and ${param.from[0]} == 'list'">
     <div layout:fragment="content">
-        <div class="col-md-2" >
+        <div class="col-md-3" >
             <h3 th:unless="${listMode}" th:text="#{userSaveForm.heading}">userSaveForm.heading</h3>
             <p th:unless="${listMode}" th:text="#{userSaveForm.message}">userSaveForm.message</p>
         </div>
-        <div class="col-md-7" th:with="addMode = ${param.mode} != null and ${param.mode[0]} == 'Add'">
+        <div class="col-md-6" th:with="addMode = ${param.mode} != null and ${param.mode[0]} == 'Add'">
             <fieldset>
                 <legend th:if="${addMode}" th:text="#{button.add}">button.add</legend>
                 <legend th:unless="${addMode}" th:text="#{button.edit}">button.edit</legend>
@@ -86,12 +86,22 @@
                 <div class="form-row" th:if="${listMode}">
                     <div class="col-md-6 mb-3">
                         <label for="accountExpiredDate" th:text="#{user.accountExpiredDate}">user.accountExpiredDate</label>
-                        <input type="text" class="form-control datetimepicker-input" th:classappend="${#fields.hasErrors('accountExpiredDate')} ? is-invalid" th:field="*{accountExpiredDate}" data-toggle="datetimepicker" data-target="#accountExpiredDate" />
+                        <div class="input-group date" id="accountExpiredDatePicker" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" th:classappend="${#fields.hasErrors('accountExpiredDate')} ? is-invalid" th:field="*{accountExpiredDate}" th:placeholder="#{datetimepicker.format}" data-target="#accountExpiredDatePicker" />
+                            <div class="input-group-append" data-target="#accountExpiredDatePicker" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
                         <span class="invalid-feedback" th:each="err : ${#fields.errors('accountExpiredDate')}" th:text="${err}"></span>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="credentialsExpiredDate" th:text="#{user.credentialsExpiredDate}">user.credentialsExpiredDate</label>
-                        <input type="text" class="form-control datetimepicker-input" th:classappend="${#fields.hasErrors('credentialsExpiredDate')} ? is-invalid" th:field="*{credentialsExpiredDate}" data-toggle="datetimepicker" data-target="#credentialsExpiredDate" />
+                        <div class="input-group date" id="credentialsExpiredDatePicker" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" th:classappend="${#fields.hasErrors('credentialsExpiredDate')} ? is-invalid" th:field="*{credentialsExpiredDate}" th:placeholder="#{datetimepicker.format}" data-target="#credentialsExpiredDatePicker" />
+                            <div class="input-group-append" data-target="#credentialsExpiredDatePicker" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
                         <span class="invalid-feedback" th:each="err : ${#fields.errors('credentialsExpiredDate')}" th:text="${err}"></span>
                     </div>
                 </div>
@@ -104,15 +114,17 @@
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">
-                        <em class="glyphicon glyphicon-ok"></em>
+                        <em class="fa fa-check" aria-hidden="true"></em>
                         <span th:if="${addMode}" th:text="#{button.add}" th:remove="tag">button.add</span>
                         <span th:unless="${addMode}" th:text="#{button.edit}" th:remove="tag">button.edit</span>
                     </button>
                     <button type="reset" class="btn btn-secondary">
-                        <em class="glyphicon glyphicon-refresh"></em> <span th:text="#{button.reset}" th:remove="tag">button.reset</span>
+                        <em class="fa fa-refresh" aria-hidden="true"></em>
+                        <span th:text="#{button.reset}" th:remove="tag">button.reset</span>
                     </button>
                     <button type="button" class="btn btn-secondary" id="button_cancel">
-                        <em class="glyphicon glyphicon-remove"></em> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
+                        <em class="fa fa-undo" aria-hidden="true"></em>
+                        <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
                     </button>
                 </div>
             </form>
@@ -122,13 +134,13 @@
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         $(function() {
-            $('#accountExpiredDate').datetimepicker({
-            	locale : '[(${#locale.language})]',
+            $('#accountExpiredDatePicker').datetimepicker({
+                locale : '[(${#locale.language})]',
                 format : '[(#{datetimepicker.format})]'
             });
 
-            $('#credentialsExpiredDate').datetimepicker({
-            	locale : '[(${#locale.language})]',
+            $('#credentialsExpiredDatePicker').datetimepicker({
+                locale : '[(${#locale.language})]',
                 format : '[(#{datetimepicker.format})]'
             });
 
