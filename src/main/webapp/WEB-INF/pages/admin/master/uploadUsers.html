@@ -14,7 +14,7 @@
                 <legend th:text="#{userUploadForm.heading}"></legend>
             </fieldset>
             <form class="card bg-light card-body mb-3" action="#" method="post" enctype="multipart/form-data" th:action="@{/admin/master/uploadUsers}" th:object="${uploadForm}">
-                <div class="form-group">
+                <div class="form-group mb-2">
                     <label for="fileType" th:text="#{uploadForm.fileType}">uploadForm.fileType</label>
                     <div class="radio" th:each="ft : ${#servletContext.getAttribute('fileTypeList')}">
                         <label>
@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <input type="file" style="display:none" name="fileData" />
-                <div class="form-group">
+                <div class="form-group mb-2">
                     <label for="fileData">
                         <span th:text="#{uploadForm.fileData}" th:remove="tag">uploadForm.fileData</span> <span class="required">*</span>
                     </label>
