@@ -1,7 +1,5 @@
 package common.dto;
 
-import java.io.Serializable;
-
 import org.hibernate.validator.constraints.Range;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,7 +9,7 @@ import common.validator.constraints.NotEmptyFile;
 /**
  * 取り込みファイルの情報を保持するクラス.
  */
-public class UploadForm implements Serializable {
+public class UploadForm {
 
     /** ファイル種別 */
     @Range(min = 1, max = 3)
@@ -20,7 +18,7 @@ public class UploadForm implements Serializable {
     /** 取り込みファイル情報 */
     @NotEmptyFile
     @MaxFileSize(max = 2)
-    private transient MultipartFile fileData;
+    private MultipartFile fileData;
 
     /** 取り込み結果 */
     private UploadResult uploadResult;

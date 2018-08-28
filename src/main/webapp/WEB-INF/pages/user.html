@@ -89,7 +89,7 @@
                         <div class="input-group date" id="accountExpiredDatePicker" data-target-input="nearest">
                             <input type="text" class="form-control datetimepicker-input" th:classappend="${#fields.hasErrors('accountExpiredDate')} ? is-invalid" th:field="*{accountExpiredDate}" th:placeholder="#{datetimepicker.format}" data-target="#accountExpiredDatePicker" />
                             <div class="input-group-append" data-target="#accountExpiredDatePicker" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                <div class="input-group-text"><em class="fa fa-calendar"></em></div>
                             </div>
                         </div>
                         <span class="invalid-feedback" th:each="err : ${#fields.errors('accountExpiredDate')}" th:text="${err}"></span>
@@ -99,7 +99,7 @@
                         <div class="input-group date" id="credentialsExpiredDatePicker" data-target-input="nearest">
                             <input type="text" class="form-control datetimepicker-input" th:classappend="${#fields.hasErrors('credentialsExpiredDate')} ? is-invalid" th:field="*{credentialsExpiredDate}" th:placeholder="#{datetimepicker.format}" data-target="#credentialsExpiredDatePicker" />
                             <div class="input-group-append" data-target="#credentialsExpiredDatePicker" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                <div class="input-group-text"><em class="fa fa-calendar"></em></div>
                             </div>
                         </div>
                         <span class="invalid-feedback" th:each="err : ${#fields.errors('credentialsExpiredDate')}" th:text="${err}"></span>
