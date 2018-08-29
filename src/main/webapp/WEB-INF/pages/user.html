@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -10,116 +10,121 @@
 </head>
 <body th:with="listMode = ${param.from} != null and ${param.from[0]} == 'list'">
     <div layout:fragment="content">
-        <div class="col-sm-2" >
+        <div class="col-md-3" >
             <h3 th:unless="${listMode}" th:text="#{userSaveForm.heading}">userSaveForm.heading</h3>
             <p th:unless="${listMode}" th:text="#{userSaveForm.message}">userSaveForm.message</p>
         </div>
-        <div class="col-sm-7" th:with="addMode = ${param.mode} != null and ${param.mode[0]} == 'Add'">
+        <div class="col-md-6" th:with="addMode = ${param.mode} != null and ${param.mode[0]} == 'Add'">
             <fieldset>
                 <legend th:if="${addMode}" th:text="#{button.add}">button.add</legend>
                 <legend th:unless="${addMode}" th:text="#{button.edit}">button.edit</legend>
             </fieldset>
-            <form class="well" action="#" method="post" autocomplete="off" th:action="@{/user(mode=${param.mode}, from=${param.from})}" th:object="${user}" th:method="${addMode} ? 'post' : 'put'">
+            <form class="card bg-light card-body mb-3" action="#" method="post" autocomplete="off" th:action="@{/user(mode=${param.mode}, from=${param.from})}" th:object="${user}" th:method="${addMode} ? 'post' : 'put'">
                 <input type="hidden" th:field="*{id}" />
                 <input type="hidden" th:field="*{version}" />
-                <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? has-error" th:if="${addMode}">
-                    <label for="username" class="control-label">
+                <div class="mb-3" th:if="${addMode}">
+                    <label for="username">
                         <span th:text="#{user.username}" th:remove="tag">user.username</span> <span class="required">*</span>
                     </label>
-                    <input type="text" class="form-control" th:field="*{username}" />
-                    <span class="help-block" th:each="err : ${#fields.errors('username')}" th:text="${err}"></span>
+                    <input type="text" class="form-control" th:classappend="${#fields.hasErrors('username')} ? is-invalid" th:field="*{username}" />
+                    <span class="invalid-feedback" th:each="err : ${#fields.errors('username')}" th:text="${err}"></span>
                 </div>
-                <div class="form-group" th:unless="${addMode}">
-                    <label for="username" class="control-label" th:text="#{user.username}">user.username</label>
+                <div class="mb-3" th:unless="${addMode}">
+                    <label for="username" th:text="#{user.username}">user.username</label>
                     <input type="text" class="form-control" readonly="readonly" th:field="*{username}" />
                 </div>
-                <div class="row" th:if="${addMode}">
-                    <div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('password')} ? has-error">
-                        <label for="password" class="control-label">
+                <div class="form-row" th:if="${addMode}">
+                    <div class="col-md-6 mb-3">
+                        <label for="password">
                             <span th:text="#{user.password}" th:remove="tag">user.password</span> <span class="required">*</span>
                         </label>
-                        <input type="password" class="form-control" th:field="*{password}" />
-                        <span class="help-block" th:each="err : ${#fields.errors('password')}" th:text="${err}"></span>
+                        <input type="password" class="form-control" th:classappend="${#fields.hasErrors('password')} ? is-invalid" th:field="*{password}" />
+                        <span class="invalid-feedback" th:each="err : ${#fields.errors('password')}" th:text="${err}"></span>
                     </div>
-                    <div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('confirmPassword')} ? has-error">
-                        <label for="confirmPassword" class="control-label" th:text="#{user.confirmPassword}">user.confirmPassword</label>
-                        <input type="password" class="form-control" th:field="*{confirmPassword}" />
-                        <span class="help-block" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></span>
-                    </div>
-                </div>
-                <div class="row" th:if="${#request.remoteUser} == *{username} and !${addMode}">
-                    <div class="col-sm-6">
-                        <label for="password" class="control-label">
-                            <span th:text="#{user.password}" th:remove="tag">user.password</span>
-                        </label>
-                    </div>
-                    <div class="col-sm-6">
-                        <a href="#" th:if="${listMode}" th:href="|@{'/updatePassword'}?from=list|" th:text="#{userSaveForm.password.request}">userSaveForm.password.request</a>
-                        <a href="#" th:unless="${listMode}" th:href="@{'/updatePassword'}" th:text="#{userSaveForm.password.request}">userSaveForm.password.request</a>
+                    <div class="col-md-6 mb-3">
+                        <label for="confirmPassword" th:text="#{user.confirmPassword}">user.confirmPassword</label>
+                        <input type="password" class="form-control" th:classappend="${#fields.hasErrors('confirmPassword')} ? is-invalid" th:field="*{confirmPassword}" />
+                        <span class="invalid-feedback" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></span>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('firstName')} ? has-error">
-                        <label for="firstName" class="control-label">
+                <div class="mb-3" th:if="${#request.remoteUser} == *{username} and !${addMode}">
+                    <a href="#" th:if="${listMode}" th:href="|@{'/updatePassword'}?from=list|" th:text="#{userSaveForm.password.request}">userSaveForm.password.request</a>
+                    <a href="#" th:unless="${listMode}" th:href="@{'/updatePassword'}" th:text="#{userSaveForm.password.request}">userSaveForm.password.request</a>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName">
                             <span th:text="#{user.firstName}" th:remove="tag">user.firstName</span> <span class="required">*</span>
                         </label>
-                        <input type="text" class="form-control" th:field="*{firstName}" />
-                        <span class="help-block" th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></span>
+                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('firstName')} ? is-invalid" th:field="*{firstName}" />
+                        <span class="invalid-feedback" th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></span>
                     </div>
-                    <div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('lastName')} ? has-error">
-                        <label for="lastName" class="control-label" th:text="#{user.lastName}">user.lastName</label>
-                        <input type="text" class="form-control" th:field="*{lastName}" />
-                        <span class="help-block" th:each="err : ${#fields.errors('lastName')}" th:text="${err}"></span>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName" th:text="#{user.lastName}">user.lastName</label>
+                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('lastName')} ? is-invalid" th:field="*{lastName}" />
+                        <span class="invalid-feedback" th:each="err : ${#fields.errors('lastName')}" th:text="${err}"></span>
                     </div>
                 </div>
-                <div class="form-group" th:classappend="${#fields.hasErrors('email')} ? has-error">
-                    <label for="email" class="control-label">
+                <div class="mb-3">
+                    <label for="email">
                         <span th:text="#{user.email}" th:remove="tag">user.email</span> <span class="required">*</span>
                     </label>
-                    <input type="text" class="form-control" th:field="*{email}" />
-                    <span class="help-block" th:each="err : ${#fields.errors('email')}" th:text="${err}"></span>
+                    <input type="text" class="form-control" th:classappend="${#fields.hasErrors('email')} ? is-invalid" th:field="*{email}" />
+                    <span class="invalid-feedback" th:each="err : ${#fields.errors('email')}" th:text="${err}"></span>
                 </div>
-                <div class="form-group" th:if="${listMode}">
-                    <label class="control-label" th:text="#{userForm.accountSettings}">userForm.accountSettings</label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" th:field="*{enabled}" />
+                <div class="mb-3" th:if="${listMode}">
+                    <label th:text="#{userForm.accountSettings}">userForm.accountSettings</label>
+                    <label class="form-check-inline">
+                        <input type="checkbox" class="form-check-input" th:field="*{enabled}" />
                         <span th:text="#{user.enabled}" th:remove="tag">user.enabled</span>
                     </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" th:field="*{accountLocked}" />
+                    <label class="form-check-inline">
+                        <input type="checkbox" class="form-check-input" th:field="*{accountLocked}" />
                         <span th:text="#{user.accountLocked}" th:remove="tag">user.accountLocked</span>
                     </label>
                 </div>
-                <div class="row" th:if="${listMode}">
-                    <div class="col-sm-6" th:classappend="${#fields.hasErrors('accountExpiredDate')} ? has-error">
-                        <label for="accountExpiredDate" class="control-label" th:text="#{user.accountExpiredDate}">user.accountExpiredDate</label>
-                        <input type="text" class="form-control" th:field="*{accountExpiredDate}" th:placeholder="#{datetimepicker.format}" />
-                        <span class="help-block" th:each="err : ${#fields.errors('accountExpiredDate')}" th:text="${err}"></span>
+                <div class="form-row" th:if="${listMode}">
+                    <div class="col-md-6 mb-3">
+                        <label for="accountExpiredDate" th:text="#{user.accountExpiredDate}">user.accountExpiredDate</label>
+                        <div class="input-group date" id="accountExpiredDatePicker" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" th:classappend="${#fields.hasErrors('accountExpiredDate')} ? is-invalid" th:field="*{accountExpiredDate}" th:placeholder="#{datetimepicker.format}" data-target="#accountExpiredDatePicker" />
+                            <div class="input-group-append" data-target="#accountExpiredDatePicker" data-toggle="datetimepicker">
+                                <div class="input-group-text"><em class="fa fa-calendar"></em></div>
+                            </div>
+                        </div>
+                        <span class="invalid-feedback" th:each="err : ${#fields.errors('accountExpiredDate')}" th:text="${err}"></span>
                     </div>
-                    <div class="col-sm-6" th:classappend="${#fields.hasErrors('credentialsExpiredDate')} ? has-error">
-                        <label for="credentialsExpiredDate" class="control-label" th:text="#{user.credentialsExpiredDate}">user.credentialsExpiredDate</label>
-                        <input type="text" class="form-control" th:field="*{credentialsExpiredDate}" th:placeholder="#{datetimepicker.format}" />
-                        <span class="help-block" th:each="err : ${#fields.errors('credentialsExpiredDate')}" th:text="${err}"></span>
+                    <div class="col-md-6 mb-3">
+                        <label for="credentialsExpiredDate" th:text="#{user.credentialsExpiredDate}">user.credentialsExpiredDate</label>
+                        <div class="input-group date" id="credentialsExpiredDatePicker" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" th:classappend="${#fields.hasErrors('credentialsExpiredDate')} ? is-invalid" th:field="*{credentialsExpiredDate}" th:placeholder="#{datetimepicker.format}" data-target="#credentialsExpiredDatePicker" />
+                            <div class="input-group-append" data-target="#credentialsExpiredDatePicker" data-toggle="datetimepicker">
+                                <div class="input-group-text"><em class="fa fa-calendar"></em></div>
+                            </div>
+                        </div>
+                        <span class="invalid-feedback" th:each="err : ${#fields.errors('credentialsExpiredDate')}" th:text="${err}"></span>
                     </div>
                 </div>
-                <div class="form-group" th:classappend="${#fields.hasErrors('roles')} ? has-error" th:if="${listMode}">
-                    <label for="roles" class="control-label" th:text="#{userForm.assignRoles}">userForm.assignRoles</label>
-                    <select class="form-control" name="roles" multiple="multiple">
+                <div class="mb-3" th:if="${listMode}">
+                    <label for="roles" th:text="#{userForm.assignRoles}">userForm.assignRoles</label>
+                    <select class="form-control" th:classappend="${#fields.hasErrors('roles')} ? is-invalid" name="roles" multiple="multiple">
                         <option th:each="role : ${#servletContext.getAttribute('availableRoles')}" th:selected="${user.roleList.contains(role)}" th:value="${role.value}" th:text="${role.label}">role.label</option>
                     </select>
-                    <span class="help-block" th:each="err : ${#fields.errors('roles')}" th:text="${err}"></span>
+                    <span class="invalid-feedback" th:each="err : ${#fields.errors('roles')}" th:text="${err}"></span>
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">
-                        <em class="glyphicon glyphicon-ok"></em>
+                        <em class="fa fa-check" aria-hidden="true"></em>
                         <span th:if="${addMode}" th:text="#{button.add}" th:remove="tag">button.add</span>
                         <span th:unless="${addMode}" th:text="#{button.edit}" th:remove="tag">button.edit</span>
                     </button>
-                    <button type="reset" class="btn btn-default">
-                        <em class="glyphicon glyphicon-refresh"></em> <span th:text="#{button.reset}" th:remove="tag">button.reset</span>
+                    <button type="reset" class="btn btn-secondary">
+                        <em class="fa fa-refresh" aria-hidden="true"></em>
+                        <span th:text="#{button.reset}" th:remove="tag">button.reset</span>
                     </button>
-                    <button type="button" class="btn btn-default" id="button_cancel">
-                        <em class="glyphicon glyphicon-remove"></em> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
+                    <button type="button" class="btn btn-secondary" id="button_cancel">
+                        <em class="fa fa-undo" aria-hidden="true"></em>
+                        <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
                     </button>
                 </div>
             </form>
@@ -129,13 +134,13 @@
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         $(function() {
-            $('#accountExpiredDate').datetimepicker({
-            	locale : '[(${#locale.language})]',
+            $('#accountExpiredDatePicker').datetimepicker({
+                locale : '[(${#locale.language})]',
                 format : '[(#{datetimepicker.format})]'
             });
 
-            $('#credentialsExpiredDate').datetimepicker({
-            	locale : '[(${#locale.language})]',
+            $('#credentialsExpiredDatePicker').datetimepicker({
+                locale : '[(${#locale.language})]',
                 format : '[(#{datetimepicker.format})]'
             });
 
