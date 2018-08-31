@@ -91,12 +91,10 @@ h1, h2 {
 #footer {
 	position: absolute;
 	bottom: 0;
-	width: 100%;
 	clear: both;
     margin: 0 auto;
     padding: 10px 0 20px 0;
     border-top: 4px solid #f0f0f0;
-    text-align: center;
     background-color: white;
     color: #808080;
     font-size: 0.9em;

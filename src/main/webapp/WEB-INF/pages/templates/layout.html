@@ -49,7 +49,6 @@
     </div>
     <div class="row" id="footer">
         <div class="col-md-6 text-left">
-            <span th:text="#{webapp.version}">webapp.version</span>
             <span th:if="${#request.remoteUser}" th:text="|#{user.status} ${#request.remoteUser}|">user.status</span>
         </div>
         <div class="col-md-6 text-right">
