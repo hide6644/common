@@ -7,8 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import common.Constants;
 import common.service.RoleManager;
@@ -38,7 +37,7 @@ public class ReloadController extends BaseController {
      *             {@link IOException}
      * @return 遷移先
      */
-    @RequestMapping(value = "admin/reload", method = RequestMethod.GET)
+    @GetMapping("admin/reload")
     public String handleRequest(HttpServletRequest request) throws IOException {
         request.getSession().getServletContext().setAttribute(Constants.AVAILABLE_ROLES, (roleManager.getLabelValues()));
         userManager.reindex();
