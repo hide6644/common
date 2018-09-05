@@ -4,6 +4,7 @@ import static common.dao.jpa.UserSpecifications.*;
 import static org.springframework.data.jpa.domain.Specification.*;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -239,35 +240,37 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     public void uploadUsers(UploadForm uploadForm) {
         uploadForm.setUploadResult(new UploadResult(2)); // 1行目はヘッダー行のため、2から開始する
 
-        for (User user : UserFileConverterFactory.createConverter(FileType.of(uploadForm.getFileType())).convert(uploadForm.getFileData())) {
-            // デフォルトの要再認証日時を設定する
-            user.setCredentialsExpiredDate(LocalDateTime.now().plusDays(Constants.CREDENTIALS_EXPIRED_TERM));
-            // 新規登録時は権限を一般で設定する
-            user.addRole(new Role(Constants.USER_ROLE));
-            user.setConfirmPassword(user.getPassword());
-            user.setEnabled(true);
+        UserFileConverterFactory.createConverter(FileType.of(uploadForm.getFileType()))
+                .convert(uploadForm.getFileData())
+                .stream().map(user -> {
+                    // デフォルトの要再認証日時を設定する
+                    user.setCredentialsExpiredDate(LocalDateTime.now().plusDays(Constants.CREDENTIALS_EXPIRED_TERM));
+                    // 新規登録時は権限を一般で設定する
+                    user.addRole(new Role(Constants.USER_ROLE));
+                    user.setConfirmPassword(user.getPassword());
+                    user.setEnabled(true);
+                    return user;
+                }).forEach(user -> {
+                    Set<ConstraintViolation<User>> results = validator.validate(user);
 
-            Set<ConstraintViolation<User>> results = validator.validate(user);
+                    if (results.isEmpty()) {
+                        saveUser(user);
+                        uploadForm.getUploadResult().addSuccessTotalCount();
+                    } else {
+                        // エラー有りの場合
+                        uploadForm.getUploadResult().addUploadErrors(results.stream()
+                                .sorted(Comparator.<ConstraintViolation<User>, String> comparing(violation -> violation.getPropertyPath().toString())
+                                        .thenComparing(violation -> violation.getMessage()))
+                                .map(error -> {
+                                    String fieldName = getText("user." + error.getPropertyPath().toString());
+                                    String message = error.getMessage().replaceAll("\\{0\\}", fieldName);
+                                    return uploadForm.getUploadResult().createUploadError(fieldName, message);
+                                })
+                                .collect(Collectors.toList()));
+                    }
 
-            if (results.isEmpty()) {
-                saveUser(user);
-                uploadForm.getUploadResult().addSuccessTotalCount();
-            } else {
-                // エラー有りの場合
-                uploadForm.getUploadResult().addUploadErrors(results.stream().sorted((o1, o2) -> {
-                    int c = o1.getPropertyPath().toString().compareTo(o2.getPropertyPath().toString());
-                    return c == 0 ? o1.getMessage().compareTo(o2.getMessage()) : c;
-                })
-                        .map(error -> {
-                            String fieldName = getText("user." + error.getPropertyPath().toString());
-                            String message = error.getMessage().replaceAll("\\{0\\}", fieldName);
-                            return uploadForm.getUploadResult().createUploadError(fieldName, message);
-                        })
-                        .collect(Collectors.toList()));
-            }
-
-            uploadForm.getUploadResult().addProcessingCount();
-        }
+                    uploadForm.getUploadResult().addProcessingCount();
+                });
     }
 
     /**
