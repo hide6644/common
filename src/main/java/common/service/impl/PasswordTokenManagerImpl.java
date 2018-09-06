@@ -3,6 +3,7 @@ package common.service.impl;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,11 +53,9 @@ public class PasswordTokenManagerImpl implements PasswordTokenManager {
         String expirationTimestamp = token.substring(0, EXPIRATION_DATE_FORMAT.length());
         String tokenWithoutTimestamp = token.substring(EXPIRATION_DATE_FORMAT.length());
 
-        if (user != null) {
-            return isAfter(expirationTimestamp) && passwordTokenEncoder.matches(expirationTimestamp + getTokenSource(user), tokenWithoutTimestamp);
-        }
-
-        return false;
+        return Optional.ofNullable(user).map(userData -> isAfter(expirationTimestamp)
+                && passwordTokenEncoder.matches(expirationTimestamp + getTokenSource(userData), tokenWithoutTimestamp))
+                .orElse(false);
     }
 
     /**

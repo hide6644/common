@@ -15,28 +15,29 @@ public class MaxFileSizeValidator implements ConstraintValidator<MaxFileSize, Ob
     /** 最大容量 */
     private int max;
 
-    /** アップロードファイルの容量 */
-    private int size;
+    /** 倍数 */
+    private int multiple;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public void initialize(MaxFileSize constraintAnnotation) {
-        max = constraintAnnotation.max();
-
-        if (constraintAnnotation.unitSign().equals("")) {
-            size = 1;
-        } else if (constraintAnnotation.unitSign().equals("K")) {
-            size = 1024;
-        } else if (constraintAnnotation.unitSign().equals("M")) {
-            size = 1024 * 1024;
-        } else {
-            throw new IllegalArgumentException("The unitSign parameter must be '', 'K' or 'M'.");
+        if (constraintAnnotation.max() < 0) {
+            throw new IllegalArgumentException("The max parameter cannot be negative.");
         }
 
-        if (max < 0) {
-            throw new IllegalArgumentException("The max parameter cannot be negative.");
+        max = constraintAnnotation.max();
+
+        switch (constraintAnnotation.unitSign()) {
+        case MByte:
+            multiple = 1024 * 1024;
+            break;
+        case KByte:
+            multiple = 1024;
+            break;
+        case Byte:
+            multiple = 1;
         }
     }
 
@@ -49,12 +50,10 @@ public class MaxFileSizeValidator implements ConstraintValidator<MaxFileSize, Ob
 
         if (target == null) {
             isValid = false;
-        } else if (target instanceof MultipartFile) {
-            if (((MultipartFile) target).getSize() / size > max) {
-                isValid = false;
-            }
-        } else {
+        } else if (!(target instanceof MultipartFile)) {
             throw new IllegalArgumentException("Object instance must be MultipartFile.class.");
+        } else if (((MultipartFile) target).getSize() > max * multiple) {
+            isValid = false;
         }
 
         return isValid;

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.jar.Attributes;
@@ -44,12 +45,7 @@ public class StartupListener implements ServletContextListener {
         ServletContext context = event.getServletContext();
 
         @SuppressWarnings("unchecked")
-        Map<String, Object> config = (HashMap<String, Object>) context.getAttribute(Constants.CONFIG);
-
-        if (config == null) {
-            config = new HashMap<>();
-        }
-
+        Map<String, Object> config = Optional.ofNullable((Map<String, Object>) context.getAttribute(Constants.CONFIG)).orElseGet(HashMap::new);
         context.setAttribute(Constants.CONFIG, config);
         setAppContext(context);
         setAppVersion(context);

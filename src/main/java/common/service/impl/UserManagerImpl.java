@@ -140,7 +140,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
             BeanUtils.copyProperties(userDetailsForm, user);
         } else {
             user = getUserByUsername(userDetailsForm.getUsername());
-            // 入力項目のみコピーする
+            // 画面で入力可能な項目のみコピーする
             if (userDetailsForm.getRoles().isEmpty()) {
                 BeanUtils.copyProperties(userDetailsForm, user, "password", "enabled", "accountLocked", "accountExpiredDate", "credentialsExpiredDate", "roles");
             } else {
@@ -259,7 +259,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
                     } else {
                         // エラー有りの場合
                         uploadForm.getUploadResult().addUploadErrors(results.stream()
-                                .sorted(Comparator.<ConstraintViolation<User>, String> comparing(violation -> violation.getPropertyPath().toString())
+                                .sorted(Comparator.<ConstraintViolation<User>, String>comparing(violation -> violation.getPropertyPath().toString())
                                         .thenComparing(violation -> violation.getMessage()))
                                 .map(error -> {
                                     String fieldName = getText("user." + error.getPropertyPath().toString());

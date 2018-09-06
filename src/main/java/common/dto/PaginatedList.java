@@ -2,6 +2,7 @@ package common.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
@@ -42,7 +43,7 @@ public final class PaginatedList<T> {
      */
     public PaginatedList(Page<T> paged, Integer pageRangeSize) {
         this.paged = paged;
-        this.pageRangeSize = pageRangeSize != null ? pageRangeSize : DEFAULT_RANGE_SIZE;
+        this.pageRangeSize = Optional.ofNullable(pageRangeSize).orElse(DEFAULT_RANGE_SIZE);
     }
 
     /**

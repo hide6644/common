@@ -2,6 +2,7 @@ package common.webapp.filter;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,9 +38,9 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
 
-        String username = getUsername(request);
-        String password = getPassword(request);
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
+        String trimUsername = Optional.ofNullable(obtainUsername(request)).map(username -> username.trim()).orElse("");
+        String password = Optional.ofNullable(obtainPassword(request)).orElse("");
+        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(trimUsername, password);
 
         // サブクラスに詳細情報を設定する
         setDetails(request, authRequest);
@@ -47,11 +48,11 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
         try {
             Authentication newAuth = getAuthenticationManager().authenticate(authRequest);
             // ログイン成功
-            recordLoginAttempts(request, username, true);
+            recordLoginAttempts(request, trimUsername, true);
             return newAuth;
         } catch (BadCredentialsException e) {
             // ログイン失敗
-            loginFailure(username, request);
+            loginFailure(trimUsername, request);
 
             throw e;
         }
@@ -67,7 +68,7 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
      */
     private void loginFailure(String username, HttpServletRequest request) {
         try {
-            if (countFailedLoginAttempts(request, username) < Constants.LOGIN_FAILURE_UPPER_LIMIT) {
+            if (Optional.ofNullable(getBadCredentialsMap(request).get(username)).orElse(0) < Constants.LOGIN_FAILURE_UPPER_LIMIT) {
                 recordLoginAttempts(request, username, false);
             } else {
                 // ユーザをロックする
@@ -79,62 +80,6 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
             if (log.isDebugEnabled()) {
                 log.debug("Account not found: username=" + username);
             }
-        }
-    }
-
-    /**
-     * リクエストからユーザ名を取得する.
-     *
-     * @param request
-     *            {@link HttpServletRequest}
-     * @return ユーザ名
-     */
-    private String getUsername(HttpServletRequest request) {
-        String username = obtainUsername(request);
-
-        if (username == null) {
-            username = "";
-        } else {
-            username = username.trim();
-        }
-
-        return username;
-    }
-
-
-    /**
-     * リクエストからパスワードを取得する.
-     *
-     * @param request
-     *            {@link HttpServletRequest}
-     * @return パスワード
-     */
-    private String getPassword(HttpServletRequest request) {
-        String password = obtainPassword(request);
-
-        if (password == null) {
-            password = "";
-        }
-
-        return password;
-    }
-
-    /**
-     * ログイン失敗回数を取得する.
-     *
-     * @param request
-     *            {@link HttpServletRequest}
-     * @param username
-     *            ユーザ名
-     * @return ログイン失敗回数
-     */
-    private int countFailedLoginAttempts(HttpServletRequest request, String username) {
-        Integer count = getBadCredentialsMap(request).get(username);
-
-        if (count == null) {
-            return 0;
-        } else {
-            return count;
         }
     }
 

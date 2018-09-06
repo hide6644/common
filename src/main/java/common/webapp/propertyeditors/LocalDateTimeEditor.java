@@ -4,6 +4,7 @@ import java.beans.PropertyEditorSupport;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Optional;
 
 import org.springframework.util.StringUtils;
 
@@ -36,10 +37,8 @@ public class LocalDateTimeEditor extends PropertyEditorSupport {
      */
     @Override
     public String getAsText() {
-        LocalDateTime datetime = (LocalDateTime) getValue();
-
         try {
-            return datetime != null ? datetime.format(dateTimeFormat) : "";
+            return Optional.ofNullable((LocalDateTime) getValue()).map(datetime -> datetime.format(dateTimeFormat)).orElse("");
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("Could not format date: " + e.getMessage(), e);
         }

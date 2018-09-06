@@ -29,12 +29,10 @@ public class NotEmptyFileValidator implements ConstraintValidator<NotEmptyFile, 
 
         if (target == null) {
             isValid = false;
-        } else if (target instanceof MultipartFile) {
-            if (((MultipartFile) target).getSize() == 0) {
-                isValid = false;
-            }
-        } else {
+        } else if (!(target instanceof MultipartFile)) {
             throw new IllegalArgumentException("Object instance must be MultipartFile.class.");
+        } else if (((MultipartFile) target).getSize() == 0) {
+            isValid = false;
         }
 
         return isValid;

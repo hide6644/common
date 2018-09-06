@@ -2,6 +2,7 @@ package common.webapp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -138,13 +139,9 @@ public abstract class BaseController {
      */
     protected void save(String key, String value) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+
         @SuppressWarnings("unchecked")
-        List<String> messages = (List<String>) request.getAttribute(key);
-
-        if (messages == null) {
-            messages = new ArrayList<>();
-        }
-
+        List<String> messages = Optional.ofNullable((List<String>) request.getAttribute(key)).orElseGet(ArrayList::new);
         messages.add(value);
         request.setAttribute(key, messages);
     }
