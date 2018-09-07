@@ -128,6 +128,11 @@ public class UserControllerTest extends BaseControllerTestCase {
         c.onSubmitByPutMethod(userDetailsForm, errors, request, response);
 
         assertEquals(HttpServletResponse.SC_FORBIDDEN, response.getStatus());
+
+        response = new MockHttpServletResponse();
+        c.onSubmitByPostMethod(userDetailsForm, errors, request, response);
+
+        assertEquals(HttpServletResponse.SC_FORBIDDEN, response.getStatus());
     }
 
     @Test

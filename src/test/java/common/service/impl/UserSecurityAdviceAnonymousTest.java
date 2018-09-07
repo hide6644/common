@@ -1,11 +1,11 @@
 package common.service.impl;
 
+import static org.mockito.BDDMockito.*;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -32,8 +32,8 @@ public class UserSecurityAdviceAnonymousTest {
             User user = new User("user");
             user.setId(1L);
             user.setVersion(1L);
-            Mockito.when(userManager.getUserByUsername("user")).thenReturn(user);
-            Mockito.when(userManager.saveUser(user)).thenReturn(user);
+            when(userManager.getUserByUsername("user")).thenReturn(user);
+            when(userManager.saveUser(user)).thenReturn(user);
         }
     }
 

@@ -118,24 +118,15 @@ h1, h2 {
 
 /* Desktop large
 ------------------------- */
-@media (min-width: 1200px) {
-
-}
 
 /* Desktop
 ------------------------- */
-@media (max-width: 980px) {
-
-}
 
 /* Tablet to desktop
 ------------------------- */
 
 /* Tablet
 ------------------------- */
-@media (max-width: 767px) {
-
-}
 
 /* Landscape phones
 ------------------------- */

@@ -6,14 +6,9 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.context.MessageSource;
-import org.springframework.context.NoSuchMessageException;
-import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -21,19 +16,14 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
+import common.service.impl.BaseManagerImpl;
 import common.service.mail.MailEngine;
 import common.webapp.filter.FlashMap;
 
 /**
  * 画面処理の基底クラス.
  */
-public abstract class BaseController {
-
-    /** ログ出力クラス */
-    protected Logger log = LogManager.getLogger(getClass());
-
-    /** メッセージソースアクセサー */
-    protected MessageSourceAccessor messageSourceAccessor;
+public abstract class BaseController extends BaseManagerImpl {
 
     /** メールを送信するクラス */
     @Autowired(required = false)
@@ -144,50 +134,5 @@ public abstract class BaseController {
         List<String> messages = Optional.ofNullable((List<String>) request.getAttribute(key)).orElseGet(ArrayList::new);
         messages.add(value);
         request.setAttribute(key, messages);
-    }
-
-    /**
-     * メッセージソースからメッセージを取得する.
-     *
-     * @param msgKey
-     *            キー
-     * @return メッセージ
-     */
-    protected String getText(String msgKey) {
-        try {
-            return messageSourceAccessor.getMessage(msgKey);
-        } catch (NoSuchMessageException e) {
-            log.error(e);
-            return "{" + msgKey + "}";
-        }
-    }
-
-    /**
-     * メッセージソースからメッセージを取得する.
-     *
-     * @param msgKey
-     *            キー
-     * @param args
-     *            引数
-     * @return メッセージ
-     */
-    protected String getText(String msgKey, Object... args) {
-        try {
-            return messageSourceAccessor.getMessage(msgKey, args);
-        } catch (NoSuchMessageException e) {
-            log.error(e);
-            return "{" + msgKey + "}";
-        }
-    }
-
-    /**
-     * メッセージソースを設定する.
-     *
-     * @param messageSource
-     *            メッセージソース
-     */
-    @Autowired
-    public void setMessages(MessageSource messageSource) {
-        this.messageSourceAccessor = new MessageSourceAccessor(messageSource);
     }
 }
