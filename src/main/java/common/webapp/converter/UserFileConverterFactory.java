@@ -42,7 +42,7 @@ public class UserFileConverterFactory {
     }
 
     /**
-     * ファイルタイプに合わせた、ファイル変換処理を返却する.
+     * ファイルタイプに合わせた、ファイル変換処理を生成する.
      *
      * @param fileType
      *            ファイルタイプ
@@ -62,7 +62,7 @@ public class UserFileConverterFactory {
     }
 
     /**
-     * XMLファイル変換処理を返却する.
+     * XMLファイル変換処理を生成する.
      *
      * @return XMLファイル変換処理クラスの関数
      */
@@ -80,7 +80,7 @@ public class UserFileConverterFactory {
     }
 
     /**
-     * EXCELファイル変換処理を返却する.
+     * EXCELファイル変換処理を生成する.
      *
      * @return EXCELファイル変換処理クラスの関数
      */
@@ -104,7 +104,7 @@ public class UserFileConverterFactory {
     }
 
     /**
-     * CSVファイル変換処理を返却する.
+     * CSVファイル変換処理を生成する.
      *
      * @return CSVファイル変換処理クラスの関数
      */

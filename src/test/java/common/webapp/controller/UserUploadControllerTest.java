@@ -111,13 +111,49 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testFileException() throws Exception {
+    public void testOnSubmitCsvFileException() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream("common/webapp/controller/users.xml");
         MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);
 
         UploadForm uploadForm = new UploadForm();
         uploadForm.setFileType(FileType.CSV.getValue());
+        uploadForm.setFileData(mockMultipartFile);
+
+        BindingResult errors = new DataBinder(uploadForm).getBindingResult();
+        c.onSubmit(uploadForm, errors);
+
+        assertFalse(errors.hasErrors());
+        assertEquals(0, uploadForm.getUploadResult().getSuccessTotalCount());
+        assertNotNull(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getAttribute("error_messages"));
+    }
+
+    @Test
+    public void testOnSubmitXlsFileException() throws Exception {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        InputStream input = classLoader.getResourceAsStream("common/webapp/controller/users.csv");
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);
+
+        UploadForm uploadForm = new UploadForm();
+        uploadForm.setFileType(FileType.EXCEL.getValue());
+        uploadForm.setFileData(mockMultipartFile);
+
+        BindingResult errors = new DataBinder(uploadForm).getBindingResult();
+        c.onSubmit(uploadForm, errors);
+
+        assertFalse(errors.hasErrors());
+        assertEquals(0, uploadForm.getUploadResult().getSuccessTotalCount());
+        assertNotNull(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getAttribute("error_messages"));
+    }
+
+    @Test
+    public void testOnSubmitXmlFileException() throws Exception {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        InputStream input = classLoader.getResourceAsStream("common/webapp/controller/users.xlsx");
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);
+
+        UploadForm uploadForm = new UploadForm();
+        uploadForm.setFileType(FileType.XML.getValue());
         uploadForm.setFileData(mockMultipartFile);
 
         BindingResult errors = new DataBinder(uploadForm).getBindingResult();
