@@ -251,26 +251,39 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
                     user.setEnabled(true);
                     return user;
                 }).forEach(user -> {
-                    Set<ConstraintViolation<User>> results = validator.validate(user);
-
-                    if (results.isEmpty()) {
-                        saveUser(user);
-                        uploadForm.getUploadResult().addSuccessTotalCount();
-                    } else {
-                        // エラー有りの場合
-                        uploadForm.getUploadResult().addUploadErrors(results.stream()
-                                .sorted(Comparator.<ConstraintViolation<User>, String>comparing(violation -> violation.getPropertyPath().toString())
-                                        .thenComparing(violation -> violation.getMessage()))
-                                .map(error -> {
-                                    String fieldName = getText("user." + error.getPropertyPath().toString());
-                                    String message = error.getMessage().replaceAll("\\{0\\}", fieldName);
-                                    return uploadForm.getUploadResult().createUploadError(fieldName, message);
-                                })
-                                .collect(Collectors.toList()));
-                    }
-
-                    uploadForm.getUploadResult().addProcessingCount();
+                    validateUserAndSave(uploadForm, user);
                 });
+    }
+
+    /**
+     * 検証し保存する.
+     *
+     * @param uploadForm
+     *            アップロードファイルの情報
+     * @param user
+     *            ユーザ
+     */
+    private void validateUserAndSave(UploadForm uploadForm, User user) {
+        Set<ConstraintViolation<User>> results = validator.validate(user);
+
+        if (results.isEmpty()) {
+            // エラー無しの場合、保存する
+            saveUser(user);
+            uploadForm.getUploadResult().addSuccessTotalCount();
+        } else {
+            // エラー有りの場合、エラーメッセージを設定する
+            uploadForm.getUploadResult().addUploadErrors(results.stream()
+                    .sorted(Comparator.<ConstraintViolation<User>, String>comparing(violation -> violation.getPropertyPath().toString())
+                            .thenComparing(violation -> violation.getMessage()))
+                    .map(error -> {
+                        String fieldName = getText("user." + error.getPropertyPath().toString());
+                        String message = error.getMessage().replaceAll("\\{0\\}", fieldName);
+                        return uploadForm.getUploadResult().createUploadError(fieldName, message);
+                    })
+                    .collect(Collectors.toList()));
+        }
+
+        uploadForm.getUploadResult().addProcessingCount();
     }
 
     /**
