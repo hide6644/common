@@ -1,10 +1,8 @@
 package common.webapp.controller;
 
-import java.beans.PropertyEditorSupport;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,12 +23,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import common.Constants;
 import common.dto.UserDetailsForm;
+import common.entity.Role;
+import common.entity.User;
 import common.exception.DatabaseException;
-import common.model.Role;
-import common.model.User;
 import common.service.UserManager;
 import common.service.mail.UserMail;
 import common.validator.groups.Modify;
+import common.webapp.propertyeditors.LocalDateTimeEditor;
 
 /**
  * ユーザ登録情報変更処理クラス.
@@ -54,18 +53,7 @@ public class UserController extends BaseController {
     @Override
     public void initBinder(WebDataBinder binder) {
         super.initBinder(binder);
-        binder.registerCustomEditor(LocalDateTime.class, new PropertyEditorSupport() {
-            @Override
-            public void setAsText(String text) {
-                try {
-                    if (text != null) {
-                        setValue(LocalDateTime.parse(text, DateTimeFormatter.ofPattern(getText("date.time.format"))));
-                    }
-                } catch (DateTimeParseException e) {
-                    // 何もしない
-                }
-            }
-        });
+        binder.registerCustomEditor(LocalDateTime.class, new LocalDateTimeEditor(DateTimeFormatter.ofPattern(getText("date.time.format")), true));
     }
 
     /**

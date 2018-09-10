@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import common.model.LabelValue;
+import common.dto.LabelValue;
 
 public class RoleManagerTest extends BaseManagerTestCase {
 
@@ -21,12 +21,9 @@ public class RoleManagerTest extends BaseManagerTestCase {
 
         assertNotNull(labelValueList);
 
-        LabelValue newLabelValue = new LabelValue();
+        assertFalse(labelValueList.contains(LabelValue.of("", "")));
 
-        assertFalse(labelValueList.contains(newLabelValue));
-
-        newLabelValue.setValue("ROLE_USER");
-        newLabelValue.setLabel("TEST_LABEL");
+        LabelValue newLabelValue = LabelValue.of("TEST_LABEL", "ROLE_USER");
 
         Collections.sort(labelValueList);
         assertFalse(labelValueList.get(0).equals(newLabelValue));

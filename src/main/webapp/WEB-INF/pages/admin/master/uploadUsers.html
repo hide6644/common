@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -9,13 +9,13 @@
 </head>
 <body>
     <div layout:fragment="content">
-        <div class="col-sm-7">
+        <div class="col-sm-9">
             <fieldset>
                 <legend th:text="#{userUploadForm.heading}"></legend>
             </fieldset>
-            <form class="well" action="#" method="post" enctype="multipart/form-data" th:action="@{/admin/master/uploadUsers}" th:object="${uploadForm}">
-                <div class="form-group">
-                    <label for="fileType" class="control-label" th:text="#{uploadForm.fileType}">uploadForm.fileType</label>
+            <form class="card bg-light card-body mb-3" action="#" method="post" enctype="multipart/form-data" th:action="@{/admin/master/uploadUsers}" th:object="${uploadForm}">
+                <div class="form-group mb-2">
+                    <label for="fileType" th:text="#{uploadForm.fileType}">uploadForm.fileType</label>
                     <div class="radio" th:each="ft : ${#servletContext.getAttribute('fileTypeList')}">
                         <label>
                             <input type="radio" th:field="*{fileType}" th:value="${ft.value}" th:text="${ft.label}" />
@@ -23,32 +23,33 @@
                     </div>
                 </div>
                 <input type="file" style="display:none" name="fileData" />
-                <div class="form-group" th:classappend="${#fields.hasErrors('fileData')} ? has-error">
-                    <label for="fileData" class="control-label">
+                <div class="form-group mb-2">
+                    <label for="fileData">
                         <span th:text="#{uploadForm.fileData}" th:remove="tag">uploadForm.fileData</span> <span class="required">*</span>
                     </label>
                     <div class="controls">
                         <div class="input-append">
-                            <input type="text" class="input-medium" id="fileData" readonly="readonly" />
-                            <button type="button" class="btn btn-default" id="folderOpen">
-                                <em class="glyphicon glyphicon-folder-open"></em> <span th:text="#{uploadForm.folderOpen}" th:remove="tag">uploadForm.folderOpen</span>
+                            <input type="text" class="input-medium" th:classappend="${#fields.hasErrors('fileData')} ? is-invalid" id="fileData" readonly="readonly" />
+                            <button type="button" class="btn btn-secondary" id="folderOpen">
+                                <em class="fa fa-folder-open" aria-hidden="true"></em>
+                                <span th:text="#{uploadForm.folderOpen}" th:remove="tag">uploadForm.folderOpen</span>
                             </button>
                         </div>
-                        <span class="help-block" th:each="err : ${#fields.errors('fileData')}" th:text="${err}"></span>
+                        <span class="invalid-feedback" th:each="err : ${#fields.errors('fileData')}" th:text="${err}"></span>
                     </div>
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">
-                        <em class="glyphicon glyphicon-ok"></em> <span th:text="#{button.upload}" th:remove="tag">button.upload</span>
+                        <em class="fa fa-check" aria-hidden="true"></em> <span th:text="#{button.upload}" th:remove="tag">button.upload</span>
                     </button>
-                    <button type="button" class="btn btn-default" id="button_cancel">
-                        <em class="glyphicon glyphicon-remove"></em> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
+                    <button type="button" class="btn btn-secondary" id="button_cancel">
+                        <em class="fa fa-undo" aria-hidden="true"></em> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
                     </button>
                 </div>
             </form>
         </div>
-        <div class="col-sm-7" th:if="${uploadForm.uploadResult}">
-            <table class="table table-condensed table-striped table-hover" th:if="${uploadForm.uploadResult.uploadErrors}">
+        <div class="col-sm-9" th:if="${uploadForm.uploadResult}">
+            <table class="table table-sm table-striped table-hover" th:if="${uploadForm.uploadResult.uploadErrors}">
                 <caption th:text="#{uploadError}">uploadError</caption>
                 <thead>
                     <tr>

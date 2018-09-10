@@ -1,8 +1,7 @@
 package common.webapp.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * 共通処理クラス.
@@ -15,7 +14,7 @@ public class MiscController extends BaseController {
      *
      * @return 遷移先
      */
-    @RequestMapping(value = "top", method = RequestMethod.GET)
+    @GetMapping("top")
     public String topRequest() {
         return "top";
     }
@@ -25,7 +24,7 @@ public class MiscController extends BaseController {
      *
      * @return 遷移先
      */
-    @RequestMapping(value = "admin/top", method = RequestMethod.GET)
+    @GetMapping("admin/top")
     public String adminTopRequest() {
         return "admin/top";
     }
@@ -35,7 +34,7 @@ public class MiscController extends BaseController {
      *
      * @return 遷移先
      */
-    @RequestMapping(value = "admin/master/top", method = RequestMethod.GET)
+    @GetMapping("admin/master/top")
     public String adminMasterTopRequest() {
         return "admin/master/top";
     }
@@ -45,7 +44,7 @@ public class MiscController extends BaseController {
      *
      * @return 遷移先
      */
-    @RequestMapping(value = "admin/activeUsers", method = RequestMethod.GET)
+    @GetMapping("admin/activeUsers")
     public String activeUsersRequest() {
         return "admin/activeUsers";
     }

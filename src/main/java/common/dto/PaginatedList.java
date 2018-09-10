@@ -1,7 +1,8 @@
-package common.model;
+package common.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
@@ -17,10 +18,10 @@ public final class PaginatedList<T> {
     public static final int DEFAULT_RANGE_SIZE = 2;
 
     /** ページング情報 */
-    private Page<T> paged;
+    private final Page<T> paged;
 
     /** ページリンクの表示数 */
-    private int pageRangeSize;
+    private final int pageRangeSize;
 
     /**
      * コンストラクタ.
@@ -42,7 +43,7 @@ public final class PaginatedList<T> {
      */
     public PaginatedList(Page<T> paged, Integer pageRangeSize) {
         this.paged = paged;
-        this.pageRangeSize = pageRangeSize != null ? pageRangeSize : DEFAULT_RANGE_SIZE;
+        this.pageRangeSize = Optional.ofNullable(pageRangeSize).orElse(DEFAULT_RANGE_SIZE);
     }
 
     /**

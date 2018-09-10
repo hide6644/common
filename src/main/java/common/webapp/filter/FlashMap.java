@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -90,12 +91,7 @@ public final class FlashMap {
      *            要素
      */
     public static void add(String key, String value) {
-        List<String> messages = get(key);
-
-        if (messages == null) {
-            messages = new ArrayList<>();
-        }
-
+        List<String> messages = Optional.ofNullable(get(key)).orElseGet(ArrayList::new);
         messages.add(value);
         put(key, messages);
     }

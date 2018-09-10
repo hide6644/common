@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import common.Constants;
 import common.dto.UserDetailsForm;
+import common.entity.Role;
+import common.entity.User;
 import common.exception.DatabaseException;
-import common.model.Role;
-import common.model.User;
 
 public class UserExistsExceptionTest extends BaseManagerTestCase {
 

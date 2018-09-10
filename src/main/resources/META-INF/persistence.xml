@@ -10,8 +10,8 @@
 
         <mapping-file>META-INF/jpa/app_user-orm.xml</mapping-file>
 
-        <class>common.model.Role</class>
-        <class>common.model.User</class>
+        <class>common.entity.Role</class>
+        <class>common.entity.User</class>
 
         <validation-mode>NONE</validation-mode>
 

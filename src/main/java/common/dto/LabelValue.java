@@ -1,4 +1,4 @@
-package common.model;
+package common.dto;
 
 import java.io.Serializable;
 import java.util.Comparator;
@@ -14,16 +14,10 @@ public final class LabelValue implements Comparable<LabelValue>, Serializable {
     public static final Comparator<LabelValue> CASE_INSENSITIVE_ORDER = (LabelValue o1, LabelValue o2) -> o1.getValue().compareToIgnoreCase(o2.getValue());
 
     /** ラベル */
-    private String label;
+    private final String label;
 
     /** 値 */
-    private String value;
-
-    /**
-     * デフォルト・コンストラクタ
-     */
-    public LabelValue() {
-    }
+    private final String value;
 
     /**
      * コンストラクタ
@@ -33,7 +27,7 @@ public final class LabelValue implements Comparable<LabelValue>, Serializable {
      * @param value
      *            値
      */
-    public LabelValue(String label, String value) {
+    private LabelValue(String label, String value) {
         this.label = label;
         this.value = value;
     }
@@ -48,16 +42,6 @@ public final class LabelValue implements Comparable<LabelValue>, Serializable {
     }
 
     /**
-     * ラベルを設定する.
-     *
-     * @param label
-     *            ラベル
-     */
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    /**
      * 値を取得する.
      *
      * @return 値
@@ -67,13 +51,16 @@ public final class LabelValue implements Comparable<LabelValue>, Serializable {
     }
 
     /**
-     * 値を設定する.
+     * {@code LabelValue}のインスタンスを取得する.
      *
+     * @param label
+     *            ラベル
      * @param value
      *            値
+     * @return {@code LabelValue}のインスタンス
      */
-    public void setValue(String value) {
-        this.value = value;
+    public static LabelValue of(String label, String value) {
+        return new LabelValue(label, value);
     }
 
     /**

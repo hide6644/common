@@ -3,7 +3,7 @@ package common.dao.jpa;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
-import common.model.User;
+import common.entity.User;
 
 /**
  * ユーザDAOの検索条件定義クラス.

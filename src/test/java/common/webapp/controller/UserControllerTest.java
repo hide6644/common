@@ -20,7 +20,7 @@ import org.springframework.web.bind.WebDataBinder;
 
 import common.Constants;
 import common.dto.UserDetailsForm;
-import common.model.User;
+import common.entity.User;
 import common.service.UserManager;
 import common.webapp.filter.FlashMap;
 
@@ -126,6 +126,11 @@ public class UserControllerTest extends BaseControllerTestCase {
         BeanUtils.copyProperties(saveUser, userDetailsForm);
         MockHttpServletResponse response = new MockHttpServletResponse();
         c.onSubmitByPutMethod(userDetailsForm, errors, request, response);
+
+        assertEquals(HttpServletResponse.SC_FORBIDDEN, response.getStatus());
+
+        response = new MockHttpServletResponse();
+        c.onSubmitByPostMethod(userDetailsForm, errors, request, response);
 
         assertEquals(HttpServletResponse.SC_FORBIDDEN, response.getStatus());
     }

@@ -23,7 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import common.Constants;
 import common.dto.UserDetailsForm;
-import common.model.User;
+import common.entity.User;
 
 /**
  * ユーザ処理のAdviceクラス.

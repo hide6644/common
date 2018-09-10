@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.jar.Attributes;
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import common.Constants;
-import common.model.LabelValue;
+import common.dto.LabelValue;
 import common.service.RoleManager;
 import common.service.UserManager;
 import common.webapp.converter.FileType;
@@ -44,12 +45,7 @@ public class StartupListener implements ServletContextListener {
         ServletContext context = event.getServletContext();
 
         @SuppressWarnings("unchecked")
-        Map<String, Object> config = (HashMap<String, Object>) context.getAttribute(Constants.CONFIG);
-
-        if (config == null) {
-            config = new HashMap<>();
-        }
-
+        Map<String, Object> config = Optional.ofNullable((Map<String, Object>) context.getAttribute(Constants.CONFIG)).orElseGet(HashMap::new);
         context.setAttribute(Constants.CONFIG, config);
         setAppContext(context);
         setAppVersion(context);
@@ -63,9 +59,9 @@ public class StartupListener implements ServletContextListener {
      */
     public static void setAppContext(ServletContext context) {
         List<LabelValue> fileTypeList = new ArrayList<>();
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xml"), String.valueOf(FileType.XML.getValue())));
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xls"), String.valueOf(FileType.EXCEL.getValue())));
-        fileTypeList.add(new LabelValue(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.csv"), String.valueOf(FileType.CSV.getValue())));
+        fileTypeList.add(LabelValue.of(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xml"), String.valueOf(FileType.XML.getValue())));
+        fileTypeList.add(LabelValue.of(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xls"), String.valueOf(FileType.EXCEL.getValue())));
+        fileTypeList.add(LabelValue.of(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.csv"), String.valueOf(FileType.CSV.getValue())));
         context.setAttribute("fileTypeList", fileTypeList);
 
         ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);

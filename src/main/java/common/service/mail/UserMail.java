@@ -10,7 +10,7 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
-import common.model.User;
+import common.entity.User;
 import common.service.PasswordTokenManager;
 
 /**

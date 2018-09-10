@@ -2,7 +2,7 @@ package common.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import common.model.Role;
+import common.entity.Role;
 
 /**
  * 権限DAOインターフェイス.

@@ -16,8 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.orm.jpa.JpaSystemException;
 
 import common.Constants;
-import common.model.Role;
-import common.model.User;
+import common.entity.Role;
+import common.entity.User;
 
 public class UserDaoTest extends BaseDaoTestCase {
 

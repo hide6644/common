@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import common.dao.RoleDao;
-import common.model.LabelValue;
-import common.model.Role;
+import common.dto.LabelValue;
+import common.entity.Role;
 import common.service.RoleManager;
 
 /**
@@ -64,7 +64,7 @@ public class RoleManagerImpl implements RoleManager {
     @Override
     public List<LabelValue> getLabelValues() {
         return Optional.ofNullable(roleDao.findAll()).orElseGet(ArrayList::new).stream()
-                .map(role -> new LabelValue(role.getDescription(), role.getName()))
+                .map(role -> LabelValue.of(role.getDescription(), role.getName()))
                 .collect(Collectors.toList());
     }
 }

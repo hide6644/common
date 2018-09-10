@@ -2,6 +2,7 @@ package common.dao.jpa;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.Collectors;
@@ -59,17 +60,11 @@ class HibernateSearchTools {
      * @return 全文検索クエリ
      */
     public static Query generateQuery(String[] searchTerm, String[] searchField, Class<?> searchedEntity, EntityManager entityManager, Analyzer defaultAnalyzer) {
-        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
-        Analyzer analyzer = null;
-
-        if (searchedEntity == null) {
-            analyzer = defaultAnalyzer;
-        } else {
-            analyzer = fullTextEntityManager.getSearchFactory().getAnalyzer(searchedEntity);
-        }
-
         try {
-            return MultiFieldQueryParser.parse(searchTerm, searchField, analyzer);
+            return MultiFieldQueryParser.parse(searchTerm, searchField,
+                    Optional.ofNullable(searchedEntity)
+                            .map(entity -> Search.getFullTextEntityManager(entityManager).getSearchFactory().getAnalyzer(entity))
+                            .orElse(defaultAnalyzer));
         } catch (ParseException e) {
             throw new SearchException(e);
         }
@@ -94,14 +89,6 @@ class HibernateSearchTools {
         }
 
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
-        Analyzer analyzer = null;
-
-        if (searchedEntity == null) {
-            analyzer = defaultAnalyzer;
-        } else {
-            analyzer = fullTextEntityManager.getSearchFactory().getAnalyzer(searchedEntity);
-        }
-
         SearchFactory searchFactory = fullTextEntityManager.getSearchFactory();
         IndexReaderAccessor readerAccessor = searchFactory.getIndexReaderAccessor();
         IndexReader reader = readerAccessor.open(searchedEntity);
@@ -120,7 +107,9 @@ class HibernateSearchTools {
         Arrays.fill(queries, searchTerm);
 
         try {
-            return MultiFieldQueryParser.parse(queries, fnames, analyzer);
+            return MultiFieldQueryParser.parse(queries, fnames, Optional.ofNullable(searchedEntity)
+                    .map(entity -> Search.getFullTextEntityManager(entityManager).getSearchFactory().getAnalyzer(entity))
+                    .orElse(defaultAnalyzer));
         } catch (ParseException e) {
             throw new SearchException(e);
         } finally {

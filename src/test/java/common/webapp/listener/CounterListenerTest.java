@@ -18,8 +18,8 @@ import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.web.context.ContextLoader;
 
 import common.Constants;
-import common.model.Role;
-import common.model.User;
+import common.entity.Role;
+import common.entity.User;
 
 public class CounterListenerTest {
 

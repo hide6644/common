@@ -3,13 +3,14 @@ package common.service.impl;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import common.model.User;
+import common.entity.User;
 import common.service.PasswordTokenManager;
 
 /**
@@ -45,15 +46,16 @@ public class PasswordTokenManagerImpl implements PasswordTokenManager {
      */
     @Override
     public boolean isRecoveryTokenValid(User user, String token) {
-        if (user != null && token != null && token.length() > EXPIRATION_DATE_FORMAT.length()) {
-            String expirationTimeStamp = token.substring(0, EXPIRATION_DATE_FORMAT.length());
-            String tokenWithoutTimestamp = token.substring(EXPIRATION_DATE_FORMAT.length());
-            String tokenSource = expirationTimeStamp + getTokenSource(user);
-            LocalDateTime expirationTime = parseTimestamp(expirationTimeStamp);
-            return expirationTime != null && expirationTime.isAfter(LocalDateTime.now()) && passwordTokenEncoder.matches(tokenSource, tokenWithoutTimestamp);
+        if (token == null || token.length() < EXPIRATION_DATE_FORMAT.length()) {
+            return false;
         }
 
-        return false;
+        String expirationTimestamp = token.substring(0, EXPIRATION_DATE_FORMAT.length());
+        String tokenWithoutTimestamp = token.substring(EXPIRATION_DATE_FORMAT.length());
+
+        return Optional.ofNullable(user).map(userData -> isAfter(expirationTimestamp)
+                && passwordTokenEncoder.matches(expirationTimestamp + getTokenSource(userData), tokenWithoutTimestamp))
+                .orElse(false);
     }
 
     /**
@@ -68,17 +70,17 @@ public class PasswordTokenManagerImpl implements PasswordTokenManager {
     }
 
     /**
-     * 文字列から日付型に変換する.
+     * 指定された日付/時間が現在の日付/時間より後であるか.
      *
      * @param timestamp
-     *            日付文字列
-     * @return 日付型
+     *            日付/時間
+     * @return true:指定された日付/時間が現在の日付/時間より後
      */
-    private LocalDateTime parseTimestamp(String timestamp) {
+    private boolean isAfter(String timestamp) {
         try {
-            return LocalDateTime.parse(timestamp, DateTimeFormatter.ofPattern(EXPIRATION_DATE_FORMAT));
+            return LocalDateTime.parse(timestamp, DateTimeFormatter.ofPattern(EXPIRATION_DATE_FORMAT)).isAfter(LocalDateTime.now());
         } catch (DateTimeParseException e) {
-            return null;
+            return false;
         }
     }
 }

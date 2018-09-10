@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -6,28 +6,28 @@
     <title>Navlist Menu</title>
 </head>
 <body>
-    <ul class="nav nav-pills nav-stacked" th:fragment="nav_ul(currentNavlistMenu)" th:if="${currentNavlistMenu} == 'admin' or ${currentNavlistMenu} == 'activeUsersForm'">
-        <li class="nav-header" th:text="#{admin.topForm}"></li>
-        <li class="dropdown">
-            <a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
+    <ul class="nav nav-pills flex-column" th:fragment="nav_ul(currentNavlistMenu)" th:if="${currentNavlistMenu} == 'admin' or ${currentNavlistMenu} == 'activeUsersForm'">
+        <li class="nav-item nav-header" th:text="#{admin.topForm}"></li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
                 <span th:text="#{admin.master.topForm}" th:remove="tag"></span> <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="#" th:href="@{'/admin/master/users'}" th:text="#{user}"></a></li>
-                <li class="divider"></li>
-                <li><a href="#" th:href="@{'/admin/reload'}" th:text="#{admin.master.topForm.reload}"></a></li>
+                <li class="dropdown-item"><a href="#" th:href="@{'/admin/master/users'}" th:text="#{user}"></a></li>
+                <li class="dropdown-divider"></li>
+                <li class="dropdown-item"><a href="#" th:href="@{'/admin/reload'}" th:text="#{admin.master.topForm.reload}"></a></li>
             </ul>
         </li>
-        <li th:class="${currentNavlistMenu} == 'activeUsersForm' ? 'active'">
-            <a href="#" th:href="@{'/admin/activeUsers'}" th:text="#{activeUsersForm}"></a>
+        <li class="nav-item">
+            <a href="#" class="nav-link" th:classappend="${currentNavlistMenu} == 'activeUsersForm' ? 'active'" th:href="@{'/admin/activeUsers'}" th:text="#{activeUsersForm}"></a>
         </li>
     </ul>
-    <ul class="nav nav-pills nav-stacked" th:fragment="nav_ul(currentNavlistMenu)" th:if="${currentNavlistMenu} == 'master' or ${currentNavlistMenu} == 'userForm'">
-        <li class="nav-header" th:text="#{admin.master.topForm}"></li>
-        <li th:class="${currentNavlistMenu} == 'userForm' ? 'active'">
-            <a href="#" th:href="@{'/admin/master/users'}" th:text="#{user}"></a>
+    <ul class="nav nav-pills flex-column" th:fragment="nav_ul(currentNavlistMenu)" th:if="${currentNavlistMenu} == 'master' or ${currentNavlistMenu} == 'userForm'">
+        <li class="nav-item nav-header" th:text="#{admin.master.topForm}"></li>
+        <li class="nav-item">
+            <a href="#" class="nav-link" th:classappend="${currentNavlistMenu} == 'userForm' ? 'active'" th:href="@{'/admin/master/users'}" th:text="#{user}"></a>
         </li>
-        <li><a href="#" th:href="@{'/admin/reload'}" th:text="#{admin.master.topForm.reload}"></a></li>
+        <li class="nav-item"><a href="#" class="nav-link" th:href="@{'/admin/reload'}" th:text="#{admin.master.topForm.reload}"></a></li>
     </ul>
 </body>
 </html>

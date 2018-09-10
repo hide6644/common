@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -15,12 +15,13 @@
             </h2>
             <input type="text" class="form-control" name="username" id="username" tabindex="1" th:placeholder="#{loginForm.username}" />
             <input type="password" class="form-control" name="password" id="password" tabindex="2" th:placeholder="#{loginForm.password}" />
-            <label class="checkbox">
+            <label class="form-check">
                 <input type="checkbox" name="remember-me" tabindex="3" th:text="#{loginForm.rememberMe}" />
             </label>
             <p>
-                <button type="submit" class="btn btn-lg btn-primary btn-block" tabindex="4" th:text="#{button.login}">
-                    button.login
+                <button type="submit" class="btn btn-lg btn-primary btn-block" tabindex="4">
+                    <em class="fa fa-sign-in" aria-hidden="true"></em>
+                    <span th:text="#{button.login}" th:remove="tag">button.login</span>
                 </button>
             </p>
             <p>

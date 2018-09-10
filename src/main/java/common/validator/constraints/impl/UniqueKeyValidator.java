@@ -79,7 +79,7 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Object
         List<Predicate> preds = new ArrayList<>();
 
         creatingWhereClauseByColumnNames(builder, root, beanWrapper, preds);
-        // 検索対象のカラムが全てnullであった場合
+        // 検索対象のカラムが全て空であった場合
         if (preds.isEmpty()) {
             return true;
         }

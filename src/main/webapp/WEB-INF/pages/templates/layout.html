@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -8,26 +8,32 @@
     <meta http-equiv="Cache-Control" content="no-store" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE" th:text="#{webapp.name}">webapp.name</title>
-    <link rel="stylesheet" type="text/css" th:href="@{'/assets/v/' + ${#servletContext.getAttribute('assetsVersion')} + '/main.css'}" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-with-data.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script type="text/javascript" th:src="@{'/scripts/script.js?ver='} + ${#servletContext.getAttribute('assetsVersion')}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.3/spacelab/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+    <link rel="stylesheet" th:href="@{'/styles/style.css?ver='} + ${#servletContext.getAttribute('assetsVersion')}" />
 </head>
 <body>
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#" th:href="@{'/'}" th:text="#{webapp.name}">webapp.name</a>
-        </div>
+    <div class="navbar navbar-light bg-light fixed-top navbar-expand-md" role="navigation">
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar">&#x2630;</button>
+        <a class="navbar-brand" href="#" th:href="@{'/'}" th:text="#{webapp.name}">webapp.name</a>
         <div th:replace="~{templates/menu :: navbar_div(${currentMenu})}">
         </div>
-        <div id="switchLocale" th:if="${lang} != 'en'">
-            <a href="#" id="switch_locale_url" th:text="|#{webapp.name} in English|">webapp.name in English</a>
-        </div>
+        <ul class="navbar-nav" th:if="${lang} != 'en'">
+            <li class="nav-item">
+                <a href="#" id="switch_locale_url">in English</a>
+            </li>
+        </ul>
     </div>
     <div class="container" id="content">
         <div th:replace="~{templates/messages :: alert_div}">
@@ -35,23 +41,21 @@
         <div class="row">
             <div layout:fragment="content" th:remove="tag">
             </div>
-            <div class="col-sm-2" th:if="${currentMenu} == 'admin'">
+            <div class="col-md-3" th:if="${currentMenu} == 'admin'">
                 <div th:replace="~{templates/navlistMenu :: nav_ul(${currentNavlistMenu})}">
                 </div>
             </div>
         </div>
     </div>
-    <div class="container navbar-fixed-bottom" id="footer">
-        <span class="col-sm-6 text-left">
-            <span th:text="#{webapp.version}">webapp.version</span>
+    <div class="navbar fixed-bottom" id="footer">
+        <div class="col-md-6 text-left">
             <span th:if="${#request.remoteUser}" th:text="|#{user.status} ${#request.remoteUser}|">user.status</span>
-        </span>
-        <span class="col-sm-6 text-right">
+        </div>
+        <div class="col-md-6 text-right">
             <span th:text="|&copy; #{copyright.year}|">copyright.year</span>
             <a href="#" th:href="#{company.url}" th:text="#{company.name}">company.name</a>
-        </span>
+        </div>
     </div>
-    <script type="text/javascript" th:src="@{'/assets/v/' + ${#servletContext.getAttribute('assetsVersion')} + '/main.js'}"></script>
     <div layout:fragment="scripts" th:remove="tag"></div>
 </body>
 </html>

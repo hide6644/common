@@ -1,6 +1,9 @@
 package common.webapp.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,5 +20,16 @@ public class ReloadControllerTest extends BaseControllerTestCase {
         String rtn = c.handleRequest(request);
 
         assertEquals("redirect:/top", rtn);
+    }
+
+    @Test
+    public void testHandleRequestWithReferer() throws Exception {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getSession()).thenReturn(newGet("/admin/reload").getSession());
+        when(request.getHeader("Referer")).thenReturn("http://foo.bar/common/test");
+        when(request.getContextPath()).thenReturn("/common");
+        String rtn = c.handleRequest(request);
+
+        assertEquals("redirect:/test", rtn);
     }
 }

@@ -1,6 +1,6 @@
 package common.service;
 
-import common.model.User;
+import common.entity.User;
 
 /**
  * パスワードトークン処理のインターフェース.

@@ -16,7 +16,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 
-import common.model.User;
+import common.entity.User;
 
 /**
  * ログイン中のユーザを管理するクラス.

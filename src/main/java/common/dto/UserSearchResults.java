@@ -1,35 +1,43 @@
 package common.dto;
 
-import common.model.User;
+import java.io.Serializable;
+
+import common.entity.User;
 
 /**
  * ユーザ検索結果を保持するクラス.
  */
-public class UserSearchResults {
+public final class UserSearchResults implements Serializable {
 
     /** ID */
-    private Long id;
+    private final Long id;
 
     /** ユーザ名 */
-    private String username;
+    private final String username;
 
     /** ｅメール */
-    private String email;
+    private final String email;
 
     /** 有効 */
-    private boolean enabled;
+    private final boolean enabled;
 
     /**
      * コンストラクタ
      *
-     * @param user
-     *            ユーザ
+     * @param id
+     *            ID
+     * @param username
+     *            ユーザ名
+     * @param email
+     *            ｅメール
+     * @param enabled
+     *            有効
      */
-    public UserSearchResults(User user) {
-        id = user.getId();
-        username = user.getUsername();
-        email = user.getEmail();
-        enabled = user.isEnabled();
+    private UserSearchResults(Long id, String username, String email, boolean enabled) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.enabled = enabled;
     }
 
     /**
@@ -42,32 +50,12 @@ public class UserSearchResults {
     }
 
     /**
-     * IDを設定する.
-     *
-     * @param id
-     *            ID
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
      * ユーザ名を取得する.
      *
      * @return ユーザ名
      */
     public String getUsername() {
         return username;
-    }
-
-    /**
-     * ユーザ名を設定する.
-     *
-     * @param username
-     *            ユーザ名
-     */
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     /**
@@ -80,16 +68,6 @@ public class UserSearchResults {
     }
 
     /**
-     * ｅメールを設定する.
-     *
-     * @param email
-     *            ｅメール
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
      * 有効を取得する.
      *
      * @return 有効
@@ -99,12 +77,13 @@ public class UserSearchResults {
     }
 
     /**
-     * 有効を設定する.
+     * {@code UserSearchResults}のインスタンスを取得する.
      *
-     * @param enabled
-     *            有効
+     * @param user
+     *            ユーザ
+     * @return {@code UserSearchResults}のインスタンス
      */
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public static UserSearchResults of(User user) {
+        return new UserSearchResults(user.getId(), user.getUsername(), user.getEmail(), user.isEnabled());
     }
 }

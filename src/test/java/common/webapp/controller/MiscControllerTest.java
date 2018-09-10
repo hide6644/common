@@ -37,4 +37,9 @@ public class MiscControllerTest extends BaseControllerTestCase {
 
         assertEquals("admin/activeUsers", rtn);
     }
+
+    @Test
+    public void testSaveFlashError() {
+        c.saveFlashError(new RuntimeException("foo.bar"));
+    }
 }

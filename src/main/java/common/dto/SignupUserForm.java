@@ -1,11 +1,13 @@
 package common.dto;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-import common.model.User;
+import common.entity.User;
 import common.validator.constraints.BasicLatin;
 import common.validator.constraints.CompareStrings;
 import common.validator.constraints.ComparisonMode;
@@ -31,7 +33,7 @@ import common.validator.constraints.UniqueKey;
                 model = User.class
         )
     })
-public class SignupUserForm {
+public class SignupUserForm implements Serializable {
 
     /** ユーザ名 */
     private String username;
