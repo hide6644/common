@@ -250,9 +250,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
                     user.setConfirmPassword(user.getPassword());
                     user.setEnabled(true);
                     return user;
-                }).forEach(user -> {
-                    validateUserAndSave(uploadForm, user);
-                });
+                }).forEach(user -> validateAndSaveUploadedUser(uploadForm, user));
     }
 
     /**
@@ -263,7 +261,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * @param user
      *            ユーザ
      */
-    private void validateUserAndSave(UploadForm uploadForm, User user) {
+    private void validateAndSaveUploadedUser(UploadForm uploadForm, User user) {
         Set<ConstraintViolation<User>> results = validator.validate(user);
 
         if (results.isEmpty()) {
