@@ -30,13 +30,13 @@ public class MaxFileSizeValidator implements ConstraintValidator<MaxFileSize, Ob
         max = constraintAnnotation.max();
 
         switch (constraintAnnotation.unitSign()) {
-        case MByte:
+        case M_BYTE:
             multiple = 1024 * 1024;
             break;
-        case KByte:
+        case K_BYTE:
             multiple = 1024;
             break;
-        case Byte:
+        case BYTE:
             multiple = 1;
         }
     }

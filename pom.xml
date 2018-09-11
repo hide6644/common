@@ -8,7 +8,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.4.1</version>
+    <version>1.4.2</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -59,10 +59,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -453,6 +449,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>${jaxb-runtime.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>${freemarker.version}</version>
@@ -568,6 +570,9 @@
     </dependencies>
 
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
         <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
         <jdbc.groupId>mysql</jdbc.groupId>
         <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
@@ -594,7 +599,8 @@
         <hibernate-validator.version>6.0.12.Final</hibernate-validator.version>
         <HikariCP.version>3.2.0</HikariCP.version>
         <javax.activation.version>1.1.1</javax.activation.version>
-        <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+        <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
+        <jaxb-runtime.version>2.3.0.1</jaxb-runtime.version>
         <junit-jupiter.version>5.2.0</junit-jupiter.version>
         <jxls.version>2.4.6</jxls.version>
         <jxls-poi.version>1.0.15</jxls-poi.version>

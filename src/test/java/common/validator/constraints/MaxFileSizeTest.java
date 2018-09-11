@@ -15,10 +15,10 @@ public class MaxFileSizeTest {
 
     private static Validator validator;
 
-    @MaxFileSize(max = 3, unitSign = FileSizeUnitSign.Byte)
+    @MaxFileSize(max = 3, unitSign = FileSizeUnitSign.BYTE)
     private MultipartFile fileData;
 
-    @MaxFileSize(max = 3, unitSign = FileSizeUnitSign.KByte)
+    @MaxFileSize(max = 3, unitSign = FileSizeUnitSign.K_BYTE)
     private MultipartFile fileDataK;
 
     @MaxFileSize(max = 3)
