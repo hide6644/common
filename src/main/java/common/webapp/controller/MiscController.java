@@ -14,6 +14,16 @@ public class MiscController extends BaseController {
      *
      * @return 遷移先
      */
+    @GetMapping("")
+    public String topRedirect() {
+        return "redirect:/top";
+    }
+
+    /**
+     * トップ画面保存処理.
+     *
+     * @return 遷移先
+     */
     @GetMapping("top")
     public String topRequest() {
         return "top";
@@ -24,9 +34,29 @@ public class MiscController extends BaseController {
      *
      * @return 遷移先
      */
+    @GetMapping("admin/")
+    public String adminTopRedirect() {
+        return "redirect:/admin/top";
+    }
+
+    /**
+     * 管理トップ画面保存処理.
+     *
+     * @return 遷移先
+     */
     @GetMapping("admin/top")
     public String adminTopRequest() {
         return "admin/top";
+    }
+
+    /**
+     * マスタメンテトップ画面保存処理.
+     *
+     * @return 遷移先
+     */
+    @GetMapping("admin/master/")
+    public String adminMasterTopRedirect() {
+        return "redirect:/admin/master/top";
     }
 
     /**

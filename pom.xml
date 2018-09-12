@@ -8,7 +8,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.4.2</version>
+    <version>1.4.3</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -498,12 +498,6 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.tuckey</groupId>
-            <artifactId>urlrewritefilter</artifactId>
-            <version>${urlrewritefilter.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring5</artifactId>
             <version>${thymeleaf-spring5.version}</version>
@@ -592,7 +586,7 @@
         <freemarker.version>2.3.28</freemarker.version>
         <freemarker-java8.version>1.2.0</freemarker-java8.version>
         <greenmail.version>1.5.8</greenmail.version>
-        <groovy.version>2.4.15</groovy.version>
+        <groovy.version>2.5.2</groovy.version>
         <hamcrest.version>1.3</hamcrest.version>
         <hibernate.version>5.3.6.Final</hibernate.version>
         <hibernate-search.version>5.10.3.Final</hibernate-search.version>
@@ -611,13 +605,12 @@
         <mockito.version>2.21.0</mockito.version>
         <opencsv.version>4.2</opencsv.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <spring.version>5.0.8.RELEASE</spring.version>
-        <spring-data.version>2.0.9.RELEASE</spring-data.version>
-        <spring-security.version>5.0.7.RELEASE</spring-security.version>
+        <spring.version>5.0.9.RELEASE</spring.version>
+        <spring-data.version>2.0.10.RELEASE</spring-data.version>
+        <spring-security.version>5.0.8.RELEASE</spring-security.version>
         <thymeleaf-spring5.version>3.0.9.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>
         <thymeleaf-layout-dialect.version>2.3.0</thymeleaf-layout-dialect.version>
-        <urlrewritefilter.version>4.0.4</urlrewritefilter.version>
         <xmlbeans.version>2.6.0</xmlbeans.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

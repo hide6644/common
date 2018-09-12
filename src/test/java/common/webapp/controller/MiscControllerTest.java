@@ -11,6 +11,13 @@ public class MiscControllerTest extends BaseControllerTestCase {
     private MiscController c;
 
     @Test
+    public void testTopRedirect() {
+        String rtn = c.topRedirect();
+
+        assertEquals("redirect:/top", rtn);
+    }
+
+    @Test
     public void testTopRequest() {
         String rtn = c.topRequest();
 
@@ -18,10 +25,24 @@ public class MiscControllerTest extends BaseControllerTestCase {
     }
 
     @Test
+    public void testAdminTopRedirect() {
+        String rtn = c.adminTopRedirect();
+
+        assertEquals("redirect:/admin/top", rtn);
+    }
+
+    @Test
     public void testAdminTopRequest() {
         String rtn = c.adminTopRequest();
 
         assertEquals("admin/top", rtn);
+    }
+
+    @Test
+    public void testAdminMasterTopRedirect() {
+        String rtn = c.adminMasterTopRedirect();
+
+        assertEquals("redirect:/admin/master/top", rtn);
     }
 
     @Test
