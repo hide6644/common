@@ -602,7 +602,7 @@
         <log4j.version>2.11.1</log4j.version>
         <lucene.version>5.5.5</lucene.version>
         <mail.version>1.6.2</mail.version>
-        <mockito.version>2.21.0</mockito.version>
+        <mockito.version>2.22.0</mockito.version>
         <opencsv.version>4.2</opencsv.version>
         <slf4j.version>1.7.25</slf4j.version>
         <spring.version>5.0.9.RELEASE</spring.version>
@@ -611,7 +611,7 @@
         <thymeleaf-spring5.version>3.0.9.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>
         <thymeleaf-layout-dialect.version>2.3.0</thymeleaf-layout-dialect.version>
-        <xmlbeans.version>2.6.0</xmlbeans.version>
+        <xmlbeans.version>3.0.1</xmlbeans.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <copyright.year>2013</copyright.year>
