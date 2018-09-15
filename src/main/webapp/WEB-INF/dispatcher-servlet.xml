@@ -14,10 +14,13 @@
     <context:annotation-config />
 
     <!-- Activates scanning of @Controller -->
-    <context:component-scan base-package="common.webapp.controller,common.webapp.listener" />
+    <context:component-scan base-package="common.webapp.controller" />
 
     <!-- Configures the @Controller programming model -->
     <mvc:annotation-driven />
+
+    <mvc:resources mapping="/scripts/**" location="/scripts/" />
+    <mvc:resources mapping="/styles/**" location="/styles/" />
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 

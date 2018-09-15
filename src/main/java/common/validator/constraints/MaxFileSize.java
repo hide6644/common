@@ -29,7 +29,7 @@ public @interface MaxFileSize {
     /**
      * @return 単位
      */
-    FileSizeUnitSign unitSign() default FileSizeUnitSign.MByte;
+    FileSizeUnitSign unitSign() default FileSizeUnitSign.M_BYTE;
 
     /**
      * @return エラーメッセージテンプレート

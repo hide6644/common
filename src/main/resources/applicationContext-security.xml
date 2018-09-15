@@ -15,13 +15,13 @@
         <csrf disabled="true" />
         <custom-filter position="FORM_LOGIN_FILTER" ref="authenticationFilter" />
 
-        <intercept-url pattern="/app/error" access="permitAll" />
-        <intercept-url pattern="/app/login*/**" access="permitAll" />
-        <intercept-url pattern="/app/requestRecoveryToken*" access="permitAll" />
-        <intercept-url pattern="/app/updatePassword*" access="permitAll" />
-        <intercept-url pattern="/app/signup*" access="permitAll" />
-        <intercept-url pattern="/app/admin/**" access="hasRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/app/**" access="isAuthenticated()" />
+        <intercept-url pattern="/error" access="permitAll" />
+        <intercept-url pattern="/login*/**" access="permitAll" />
+        <intercept-url pattern="/requestRecoveryToken*" access="permitAll" />
+        <intercept-url pattern="/updatePassword*" access="permitAll" />
+        <intercept-url pattern="/signup*" access="permitAll" />
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/**" access="isAuthenticated()" />
 
         <remember-me user-service-ref="userDetails" key="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />
         <logout logout-url="/logout" logout-success-url="/login" invalidate-session="true" delete-cookies="f2bf2397-4e60-4b7a-8e76-5fddd35a6be9" />

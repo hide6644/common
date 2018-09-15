@@ -6,9 +6,9 @@ package common.validator.constraints;
 public enum FileSizeUnitSign {
 
     /** Mega Byte */
-    MByte,
+    M_BYTE,
     /** Kilo Byte */
-    KByte,
+    K_BYTE,
     /** Byte */
-    Byte;
+    BYTE;
 }
