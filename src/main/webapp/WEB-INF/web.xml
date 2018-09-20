@@ -9,16 +9,6 @@
     <description />
 
     <context-param>
-        <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
-        <param-value>ApplicationResources</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>javax.servlet.jsp.jstl.fmt.fallbackLocale</param-name>
-        <param-value>jp</param-value>
-    </context-param>
-
-    <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
             classpath:/applicationContext-*.xml
@@ -126,13 +116,6 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
-
-    <jsp-config>
-        <jsp-property-group>
-            <url-pattern>*.jsp</url-pattern>
-            <trim-directive-whitespaces>true</trim-directive-whitespaces>
-        </jsp-property-group>
-    </jsp-config>
 
     <session-config>
         <session-timeout>60</session-timeout>
