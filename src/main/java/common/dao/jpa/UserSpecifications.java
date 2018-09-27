@@ -24,7 +24,7 @@ public class UserSpecifications {
      * @return {@link Specification}
      */
     public static Specification<User> usernameContains(String username) {
-        return StringUtils.isEmpty(username) ? null : (root, query, cb) -> cb.like(root.get("username"), "%" + username + "%");
+        return buildSpecification("username", username);
 
     }
 
@@ -36,6 +36,19 @@ public class UserSpecifications {
      * @return {@link Specification}
      */
     public static Specification<User> emailContains(String email) {
-        return StringUtils.isEmpty(email) ? null : (root, query, cb) -> cb.like(root.get("email"), "%" + email + "%");
+        return buildSpecification("email", email);
+    }
+
+    /**
+     * 検索条件を作成する.
+     *
+     * @param columnName
+     *            列名
+     * @param pattern
+     *            検索パターン
+     * @return {@link Specification}
+     */
+    private static Specification<User> buildSpecification(String columnName, String pattern) {
+        return StringUtils.isEmpty(pattern) ? null : (root, query, cb) -> cb.like(root.get(columnName), "%" + pattern + "%");
     }
 }

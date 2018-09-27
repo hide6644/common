@@ -90,30 +90,31 @@ class HibernateSearchTools {
 
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
         SearchFactory searchFactory = fullTextEntityManager.getSearchFactory();
-        IndexReaderAccessor readerAccessor = searchFactory.getIndexReaderAccessor();
-        IndexReader reader = readerAccessor.open(searchedEntity);
-
-        String[] fnames = StreamSupport.stream(
-                Spliterators.spliteratorUnknownSize(
-                        MultiFields.getMergedFieldInfos(reader).iterator(), Spliterator.ORDERED),
-                false)
-                .filter(fieldInfo -> fieldInfo.getIndexOptions() != IndexOptions.NONE)
-                .filter(fieldInfo -> !fieldInfo.name.equals("_hibernate_class"))
-                .map(fieldInfo -> fieldInfo.name)
-                .collect(Collectors.toSet())
-                .toArray(new String[0]);
-
-        String[] queries = new String[fnames.length];
-        Arrays.fill(queries, searchTerm);
+        IndexReaderAccessor readerAccessor = null;
+        IndexReader reader = null;
 
         try {
-            return MultiFieldQueryParser.parse(queries, fnames, Optional.ofNullable(searchedEntity)
-                    .map(entity -> Search.getFullTextEntityManager(entityManager).getSearchFactory().getAnalyzer(entity))
-                    .orElse(defaultAnalyzer));
-        } catch (ParseException e) {
-            throw new SearchException(e);
+            readerAccessor = searchFactory.getIndexReaderAccessor();
+            reader = readerAccessor.open(searchedEntity);
+
+            String[] fnames = StreamSupport.stream(
+                    Spliterators.spliteratorUnknownSize(
+                            MultiFields.getMergedFieldInfos(reader).iterator(), Spliterator.ORDERED),
+                    false)
+                    .filter(fieldInfo -> fieldInfo.getIndexOptions() != IndexOptions.NONE)
+                    .filter(fieldInfo -> !fieldInfo.name.equals("_hibernate_class"))
+                    .map(fieldInfo -> fieldInfo.name)
+                    .collect(Collectors.toSet())
+                    .toArray(new String[0]);
+
+            String[] queries = new String[fnames.length];
+            Arrays.fill(queries, searchTerm);
+
+            return generateQuery(queries, fnames, searchedEntity, entityManager, defaultAnalyzer);
         } finally {
-            readerAccessor.close(reader);
+            if (readerAccessor != null && reader != null) {
+                readerAccessor.close(reader);
+            }
         }
     }
 
