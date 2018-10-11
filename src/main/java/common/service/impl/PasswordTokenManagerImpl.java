@@ -32,13 +32,11 @@ public class PasswordTokenManagerImpl implements PasswordTokenManager {
      */
     @Override
     public String generateRecoveryToken(User user) {
-        if (user != null) {
-            String tokenSource = getTokenSource(user);
+        return Optional.ofNullable(user).map(entity -> {
+            String tokenSource = getTokenSource(entity);
             String expirationTimeStamp = LocalDateTime.now().plusDays(1).format(DateTimeFormatter.ofPattern(EXPIRATION_DATE_FORMAT));
             return expirationTimeStamp + passwordTokenEncoder.encode(expirationTimeStamp + tokenSource);
-        }
-
-        return null;
+        }).orElse(null);
     }
 
     /**
