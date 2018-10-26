@@ -114,9 +114,9 @@
             $('#button_edit').click(function() {
                 let ids = $('input[name$=Ids]:checked');
                 if (ids.length == 0) {
-                	alert('[(${#messages.msg('button.choose', '__#{button.edit_target}__')})]');
+                	alert('[(${#messages.msg(\'button.choose\', \'__#{button.edit_target}__\')})]');
                 } else if (ids.length > 1) {
-                	alert('[(${#messages.msg('button.no_more_choose', '__#{button.edit_target}__')})]');
+                	alert('[(${#messages.msg(\'button.no_more_choose\', \'__#{button.edit_target}__\')})]');
                 } else {
                     $(location).prop('href', $('#button_edit').val() + ids.val());
                 }
@@ -124,7 +124,7 @@
 
             $('#button_delete').click(function() {
                 if ($('input[name$=Ids]:checked').length == 0) {
-                	alert('[(${#messages.msg('button.choose', '__#{button.delete_target}__')})]');
+                	alert('[(${#messages.msg(\'button.choose\', \'__#{button.delete_target}__\')})]');
                     return false;
                 } else {
                     return true;
@@ -132,23 +132,23 @@
             });
 
             $('#button_cancel').click(function() {
-                $(location).prop('href', '[(@{'/admin/master/top'})]');
+                $(location).prop('href', '[(@{\'/admin/master/top\'})]');
             });
 
             $('#button_upload').click(function() {
-                $(location).prop('href', '[(@{'/admin/master/uploadUsers'})]');
+                $(location).prop('href', '[(@{\'/admin/master/uploadUsers\'})]');
             });
 
             $('#dialog_download_csv').click(function() {
-                $(location).prop('href', '[(@{'/admin/master/users.csv'})]');
+                $(location).prop('href', '[(@{\'/admin/master/users.csv\'})]');
             });
 
             $('#dialog_download_xls').click(function() {
-                $(location).prop('href', '[(@{'/admin/master/users.xlsx'})]');
+                $(location).prop('href', '[(@{\'/admin/master/users.xlsx\'})]');
             });
 
             $('#dialog_download_xml').click(function() {
-                $(location).prop('href', '[(@{'/admin/master/users.xml'})]');
+                $(location).prop('href', '[(@{\'/admin/master/users.xml\'})]');
             });
         });
         /*]]>*/
