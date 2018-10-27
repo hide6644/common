@@ -412,8 +412,6 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     @Transient
     @Override
     public Set<GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> authorities = new LinkedHashSet<>();
-        authorities.addAll(roles);
-        return authorities;
+        return new LinkedHashSet<>(roles);
     }
 }

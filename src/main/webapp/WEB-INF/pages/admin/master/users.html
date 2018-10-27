@@ -15,11 +15,11 @@
             <form class="form-inline" action="#" method="get" id="searchUser" th:action="@{/admin/master/users}" th:object="${userSearchCriteria}">
                 <div class="form-group mb-2">
                     <label for="username" class="sr-only" th:text="#{user.username}">user.username</label>
-                    <input type="text" class="form-control input-sm" th:field="*{username}" th:placeholder="#{user.username}"/>
+                    <input type="text" class="form-control input-sm" th:field="*{username}" th:placeholder="#{user.username}" />
                 </div>
                 <div class="form-group mb-2">
                     <label for="email" class="sr-only" th:text="#{user.email}">user.email</label>
-                    <input type="text" class="form-control input-sm" th:field="*{email}" th:placeholder="#{user.email}"/>
+                    <input type="text" class="form-control input-sm" th:field="*{email}" th:placeholder="#{user.email}" />
                 </div>
                 <button type="submit" class="btn btn-primary btn-sm mb-2">
                     <em class="fa fa-search" aria-hidden="true"></em>
@@ -114,9 +114,9 @@
             $('#button_edit').click(function() {
                 let ids = $('input[name$=Ids]:checked');
                 if (ids.length == 0) {
-                	alert('[(${#messages.msg('button.choose', '__#{button.edit_target}__')})]');
+                	alert('[(${#messages.msg(\'button.choose\', \'__#{button.edit_target}__\')})]');
                 } else if (ids.length > 1) {
-                	alert('[(${#messages.msg('button.no_more_choose', '__#{button.edit_target}__')})]');
+                	alert('[(${#messages.msg(\'button.no_more_choose\', \'__#{button.edit_target}__\')})]');
                 } else {
                     $(location).prop('href', $('#button_edit').val() + ids.val());
                 }
@@ -124,7 +124,7 @@
 
             $('#button_delete').click(function() {
                 if ($('input[name$=Ids]:checked').length == 0) {
-                	alert('[(${#messages.msg('button.choose', '__#{button.delete_target}__')})]');
+                	alert('[(${#messages.msg(\'button.choose\', \'__#{button.delete_target}__\')})]');
                     return false;
                 } else {
                     return true;
@@ -132,23 +132,23 @@
             });
 
             $('#button_cancel').click(function() {
-                $(location).prop('href', '[(@{'/admin/master/top'})]');
+                $(location).prop('href', '[(@{\'/admin/master/top\'})]');
             });
 
             $('#button_upload').click(function() {
-                $(location).prop('href', '[(@{'/admin/master/uploadUsers'})]');
+                $(location).prop('href', '[(@{\'/admin/master/uploadUsers\'})]');
             });
 
             $('#dialog_download_csv').click(function() {
-                $(location).prop('href', '[(@{'/admin/master/users.csv'})]');
+                $(location).prop('href', '[(@{\'/admin/master/users.csv\'})]');
             });
 
             $('#dialog_download_xls').click(function() {
-                $(location).prop('href', '[(@{'/admin/master/users.xlsx'})]');
+                $(location).prop('href', '[(@{\'/admin/master/users.xlsx\'})]');
             });
 
             $('#dialog_download_xml').click(function() {
-                $(location).prop('href', '[(@{'/admin/master/users.xml'})]');
+                $(location).prop('href', '[(@{\'/admin/master/users.xml\'})]');
             });
         });
         /*]]>*/

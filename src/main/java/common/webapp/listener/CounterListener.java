@@ -1,6 +1,7 @@
 package common.webapp.listener;
 
 import java.util.LinkedHashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
@@ -54,11 +55,7 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
      */
     @Override
     public void attributeAdded(HttpSessionBindingEvent event) {
-        User user = getUser(event);
-
-        if (user != null) {
-            addUser(user, event.getSession().getServletContext());
-        }
+        getUser(event).ifPresent(user -> addUser(user, event.getSession().getServletContext()));
     }
 
     /**
@@ -66,11 +63,7 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
      */
     @Override
     public void attributeRemoved(HttpSessionBindingEvent event) {
-        User user = getUser(event);
-
-        if (user != null) {
-            removeUser(user, event.getSession().getServletContext());
-        }
+        getUser(event).ifPresent(user -> removeUser(user, event.getSession().getServletContext()));
     }
 
     /**
@@ -88,7 +81,7 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
      *            {@link HttpSessionBindingEvent}
      * @return ユーザ
      */
-    private User getUser(HttpSessionBindingEvent event) {
+    private Optional<User> getUser(HttpSessionBindingEvent event) {
         User user = null;
 
         if (event.getName().equals(EVENT_KEY) && !isAnonymous()) {
@@ -101,7 +94,7 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
             }
         }
 
-        return user;
+        return Optional.ofNullable(user);
     }
 
     /**
