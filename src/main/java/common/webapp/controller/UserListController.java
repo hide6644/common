@@ -7,12 +7,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import common.dto.PaginatedList;
 import common.dto.UserSearchCriteria;
@@ -43,35 +43,41 @@ public class UserListController extends BaseController {
     /**
      * ユーザ一覧検索CSV出力処理.
      *
+     * @param model
+     *            {@link ModelMap}
      * @param request
      *            {@link HttpServletRequest}
      * @param response
      *            {@link HttpServletResponse}
-     * @return ユーザ一覧
+     * @return テンプレート名
      */
     @GetMapping("/admin/master/users.csv")
-    public ModelAndView setupCsvList(HttpServletRequest request, HttpServletResponse response) {
+    public String setupCsvList(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("Application/Octet-Stream");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
+        model.addAttribute("csv", userManager.getUsers());
 
-        return new ModelAndView("admin/master/csv/users").addObject("csv", userManager.getUsers());
+        return "admin/master/csv/users";
     }
 
     /**
      * ユーザ一覧検索XLS出力処理.
      *
+     * @param model
+     *            {@link ModelMap}
      * @param request
      *            {@link HttpServletRequest}
      * @param response
      *            {@link HttpServletResponse}
-     * @return ユーザ一覧
+     * @return テンプレート名
      */
     @GetMapping("/admin/master/users.xlsx")
-    public ModelAndView setupXlsList(HttpServletRequest request, HttpServletResponse response) {
+    public String setupXlsList(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("Application/Vnd.ms-Excel");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
+        model.addAttribute("users", userManager.getUsers());
 
-        return new ModelAndView("admin/master/jxls/users").addObject("users", userManager.getUsers());
+        return "admin/master/jxls/users";
     }
 
     /**

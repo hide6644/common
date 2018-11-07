@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.ui.ExtendedModelMap;
 
 import common.webapp.filter.FlashMap;
 
@@ -15,9 +15,9 @@ public class LoginControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testSetupLogin() {
-        ModelAndView mav = c.setupLogin();
+        String rtn = c.setupLogin(new ExtendedModelMap());
 
-        assertEquals("login", mav.getViewName());
+        assertEquals("login", rtn);
     }
 
     @Test
