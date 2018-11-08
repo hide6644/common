@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -31,7 +30,6 @@ public class UserUploadController extends BaseController {
      *
      * @return 取り込みファイルの情報
      */
-    @ModelAttribute
     @GetMapping
     public UploadForm setupUpload() {
         UploadForm uploadForm = new UploadForm();

@@ -24,9 +24,7 @@ public class ErrorController extends BaseController {
      */
     @RequestMapping(value = "error", method = { RequestMethod.GET, RequestMethod.POST })
     public String renderErrorPage(ModelMap model, HttpServletRequest request) {
-        int errorCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-
-        switch (errorCode) {
+        switch ((Integer) request.getAttribute("javax.servlet.error.status_code")) {
         case 401:
         case 403:
             model.addAttribute("errorTitle", "403");
