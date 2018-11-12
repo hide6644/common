@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.ExtendedModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
 
@@ -43,7 +43,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         MockHttpServletRequest request = newGet("/updatePassword");
         request.setRemoteUser(username);
 
-        String rtn = c.showForm(null, null, new ModelMap(), request);
+        String rtn = c.showForm(null, null, new ExtendedModelMap(), request);
 
         assertEquals("password", rtn);
     }
@@ -56,7 +56,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         request.addParameter("username", username);
         request.addParameter("token", token);
 
-        String rtn = c.showForm(username, token, new ModelMap(), request);
+        String rtn = c.showForm(username, token, new ExtendedModelMap(), request);
 
         assertEquals("password", rtn);
     }
@@ -69,7 +69,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         request.addParameter("username", username);
         request.addParameter("token", badtoken);
 
-        c.showForm(username, badtoken, new ModelMap(), request);
+        c.showForm(username, badtoken, new ExtendedModelMap(), request);
 
         assertNotNull(FlashMap.get("flash_error_messages"));
     }

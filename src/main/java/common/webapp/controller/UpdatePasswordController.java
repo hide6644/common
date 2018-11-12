@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,13 +56,13 @@ public class UpdatePasswordController extends BaseController {
      * @param token
      *            トークン
      * @param model
-     *            {@link ModelMap}
+     *            {@link Model}
      * @param request
      *            {@link HttpServletRequest}
      * @return 遷移先
      */
     @GetMapping("/updatePassword")
-    public String showForm(@RequestParam(value = "username", required = false) String username, @RequestParam(value = "token", required = false) String token, ModelMap model, HttpServletRequest request) {
+    public String showForm(@RequestParam(value = "username", required = false) String username, @RequestParam(value = "token", required = false) String token, Model model, HttpServletRequest request) {
         if (StringUtils.isBlank(username)) {
             username = request.getRemoteUser();
         }

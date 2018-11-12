@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -44,7 +44,7 @@ public class UserListController extends BaseController {
      * ユーザ一覧検索CSV出力処理.
      *
      * @param model
-     *            {@link ModelMap}
+     *            {@link Model}
      * @param request
      *            {@link HttpServletRequest}
      * @param response
@@ -52,7 +52,7 @@ public class UserListController extends BaseController {
      * @return テンプレート名
      */
     @GetMapping("/admin/master/users.csv")
-    public String setupCsvList(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+    public String setupCsvList(Model model, HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("Application/Octet-Stream");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
         model.addAttribute("csv", userManager.getUsers());
@@ -64,7 +64,7 @@ public class UserListController extends BaseController {
      * ユーザ一覧検索XLS出力処理.
      *
      * @param model
-     *            {@link ModelMap}
+     *            {@link Model}
      * @param request
      *            {@link HttpServletRequest}
      * @param response
@@ -72,7 +72,7 @@ public class UserListController extends BaseController {
      * @return テンプレート名
      */
     @GetMapping("/admin/master/users.xlsx")
-    public String setupXlsList(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+    public String setupXlsList(Model model, HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("Application/Vnd.ms-Excel");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
         model.addAttribute("users", userManager.getUsers());
