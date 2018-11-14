@@ -1,6 +1,7 @@
 package common.dao;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.hibernate.search.query.facet.Facet;
 
@@ -18,7 +19,7 @@ public interface HibernateSearch<T> {
      *            検索項目
      * @return 検索結果のオブジェクトのリスト
      */
-    List<T> search(String[] searchTerm, String[] searchField);
+    Stream<T> search(String[] searchTerm, String[] searchField);
 
     /**
      * 全文検索する.
@@ -27,7 +28,7 @@ public interface HibernateSearch<T> {
      *            検索文字列
      * @return 検索結果のオブジェクトのリスト
      */
-    List<T> search(String searchTerm);
+    Stream<T> search(String searchTerm);
 
     /**
      * ファセットを作成する.

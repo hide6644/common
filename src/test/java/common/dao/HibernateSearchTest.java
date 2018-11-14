@@ -3,6 +3,7 @@ package common.dao;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.hibernate.search.query.facet.Facet;
 import org.junit.jupiter.api.Assertions;
@@ -28,14 +29,16 @@ public class HibernateSearchTest extends BaseDaoTestCase {
     @Test
     public void testSearch() {
         hibernateSearch.reindex();
-        List<User> userList = hibernateSearch.search(new String[]{"normaluser"}, new String[]{"username"});
+        Stream<User> userList = hibernateSearch.search(new String[]{"normaluser"}, new String[]{"username"});
 
-        assertNotNull(userList.get(0));
-        assertEquals("normaluser", userList.get(0).getUsername());
+        userList.forEach(user -> {
+            assertNotNull(user);
+            assertEquals("normaluser", user.getUsername());
+        });
 
         userList = hibernateSearch.search("*");
 
-        assertEquals(2, userList.size());
+        assertEquals(2, userList.count());
     }
 
     @Test

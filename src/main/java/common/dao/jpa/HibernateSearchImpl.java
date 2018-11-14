@@ -1,6 +1,7 @@
 package common.dao.jpa;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -59,8 +60,8 @@ public class HibernateSearchImpl<T> implements HibernateSearch<T> {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<T> search(String[] searchTerm, String[] searchField) {
-        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerm, searchField, persistentClass, entityManager, defaultAnalyzer), persistentClass).getResultList();
+    public Stream<T> search(String[] searchTerm, String[] searchField) {
+        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerm, searchField, persistentClass, entityManager, defaultAnalyzer), persistentClass).getResultStream();
     }
 
     /**
@@ -68,8 +69,8 @@ public class HibernateSearchImpl<T> implements HibernateSearch<T> {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<T> search(String searchTerm) {
-        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass).getResultList();
+    public Stream<T> search(String searchTerm) {
+        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass).getResultStream();
     }
 
     /**
