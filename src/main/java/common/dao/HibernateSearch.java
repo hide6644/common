@@ -3,6 +3,7 @@ package common.dao;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.apache.lucene.search.BooleanClause.Occur;
 import org.hibernate.search.query.facet.Facet;
 
 /**
@@ -13,13 +14,26 @@ public interface HibernateSearch<T> {
     /**
      * 全文検索する.
      *
-     * @param searchTerm
+     * @param searchTerms
      *            検索文字列
-     * @param searchField
+     * @param searchFields
+     *            検索項目
+     * @param searchFlags
+     *            検索項目のフラグ
+     * @return 検索結果のオブジェクトのリスト
+     */
+    Stream<T> search(String[] searchTerms, String[] searchFields, Occur[] searchFlags);
+
+    /**
+     * 全文検索する.
+     *
+     * @param searchTerms
+     *            検索文字列
+     * @param searchFields
      *            検索項目
      * @return 検索結果のオブジェクトのリスト
      */
-    Stream<T> search(String[] searchTerm, String[] searchField);
+    Stream<T> search(String[] searchTerms, String[] searchFields);
 
     /**
      * 全文検索する.
@@ -33,9 +47,9 @@ public interface HibernateSearch<T> {
     /**
      * 指定の範囲のオブジェクトを取得(全文検索)する.
      *
-     * @param searchTerm
+     * @param searchTerms
      *            検索文字列
-     * @param searchField
+     * @param searchFields
      *            検索項目
      * @param offset
      *            開始位置
@@ -43,7 +57,7 @@ public interface HibernateSearch<T> {
      *            取得数
      * @return 検索結果のオブジェクトのリスト
      */
-    public List<T> search(String[] searchTerm, String[]searchField ,Integer offset, Integer limit) ;
+    public List<T> search(String[] searchTerms, String[]searchFields ,Integer offset, Integer limit) ;
 
     /**
      * 指定の範囲のオブジェクトを取得(全文検索)する.
@@ -61,13 +75,13 @@ public interface HibernateSearch<T> {
     /**
      * 件数を取得(全文検索)する.
      *
-     * @param searchTerm
+     * @param searchTerms
      *            検索文字列
-     * @param searchField
+     * @param searchFields
      *            検索項目
      * @return 件数
      */
-    public long count(String[] searchTerm, String[]searchField);
+    public long count(String[] searchTerms, String[]searchFields);
 
     /**
      * 件数を取得(全文検索)する.

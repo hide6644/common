@@ -186,20 +186,29 @@ public class UserManagerTest extends BaseManagerTestCase {
     public void testCreatePaginatedListByFullText() {
         userManager.reindex();
         UserSearchCriteria userSearchCriteria = new UserSearchCriteria();
-        userSearchCriteria.setUsername("normaluser");
-        userSearchCriteria.setEmail("test");
         PaginatedList<UserSearchResults> paginatedList = userManager.createPaginatedListByFullText(userSearchCriteria, 1);
 
         assertNotNull(paginatedList);
-        assertEquals(2, paginatedList.getPageRangeSize());
-        assertEquals(1, paginatedList.getCurrentStartRecordNumber());
-        assertEquals(5, paginatedList.getCurrentEndRecordNumber());
+        assertEquals(2, paginatedList.getAllRecordCount());
+
+        userSearchCriteria.setUsername("normaluser");
+        paginatedList = userManager.createPaginatedListByFullText(userSearchCriteria, 1);
+
+        assertNotNull(paginatedList);
         assertEquals(1, paginatedList.getAllRecordCount());
-        assertFalse(paginatedList.isExistPrePage());
-        assertFalse(paginatedList.isExistNextPage());
-        assertEquals(0, paginatedList.getPrePageNumber());
-        assertEquals(2, paginatedList.getNextPageNumber());
-        assertEquals(1, paginatedList.getPageNumberList().size());
-        assertEquals(1, paginatedList.getCurrentPage().size());
+
+        userSearchCriteria.setUsername("normaluser");
+        userSearchCriteria.setEmail("user");
+        paginatedList = userManager.createPaginatedListByFullText(userSearchCriteria, 1);
+
+        assertNotNull(paginatedList);
+        assertEquals(1, paginatedList.getAllRecordCount());
+
+        userSearchCriteria.setUsername("test");
+        userSearchCriteria.setEmail("test");
+        paginatedList = userManager.createPaginatedListByFullText(userSearchCriteria, 1);
+
+        assertNotNull(paginatedList);
+        assertEquals(0, paginatedList.getAllRecordCount());
     }
 }

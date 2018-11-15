@@ -1,5 +1,6 @@
 package common.dao.jpa;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -8,6 +9,7 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.search.BooleanClause.Occur;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.facet.Facet;
@@ -60,8 +62,17 @@ public class HibernateSearchImpl<T> implements HibernateSearch<T> {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public Stream<T> search(String[] searchTerm, String[] searchField) {
-        return createFullTextQuery(searchTerm, searchField).getResultStream();
+    public Stream<T> search(String[] searchTerms, String[] searchFields, Occur[] searchFlags) {
+        return createFullTextQuery(searchTerms, searchFields, searchFlags).getResultStream();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public Stream<T> search(String[] searchTerms, String[] searchFields) {
+        return createFullTextQuery(searchTerms, searchFields).getResultStream();
     }
 
     /**
@@ -78,8 +89,10 @@ public class HibernateSearchImpl<T> implements HibernateSearch<T> {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<T> search(String[] searchTerm, String[] searchField, Integer offset, Integer limit) {
-        FullTextQuery query = createFullTextQuery(searchTerm, searchField);
+    public List<T> search(String[] searchTerms, String[] searchFields, Integer offset, Integer limit) {
+        Occur[] searchFlags = new Occur[searchFields.length];
+        Arrays.fill(searchFlags, Occur.MUST);
+        FullTextQuery query = createFullTextQuery(searchTerms, searchFields, searchFlags);
 
         query.setFirstResult(offset);
         query.setMaxResults(limit);
@@ -105,8 +118,8 @@ public class HibernateSearchImpl<T> implements HibernateSearch<T> {
      * {@inheritDoc}
      */
     @Override
-    public long count(String[] searchTerm, String[] searchField) {
-        return createFullTextQuery(searchTerm, searchField).getResultSize();
+    public long count(String[] searchTerms, String[] searchFields) {
+        return createFullTextQuery(searchTerms, searchFields).getResultSize();
     }
 
     /**
@@ -144,14 +157,29 @@ public class HibernateSearchImpl<T> implements HibernateSearch<T> {
     /**
      * 全文検索クエリを取得する.
      *
-     * @param searchTerm
+     * @param searchTerms
      *            検索文字列
-     * @param searchField
+     * @param searchFields
+     *            検索項目
+     * @param searchFlags
+     *            検索項目のフラグ
+     * @return 全文検索クエリ
+     */
+    private FullTextQuery createFullTextQuery(String[] searchTerms, String[] searchFields, Occur[] searchFlags) {
+        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerms, searchFields, searchFlags, persistentClass, entityManager, defaultAnalyzer), persistentClass);
+    }
+
+    /**
+     * 全文検索クエリを取得する.
+     *
+     * @param searchTerms
+     *            検索文字列
+     * @param searchFields
      *            検索項目
      * @return 全文検索クエリ
      */
-    private FullTextQuery createFullTextQuery(String[] searchTerm, String[] searchField) {
-        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerm, searchField, persistentClass, entityManager, defaultAnalyzer), persistentClass);
+    private FullTextQuery createFullTextQuery(String[] searchTerms, String[] searchFields) {
+        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerms, searchFields, persistentClass, entityManager, defaultAnalyzer), persistentClass);
     }
 
     /**

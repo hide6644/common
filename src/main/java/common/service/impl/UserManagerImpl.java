@@ -4,8 +4,10 @@ import static common.dao.jpa.UserSpecifications.*;
 import static org.springframework.data.jpa.domain.Specification.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -383,7 +385,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      */
     @Override
     public PaginatedList<UserSearchResults> createPaginatedList(UserSearchCriteria userSearchCriteria, Integer page) {
-        PageRequest pageRequest = PageRequest.of(page == null ? 0 : page - 1, 5, Sort.by(UserSearchCriteria.USERNAME_FIELD));
+        PageRequest pageRequest = PageRequest.of(Optional.ofNullable(page).orElse(1) - 1, 5, Sort.by(UserSearchCriteria.USERNAME_FIELD));
         Page<User> pagedUser = userDao.findAll(where(usernameContains(userSearchCriteria.getUsername())).and(emailContains(userSearchCriteria.getEmail())), pageRequest);
 
         return new PaginatedList<>(new PageImpl<>(
@@ -397,11 +399,31 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      */
     @Override
     public PaginatedList<UserSearchResults> createPaginatedListByFullText(UserSearchCriteria userSearchCriteria, Integer page) {
-        PageRequest pageRequest = PageRequest.of(page == null ? 0 : page - 1, 5, Sort.by(UserSearchCriteria.USERNAME_FIELD));
-        String[] searchTerm = new String[]{userSearchCriteria.getUsername(), userSearchCriteria.getEmail()};
-        String[] searchField = new String[]{UserSearchCriteria.USERNAME_FIELD, UserSearchCriteria.EMAIL_FIELD};
-        List<User> userList = userSearch.search(searchTerm, searchField, pageRequest.getPageNumber(), pageRequest.getPageSize());
-        Long userCount = userSearch.count(searchTerm, searchField);
+        List<String> searchTermList = new ArrayList<>();
+        List<String> searchFieldList = new ArrayList<>();
+
+        Optional.ofNullable(userSearchCriteria.getUsername()).ifPresent(username -> {
+            searchTermList.add(username);
+            searchFieldList.add(UserSearchCriteria.USERNAME_FIELD);
+        });
+        Optional.ofNullable(userSearchCriteria.getEmail()).ifPresent(email -> {
+            searchTermList.add(email);
+            searchFieldList.add(UserSearchCriteria.EMAIL_FIELD);
+        });
+
+        PageRequest pageRequest = PageRequest.of(Optional.ofNullable(page).orElse(1) - 1, 5, Sort.by(UserSearchCriteria.USERNAME_FIELD));
+        List<User> userList = null;
+        Long userCount = null;
+
+        if (searchTermList.isEmpty()) {
+            userList = userSearch.search("*", pageRequest.getPageNumber(), pageRequest.getPageSize());
+            userCount = userSearch.count("*");
+        } else {
+            String[] searchTerms = searchTermList.toArray(new String[searchTermList.size()]);
+            String[] searchFields = searchFieldList.toArray(new String[searchFieldList.size()]);
+            userList = userSearch.search(searchTerms, searchFields, pageRequest.getPageNumber(), pageRequest.getPageSize());
+            userCount = userSearch.count(searchTerms, searchFields);
+        }
 
         Page<User> pagedUser = new PageImpl<>(userList, pageRequest, userCount);
 
