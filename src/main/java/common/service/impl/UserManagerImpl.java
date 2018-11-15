@@ -383,8 +383,28 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      */
     @Override
     public PaginatedList<UserSearchResults> createPaginatedList(UserSearchCriteria userSearchCriteria, Integer page) {
-        PageRequest pageRequest = PageRequest.of(page == null ? 0 : page - 1, 5, Sort.by("username"));
+        PageRequest pageRequest = PageRequest.of(page == null ? 0 : page - 1, 5, Sort.by(UserSearchCriteria.USERNAME_FIELD));
         Page<User> pagedUser = userDao.findAll(where(usernameContains(userSearchCriteria.getUsername())).and(emailContains(userSearchCriteria.getEmail())), pageRequest);
+
+        return new PaginatedList<>(new PageImpl<>(
+                pagedUser.stream()
+                .map(user -> UserSearchResults.of(user))
+                .collect(Collectors.toList()), pagedUser.getPageable(), pagedUser.getTotalElements()));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public PaginatedList<UserSearchResults> createPaginatedListByFullText(UserSearchCriteria userSearchCriteria, Integer page) {
+        PageRequest pageRequest = PageRequest.of(page == null ? 0 : page - 1, 5, Sort.by(UserSearchCriteria.USERNAME_FIELD));
+        String[] searchTerm = new String[]{userSearchCriteria.getUsername(), userSearchCriteria.getEmail()};
+        String[] searchField = new String[]{UserSearchCriteria.USERNAME_FIELD, UserSearchCriteria.EMAIL_FIELD};
+        List<User> userList = userSearch.search(searchTerm, searchField, pageRequest.getPageNumber(), pageRequest.getPageSize());
+        Long userCount = userSearch.count(searchTerm, searchField);
+
+        Page<User> pagedUser = new PageImpl<>(userList, pageRequest, userCount);
+
         return new PaginatedList<>(new PageImpl<>(
                 pagedUser.stream()
                 .map(user -> UserSearchResults.of(user))

@@ -169,6 +169,17 @@ public interface UserManager {
     PaginatedList<UserSearchResults> createPaginatedList(UserSearchCriteria userSearchCriteria, Integer page);
 
     /**
+     * オブジェクトをページング処理して取得する.
+     *
+     * @param userSearchCriteria
+     *            ユーザ検索条件
+     * @param page
+     *            表示するページの番号
+     * @return ページング処理、情報
+     */
+    PaginatedList<UserSearchResults> createPaginatedListByFullText(UserSearchCriteria userSearchCriteria, Integer page);
+
+    /**
      * インデックスを再作成する.
      */
     void reindex();

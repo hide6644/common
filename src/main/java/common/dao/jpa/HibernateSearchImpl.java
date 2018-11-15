@@ -61,7 +61,7 @@ public class HibernateSearchImpl<T> implements HibernateSearch<T> {
     @SuppressWarnings("unchecked")
     @Override
     public Stream<T> search(String[] searchTerm, String[] searchField) {
-        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerm, searchField, persistentClass, entityManager, defaultAnalyzer), persistentClass).getResultStream();
+        return createFullTextQuery(searchTerm, searchField).getResultStream();
     }
 
     /**
@@ -70,7 +70,51 @@ public class HibernateSearchImpl<T> implements HibernateSearch<T> {
     @SuppressWarnings("unchecked")
     @Override
     public Stream<T> search(String searchTerm) {
-        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass).getResultStream();
+        return createFullTextQuery(searchTerm).getResultStream();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<T> search(String[] searchTerm, String[] searchField, Integer offset, Integer limit) {
+        FullTextQuery query = createFullTextQuery(searchTerm, searchField);
+
+        query.setFirstResult(offset);
+        query.setMaxResults(limit);
+
+        return query.getResultList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<T> search(String searchTerm, Integer offset, Integer limit) {
+        FullTextQuery query = createFullTextQuery(searchTerm);
+
+        query.setFirstResult(offset);
+        query.setMaxResults(limit);
+
+        return query.getResultList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long count(String[] searchTerm, String[] searchField) {
+        return createFullTextQuery(searchTerm, searchField).getResultSize();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long count(String searchTerm) {
+        return createFullTextQuery(searchTerm).getResultSize();
     }
 
     /**
@@ -98,25 +142,26 @@ public class HibernateSearchImpl<T> implements HibernateSearch<T> {
     }
 
     /**
-     * {@inheritDoc}
+     * 全文検索クエリを取得する.
+     *
+     * @param searchTerm
+     *            検索文字列
+     * @param searchField
+     *            検索項目
+     * @return 全文検索クエリ
      */
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<T> searchList(String searchTerm, Integer offset, Integer limit) {
-        FullTextQuery query = Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass);
-
-        query.setFirstResult(offset);
-        query.setMaxResults(limit);
-
-        return query.getResultList();
+    private FullTextQuery createFullTextQuery(String[] searchTerm, String[] searchField) {
+        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerm, searchField, persistentClass, entityManager, defaultAnalyzer), persistentClass);
     }
 
     /**
-     * {@inheritDoc}
+     * 全文検索クエリを取得する.
+     *
+     * @param searchTerm
+     *            検索文字列
+     * @return 全文検索クエリ
      */
-    @Override
-    public long searchCount(String searchTerm) {
-        FullTextQuery query = Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass);
-        return query.getResultSize();
+    private FullTextQuery createFullTextQuery(String searchTerm) {
+        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerm, persistentClass, entityManager, defaultAnalyzer), persistentClass);
     }
 }

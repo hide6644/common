@@ -181,4 +181,25 @@ public class UserManagerTest extends BaseManagerTestCase {
         assertEquals(2, paginatedList.getCurrentPage().size());
         assertEquals(5, paginatedList.getPageSize());
     }
+
+    @Test
+    public void testCreatePaginatedListByFullText() {
+        userManager.reindex();
+        UserSearchCriteria userSearchCriteria = new UserSearchCriteria();
+        userSearchCriteria.setUsername("normaluser");
+        userSearchCriteria.setEmail("test");
+        PaginatedList<UserSearchResults> paginatedList = userManager.createPaginatedListByFullText(userSearchCriteria, 1);
+
+        assertNotNull(paginatedList);
+        assertEquals(2, paginatedList.getPageRangeSize());
+        assertEquals(1, paginatedList.getCurrentStartRecordNumber());
+        assertEquals(5, paginatedList.getCurrentEndRecordNumber());
+        assertEquals(1, paginatedList.getAllRecordCount());
+        assertFalse(paginatedList.isExistPrePage());
+        assertFalse(paginatedList.isExistNextPage());
+        assertEquals(0, paginatedList.getPrePageNumber());
+        assertEquals(2, paginatedList.getNextPageNumber());
+        assertEquals(1, paginatedList.getPageNumberList().size());
+        assertEquals(1, paginatedList.getCurrentPage().size());
+    }
 }

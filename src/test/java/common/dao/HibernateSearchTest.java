@@ -51,8 +51,21 @@ public class HibernateSearchTest extends BaseDaoTestCase {
     @Test
     public void testPaged() {
         hibernateSearch.reindex();
-        List<User> userList = hibernateSearch.searchList("normaluser", 0, 10);
-        Long userCount = hibernateSearch.searchCount("normaluser");
+        List<User> userList = hibernateSearch.search("normaluser", 0, 10);
+        Long userCount = hibernateSearch.count("normaluser");
+
+        Page<User> pagedUser = new PageImpl<>(userList, PageRequest.of(0, 10), userCount);
+
+        assertEquals(1, pagedUser.getTotalPages());
+        assertEquals(1, pagedUser.getTotalElements());
+        assertEquals(1, pagedUser.getContent().size());
+    }
+
+    @Test
+    public void testPagedByField() {
+        hibernateSearch.reindex();
+        List<User> userList = hibernateSearch.search(new String[]{"normaluser"}, new String[]{"username"}, 0, 10);
+        Long userCount = hibernateSearch.count(new String[]{"normaluser"}, new String[]{"username"});
 
         Page<User> pagedUser = new PageImpl<>(userList, PageRequest.of(0, 10), userCount);
 

@@ -31,6 +31,54 @@ public interface HibernateSearch<T> {
     Stream<T> search(String searchTerm);
 
     /**
+     * 指定の範囲のオブジェクトを取得(全文検索)する.
+     *
+     * @param searchTerm
+     *            検索文字列
+     * @param searchField
+     *            検索項目
+     * @param offset
+     *            開始位置
+     * @param limit
+     *            取得数
+     * @return 検索結果のオブジェクトのリスト
+     */
+    public List<T> search(String[] searchTerm, String[]searchField ,Integer offset, Integer limit) ;
+
+    /**
+     * 指定の範囲のオブジェクトを取得(全文検索)する.
+     *
+     * @param searchTerm
+     *            検索文字列
+     * @param offset
+     *            開始位置
+     * @param limit
+     *            取得数
+     * @return 検索結果のオブジェクトのリスト
+     */
+    public List<T> search(String searchTerm, Integer offset, Integer limit) ;
+
+    /**
+     * 件数を取得(全文検索)する.
+     *
+     * @param searchTerm
+     *            検索文字列
+     * @param searchField
+     *            検索項目
+     * @return 件数
+     */
+    public long count(String[] searchTerm, String[]searchField);
+
+    /**
+     * 件数を取得(全文検索)する.
+     *
+     * @param searchTerm
+     *            検索文字列
+     * @return 件数
+     */
+    public long count(String searchTerm);
+
+    /**
      * ファセットを作成する.
      *
      * @param field
@@ -53,26 +101,4 @@ public interface HibernateSearch<T> {
      *            true:非同期、false:同期
      */
     void reindexAll(boolean async);
-
-    /**
-     * 指定の範囲のオブジェクトを取得(全文検索)する.
-     *
-     * @param searchTerm
-     *            検索文字列
-     * @param offset
-     *            開始位置
-     * @param limit
-     *            取得数
-     * @return 検索結果のオブジェクトのリスト
-     */
-    public List<T> searchList(String searchTerm, Integer offset, Integer limit) ;
-
-    /**
-     * 件数を取得(全文検索)する.
-     *
-     * @param searchTerm
-     *            検索文字列
-     * @return 件数
-     */
-    public long searchCount(String searchTerm);
 }
