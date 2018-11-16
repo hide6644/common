@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -385,13 +386,14 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      */
     @Override
     public PaginatedList<UserSearchResults> createPaginatedList(UserSearchCriteria userSearchCriteria, Integer page) {
-        PageRequest pageRequest = PageRequest.of(Optional.ofNullable(page).orElse(1) - 1, 5, Sort.by(UserSearchCriteria.USERNAME_FIELD));
+        PageRequest pageRequest = PageRequest.of(Optional.ofNullable(page).orElse(1) - 1, Constants.PAGING_SIZE, Sort.by(UserSearchCriteria.USERNAME_FIELD));
         Page<User> pagedUser = userDao.findAll(where(usernameContains(userSearchCriteria.getUsername())).and(emailContains(userSearchCriteria.getEmail())), pageRequest);
 
         return new PaginatedList<>(new PageImpl<>(
                 pagedUser.stream()
-                .map(user -> UserSearchResults.of(user))
-                .collect(Collectors.toList()), pagedUser.getPageable(), pagedUser.getTotalElements()));
+                        .map(user -> UserSearchResults.of(user))
+                        .collect(Collectors.toList()),
+                pagedUser.getPageable(), pagedUser.getTotalElements()));
     }
 
     /**
@@ -411,8 +413,8 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
             searchFieldList.add(UserSearchCriteria.EMAIL_FIELD);
         });
 
-        PageRequest pageRequest = PageRequest.of(Optional.ofNullable(page).orElse(1) - 1, 5, Sort.by(UserSearchCriteria.USERNAME_FIELD));
-        List<User> userList = null;
+        PageRequest pageRequest = PageRequest.of(Optional.ofNullable(page).orElse(1) - 1, Constants.PAGING_SIZE);
+        Stream<User> userList = null;
         Long userCount = null;
 
         if (searchTermList.isEmpty()) {
@@ -425,12 +427,12 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
             userCount = userSearch.count(searchTerms, searchFields);
         }
 
-        Page<User> pagedUser = new PageImpl<>(userList, pageRequest, userCount);
-
         return new PaginatedList<>(new PageImpl<>(
-                pagedUser.stream()
-                .map(user -> UserSearchResults.of(user))
-                .collect(Collectors.toList()), pagedUser.getPageable(), pagedUser.getTotalElements()));
+                userList
+                        .sorted(Comparator.comparing(user -> user.getUsername()))
+                        .map(user -> UserSearchResults.of(user))
+                        .collect(Collectors.toList()),
+                pageRequest, userCount));
     }
 
     /**

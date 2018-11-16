@@ -89,7 +89,7 @@ public class HibernateSearchImpl<T> implements HibernateSearch<T> {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<T> search(String[] searchTerms, String[] searchFields, Integer offset, Integer limit) {
+    public Stream<T> search(String[] searchTerms, String[] searchFields, Integer offset, Integer limit) {
         Occur[] searchFlags = new Occur[searchFields.length];
         Arrays.fill(searchFlags, Occur.MUST);
         FullTextQuery query = createFullTextQuery(searchTerms, searchFields, searchFlags);
@@ -97,7 +97,7 @@ public class HibernateSearchImpl<T> implements HibernateSearch<T> {
         query.setFirstResult(offset);
         query.setMaxResults(limit);
 
-        return query.getResultList();
+        return query.getResultStream();
     }
 
     /**
@@ -105,13 +105,13 @@ public class HibernateSearchImpl<T> implements HibernateSearch<T> {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<T> search(String searchTerm, Integer offset, Integer limit) {
+    public Stream<T> search(String searchTerm, Integer offset, Integer limit) {
         FullTextQuery query = createFullTextQuery(searchTerm);
 
         query.setFirstResult(offset);
         query.setMaxResults(limit);
 
-        return query.getResultList();
+        return query.getResultStream();
     }
 
     /**
