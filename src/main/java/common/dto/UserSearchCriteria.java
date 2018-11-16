@@ -11,6 +11,12 @@ import common.validator.constraints.BasicLatin;
  */
 public class UserSearchCriteria implements Serializable {
 
+    /** ユーザ名のフィールド名 */
+    public static final String USERNAME_FIELD = "username";
+
+    /** ｅメールのフィールド名 */
+    public static final String EMAIL_FIELD = "email";
+
     /** ユーザ名 */
     private String username;
 

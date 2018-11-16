@@ -66,4 +66,7 @@ public class Constants {
 
     /** 要再認証期間 */
     public static final int CREDENTIALS_EXPIRED_TERM = Integer.parseInt(ResourceBundle.getBundle(BUNDLE_KEY).getString("credentials.expired.term"));
+
+    /** 1ページ当たりの表示数 */
+    public static final int PAGING_SIZE = Integer.parseInt(ResourceBundle.getBundle(BUNDLE_KEY).getString("paging.size"));
 }

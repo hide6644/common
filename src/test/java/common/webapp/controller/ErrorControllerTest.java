@@ -5,7 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.ui.ExtendedModelMap;
+import org.springframework.ui.Model;
 
 public class ErrorControllerTest extends BaseControllerTestCase {
 
@@ -16,34 +17,45 @@ public class ErrorControllerTest extends BaseControllerTestCase {
     public void testRenderErrorPage() {
         MockHttpServletRequest request = newGet("/error");
         request.setAttribute("javax.servlet.error.status_code", 400);
-        ModelAndView mav = c.renderErrorPage(request);
+        Model model = new ExtendedModelMap();
+        String rtn = c.renderErrorPage(model, request);
 
-        assertEquals("error", mav.getModelMap().get("errorTitle"));
+        assertEquals("error", model.asMap().get("errorTitle"));
+        assertEquals("error", rtn);
 
         request.setAttribute("javax.servlet.error.status_code", 401);
-        mav = c.renderErrorPage(request);
+        model = new ExtendedModelMap();
+        rtn = c.renderErrorPage(model, request);
 
-        assertEquals("403", mav.getModelMap().get("errorTitle"));
+        assertEquals("403", model.asMap().get("errorTitle"));
+        assertEquals("error", rtn);
 
         request.setAttribute("javax.servlet.error.status_code", 403);
-        mav = c.renderErrorPage(request);
+        model = new ExtendedModelMap();
+        rtn = c.renderErrorPage(model, request);
 
-        assertEquals("403", mav.getModelMap().get("errorTitle"));
+        assertEquals("403", model.asMap().get("errorTitle"));
+        assertEquals("error", rtn);
 
         request.setAttribute("javax.servlet.error.status_code", 404);
-        mav = c.renderErrorPage(request);
+        model = new ExtendedModelMap();
+        rtn = c.renderErrorPage(model, request);
 
-        assertEquals("404", mav.getModelMap().get("errorTitle"));
+        assertEquals("404", model.asMap().get("errorTitle"));
+        assertEquals("error", rtn);
 
         request.setAttribute("javax.servlet.error.status_code", 500);
-        mav = c.renderErrorPage(request);
+        model = new ExtendedModelMap();
+        rtn = c.renderErrorPage(model, request);
 
-        assertEquals("error", mav.getModelMap().get("errorTitle"));
+        assertEquals("error", model.asMap().get("errorTitle"));
+        assertEquals("error", rtn);
 
         request.setAttribute("javax.servlet.error.status_code", 999);
-        mav = c.renderErrorPage(request);
+        model = new ExtendedModelMap();
+        rtn = c.renderErrorPage(model, request);
 
-        assertEquals("error", mav.getModelMap().get("errorTitle"));
-        assertEquals("error", mav.getViewName());
+        assertEquals("error", model.asMap().get("errorTitle"));
+        assertEquals("error", rtn);
     }
 }

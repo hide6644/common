@@ -1,12 +1,10 @@
 package common.webapp.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * ログイン処理クラス.
@@ -17,14 +15,15 @@ public class LoginController extends BaseController {
     /**
      * ログイン画面初期処理.
      *
-     * @return 遷移先画面設定
+     * @param model
+     *            {@link Model}
+     * @return 遷移先
      */
     @GetMapping("login")
-    public ModelAndView setupLogin() {
-        Model model = new ExtendedModelMap();
+    public String setupLogin(Model model) {
         model.addAttribute("username", "");
         model.addAttribute("password", "");
-        return new ModelAndView("login", model.asMap());
+        return "login";
     }
 
     /**
@@ -40,8 +39,7 @@ public class LoginController extends BaseController {
      */
     @PostMapping("login")
     public String login(@RequestParam(value = "remember-me", required = false) boolean rememberMeFlg,
-            @RequestParam(value = "username", required = true) String username,
-            @RequestParam(value = "password", required = true) String password) {
+            @RequestParam("username") String username, @RequestParam("password") String password) {
         String forwardString = "forward:/login?username=" + username + "&password=" + password;
 
         if (rememberMeFlg) {

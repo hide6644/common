@@ -10,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import common.dto.PasswordForm;
 import common.service.UserManager;
@@ -55,26 +55,29 @@ public class UpdatePasswordController extends BaseController {
      *            ユーザ名
      * @param token
      *            トークン
+     * @param model
+     *            {@link Model}
      * @param request
      *            {@link HttpServletRequest}
-     * @return 遷移先画面設定
+     * @return 遷移先
      */
     @GetMapping("/updatePassword")
-    public ModelAndView showForm(@RequestParam(value = "username", required = false) String username, @RequestParam(value = "token", required = false) String token, HttpServletRequest request) {
+    public String showForm(@RequestParam(value = "username", required = false) String username, @RequestParam(value = "token", required = false) String token, Model model, HttpServletRequest request) {
         if (StringUtils.isBlank(username)) {
             username = request.getRemoteUser();
         }
 
         if (token != null && !userManager.isRecoveryTokenValid(username, token)) {
             saveFlashError(getText("passwordForm.invalidToken"));
-            return new ModelAndView("redirect:/login");
+            return "redirect:/login";
         }
 
         PasswordForm passwordForm = new PasswordForm();
         passwordForm.setUsername(username);
         passwordForm.setToken(token);
+        model.addAttribute("passwordForm", passwordForm);
 
-        return new ModelAndView("password").addObject("passwordForm", passwordForm);
+        return "password";
     }
 
     /**

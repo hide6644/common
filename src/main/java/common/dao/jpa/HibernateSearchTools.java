@@ -17,6 +17,7 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiFields;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
 import org.hibernate.search.MassIndexer;
@@ -47,9 +48,37 @@ class HibernateSearchTools {
     /**
      * 全文検索クエリを作成する.
      *
-     * @param searchTerm
+     * @param searchTerms
      *            検索文字列
-     * @param searchField
+     * @param searchFields
+     *            検索項目
+     * @param searchFlags
+     *            検索項目のフラグ
+     * @param searchedEntity
+     *            エンティティクラス
+     * @param entityManager
+     *            Entity Manager
+     * @param defaultAnalyzer
+     *            形態解析クラス
+     * @return 全文検索クエリ
+     */
+    public static Query generateQuery(String[] searchTerms, String[] searchFields, Occur[] searchFlags, Class<?> searchedEntity, EntityManager entityManager, Analyzer defaultAnalyzer) {
+        try {
+            return MultiFieldQueryParser.parse(searchTerms, searchFields, searchFlags,
+                    Optional.ofNullable(searchedEntity)
+                            .map(entity -> Search.getFullTextEntityManager(entityManager).getSearchFactory().getAnalyzer(entity))
+                            .orElse(defaultAnalyzer));
+        } catch (ParseException e) {
+            throw new SearchException(e);
+        }
+    }
+
+    /**
+     * 全文検索クエリを作成する.
+     *
+     * @param searchTerms
+     *            検索文字列
+     * @param searchFields
      *            検索項目
      * @param searchedEntity
      *            エンティティクラス
@@ -59,9 +88,9 @@ class HibernateSearchTools {
      *            形態解析クラス
      * @return 全文検索クエリ
      */
-    public static Query generateQuery(String[] searchTerm, String[] searchField, Class<?> searchedEntity, EntityManager entityManager, Analyzer defaultAnalyzer) {
+    public static Query generateQuery(String[] searchTerms, String[] searchFields, Class<?> searchedEntity, EntityManager entityManager, Analyzer defaultAnalyzer) {
         try {
-            return MultiFieldQueryParser.parse(searchTerm, searchField,
+            return MultiFieldQueryParser.parse(searchTerms, searchFields,
                     Optional.ofNullable(searchedEntity)
                             .map(entity -> Search.getFullTextEntityManager(entityManager).getSearchFactory().getAnalyzer(entity))
                             .orElse(defaultAnalyzer));
