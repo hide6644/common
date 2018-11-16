@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import common.dto.UploadForm;
 import common.exception.FileException;
-import common.service.UserManager;
+import common.service.UsersManager;
 import common.webapp.converter.FileType;
 
 /**
@@ -21,9 +21,9 @@ import common.webapp.converter.FileType;
 @RequestMapping("/admin/master/uploadUsers")
 public class UserUploadController extends BaseController {
 
-    /** User処理クラス */
+    /** 複数ユーザ処理クラス */
     @Autowired
-    private UserManager userManager;
+    private UsersManager usersManager;
 
     /**
      * ユーザ取込画面初期処理.
@@ -53,7 +53,7 @@ public class UserUploadController extends BaseController {
         }
 
         try {
-            userManager.uploadUsers(uploadForm);
+            usersManager.uploadUsers(uploadForm);
         } catch (FileException e) {
             saveError(e);
             return "admin/master/uploadUsers";

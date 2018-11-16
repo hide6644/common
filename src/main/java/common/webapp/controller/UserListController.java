@@ -19,6 +19,7 @@ import common.dto.UserSearchCriteria;
 import common.dto.UserSearchResults;
 import common.entity.Users;
 import common.service.UserManager;
+import common.service.UsersManager;
 
 /**
  * ユーザ一覧処理クラス.
@@ -26,9 +27,13 @@ import common.service.UserManager;
 @Controller
 public class UserListController extends BaseController {
 
-    /** User処理クラス */
+    /** ユーザ処理クラス */
     @Autowired
     private UserManager userManager;
+
+    /** 複数ユーザ処理クラス */
+    @Autowired
+    private UsersManager usersManager;
 
     /**
      * ユーザ一覧画面初期処理.
@@ -55,7 +60,7 @@ public class UserListController extends BaseController {
     public String setupCsvList(Model model, HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("Application/Octet-Stream");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
-        model.addAttribute("csv", userManager.getUsers());
+        model.addAttribute("csv", usersManager.getUsers());
 
         return "admin/master/csv/users";
     }
@@ -75,7 +80,7 @@ public class UserListController extends BaseController {
     public String setupXlsList(Model model, HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("Application/Vnd.ms-Excel");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
-        model.addAttribute("users", userManager.getUsers());
+        model.addAttribute("users", usersManager.getUsers());
 
         return "admin/master/jxls/users";
     }
@@ -94,7 +99,7 @@ public class UserListController extends BaseController {
     public Users setupXmlList(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("text/xml");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
-        return new Users(userManager.getUsers());
+        return new Users(usersManager.getUsers());
     }
 
     /**
@@ -108,7 +113,7 @@ public class UserListController extends BaseController {
      */
     @GetMapping("/admin/master/users")
     public PaginatedList<UserSearchResults> showForm(@ModelAttribute("userSearchCriteria") UserSearchCriteria userSearchCriteria, @RequestParam(value = "page", required = false) Integer page) {
-        return userManager.createPaginatedList(userSearchCriteria, page);
+        return usersManager.createPaginatedList(userSearchCriteria, page);
     }
 
     /**

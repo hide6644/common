@@ -1,27 +1,10 @@
 package common.service.impl;
 
-import static common.dao.jpa.UserSpecifications.*;
-import static org.springframework.data.jpa.domain.Specification.*;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,14 +13,9 @@ import org.springframework.stereotype.Service;
 import common.Constants;
 import common.dao.HibernateSearch;
 import common.dao.UserDao;
-import common.dto.PaginatedList;
 import common.dto.PasswordForm;
 import common.dto.SignupUserForm;
-import common.dto.UploadForm;
-import common.dto.UploadResult;
 import common.dto.UserDetailsForm;
-import common.dto.UserSearchCriteria;
-import common.dto.UserSearchResults;
 import common.entity.Role;
 import common.entity.User;
 import common.exception.DatabaseException;
@@ -45,8 +23,6 @@ import common.service.PasswordTokenManager;
 import common.service.RoleManager;
 import common.service.UserManager;
 import common.service.mail.UserMail;
-import common.webapp.converter.FileType;
-import common.webapp.converter.UserFileConverterFactory;
 
 /**
  * ユーザ処理の実装クラス.
@@ -78,10 +54,6 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     @Autowired
     private UserMail userMail;
 
-    /** 検証ツールクラス */
-    @Autowired
-    private Validator validator;
-
     /**
      * コンストラクタ.
      *
@@ -94,14 +66,6 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     public UserManagerImpl(UserDao userDao, RoleManager roleManager) {
         this.userDao = userDao;
         this.roleManager = roleManager;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<User> getUsers() {
-        return userDao.findAll();
     }
 
     /**
@@ -240,57 +204,6 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
-    public void uploadUsers(UploadForm uploadForm) {
-        uploadForm.setUploadResult(new UploadResult(2)); // 1行目はヘッダー行のため、2から開始する
-
-        UserFileConverterFactory.createConverter(FileType.of(uploadForm.getFileType()))
-                .convert(uploadForm.getFileData())
-                .stream().map(user -> {
-                    // デフォルトの要再認証日時を設定する
-                    user.setCredentialsExpiredDate(LocalDateTime.now().plusDays(Constants.CREDENTIALS_EXPIRED_TERM));
-                    // 新規登録時は権限を一般で設定する
-                    user.addRole(new Role(Constants.USER_ROLE));
-                    user.setConfirmPassword(user.getPassword());
-                    user.setEnabled(true);
-                    return user;
-                }).forEach(user -> validateAndSaveUploadedUser(uploadForm, user));
-    }
-
-    /**
-     * 検証し保存する.
-     *
-     * @param uploadForm
-     *            アップロードファイルの情報
-     * @param user
-     *            ユーザ
-     */
-    private void validateAndSaveUploadedUser(UploadForm uploadForm, User user) {
-        Set<ConstraintViolation<User>> results = validator.validate(user);
-
-        if (results.isEmpty()) {
-            // エラー無しの場合、保存する
-            saveUser(user);
-            uploadForm.getUploadResult().addSuccessTotalCount();
-        } else {
-            // エラー有りの場合、エラーメッセージを設定する
-            uploadForm.getUploadResult().addUploadErrors(results.stream()
-                    .sorted(Comparator.<ConstraintViolation<User>, String>comparing(violation -> violation.getPropertyPath().toString())
-                            .thenComparing(violation -> violation.getMessage()))
-                    .map(error -> {
-                        String fieldName = getText("user." + error.getPropertyPath().toString());
-                        String message = error.getMessage().replaceAll("\\{0\\}", fieldName);
-                        return uploadForm.getUploadResult().createUploadError(fieldName, message);
-                    })
-                    .collect(Collectors.toList()));
-        }
-
-        uploadForm.getUploadResult().addProcessingCount();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public User saveSignupUser(SignupUserForm signupUser) {
         User user = new User();
         BeanUtils.copyProperties(signupUser, user);
@@ -379,60 +292,6 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
         }
 
         return user;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public PaginatedList<UserSearchResults> createPaginatedList(UserSearchCriteria userSearchCriteria, Integer page) {
-        PageRequest pageRequest = PageRequest.of(Optional.ofNullable(page).orElse(1) - 1, Constants.PAGING_SIZE, Sort.by(UserSearchCriteria.USERNAME_FIELD));
-        Page<User> pagedUser = userDao.findAll(where(usernameContains(userSearchCriteria.getUsername())).and(emailContains(userSearchCriteria.getEmail())), pageRequest);
-
-        return new PaginatedList<>(new PageImpl<>(
-                pagedUser.stream()
-                        .map(user -> UserSearchResults.of(user))
-                        .collect(Collectors.toList()),
-                pagedUser.getPageable(), pagedUser.getTotalElements()));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public PaginatedList<UserSearchResults> createPaginatedListByFullText(UserSearchCriteria userSearchCriteria, Integer page) {
-        List<String> searchTermList = new ArrayList<>();
-        List<String> searchFieldList = new ArrayList<>();
-
-        Optional.ofNullable(userSearchCriteria.getUsername()).ifPresent(username -> {
-            searchTermList.add(username);
-            searchFieldList.add(UserSearchCriteria.USERNAME_FIELD);
-        });
-        Optional.ofNullable(userSearchCriteria.getEmail()).ifPresent(email -> {
-            searchTermList.add(email);
-            searchFieldList.add(UserSearchCriteria.EMAIL_FIELD);
-        });
-
-        PageRequest pageRequest = PageRequest.of(Optional.ofNullable(page).orElse(1) - 1, Constants.PAGING_SIZE);
-        Stream<User> userList = null;
-        Long userCount = null;
-
-        if (searchTermList.isEmpty()) {
-            userList = userSearch.search("*", pageRequest.getPageNumber(), pageRequest.getPageSize());
-            userCount = userSearch.count("*");
-        } else {
-            String[] searchTerms = searchTermList.toArray(new String[searchTermList.size()]);
-            String[] searchFields = searchFieldList.toArray(new String[searchFieldList.size()]);
-            userList = userSearch.search(searchTerms, searchFields, pageRequest.getPageNumber(), pageRequest.getPageSize());
-            userCount = userSearch.count(searchTerms, searchFields);
-        }
-
-        return new PaginatedList<>(new PageImpl<>(
-                userList
-                        .sorted(Comparator.comparing(user -> user.getUsername()))
-                        .map(user -> UserSearchResults.of(user))
-                        .collect(Collectors.toList()),
-                pageRequest, userCount));
     }
 
     /**

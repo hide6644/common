@@ -1,27 +1,14 @@
 package common.service;
 
-import java.util.List;
-
-import common.dto.PaginatedList;
 import common.dto.PasswordForm;
 import common.dto.SignupUserForm;
-import common.dto.UploadForm;
 import common.dto.UserDetailsForm;
-import common.dto.UserSearchCriteria;
-import common.dto.UserSearchResults;
 import common.entity.User;
 
 /**
  * ユーザ処理のインターフェース.
  */
 public interface UserManager {
-
-    /**
-     * 全ユーザを取得する.
-     *
-     * @return ユーザのリスト
-     */
-    List<User> getUsers();
 
     /**
      * 指定されたIDのユーザを取得する.
@@ -83,14 +70,6 @@ public interface UserManager {
      *            ID
      */
     void removeUser(String userId);
-
-    /**
-     * アップロードする.
-     *
-     * @param uploadForm
-     *            アップロードファイルの情報
-     */
-    void uploadUsers(UploadForm uploadForm);
 
     /**
      * 新規登録ユーザを永続化する.
@@ -156,28 +135,6 @@ public interface UserManager {
      * @return 永続化されたユーザ
      */
     User updatePassword(PasswordForm passwordForm);
-
-    /**
-     * オブジェクトをページング処理して取得する.
-     *
-     * @param userSearchCriteria
-     *            ユーザ検索条件
-     * @param page
-     *            表示するページの番号
-     * @return ページング処理、情報
-     */
-    PaginatedList<UserSearchResults> createPaginatedList(UserSearchCriteria userSearchCriteria, Integer page);
-
-    /**
-     * オブジェクトをページング処理して取得する.
-     *
-     * @param userSearchCriteria
-     *            ユーザ検索条件
-     * @param page
-     *            表示するページの番号
-     * @return ページング処理、情報
-     */
-    PaginatedList<UserSearchResults> createPaginatedListByFullText(UserSearchCriteria userSearchCriteria, Integer page);
 
     /**
      * インデックスを再作成する.
