@@ -25,7 +25,7 @@ import common.service.UsersManager;
  * ユーザ一覧処理クラス.
  */
 @Controller
-public class UserListController extends BaseController {
+public class UsersController extends BaseController {
 
     /** ユーザ処理クラス */
     @Autowired

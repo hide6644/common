@@ -23,10 +23,10 @@ import common.entity.User;
 import common.service.UserManager;
 import common.webapp.filter.FlashMap;
 
-public class UserListControllerTest extends BaseControllerTestCase {
+public class UsersControllerTest extends BaseControllerTestCase {
 
     @Autowired
-    private UserListController c;
+    private UsersController c;
 
     @Test
     public void testShowForm() {
