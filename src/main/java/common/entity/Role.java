@@ -10,6 +10,8 @@ import javax.validation.groups.Default;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -20,6 +22,7 @@ import common.validator.groups.Modify;
  */
 @Entity
 @Table(name = "role")
+@Cache(region = "roleCache", usage = CacheConcurrencyStrategy.READ_WRITE)
 public final class Role extends BaseObject implements Serializable, GrantedAuthority {
 
     /** 名称 */

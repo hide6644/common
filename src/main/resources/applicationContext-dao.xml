@@ -24,11 +24,12 @@
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.query.substitutions">true 'Y', false 'N'</prop>
                 <prop key="hibernate.javax.cache.provider">org.ehcache.jsr107.EhcacheCachingProvider</prop>
-                <prop key="hibernate.javax.cache.uri">classpath:jcache.xml</prop>
+                <prop key="hibernate.javax.cache.missing_cache_strategy">create</prop>
                 <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.jcache.JCacheRegionFactory</prop>
                 <prop key="hibernate.cache.default_cache_concurrency_strategy">read-write</prop>
                 <prop key="hibernate.cache.use_query_cache">true</prop>
                 <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.jdbc.batch_size">10</prop>
                 <prop key="hibernate.show_sql">false</prop>
                 <!-- Hibernate Search -->
                 <prop key="hibernate.search.default.indexBase">${hibernate.search.indexBase}</prop>
