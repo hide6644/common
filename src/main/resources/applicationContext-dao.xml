@@ -38,7 +38,6 @@
                 <prop key="hibernate.search.default.exclusive_index_use">true</prop>
                 <prop key="hibernate.search.lucene_version">LUCENE_CURRENT</prop>
                 <prop key="hibernate.search.analyzer">org.apache.lucene.analysis.en.EnglishAnalyzer</prop>
-                <prop key="hibernate.search.worker.batch_size">100</prop>
                 <!-- Hibernate Validator -->
                 <prop key="hibernate.validator.autoregister_listeners">false</prop>
                 <prop key="hibernate.validator.apply_to_ddl">false</prop>
