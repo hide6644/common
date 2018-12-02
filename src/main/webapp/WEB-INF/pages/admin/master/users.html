@@ -101,56 +101,56 @@
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         $(function() {
-            if ($('input[name$=Ids]').length == 0) {
-                $('#button_edit').prop('disabled', true);
-                $('#button_delete').prop('disabled', true);
-                $('#button_download').prop('disabled', true);
+          if ($('input[name$=Ids]').length === 0) {
+            $('#button_edit').prop('disabled', true)
+            $('#button_delete').prop('disabled', true)
+            $('#button_download').prop('disabled', true)
+          }
+
+          $('#button_new').click(function () {
+            $(location).prop('href', $('#button_new').val())
+          })
+
+          $('#button_edit').click(function () {
+            let ids = $('input[name$=Ids]:checked')
+            if (ids.length === 0) {
+              alert('[(${#messages.msg(\'button.choose\', \'__#{button.edit_target}__\')})]')
+            } else if (ids.length > 1) {
+              alert('[(${#messages.msg(\'button.no_more_choose\', \'__#{button.edit_target}__\')})]')
+            } else {
+              $(location).prop('href', $('#button_edit').val() + ids.val())
             }
+          })
 
-            $('#button_new').click(function() {
-                $(location).prop('href', $('#button_new').val());
-            });
+          $('#button_delete').click(function () {
+            if ($('input[name$=Ids]:checked').length === 0) {
+              alert('[(${#messages.msg(\'button.choose\', \'__#{button.delete_target}__\')})]')
+              return false
+            } else {
+              return true
+            }
+          })
 
-            $('#button_edit').click(function() {
-                let ids = $('input[name$=Ids]:checked');
-                if (ids.length == 0) {
-                	alert('[(${#messages.msg(\'button.choose\', \'__#{button.edit_target}__\')})]');
-                } else if (ids.length > 1) {
-                	alert('[(${#messages.msg(\'button.no_more_choose\', \'__#{button.edit_target}__\')})]');
-                } else {
-                    $(location).prop('href', $('#button_edit').val() + ids.val());
-                }
-            });
+          $('#button_cancel').click(function () {
+            $(location).prop('href', '[(@{\'/admin/master/top\'})]')
+          })
 
-            $('#button_delete').click(function() {
-                if ($('input[name$=Ids]:checked').length == 0) {
-                	alert('[(${#messages.msg(\'button.choose\', \'__#{button.delete_target}__\')})]');
-                    return false;
-                } else {
-                    return true;
-                }
-            });
+          $('#button_upload').click(function () {
+            $(location).prop('href', '[(@{\'/admin/master/uploadUsers\'})]')
+          })
 
-            $('#button_cancel').click(function() {
-                $(location).prop('href', '[(@{\'/admin/master/top\'})]');
-            });
+          $('#dialog_download_csv').click(function () {
+            $(location).prop('href', '[(@{\'/admin/master/users.csv\'})]')
+          })
 
-            $('#button_upload').click(function() {
-                $(location).prop('href', '[(@{\'/admin/master/uploadUsers\'})]');
-            });
+          $('#dialog_download_xls').click(function () {
+            $(location).prop('href', '[(@{\'/admin/master/users.xlsx\'})]')
+          })
 
-            $('#dialog_download_csv').click(function() {
-                $(location).prop('href', '[(@{\'/admin/master/users.csv\'})]');
-            });
-
-            $('#dialog_download_xls').click(function() {
-                $(location).prop('href', '[(@{\'/admin/master/users.xlsx\'})]');
-            });
-
-            $('#dialog_download_xml').click(function() {
-                $(location).prop('href', '[(@{\'/admin/master/users.xml\'})]');
-            });
-        });
+          $('#dialog_download_xml').click(function () {
+            $(location).prop('href', '[(@{\'/admin/master/users.xml\'})]')
+          })
+        })
         /*]]>*/
         </script>
     </div>
