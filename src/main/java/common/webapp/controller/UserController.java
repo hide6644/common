@@ -107,7 +107,8 @@ public class UserController extends BaseController {
      *             {@link IOException}
      */
     @PostMapping
-    public String onSubmitByPostMethod(@ModelAttribute("user") @Validated UserDetailsForm userDetailsForm, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String onSubmitByPostMethod(@ModelAttribute("user") @Validated UserDetailsForm userDetailsForm, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (result.hasErrors()) {
             return "user";
         }
@@ -145,7 +146,8 @@ public class UserController extends BaseController {
      *             {@link IOException}
      */
     @PutMapping
-    public String onSubmitByPutMethod(@ModelAttribute("user") @Validated(Modify.class) UserDetailsForm userDetailsForm, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String onSubmitByPutMethod(@ModelAttribute("user") @Validated(Modify.class) UserDetailsForm userDetailsForm, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (result.hasErrors()) {
             return "user";
         }

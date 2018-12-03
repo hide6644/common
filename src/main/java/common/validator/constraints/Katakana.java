@@ -24,7 +24,7 @@ import javax.validation.constraints.Pattern;
 public @interface Katakana {
 
     /**
-     * @return エラーメッセージテンプレート
+     * エラーメッセージテンプレート
      */
     String message() default "{common.validator.constraints.Katakana.message}";
 

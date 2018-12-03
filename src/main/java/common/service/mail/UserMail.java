@@ -50,7 +50,8 @@ public class UserMail {
      *            ユーザ
      */
     public void sendSignupEmail(User user) {
-        sendEmail(user, accountCreatedTemplate, messages.getMessage("signupForm.email.subject"), messages.getMessage("signupForm.email.message"), buildRecoveryPasswordUrl(user, "/signupComplete"));
+        sendEmail(user, accountCreatedTemplate, messages.getMessage("signupForm.email.subject"),
+                messages.getMessage("signupForm.email.message"), buildRecoveryPasswordUrl(user, "/signupComplete"));
     }
 
     /**
@@ -60,7 +61,8 @@ public class UserMail {
      *            ユーザ
      */
     public void sendCreatedEmail(User user) {
-        sendEmail(user, accountCreatedTemplate, messages.getMessage("userSaveForm.email.subject"), messages.getMessage("userSaveForm.email.message"), buildRecoveryPasswordUrl(user, "/updatePassword"));
+        sendEmail(user, accountCreatedTemplate, messages.getMessage("userSaveForm.email.subject"),
+                messages.getMessage("userSaveForm.email.message"), buildRecoveryPasswordUrl(user, "/updatePassword"));
     }
 
     /**
@@ -70,7 +72,8 @@ public class UserMail {
      *            ユーザ
      */
     public void sendPasswordRecoveryEmail(User user) {
-        sendEmail(user, passwordRecoveryTemplate, messages.getMessage("passwordForm.email.subject"), messages.getMessage("passwordForm.recovery.email.message"), buildRecoveryPasswordUrl(user, "/updatePassword"));
+        sendEmail(user, passwordRecoveryTemplate, messages.getMessage("passwordForm.email.subject"),
+                messages.getMessage("passwordForm.recovery.email.message"), buildRecoveryPasswordUrl(user, "/updatePassword"));
     }
 
     /**

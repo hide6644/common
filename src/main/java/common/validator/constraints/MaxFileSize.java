@@ -22,17 +22,17 @@ import common.validator.constraints.impl.MaxFileSizeValidator;
 public @interface MaxFileSize {
 
     /**
-     * @return 最大値
+     * 最大値
      */
     int max();
 
     /**
-     * @return 単位
+     * 単位
      */
     FileSizeUnitSign unitSign() default FileSizeUnitSign.M_BYTE;
 
     /**
-     * @return エラーメッセージテンプレート
+     * エラーメッセージテンプレート
      */
     String message() default "{common.validator.constraints.MaxFileSize.message}";
 

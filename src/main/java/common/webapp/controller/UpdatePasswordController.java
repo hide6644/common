@@ -62,7 +62,8 @@ public class UpdatePasswordController extends BaseController {
      * @return 遷移先
      */
     @GetMapping("/updatePassword")
-    public String showForm(@RequestParam(value = "username", required = false) String username, @RequestParam(value = "token", required = false) String token, Model model, HttpServletRequest request) {
+    public String showForm(@RequestParam(value = "username", required = false) String username, @RequestParam(value = "token", required = false) String token,
+            Model model, HttpServletRequest request) {
         if (StringUtils.isBlank(username)) {
             username = request.getRemoteUser();
         }

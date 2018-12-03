@@ -27,12 +27,12 @@ public @interface UniqueKey {
     String[] columnNames();
 
     /**
-     * @return 確認対象のエンティティクラス
+     * 確認対象のエンティティクラス
      */
     Class<?> model();
 
     /**
-     * @return エラーメッセージテンプレート
+     * エラーメッセージテンプレート
      */
     String message() default "{common.validator.constraints.UniqueKey.message}";
 

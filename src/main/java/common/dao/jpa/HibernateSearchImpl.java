@@ -166,7 +166,8 @@ public class HibernateSearchImpl<T> implements HibernateSearch<T> {
      * @return 全文検索クエリ
      */
     private FullTextQuery createFullTextQuery(String[] searchTerms, String[] searchFields, Occur[] searchFlags) {
-        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerms, searchFields, searchFlags, persistentClass, entityManager, defaultAnalyzer), persistentClass);
+        return Search.getFullTextEntityManager(entityManager)
+                .createFullTextQuery(HibernateSearchTools.generateQuery(searchTerms, searchFields, searchFlags, persistentClass, entityManager, defaultAnalyzer), persistentClass);
     }
 
     /**
@@ -179,7 +180,8 @@ public class HibernateSearchImpl<T> implements HibernateSearch<T> {
      * @return 全文検索クエリ
      */
     private FullTextQuery createFullTextQuery(String[] searchTerms, String[] searchFields) {
-        return Search.getFullTextEntityManager(entityManager).createFullTextQuery(HibernateSearchTools.generateQuery(searchTerms, searchFields, persistentClass, entityManager, defaultAnalyzer), persistentClass);
+        return Search.getFullTextEntityManager(entityManager)
+                .createFullTextQuery(HibernateSearchTools.generateQuery(searchTerms, searchFields, persistentClass, entityManager, defaultAnalyzer), persistentClass);
     }
 
     /**

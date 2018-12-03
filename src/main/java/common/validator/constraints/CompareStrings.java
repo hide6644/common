@@ -27,12 +27,12 @@ public @interface CompareStrings {
     String[] propertyNames();
 
     /**
-     *  @return 比較方法
+     *  比較方法
      */
     ComparisonMode comparisonMode();
 
     /**
-     * @return エラーメッセージテンプレート
+     * エラーメッセージテンプレート
      */
     String message() default "{common.validator.constraints.Equal.message}";
 

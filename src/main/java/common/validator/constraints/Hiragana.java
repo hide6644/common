@@ -24,7 +24,7 @@ import javax.validation.constraints.Pattern;
 public @interface Hiragana {
 
     /**
-     * @return エラーメッセージテンプレート
+     * エラーメッセージテンプレート
      */
     String message() default "{common.validator.constraints.Hiragana.message}";
 
