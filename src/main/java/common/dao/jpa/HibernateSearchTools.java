@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import javax.persistence.EntityManager;
@@ -119,13 +118,10 @@ class HibernateSearchTools {
 
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
         SearchFactory searchFactory = fullTextEntityManager.getSearchFactory();
-        IndexReaderAccessor readerAccessor = null;
-        IndexReader reader = null;
+        IndexReaderAccessor readerAccessor = searchFactory.getIndexReaderAccessor();
+        IndexReader reader = readerAccessor.open(searchedEntity);
 
         try {
-            readerAccessor = searchFactory.getIndexReaderAccessor();
-            reader = readerAccessor.open(searchedEntity);
-
             String[] fnames = StreamSupport.stream(
                     Spliterators.spliteratorUnknownSize(
                             MultiFields.getMergedFieldInfos(reader).iterator(), Spliterator.ORDERED),
@@ -133,8 +129,8 @@ class HibernateSearchTools {
                     .filter(fieldInfo -> fieldInfo.getIndexOptions() != IndexOptions.NONE)
                     .filter(fieldInfo -> !fieldInfo.name.equals("_hibernate_class"))
                     .map(fieldInfo -> fieldInfo.name)
-                    .collect(Collectors.toSet())
-                    .toArray(new String[0]);
+                    .distinct()
+                    .toArray(size -> new String[size]);
 
             String[] queries = new String[fnames.length];
             Arrays.fill(queries, searchTerm);
