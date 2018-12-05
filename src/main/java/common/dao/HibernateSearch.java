@@ -57,7 +57,7 @@ public interface HibernateSearch<T> {
      *            取得数
      * @return 検索結果のオブジェクトのリスト
      */
-    public Stream<T> search(String[] searchTerms, String[]searchFields, Integer offset, Integer limit);
+    Stream<T> search(String[] searchTerms, String[]searchFields, Integer offset, Integer limit);
 
     /**
      * 指定の範囲のオブジェクトを取得(全文検索)する.
@@ -70,7 +70,7 @@ public interface HibernateSearch<T> {
      *            取得数
      * @return 検索結果のオブジェクトのリスト
      */
-    public Stream<T> search(String searchTerm, Integer offset, Integer limit);
+    Stream<T> search(String searchTerm, Integer offset, Integer limit);
 
     /**
      * 件数を取得(全文検索)する.
@@ -81,7 +81,7 @@ public interface HibernateSearch<T> {
      *            検索項目
      * @return 件数
      */
-    public long count(String[] searchTerms, String[]searchFields);
+    long count(String[] searchTerms, String[]searchFields);
 
     /**
      * 件数を取得(全文検索)する.
@@ -90,7 +90,7 @@ public interface HibernateSearch<T> {
      *            検索文字列
      * @return 件数
      */
-    public long count(String searchTerm);
+    long count(String searchTerm);
 
     /**
      * ファセットを作成する.

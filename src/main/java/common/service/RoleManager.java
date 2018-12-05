@@ -42,5 +42,5 @@ public interface RoleManager {
      *
      * @return プルダウン表示用の子分類一覧
      */
-    public List<LabelValue> getLabelValues();
+    List<LabelValue> getLabelValues();
 }
