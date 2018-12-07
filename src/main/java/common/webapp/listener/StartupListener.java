@@ -33,7 +33,7 @@ import common.webapp.converter.FileType;
 public class StartupListener implements ServletContextListener {
 
     /** ログ出力クラス */
-    private Logger log = LogManager.getLogger(StartupListener.class);
+    private final Logger log = LogManager.getLogger(this);
 
     /**
      * {@inheritDoc}
