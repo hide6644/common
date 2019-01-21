@@ -33,7 +33,7 @@ import common.webapp.converter.FileType;
 public class StartupListener implements ServletContextListener {
 
     /** ログ出力クラス */
-    private Logger log = LogManager.getLogger(StartupListener.class);
+    private final Logger log = LogManager.getLogger(this);
 
     /**
      * {@inheritDoc}
@@ -55,7 +55,7 @@ public class StartupListener implements ServletContextListener {
      * @param context
      *            {@link ServletContext}
      */
-    public static void setAppContext(ServletContext context) {
+    public void setAppContext(ServletContext context) {
         List<LabelValue> fileTypeList = new ArrayList<>();
         fileTypeList.add(LabelValue.of(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xml"), String.valueOf(FileType.XML.getValue())));
         fileTypeList.add(LabelValue.of(ResourceBundle.getBundle(Constants.BUNDLE_KEY).getString("fileType.xls"), String.valueOf(FileType.EXCEL.getValue())));

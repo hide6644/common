@@ -17,5 +17,5 @@ public interface FileConverter<T> {
      *            アップロードファイル
      * @return 保持クラス一覧
      */
-    public List<T> convert(MultipartFile multipartFile);
+    List<T> convert(MultipartFile multipartFile);
 }

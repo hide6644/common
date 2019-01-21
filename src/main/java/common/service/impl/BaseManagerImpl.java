@@ -13,7 +13,7 @@ import org.springframework.context.support.MessageSourceAccessor;
 public class BaseManagerImpl {
 
     /** ログ出力クラス */
-    protected Logger log = LogManager.getLogger(getClass());
+    protected final Logger log = LogManager.getLogger(this);
 
     /** メッセージソースアクセサー */
     protected MessageSourceAccessor messageSourceAccessor;

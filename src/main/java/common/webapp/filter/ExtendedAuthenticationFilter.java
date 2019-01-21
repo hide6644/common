@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -75,11 +74,7 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
                 userManager.lockoutUser(username);
             }
         } catch (UsernameNotFoundException unfe) {
-            Logger log = LogManager.getLogger(ExtendedAuthenticationFilter.class);
-
-            if (log.isDebugEnabled()) {
-                log.debug("Account not found: username=" + username);
-            }
+            LogManager.getLogger(ExtendedAuthenticationFilter.class).debug("Account not found: username={}", () -> username);
         }
     }
 

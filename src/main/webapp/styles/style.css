@@ -1,116 +1,116 @@
 html {
-	position: relative;
-	min-height: 100%;
+  position: relative;
+  min-height: 100%;
 }
 
 body {
-    padding-top: 80px;
+  padding-top: 80px;
 }
 
 body#login {
-    padding-bottom: 40px;
+  padding-bottom: 40px;
 }
 
 #content {
-    padding-bottom: 60px;
+  padding-bottom: 60px;
 }
 
 h1, h2 {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .row h2 {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 /* FORMS */
 
 .controls.readonly {
-    padding-top: 5px;
+  padding-top: 5px;
 }
 
 .form-group {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .btn-group {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .btn-group .btn, .form-group .btn {
-    margin-left: 5px;
+  margin-left: 5px;
 }
 
 #login p {
-    text-align: center
+  text-align: center;
 }
 
 .form-signin {
-    max-width: 330px;
-    padding: 15px;
-    margin: 0 auto;
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
 }
 
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .form-signin .checkbox {
-    font-weight: normal;
-    margin-left: 20px;
+  font-weight: normal;
+  margin-left: 20px;
 }
 
 .form-signin .form-control {
-    position: relative;
-    font-size: 16px;
-    height: auto;
-    padding: 10px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+  position: relative;
+  font-size: 16px;
+  height: auto;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .form-signin .form-control:focus {
-    z-index: 2;
+  z-index: 2;
 }
 
 .form-signin input[type="text"] {
-    margin-bottom: -1px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+  margin-bottom: -1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 /* FOOTER */
 #footer {
-	position: absolute;
-	bottom: 0;
-	clear: both;
-    margin: 0 auto;
-    padding: 10px 0 10px 0;
-    border-top: 4px solid #f0f0f0;
-    color: #808080;
-    font-size: 0.9em;
+  position: absolute;
+  bottom: 0;
+  clear: both;
+  margin: 0 auto;
+  padding: 10px 0 10px 0;
+  border-top: 4px solid #f0f0f0;
+  color: #808080;
+  font-size: 0.9em;
 }
 
 #footer a {
-    color: #808080;
-    text-decoration: none;
-    margin-left: 5px;
+  color: #808080;
+  text-decoration: none;
+  margin-left: 5px;
 }
 
 #footer a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 #footer p {
-    margin: 0;
+  margin: 0;
 }
 
 /* Responsive
@@ -132,8 +132,8 @@ h1, h2 {
 ------------------------- */
 @media (max-width: 480px) {
 
-    #search {
-        float: none;
-        margin-top: 0;
-    }
+  #search {
+    float: none;
+    margin-top: 0;
+  }
 }

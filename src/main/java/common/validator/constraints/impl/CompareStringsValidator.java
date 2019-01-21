@@ -38,7 +38,10 @@ public class CompareStringsValidator implements ConstraintValidator<CompareStrin
     @Override
     public boolean isValid(Object target, ConstraintValidatorContext context) {
         ConfigurablePropertyAccessor fieldAccessor = PropertyAccessorFactory.forDirectFieldAccess(target);
-        boolean isValid = ConstraintValidatorUtil.isValid(Arrays.stream(propertyNames).map(propertyName -> (String) fieldAccessor.getPropertyValue(propertyName)).collect(Collectors.toList()), comparisonMode);
+        boolean isValid = ConstraintValidatorUtil.isValid(
+                Arrays.stream(propertyNames)
+                .map(propertyName -> (String) fieldAccessor.getPropertyValue(propertyName))
+                .collect(Collectors.toList()), comparisonMode);
 
         if (!isValid) {
             context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()).addPropertyNode(propertyNames[0]).addConstraintViolation().disableDefaultConstraintViolation();

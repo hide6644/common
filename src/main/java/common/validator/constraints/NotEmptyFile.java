@@ -22,7 +22,7 @@ import common.validator.constraints.impl.NotEmptyFileValidator;
 public @interface NotEmptyFile {
 
     /**
-     * @return エラーメッセージテンプレート
+     * エラーメッセージテンプレート
      */
     String message() default "{common.validator.constraints.NotEmptyFile.message}";
 

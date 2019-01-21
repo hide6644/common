@@ -133,21 +133,21 @@
     <div layout:fragment="scripts">
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
-        $(function() {
-            $('#accountExpiredDatePicker').datetimepicker({
-                locale : '[(${#locale.language})]',
-                format : '[(#{datetimepicker.format})]'
-            });
+        $(function () {
+          $('#accountExpiredDatePicker').datetimepicker({
+            locale: '[(${#locale.language})]',
+            format: '[(#{datetimepicker.format})]'
+          })
 
-            $('#credentialsExpiredDatePicker').datetimepicker({
-                locale : '[(${#locale.language})]',
-                format : '[(#{datetimepicker.format})]'
-            });
+          $('#credentialsExpiredDatePicker').datetimepicker({
+            locale: '[(${#locale.language})]',
+            format: '[(#{datetimepicker.format})]'
+          })
 
-            $('#button_cancel').click(function() {
-                $(location).prop('href', '[(${listMode} ? @{\'/admin/master/users\'} : @{\'/top\'})]');
-            });
-        });
+          $('#button_cancel').click(function() {
+            $(location).prop('href', '[(${listMode} ? @{\'/admin/master/users\'} : @{\'/top\'})]')
+          })
+        })
         /*]]>*/
         </script>
     </div>

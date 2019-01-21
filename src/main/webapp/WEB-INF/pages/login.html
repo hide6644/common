@@ -34,25 +34,25 @@
     <div layout:fragment="scripts">
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
-        $(function() {
-            $('#username').val(Cookies.get('login_username'));
+        $(function () {
+          $('#username').val(Cookies.get('login_username'))
 
-            $('#password').focus();
+          $('#password').focus()
 
-            $('#login').submit(function () {
-            	Cookies.set('login_username', $('#username').val(), { expires: 30, path: '[(@{\'/\'})]' });
-            });
+          $('#login').submit(function () {
+            Cookies.set('login_username', $('#username').val(), { expires: 30, path: '[(@{\'/\'})]' })
+          })
 
-            $('#send').click(function() {
-                if ($('#username').val().length == 0) {
-                    alert('[(${#messages.msg(\'errors.required\', \'__#{loginForm.username}__\')})]');
-                    $('#username').focus();
-                } else {
-                    $(location).prop('href', '[(@{\'/requestRecoveryToken\'})]?username=' + $('#username').val());
-                }
-                return false;
-            });
-        });
+          $('#send').click(function () {
+            if ($('#username').val().length === 0) {
+              alert('[(${#messages.msg(\'errors.required\', \'__#{loginForm.username}__\')})]')
+              $('#username').focus()
+            } else {
+              $(location).prop('href', '[(@{\'/requestRecoveryToken\'})]?username=' + $('#username').val())
+            }
+            return false
+          })
+        })
         /*]]>*/
         </script>
     </div>

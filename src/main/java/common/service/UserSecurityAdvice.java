@@ -34,7 +34,7 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
     public static final String ACCESS_DENIED = "Access Denied: Only administrators are allowed to modify other users.";
 
     /** ログ出力クラス */
-    private Logger log = LogManager.getLogger(UserSecurityAdvice.class);
+    private final Logger log = LogManager.getLogger(this);
 
     /**
      * {@inheritDoc}

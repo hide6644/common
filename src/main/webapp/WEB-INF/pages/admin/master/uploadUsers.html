@@ -71,23 +71,23 @@
     <div layout:fragment="scripts">
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
-        $(function() {
-            $('#fileData').click(function() {
-                $('input[name=fileData]').click();
-            });
+        $(function () {
+          $('#fileData').click(function () {
+            $('input[name=fileData]').click()
+          })
 
-            $('#folderOpen').click(function() {
-                $('input[name=fileData]').click();
-            });
+          $('#folderOpen').click(function () {
+            $('input[name=fileData]').click()
+          })
 
-            $('input[name=fileData]').change(function() {
-                $('#fileData').val($(this).prop('files')[0].name);
-            });
+          $('input[name=fileData]').change(function () {
+            $('#fileData').val($(this).prop('files')[0].name)
+          })
 
-            $('#button_cancel').click(function() {
-                $(location).prop('href', '[(@{\'/admin/master/users\'})]');
-            });
-        });
+          $('#button_cancel').click(function () {
+            $(location).prop('href', '[(@{\'/admin/master/users\'})]')
+          })
+        })
         /*]]>*/
         </script>
     </div>
