@@ -261,6 +261,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public boolean isRecoveryTokenValid(String username, String token) {
         return isRecoveryTokenValid(getUserByUsername(username), token);
     }
@@ -269,6 +270,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public boolean isRecoveryTokenValid(User user, String token) {
         return passwordTokenManager.isRecoveryTokenValid(user, token);
     }
@@ -277,6 +279,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void recoveryPassword(String username) {
         userMail.sendPasswordRecoveryEmail(getUserByUsername(username));
     }

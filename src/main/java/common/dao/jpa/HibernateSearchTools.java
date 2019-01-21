@@ -137,9 +137,7 @@ class HibernateSearchTools {
 
             return generateQuery(queries, fnames, searchedEntity, entityManager, defaultAnalyzer);
         } finally {
-            if (readerAccessor != null && reader != null) {
-                readerAccessor.close(reader);
-            }
+            readerAccessor.close(reader);
         }
     }
 
