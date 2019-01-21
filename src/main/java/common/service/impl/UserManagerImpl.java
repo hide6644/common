@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import common.Constants;
 import common.dao.HibernateSearch;
@@ -72,6 +73,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public User getUser(String userId) {
         return userDao.getOne(Long.valueOf(userId));
     }
@@ -80,6 +82,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public User getUserByUsername(String username) {
         return userDao.findByUsername(username);
     }
@@ -98,6 +101,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public User saveUserDetails(UserDetailsForm userDetailsForm) {
         User user = null;
 
@@ -123,6 +127,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public User saveUser(User user) {
         String currentPassword = null;
 
@@ -188,6 +193,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void removeUser(User user) {
         userDao.delete(user);
     }
@@ -196,6 +202,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void removeUser(String userId) {
         userDao.deleteById(Long.valueOf(userId));
     }
@@ -204,6 +211,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public User saveSignupUser(SignupUserForm signupUser) {
         User user = new User();
         BeanUtils.copyProperties(signupUser, user);
@@ -223,6 +231,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void enableUser(String username) {
         User user = getUserByUsername(username);
         user.setConfirmPassword(user.getPassword());
@@ -240,6 +249,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void lockoutUser(String username) {
         User user = getUserByUsername(username);
         user.setConfirmPassword(user.getPassword());
@@ -275,6 +285,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public User updatePassword(PasswordForm passwordForm) {
         User user = getUserByUsername(passwordForm.getUsername());
 
@@ -298,6 +309,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional(readOnly = true)
     public void reindex() {
         userSearch.reindex();
     }

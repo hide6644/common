@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import common.dao.RoleDao;
 import common.dto.LabelValue;
@@ -38,6 +39,7 @@ public class RoleManagerImpl implements RoleManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Role getRole(String rolename) {
         return roleDao.findByName(rolename);
     }
@@ -46,6 +48,7 @@ public class RoleManagerImpl implements RoleManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional(readOnly = true)
     public Set<Role> getRoles(Set<Role> rolenames) {
         return rolenames.stream().map(role -> getRole(role.getName())).collect(Collectors.toSet());
     }
@@ -54,6 +57,7 @@ public class RoleManagerImpl implements RoleManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void removeRole(String rolename) {
         roleDao.removeByName(rolename);
     }
@@ -62,6 +66,7 @@ public class RoleManagerImpl implements RoleManager {
      * {@inheritDoc}
      */
     @Override
+    @Transactional(readOnly = true)
     public List<LabelValue> getLabelValues() {
         return Optional.ofNullable(roleDao.findAll()).orElseGet(ArrayList::new).stream()
                 .map(role -> LabelValue.of(role.getDescription(), role.getName()))

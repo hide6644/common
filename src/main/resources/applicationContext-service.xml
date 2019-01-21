@@ -16,13 +16,12 @@
     <!-- AOP: Configuration and Aspects                                      -->
     <!-- =================================================================== -->
     <aop:config>
-        <aop:advisor id="userManagerTx" advice-ref="userManagerTxAdvice" pointcut="execution(* *..service.UserManager.*(..))" order="0" />
         <aop:advisor id="userManagerSecurity" advice-ref="userSecurityAdvice" pointcut="execution(* *..service.UserManager.saveUserDetails(..))" order="1" />
-        <aop:advisor id="managerTx" advice-ref="txAdvice" pointcut="execution(* *..service.*Manager.*(..))" order="2" />
     </aop:config>
 
-    <!-- Enable @Transactional support -->
-    <tx:annotation-driven />
+    <bean id="userSecurityAdvice" class="common.service.UserSecurityAdvice" />
+
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
     <!-- Enable @AspectJ support -->
     <aop:aspectj-autoproxy />
@@ -33,21 +32,8 @@
     <!-- Activates scanning of @Service -->
     <context:component-scan base-package="common.service,common.validator" />
 
-    <tx:advice id="txAdvice">
-        <tx:attributes>
-            <tx:method name="*" />
-        </tx:attributes>
-    </tx:advice>
-
-    <tx:advice id="userManagerTxAdvice">
-        <tx:attributes>
-            <tx:method name="save*" rollback-for="DatabaseException" />
-        </tx:attributes>
-    </tx:advice>
-
-    <bean id="userSecurityAdvice" class="common.service.UserSecurityAdvice" />
-
-    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+    <!-- Enable @Transactional support -->
+    <tx:annotation-driven />
 
     <!-- =================================================================== -->
     <!-- Mail: Sender and FreeMarker configuration                             -->
