@@ -8,7 +8,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.4.8</version>
+    <version>1.4.9</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -255,9 +255,30 @@
                 <version>${commons-io.version}</version>
             </dependency>
             <dependency>
+                <groupId>net.bytebuddy</groupId>
+                <artifactId>byte-buddy</artifactId>
+                <version>${byte-buddy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.bytebuddy</groupId>
+                <artifactId>byte-buddy-agent</artifactId>
+                <version>${byte-buddy.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.activation</groupId>
@@ -577,8 +598,9 @@
 
         <jdbc.groupId>mysql</jdbc.groupId>
         <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
-        <jdbc.version>8.0.13</jdbc.version>
+        <jdbc.version>8.0.14</jdbc.version>
 
+        <byte-buddy.version>1.9.7</byte-buddy.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
         <commons-io.version>2.6</commons-io.version>
         <commons-lang3.version>3.8.1</commons-lang3.version>
@@ -605,6 +627,7 @@
         <mail.version>1.6.2</mail.version>
         <mockito.version>2.23.4</mockito.version>
         <opencsv.version>4.4</opencsv.version>
+        <poi.version>4.0.1</poi.version>
         <slf4j.version>1.7.25</slf4j.version>
         <spring.version>5.1.4.RELEASE</spring.version>
         <spring-data.version>2.1.4.RELEASE</spring-data.version>
