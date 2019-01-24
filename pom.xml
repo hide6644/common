@@ -439,18 +439,13 @@
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-search-orm</artifactId>
-            <version>${hibernate-search.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jcache</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
+            <artifactId>hibernate-search-orm</artifactId>
+            <version>${hibernate-search.version}</version>
         </dependency>
 
         <!-- Hibernate Validator -->
@@ -611,7 +606,7 @@
         <greenmail.version>1.5.9</greenmail.version>
         <groovy.version>2.5.5</groovy.version>
         <hamcrest.version>2.1</hamcrest.version>
-        <hibernate.version>5.4.0.Final</hibernate.version>
+        <hibernate.version>5.4.1.Final</hibernate.version>
         <hibernate-search.version>5.11.0.Final</hibernate-search.version>
         <hibernate-validator.version>6.0.14.Final</hibernate-validator.version>
         <HikariCP.version>3.3.0</HikariCP.version>
