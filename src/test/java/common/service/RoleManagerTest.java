@@ -3,7 +3,9 @@ package common.service;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +35,11 @@ public class RoleManagerTest extends BaseManagerTestCase {
 
         assertEquals("ROLE_USER", userLabelValue.getValue());
         assertEquals("Default role for all Users", userLabelValue.getLabel());
+
+        Set<LabelValue> labelValue = new HashSet<>();
+        labelValue.add(userLabelValue);
+        labelValue.add(newLabelValue);
+
+        assertTrue(labelValue.contains(newLabelValue));
     }
 }
