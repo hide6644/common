@@ -10,9 +10,6 @@
         http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
     default-lazy-init="true">
 
-    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
-
-    <!-- EntityManagerFactory -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceUnitManager" ref="persistenceUnitManager" />
         <property name="jpaProperties">
@@ -56,6 +53,9 @@
 
     <!-- Needed so the @PersistenceUnit annotation is recognized -->
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+    <!-- Translates native resource exceptions to Spring's DataAccessException hierarchy -->
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
     <!-- Transaction manager for a single EntityManagerFactory (alternative to JTA) -->
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">

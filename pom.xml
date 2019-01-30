@@ -150,7 +150,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.16</version>
+                            <version>8.17</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -595,7 +595,7 @@
         <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
         <jdbc.version>8.0.14</jdbc.version>
 
-        <byte-buddy.version>1.9.7</byte-buddy.version>
+        <byte-buddy.version>1.9.8</byte-buddy.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
         <commons-io.version>2.6</commons-io.version>
         <commons-lang3.version>3.8.1</commons-lang3.version>

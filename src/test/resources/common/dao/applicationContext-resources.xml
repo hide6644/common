@@ -5,8 +5,9 @@
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- ========================= GENERAL DEFINITIONS ========================= -->
-
+    <!-- =================================================================== -->
+    <!-- GENERAL DEFINITIONS                                                 -->
+    <!-- =================================================================== -->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="ignoreUnresolvablePlaceholders" value="true" />
         <property name="locations">
@@ -24,8 +25,9 @@
         <property name="maximumPoolSize" value="${dataSource.maximumPoolSize}" />
     </bean>
 
-    <!-- ========================= RESOURCE DEFINITIONS ========================= -->
-
+    <!-- =================================================================== -->
+    <!-- RESOURCE DEFINITIONS                                                -->
+    <!-- =================================================================== -->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">
             <list>
