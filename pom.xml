@@ -620,7 +620,7 @@
         <log4j.version>2.11.2</log4j.version>
         <lucene.version>5.5.5</lucene.version>
         <mail.version>1.6.2</mail.version>
-        <mockito.version>2.24.5</mockito.version>
+        <mockito.version>2.25.0</mockito.version>
         <opencsv.version>4.5</opencsv.version>
         <poi.version>4.0.1</poi.version>
         <slf4j.version>1.7.26</slf4j.version>
