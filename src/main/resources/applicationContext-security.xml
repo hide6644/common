@@ -7,6 +7,7 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
+    <!-- Resources not processed by spring security filters -->
     <http pattern="/images/**" security="none" />
     <http pattern="/scripts/**" security="none" />
     <http pattern="/styles/**" security="none" />
@@ -43,6 +44,7 @@
         </authentication-provider>
     </authentication-manager>
 
+    <!-- Customized ExceptionMappingAuthenticationFailureHandler -->
     <beans:bean id="authenticationFailureHandler" class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
         <beans:property name="exceptionMappings">
             <beans:props>
