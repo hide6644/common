@@ -8,7 +8,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.4.9</version>
+    <version>1.4.10</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -150,7 +150,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.18</version>
+                            <version>8.19</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -614,8 +614,8 @@
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <jaxb-runtime.version>2.3.2</jaxb-runtime.version>
         <junit-jupiter.version>5.4.1</junit-jupiter.version>
-        <jxls.version>2.5.1</jxls.version>
-        <jxls-poi.version>1.1.0</jxls-poi.version>
+        <jxls.version>2.6.0</jxls.version>
+        <jxls-poi.version>1.2.0</jxls-poi.version>
         <jxls-reader.version>2.0.5</jxls-reader.version>
         <log4j.version>2.11.2</log4j.version>
         <lucene.version>5.5.5</lucene.version>
@@ -624,12 +624,12 @@
         <opencsv.version>4.5</opencsv.version>
         <poi.version>4.0.1</poi.version>
         <slf4j.version>1.7.26</slf4j.version>
-        <spring.version>5.1.5.RELEASE</spring.version>
-        <spring-data.version>2.1.5.RELEASE</spring-data.version>
+        <spring.version>5.1.6.RELEASE</spring.version>
+        <spring-data.version>2.1.6.RELEASE</spring-data.version>
         <spring-security.version>5.1.4.RELEASE</spring-security.version>
         <thymeleaf-spring5.version>3.0.11.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
-        <thymeleaf-layout-dialect.version>2.3.0</thymeleaf-layout-dialect.version>
+        <thymeleaf-layout-dialect.version>2.4.1</thymeleaf-layout-dialect.version>
         <xmlbeans.version>3.1.0</xmlbeans.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
