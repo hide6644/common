@@ -620,13 +620,13 @@
         <log4j.version>2.11.2</log4j.version>
         <lucene.version>5.5.5</lucene.version>
         <mail.version>1.6.2</mail.version>
-        <mockito.version>2.25.1</mockito.version>
+        <mockito.version>2.26.0</mockito.version>
         <opencsv.version>4.5</opencsv.version>
         <poi.version>4.0.1</poi.version>
         <slf4j.version>1.7.26</slf4j.version>
         <spring.version>5.1.6.RELEASE</spring.version>
         <spring-data.version>2.1.6.RELEASE</spring-data.version>
-        <spring-security.version>5.1.4.RELEASE</spring-security.version>
+        <spring-security.version>5.1.5.RELEASE</spring-security.version>
         <thymeleaf-spring5.version>3.0.11.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
         <thymeleaf-layout-dialect.version>2.4.1</thymeleaf-layout-dialect.version>
