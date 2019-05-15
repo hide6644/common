@@ -8,7 +8,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.4.11</version>
+    <version>1.4.12</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -662,7 +662,7 @@
         <poi.version>4.1.0</poi.version>
         <slf4j.version>1.7.26</slf4j.version>
         <spring.version>5.1.7.RELEASE</spring.version>
-        <spring-data.version>2.1.7.RELEASE</spring-data.version>
+        <spring-data.version>2.1.8.RELEASE</spring-data.version>
         <spring-security.version>5.1.5.RELEASE</spring-security.version>
         <thymeleaf-spring5.version>3.0.11.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
