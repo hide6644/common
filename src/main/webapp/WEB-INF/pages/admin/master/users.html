@@ -22,7 +22,7 @@
                     <input type="text" class="form-control input-sm" th:field="*{email}" th:placeholder="#{user.email}" />
                 </div>
                 <button type="submit" class="btn btn-primary btn-sm mb-2">
-                    <em class="fa fa-search" aria-hidden="true"></em>
+                    <em class="fas fa-search" aria-hidden="true"></em>
                     <span th:text="#{button.search}" th:remove="tag">button.search</span>
                 </button>
             </form>
@@ -50,29 +50,29 @@
                 <div class="form-actions">
                     <p>
                         <button type="button" class="btn btn-primary" id="button_new" th:value="|@{'/user'}?mode=Add&from=list|">
-                            <em class="fa fa-plus" aria-hidden="true"></em>
+                            <em class="fas fa-plus" aria-hidden="true"></em>
                             <span th:text="#{button.add}" th:remove="tag">button.add</span>
                         </button>
                         <button type="button" class="btn btn-primary" id="button_edit" th:value="|@{'/user'}?from=list&userId=|">
-                            <em class="fa fa-pencil" aria-hidden="true"></em>
+                            <em class="fas fa-edit" aria-hidden="true"></em>
                             <span th:text="#{button.edit}" th:remove="tag">button.edit</span>
                         </button>
                         <button type="submit" class="btn btn-warning" id="button_delete">
-                            <em class="fa fa-minus" aria-hidden="true"></em>
+                            <em class="fas fa-minus" aria-hidden="true"></em>
                             <span th:text="#{button.delete}" th:remove="tag">button.delete</span>
                         </button>
                         <button type="button" class="btn btn-secondary" id="button_cancel">
-                            <em class="fa fa-undo" aria-hidden="true"></em>
+                            <em class="fas fa-undo" aria-hidden="true"></em>
                             <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
                         </button>
                     </p>
                     <p>
                         <button type="button" class="btn btn-secondary" id="button_upload">
-                            <em class="fa fa-upload" aria-hidden="true"></em>
+                            <em class="fas fa-upload" aria-hidden="true"></em>
                             <span th:text="#{button.upload}" th:remove="tag">button.upload</span>
                         </button>
                         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#downloadModal" id="button_download">
-                            <em class="fa fa-download" aria-hidden="true"></em>
+                            <em class="fas fa-download" aria-hidden="true"></em>
                             <span th:text="#{button.download}" th:remove="tag">button.download</span>
                         </button>
                     </p>
