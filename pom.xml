@@ -628,7 +628,7 @@
 
         <jdbc.groupId>org.mariadb.jdbc</jdbc.groupId>
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
-        <jdbc.version>2.4.1</jdbc.version>
+        <jdbc.version>2.4.2</jdbc.version>
 
         <byte-buddy.version>1.9.13</byte-buddy.version>
         <commons-collections4.version>4.3</commons-collections4.version>
@@ -645,8 +645,8 @@
         <groovy.version>2.5.7</groovy.version>
         <hamcrest.version>2.1</hamcrest.version>
         <hibernate.version>5.4.3.Final</hibernate.version>
-        <hibernate-search.version>5.11.1.Final</hibernate-search.version>
-        <hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
+        <hibernate-search.version>5.11.2.Final</hibernate-search.version>
+        <hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
         <HikariCP.version>3.3.1</HikariCP.version>
         <javax.activation.version>1.1.1</javax.activation.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
@@ -662,8 +662,8 @@
         <opencsv.version>4.6</opencsv.version>
         <poi.version>4.1.0</poi.version>
         <slf4j.version>1.7.26</slf4j.version>
-        <spring.version>5.1.7.RELEASE</spring.version>
-        <spring-data.version>2.1.8.RELEASE</spring-data.version>
+        <spring.version>5.1.8.RELEASE</spring.version>
+        <spring-data.version>2.1.9.RELEASE</spring-data.version>
         <spring-security.version>5.1.5.RELEASE</spring-security.version>
         <thymeleaf-spring5.version>3.0.11.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
