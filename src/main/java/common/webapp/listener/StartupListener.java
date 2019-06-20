@@ -99,7 +99,7 @@ public class StartupListener implements ServletContextListener {
             appVersion = String.valueOf(new Random().nextInt(100000));
         }
 
-        log.info("Application version set to: " + appVersion);
+        log.info("Application version set to: {}", appVersion);
         context.setAttribute(Constants.ASSETS_VERSION, appVersion);
     }
 

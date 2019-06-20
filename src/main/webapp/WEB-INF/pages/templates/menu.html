@@ -16,7 +16,7 @@
                 <a href="#" class="nav-link" th:href="@{'/top'}" th:text="#{topForm.title}"></a>
             </li>
             <li class="nav-item" th:classappend="${currentMenu} == 'userSaveForm' ? 'active'" sec:authorize="isAuthenticated()">
-                <a href="#" class="nav-link" th:href="@{'/user'}" th:text="#{user} + #{button.edit}"></a>
+                <a href="#" class="nav-link" th:href="@{'/user'}" th:text="#{userSaveForm.heading}"></a>
             </li>
             <li class="nav-item dropdown" th:classappend="${currentMenu} == 'admin' ? 'active'" sec:authorize="hasRole('ROLE_ADMIN')">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">

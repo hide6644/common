@@ -31,7 +31,7 @@
                         <div class="input-append">
                             <input type="text" class="input-medium" th:classappend="${#fields.hasErrors('fileData')} ? is-invalid" id="fileData" readonly="readonly" />
                             <button type="button" class="btn btn-secondary" id="folderOpen">
-                                <em class="fa fa-folder-open" aria-hidden="true"></em>
+                                <em class="fas fa-folder-open" aria-hidden="true"></em>
                                 <span th:text="#{uploadForm.folderOpen}" th:remove="tag">uploadForm.folderOpen</span>
                             </button>
                         </div>
@@ -40,10 +40,10 @@
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">
-                        <em class="fa fa-check" aria-hidden="true"></em> <span th:text="#{button.upload}" th:remove="tag">button.upload</span>
+                        <em class="fas fa-check" aria-hidden="true"></em> <span th:text="#{button.upload}" th:remove="tag">button.upload</span>
                     </button>
                     <button type="button" class="btn btn-secondary" id="button_cancel">
-                        <em class="fa fa-undo" aria-hidden="true"></em> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
+                        <em class="fas fa-undo" aria-hidden="true"></em> <span th:text="#{button.cancel}" th:remove="tag">button.cancel</span>
                     </button>
                 </div>
             </form>

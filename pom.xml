@@ -8,7 +8,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.4.12</version>
+    <version>1.4.13</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -58,7 +58,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.8.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -81,7 +81,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.2.2</version>
+                <version>3.2.3</version>
                 <configuration>
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
                 </configuration>
@@ -89,7 +89,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.1</version>
+                <version>2.22.2</version>
                 <configuration>
                     <reuseForks>false</reuseForks>
                     <argLine>${argLine} -Dcatalina.base=${project.build.directory}</argLine>
@@ -98,12 +98,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.22.1</version>
+                <version>2.22.2</version>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.2</version>
+                <version>0.8.4</version>
                 <executions>
                     <execution>
                         <goals>
@@ -134,6 +134,11 @@
                     <url>http://localhost:8080/manager/text</url>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>4.3.0</version>
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -145,17 +150,17 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.1.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.1.0</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.20</version>
+                            <version>8.21</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -183,7 +188,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>3.1.9</version>
+                <version>3.1.12</version>
                 <configuration>
                     <effort>Max</effort>
                     <xmlOutput>true</xmlOutput>
@@ -193,7 +198,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
                 <configuration>
                     <configLocation>src/config/checkstyle.xml</configLocation>
                 </configuration>
@@ -221,7 +226,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.1.0</version>
                 <configuration>
                     <author>true</author>
                     <source>1.8</source>
@@ -449,6 +454,24 @@
             <version>${spring-security.version}</version>
         </dependency>
 
+        <!-- Hibernate -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-hikaricp</artifactId>
+            <version>${hibernate.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jcache</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
         <!-- Hibernate Search & Lucene -->
         <dependency>
             <groupId>org.apache.lucene</groupId>
@@ -459,23 +482,6 @@
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-queryparser</artifactId>
             <version>${lucene.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-hikaricp</artifactId>
-            <version>${hibernate.version}</version>
-            <scope>runtime</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.zaxxer</groupId>
-                    <artifactId>HikariCP-java6</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-jcache</artifactId>
-            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -632,9 +638,9 @@
 
         <jdbc.groupId>org.mariadb.jdbc</jdbc.groupId>
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
-        <jdbc.version>2.4.1</jdbc.version>
+        <jdbc.version>2.4.2</jdbc.version>
 
-        <byte-buddy.version>1.9.12</byte-buddy.version>
+        <byte-buddy.version>1.9.13</byte-buddy.version>
         <commons-collections4.version>4.3</commons-collections4.version>
         <commons-digester3.version>3.2</commons-digester3.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
@@ -648,9 +654,9 @@
         <greenmail.version>1.5.10</greenmail.version>
         <groovy.version>2.5.7</groovy.version>
         <hamcrest.version>2.1</hamcrest.version>
-        <hibernate.version>5.4.1.Final</hibernate.version>
-        <hibernate-search.version>5.11.1.Final</hibernate-search.version>
-        <hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
+        <hibernate.version>5.4.3.Final</hibernate.version>
+        <hibernate-search.version>5.11.2.Final</hibernate-search.version>
+        <hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
         <HikariCP.version>3.3.1</HikariCP.version>
         <javax.activation.version>1.1.1</javax.activation.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
@@ -662,12 +668,12 @@
         <log4j.version>2.11.2</log4j.version>
         <lucene.version>5.5.5</lucene.version>
         <mail.version>1.6.2</mail.version>
-        <mockito.version>2.27.0</mockito.version>
+        <mockito.version>2.28.2</mockito.version>
         <opencsv.version>4.6</opencsv.version>
         <poi.version>4.1.0</poi.version>
         <slf4j.version>1.7.26</slf4j.version>
-        <spring.version>5.1.7.RELEASE</spring.version>
-        <spring-data.version>2.1.8.RELEASE</spring-data.version>
+        <spring.version>5.1.8.RELEASE</spring.version>
+        <spring-data.version>2.1.9.RELEASE</spring-data.version>
         <spring-security.version>5.1.5.RELEASE</spring-security.version>
         <thymeleaf-spring5.version>3.0.11.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
