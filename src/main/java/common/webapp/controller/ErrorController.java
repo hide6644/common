@@ -4,8 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * エラー処理クラス.
@@ -22,7 +21,7 @@ public class ErrorController extends BaseController {
      *            {@link HttpServletRequest}
      * @return 遷移先
      */
-    @RequestMapping(value = "error", method = { RequestMethod.GET, RequestMethod.POST })
+    @GetMapping(value = "error")
     public String renderErrorPage(Model model, HttpServletRequest request) {
         switch ((Integer) request.getAttribute("javax.servlet.error.status_code")) {
         case 401:
