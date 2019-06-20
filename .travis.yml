@@ -1,7 +1,7 @@
 language: java
 sudo: false
 jdk:
-  - oraclejdk8
+  - openjdk8
 before_script:
   - mysql -uroot -e "create database common"
   - mysql -uroot common < src/config/schema.sql
