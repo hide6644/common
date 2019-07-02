@@ -155,7 +155,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.21</version>
+                            <version>8.22</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -656,11 +656,11 @@
         <javax.activation.version>1.1.1</javax.activation.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <jaxb-runtime.version>2.3.2</jaxb-runtime.version>
-        <junit-jupiter.version>5.4.2</junit-jupiter.version>
+        <junit-jupiter.version>5.5.0</junit-jupiter.version>
         <jxls.version>2.6.0</jxls.version>
         <jxls-poi.version>1.2.0</jxls-poi.version>
         <jxls-reader.version>2.0.5</jxls-reader.version>
-        <log4j.version>2.11.2</log4j.version>
+        <log4j.version>2.12.0</log4j.version>
         <lucene.version>5.5.5</lucene.version>
         <mail.version>1.6.2</mail.version>
         <mockito.version>2.28.2</mockito.version>
