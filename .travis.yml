@@ -3,6 +3,7 @@ sudo: false
 jdk:
   - openjdk8
 before_script:
+  - mysql -e "set global sql_mode = ''"
   - mysql -uroot -e "create database common"
   - mysql -uroot common < src/config/schema.sql
   - mysql -uroot common < src/config/data.sql
