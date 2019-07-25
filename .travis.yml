@@ -3,7 +3,7 @@ sudo: false
 services:
   - mysql
 jdk:
-  - openjdk8
+  - openjdk11
 before_script:
   - mysql -e "set global sql_mode = ''"
   - mysql -uroot -e "create database common"
