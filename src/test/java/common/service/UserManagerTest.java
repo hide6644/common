@@ -50,7 +50,7 @@ public class UserManagerTest extends BaseManagerTestCase {
         userDetailsForm.setConfirmPassword(user.getPassword());
         userDetailsForm.setLastName("smith");
 
-        log.debug("saving user with updated last name: " + userDetailsForm);
+        log.debug("saving user with updated last name:{}", userDetailsForm);
 
         user = userManager.saveUserDetails(userDetailsForm);
 

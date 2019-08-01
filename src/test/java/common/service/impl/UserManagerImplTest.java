@@ -114,7 +114,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
             userManager.saveUserDetails(userDetailsForm);
             fail("Expected UserExistsException not thrown");
         } catch (DatabaseException e) {
-            log.debug("expected exception: " + e.getMessage());
+            log.error("expected exception:", e);
             assertNotNull(e);
         }
     }

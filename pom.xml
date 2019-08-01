@@ -96,11 +96,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.22.2</version>
-            </plugin>
-            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.4</version>
@@ -138,6 +133,18 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>com.github.spotbugs</groupId>
+                    <artifactId>spotbugs-maven-plugin</artifactId>
+                    <version>3.1.12.1</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.github.spotbugs</groupId>
+                            <artifactId>spotbugs</artifactId>
+                            <version>3.1.12</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-antrun-plugin</artifactId>
                     <version>1.8</version>
@@ -155,7 +162,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.22</version>
+                            <version>8.23</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -183,7 +190,6 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>3.1.12.1</version>
                 <configuration>
                     <effort>Max</effort>
                     <xmlOutput>true</xmlOutput>
@@ -193,7 +199,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.0</version>
                 <configuration>
                     <configLocation>src/config/checkstyle.xml</configLocation>
                 </configuration>
@@ -231,6 +236,11 @@
                     <docencoding>UTF-8</docencoding>
                     <doclint>all,-missing</doclint>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.22.2</version>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -635,7 +645,7 @@
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
         <jdbc.version>2.4.2</jdbc.version>
 
-        <byte-buddy.version>1.9.15</byte-buddy.version>
+        <byte-buddy.version>1.9.16</byte-buddy.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-digester3.version>3.2</commons-digester3.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>

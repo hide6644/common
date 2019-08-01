@@ -28,7 +28,7 @@ public class MockFilterChain implements FilterChain {
         }
 
         this.forwardURL = uri;
-        log.debug("Forwarding to: " + uri);
+        log.debug("Forwarding to:{}", uri);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(uri);
         dispatcher.forward(request, response);

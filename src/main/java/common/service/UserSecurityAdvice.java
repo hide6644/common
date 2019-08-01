@@ -48,9 +48,7 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
             UserDetailsForm userDetailsForm = (UserDetailsForm) args[0];
 
             if (new AuthenticationTrustResolverImpl().isAnonymous(auth)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Registering new user '" + userDetailsForm.getUsername() + "'");
-                }
+                log.debug("Registering new user '{}'", () -> userDetailsForm.getUsername());
             } else {
                 checkAuthentication(auth, userDetailsForm);
             }
@@ -70,7 +68,7 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
         User currentUser = getCurrentUser(auth);
 
         if (!Objects.equals(userDetailsForm.getId(), currentUser.getId()) && !administrator) {
-            log.warn("Access Denied: '" + currentUser.getUsername() + "' tried to modify '" + userDetailsForm.getUsername() + "'!");
+            log.warn("Access Denied: '{}' tried to modify '{}'!", () -> currentUser.getUsername(), () -> userDetailsForm.getUsername());
             throw new AccessDeniedException(ACCESS_DENIED);
         } else if (userDetailsForm.getId() != null && userDetailsForm.getId().equals(currentUser.getId()) && !administrator) {
             // 入力されたユーザの権限
