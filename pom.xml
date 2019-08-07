@@ -8,7 +8,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.4.13</version>
+    <version>1.4.14</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -135,7 +135,7 @@
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>3.1.12.1</version>
+                    <version>3.1.12.2</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.github.spotbugs</groupId>
@@ -179,7 +179,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.7.1</version>
+                    <version>3.8.2</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -643,9 +643,9 @@
 
         <jdbc.groupId>org.mariadb.jdbc</jdbc.groupId>
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
-        <jdbc.version>2.4.2</jdbc.version>
+        <jdbc.version>2.4.3</jdbc.version>
 
-        <byte-buddy.version>1.9.16</byte-buddy.version>
+        <byte-buddy.version>1.10.0</byte-buddy.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-digester3.version>3.2</commons-digester3.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
@@ -659,7 +659,7 @@
         <greenmail.version>1.5.10</greenmail.version>
         <groovy.version>2.5.7</groovy.version>
         <hamcrest.version>2.1</hamcrest.version>
-        <hibernate.version>5.4.3.Final</hibernate.version>
+        <hibernate.version>5.4.4.Final</hibernate.version>
         <hibernate-search.version>5.11.2.Final</hibernate-search.version>
         <hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
         <HikariCP.version>3.3.1</HikariCP.version>
@@ -677,9 +677,9 @@
         <opencsv.version>4.6</opencsv.version>
         <poi.version>4.1.0</poi.version>
         <slf4j.version>1.7.26</slf4j.version>
-        <spring.version>5.1.8.RELEASE</spring.version>
-        <spring-data.version>2.1.9.RELEASE</spring-data.version>
-        <spring-security.version>5.1.5.RELEASE</spring-security.version>
+        <spring.version>5.1.9.RELEASE</spring.version>
+        <spring-data.version>2.1.10.RELEASE</spring-data.version>
+        <spring-security.version>5.1.6.RELEASE</spring-security.version>
         <thymeleaf-spring5.version>3.0.11.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
         <thymeleaf-layout-dialect.version>2.4.1</thymeleaf-layout-dialect.version>
