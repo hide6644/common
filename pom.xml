@@ -8,7 +8,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.4.14</version>
+    <version>1.4.15</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -643,7 +643,7 @@
 
         <jdbc.groupId>org.mariadb.jdbc</jdbc.groupId>
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
-        <jdbc.version>2.4.3</jdbc.version>
+        <jdbc.version>2.4.4</jdbc.version>
 
         <byte-buddy.version>1.10.1</byte-buddy.version>
         <commons-collections4.version>4.4</commons-collections4.version>
@@ -662,18 +662,18 @@
         <hibernate.version>5.4.4.Final</hibernate.version>
         <hibernate-search.version>5.11.2.Final</hibernate-search.version>
         <hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
-        <HikariCP.version>3.3.1</HikariCP.version>
+        <HikariCP.version>3.4.0</HikariCP.version>
         <javax.activation.version>1.1.1</javax.activation.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <jaxb-runtime.version>2.3.2</jaxb-runtime.version>
-        <junit-jupiter.version>5.5.1</junit-jupiter.version>
+        <junit-jupiter.version>5.5.2</junit-jupiter.version>
         <jxls.version>2.6.0</jxls.version>
         <jxls-poi.version>1.2.0</jxls-poi.version>
         <jxls-reader.version>2.0.5</jxls-reader.version>
         <log4j.version>2.12.1</log4j.version>
         <lucene.version>5.5.5</lucene.version>
         <mail.version>1.6.2</mail.version>
-        <mockito.version>2.28.2</mockito.version>
+        <mockito.version>3.0.0</mockito.version>
         <opencsv.version>4.6</opencsv.version>
         <poi.version>4.1.0</poi.version>
         <slf4j.version>1.7.28</slf4j.version>
