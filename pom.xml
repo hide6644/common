@@ -8,7 +8,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.4.15</version>
+    <version>1.4.16</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -162,7 +162,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.23</version>
+                            <version>8.25</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -673,13 +673,13 @@
         <log4j.version>2.12.1</log4j.version>
         <lucene.version>5.5.5</lucene.version>
         <mail.version>1.6.2</mail.version>
-        <mockito.version>3.0.0</mockito.version>
+        <mockito.version>3.1.0</mockito.version>
         <opencsv.version>4.6</opencsv.version>
         <poi.version>4.1.0</poi.version>
         <slf4j.version>1.7.28</slf4j.version>
-        <spring.version>5.1.9.RELEASE</spring.version>
-        <spring-data.version>2.1.10.RELEASE</spring-data.version>
-        <spring-security.version>5.1.6.RELEASE</spring-security.version>
+        <spring.version>5.2.0.RELEASE</spring.version>
+        <spring-data.version>2.2.0.RELEASE</spring-data.version>
+        <spring-security.version>5.2.0.RELEASE</spring-security.version>
         <thymeleaf-spring5.version>3.0.11.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
         <thymeleaf-layout-dialect.version>2.4.1</thymeleaf-layout-dialect.version>
