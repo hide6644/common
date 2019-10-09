@@ -643,7 +643,7 @@
 
         <jdbc.groupId>org.mariadb.jdbc</jdbc.groupId>
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
-        <jdbc.version>2.4.4</jdbc.version>
+        <jdbc.version>2.5.0</jdbc.version>
 
         <byte-buddy.version>1.10.1</byte-buddy.version>
         <commons-collections4.version>4.4</commons-collections4.version>
@@ -659,7 +659,7 @@
         <greenmail.version>1.5.10</greenmail.version>
         <groovy.version>2.5.8</groovy.version>
         <hamcrest.version>2.1</hamcrest.version>
-        <hibernate.version>5.4.5.Final</hibernate.version>
+        <hibernate.version>5.4.6.Final</hibernate.version>
         <hibernate-search.version>5.11.3.Final</hibernate-search.version>
         <hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
         <HikariCP.version>3.4.1</HikariCP.version>
