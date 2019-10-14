@@ -26,7 +26,7 @@ public abstract class BaseManagerMockTestCase {
         try {
             rb = ResourceBundle.getBundle(className);
         } catch (MissingResourceException e) {
-            log.trace("No resource bundle found for: " + className, e);
+            log.trace("No resource bundle found for:{}", className, e);
         }
     }
 
@@ -36,7 +36,7 @@ public abstract class BaseManagerMockTestCase {
         try {
             BeanUtils.copyProperties(obj, map);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            log.trace("Copy failed: ", e);
+            log.trace("Copy failed:", e);
         }
 
         return obj;

@@ -57,7 +57,7 @@ public class UserDaoTest extends BaseDaoTestCase {
 
         assertNotNull(password);
 
-        log.debug("password: " + password);
+        log.debug("password:{}", password);
     }
 
     @Test

@@ -75,7 +75,7 @@ public class UserController extends BaseController {
         // 管理者でない場合、自身以外のユーザを登録、更新することは出来ない
         if (!request.isUserInRole(Constants.ADMIN_ROLE) && (Objects.equals(request.getParameter("mode"), "Add") || userId != null)) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
-            log.warn("User '" + request.getRemoteUser() + "' is trying to edit user with id '" + request.getParameter("id") + "'");
+            log.warn("User '{}' is trying to edit user with id '{}'", () -> request.getRemoteUser(), () -> request.getParameter("id"));
             throw new AccessDeniedException("You do not have permission to modify other users.");
         }
 

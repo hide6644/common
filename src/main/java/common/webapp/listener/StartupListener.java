@@ -89,7 +89,7 @@ public class StartupListener implements ServletContextListener {
                 appVersion = atts.getValue("Implementation-Version");
             }
         } catch (IOException e) {
-            log.error("I/O Exception reading manifest: " + e.getMessage());
+            log.error("I/O Exception reading manifest:", e);
         }
 
         // ブラウザのキャッシュを破棄させるために、バージョン番号をページに埋め込む
@@ -99,7 +99,7 @@ public class StartupListener implements ServletContextListener {
             appVersion = String.valueOf(new Random().nextInt(100000));
         }
 
-        log.info("Application version set to: {}", appVersion);
+        log.info("Application version set to:{}", appVersion);
         context.setAttribute(Constants.ASSETS_VERSION, appVersion);
     }
 
