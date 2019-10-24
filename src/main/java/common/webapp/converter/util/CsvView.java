@@ -22,6 +22,7 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 
 import common.Constants;
 
@@ -34,7 +35,7 @@ public class CsvView extends AbstractUrlBasedView {
      * {@inheritDoc}
      */
     @Override
-    protected final void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected final void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws IOException, CsvException {
         List<String[]> csv = null;
 
         if (getUrl() != null) {

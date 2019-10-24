@@ -20,6 +20,7 @@ import org.xml.sax.SAXException;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvException;
 
 import common.Constants;
 import common.entity.BaseObjects;
@@ -123,7 +124,7 @@ public class UserFileConverterFactory {
                 }).collect(Collectors.toList());
             } catch (IOException e) {
                 throw new FileException("errors.io", e);
-            } catch (IllegalArgumentException | IndexOutOfBoundsException | TypeMismatchException e) {
+            } catch (CsvException | IllegalArgumentException | IndexOutOfBoundsException | TypeMismatchException e) {
                 throw new FileException("errors.convert", e);
             }
         };
