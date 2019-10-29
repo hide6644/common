@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.jxls.reader.XLSDataReadException;
 import org.springframework.core.io.ClassPathResource;
@@ -112,7 +113,7 @@ public class UserFileConverterFactory {
                     CSVReader reader = new CSVReaderBuilder(is).withSkipLines(1).build()) {
                 ColumnPositionMappingStrategy<User> strat = new ColumnPositionMappingStrategy<>();
                 strat.setType(User.class);
-                strat.setColumnMapping("username", "password", "firstName", "lastName", "email");
+                strat.setColumnMapping(FileUtils.readFileToString(new ClassPathResource("/common/webapp/converter/User.csv").getFile(), Constants.ENCODING).split(","));
 
                 CsvToBean<User> csv = new CsvToBean<>();
                 csv.setCsvReader(reader);
