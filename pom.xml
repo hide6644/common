@@ -654,9 +654,9 @@
         <greenmail.version>1.5.11</greenmail.version>
         <groovy.version>2.5.8</groovy.version>
         <hamcrest.version>2.2</hamcrest.version>
-        <hibernate.version>5.4.7.Final</hibernate.version>
+        <hibernate.version>5.4.8.Final</hibernate.version>
         <hibernate-search.version>5.11.3.Final</hibernate-search.version>
-        <hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
+        <hibernate-validator.version>6.1.0.Final</hibernate-validator.version>
         <HikariCP.version>3.4.1</HikariCP.version>
         <javax.activation.version>1.1.1</javax.activation.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>

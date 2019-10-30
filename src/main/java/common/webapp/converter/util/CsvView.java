@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -25,7 +26,6 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvException;
 
 import common.Constants;
-import common.entity.User;
 
 /**
  * CSVファイルを作成するクラス.
@@ -48,14 +48,13 @@ public class CsvView extends AbstractUrlBasedView {
                 // ヘッダー行を追加
                 writer.writeNext(csv.get(0));
 
-                ColumnPositionMappingStrategy<User> strat = new ColumnPositionMappingStrategy<>();
-                strat.setType(User.class);
+                ColumnPositionMappingStrategy<Serializable> strat = (ColumnPositionMappingStrategy<Serializable>) model.get("strategy");
                 strat.setColumnMapping(csv.get(1));
 
-                StatefulBeanToCsv<User> beanToCsv = new StatefulBeanToCsvBuilder<User>(writer)
+                StatefulBeanToCsv<Serializable> beanToCsv = new StatefulBeanToCsvBuilder<Serializable>(writer)
                         .withMappingStrategy(strat)
                         .build();
-                beanToCsv.write((List<User>) model.get("csv"));
+                beanToCsv.write((List<Serializable>) model.get("csv"));
             }
         }
     }
