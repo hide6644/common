@@ -187,7 +187,7 @@ class HibernateSearchTools {
         try {
             massIndexer.startAndWait();
         } catch (InterruptedException e) {
-            LogManager.getLogger(HibernateSearchTools.class).warn("mass reindexing interrupted: " + e.getMessage());
+            LogManager.getLogger(HibernateSearchTools.class).warn("mass reindexing interrupted:{}", () -> e.getMessage());
             Thread.currentThread().interrupt();
         } finally {
             txtentityManager.flushToIndexes();
@@ -214,7 +214,7 @@ class HibernateSearchTools {
                 massIndexer.start();
             }
         } catch (InterruptedException e) {
-            LogManager.getLogger(HibernateSearchTools.class).warn("mass reindexing interrupted: " + e.getMessage());
+            LogManager.getLogger(HibernateSearchTools.class).warn("mass reindexing interrupted:{}", () -> e.getMessage());
             Thread.currentThread().interrupt();
         } finally {
             txtentityManager.flushToIndexes();

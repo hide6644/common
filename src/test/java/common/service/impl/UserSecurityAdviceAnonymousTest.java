@@ -1,6 +1,7 @@
 package common.service.impl;
 
-import static org.mockito.BDDMockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,6 +52,8 @@ public class UserSecurityAdviceAnonymousTest {
         userDetailsForm.setId(1L);
         userDetailsForm.getRoles().add(new Role(Constants.USER_ROLE));
 
-        userManager.saveUserDetails(userDetailsForm);
+        assertDoesNotThrow(() -> {
+            userManager.saveUserDetails(userDetailsForm);
+        });
     }
 }
