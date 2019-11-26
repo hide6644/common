@@ -4,7 +4,6 @@ import static common.dao.jpa.UserSpecifications.*;
 import static org.springframework.data.jpa.domain.Specification.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +14,8 @@ import java.util.stream.Stream;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.apache.lucene.search.SortField;
+import org.hibernate.search.jpa.FullTextQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,7 @@ import common.Constants;
 import common.dao.HibernateSearch;
 import common.dao.UserDao;
 import common.dto.PaginatedList;
+import common.dto.SearchTermAndField;
 import common.dto.UploadForm;
 import common.dto.UploadResult;
 import common.dto.UserSearchCriteria;
@@ -157,28 +159,27 @@ public class UsersManagerImpl extends BaseManagerImpl implements UsersManager {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("unchecked")
     @Override
     @Transactional(readOnly = true)
     public PaginatedList<UserSearchResults> createPaginatedListByFullText(UserSearchCriteria userSearchCriteria, Integer page) {
-        String[][] searchTermAndField = getSearchTermAndField(userSearchCriteria);
         PageRequest pageRequest = PageRequest.of(Optional.ofNullable(page).orElse(1) - 1, Constants.PAGING_SIZE);
-        Stream<User> userList = null;
-        Long userCount = null;
+        SearchTermAndField searchTermAndField = getSearchTermAndField(userSearchCriteria);
+        org.apache.lucene.search.Sort sort = new org.apache.lucene.search.Sort(new SortField(UserSearchCriteria.USERNAME_FIELD + "Sort", SortField.Type.STRING));
+        FullTextQuery userQuery = null;
 
-        if (searchTermAndField[0].length == 0) {
-            userList = userSearch.search("*", pageRequest.getPageNumber(), pageRequest.getPageSize());
-            userCount = userSearch.count("*");
+        if (searchTermAndField.isEmpty()) {
+            userQuery = userSearch.search("*", pageRequest.getOffset(), pageRequest.getPageSize(), sort);
         } else {
-            userList = userSearch.search(searchTermAndField[0], searchTermAndField[1], pageRequest.getPageNumber(), pageRequest.getPageSize());
-            userCount = userSearch.count(searchTermAndField[0], searchTermAndField[1]);
+            userQuery = userSearch.search(searchTermAndField.getTermToArray(), searchTermAndField.getFieldToArray(),
+                    pageRequest.getOffset(), pageRequest.getPageSize(), sort);
         }
 
         return new PaginatedList<>(new PageImpl<>(
-                userList
-                        .sorted(Comparator.comparing(user -> user.getUsername()))
+                ((Stream<User>) userQuery.getResultStream())
                         .map(user -> UserSearchResults.of(user))
                         .collect(Collectors.toList()),
-                pageRequest, userCount));
+                pageRequest, userQuery.getResultSize()));
     }
 
     /**
@@ -186,22 +187,19 @@ public class UsersManagerImpl extends BaseManagerImpl implements UsersManager {
      *
      * @param userSearchCriteria
      *            ユーザ検索条件
-     * @return [0]:検索文字列の配列、[1]:検索項目の配列
+     * @return 全文検索用の検索文字列、検索項目
      */
-    private String[][] getSearchTermAndField(UserSearchCriteria userSearchCriteria) {
-        List<String> searchTermList = new ArrayList<>();
-        List<String> searchFieldList = new ArrayList<>();
+    private SearchTermAndField getSearchTermAndField(UserSearchCriteria userSearchCriteria) {
+        SearchTermAndField searchTermAndField = new SearchTermAndField();
 
         Optional.ofNullable(userSearchCriteria.getUsername()).ifPresent(username -> {
-            searchTermList.add(username);
-            searchFieldList.add(UserSearchCriteria.USERNAME_FIELD);
+            searchTermAndField.addTermAndField(username, UserSearchCriteria.USERNAME_FIELD);
         });
         Optional.ofNullable(userSearchCriteria.getEmail()).ifPresent(email -> {
-            searchTermList.add(email);
-            searchFieldList.add(UserSearchCriteria.EMAIL_FIELD);
+            searchTermAndField.addTermAndField(email, UserSearchCriteria.EMAIL_FIELD);
         });
 
-        return new String[][] { searchTermList.toArray(new String[searchTermList.size()]), searchFieldList.toArray(new String[searchFieldList.size()]) };
+        return searchTermAndField;
     }
 
     /**

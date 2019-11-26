@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 
@@ -29,6 +30,7 @@ import common.service.UsersManager;
  * ユーザ一覧処理クラス.
  */
 @Controller
+@SessionAttributes("userSearchCriteria")
 public class UsersController extends BaseController {
 
     /** ユーザ処理クラス */

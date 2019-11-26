@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -30,6 +31,10 @@ import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Facet;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Normalizer;
+import org.hibernate.search.annotations.NormalizerDef;
+import org.hibernate.search.annotations.SortableField;
+import org.hibernate.search.annotations.TokenFilterDef;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,6 +52,7 @@ import common.validator.constraints.UniqueKey;
 @Cache(region = "userCache", usage = CacheConcurrencyStrategy.READ_WRITE)
 @Indexed
 @Analyzer(impl = JapaneseAnalyzer.class)
+@NormalizerDef(name = "userSort", filters = @TokenFilterDef(factory = LowerCaseFilterFactory.class))
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @CompareStrings.List({
@@ -125,6 +131,8 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     @Length(min = 6, max = 16)
     @Column(nullable = false, length = 16, unique = true)
     @Field
+    @Field(name = "usernameSort", normalizer = @Normalizer(definition = "userSort"))
+    @SortableField(forField = "usernameSort")
     @Override
     public String getUsername() {
         return username;
@@ -193,7 +201,9 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     @Column(name = "first_name", nullable = false, length = 64)
     @Field
     @Field(name = "firstNameFacet", analyze = Analyze.NO)
+    @Field(name = "firstNameSort", normalizer = @Normalizer(definition = "userSort"))
     @Facet(forField = "firstNameFacet")
+    @SortableField(forField = "firstNameSort")
     public String getFirstName() {
         return firstName;
     }
@@ -217,7 +227,9 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     @Column(name = "last_name", length = 64)
     @Field
     @Field(name = "lastNameFacet", analyze = Analyze.NO)
+    @Field(name = "lastNameSort", normalizer = @Normalizer(definition = "userSort"))
     @Facet(forField = "lastNameFacet")
+    @SortableField(forField = "lastNameSort")
     public String getLastName() {
         return lastName;
     }
@@ -242,6 +254,8 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     @Length(max = 64)
     @Column(nullable = false, length = 64, unique = true)
     @Field
+    @Field(name = "emailSort", normalizer = @Normalizer(definition = "userSort"))
+    @SortableField(forField = "emailSort")
     public String getEmail() {
         return email;
     }

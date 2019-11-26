@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.apache.lucene.search.BooleanClause.Occur;
+import org.apache.lucene.search.SortField;
+import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.query.facet.Facet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import common.dao.jpa.HibernateSearchImpl;
+import common.dto.UserSearchCriteria;
 import common.entity.User;
 
 public class HibernateSearchTest extends BaseDaoTestCase {
@@ -24,31 +27,32 @@ public class HibernateSearchTest extends BaseDaoTestCase {
         hibernateSearch.reindexAll(false);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testSearch() {
         hibernateSearch.reindex();
-        Stream<User> userList = hibernateSearch.search("normaluser");
+        Stream<User> userList = hibernateSearch.search("normaluser").getResultStream();
 
         userList.forEach(user -> {
             assertNotNull(user);
             assertEquals("normaluser", user.getUsername());
         });
 
-        userList = hibernateSearch.search(new String[]{"normaluser"}, new String[]{"username"}, new Occur[]{Occur.SHOULD});
+        userList = hibernateSearch.search(new String[]{"normaluser"}, new String[]{"username"}, new Occur[]{Occur.SHOULD}).getResultStream();
 
         userList.forEach(user -> {
             assertNotNull(user);
             assertEquals("normaluser", user.getUsername());
         });
 
-        userList = hibernateSearch.search(new String[]{"normaluser"}, new String[]{"username"});
+        userList = hibernateSearch.search(new String[]{"normaluser"}, new String[]{"username"}).getResultStream();
 
         userList.forEach(user -> {
             assertNotNull(user);
             assertEquals("normaluser", user.getUsername());
         });
 
-        userList = hibernateSearch.search("*");
+        userList = hibernateSearch.search("*").getResultStream();
 
         assertEquals(2, userList.count());
     }
@@ -66,21 +70,21 @@ public class HibernateSearchTest extends BaseDaoTestCase {
     @Test
     public void testPaged() {
         hibernateSearch.reindex();
-        Stream<User> userList = hibernateSearch.search("normaluser", 0, 10);
-        Long userCount = hibernateSearch.count("normaluser");
+        org.apache.lucene.search.Sort sort = new org.apache.lucene.search.Sort(new SortField(UserSearchCriteria.USERNAME_FIELD + "Sort", SortField.Type.STRING));
+        FullTextQuery userList = hibernateSearch.search("normaluser", 0L, 10, sort);
 
-        assertEquals(1, userList.count());
-        assertEquals(Long.valueOf(1), userCount);
+        assertEquals(1, userList.getResultStream().count());
+        assertEquals(Integer.valueOf(1), userList.getResultSize());
     }
 
     @Test
     public void testPagedByField() {
         hibernateSearch.reindex();
-        Stream<User> userList = hibernateSearch.search(new String[]{"normaluser"}, new String[]{"username"}, 0, 10);
-        Long userCount = hibernateSearch.count(new String[]{"normaluser"}, new String[]{"username"});
+        org.apache.lucene.search.Sort sort = new org.apache.lucene.search.Sort(new SortField(UserSearchCriteria.USERNAME_FIELD + "Sort", SortField.Type.STRING));
+        FullTextQuery userList = hibernateSearch.search(new String[]{"normaluser"}, new String[]{"username"}, 0L, 10, sort);
 
-        assertEquals(1, userList.count());
-        assertEquals(Long.valueOf(1), userCount);
+        assertEquals(1, userList.getResultStream().count());
+        assertEquals(Integer.valueOf(1), userList.getResultSize());
     }
 
     @Test

@@ -2,7 +2,6 @@ package common.dao.jpa;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.search.BooleanClause.Occur;
+import org.apache.lucene.search.Sort;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.facet.Facet;
@@ -60,74 +60,59 @@ public class HibernateSearchImpl<T> implements HibernateSearch<T> {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
-    public Stream<T> search(String[] searchTerms, String[] searchFields, Occur[] searchFlags) {
-        return createFullTextQuery(searchTerms, searchFields, searchFlags).getResultStream();
+    public FullTextQuery search(String[] searchTerms, String[] searchFields, Occur[] searchFlags) {
+        return createFullTextQuery(searchTerms, searchFields, searchFlags);
     }
 
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
-    public Stream<T> search(String[] searchTerms, String[] searchFields) {
-        return createFullTextQuery(searchTerms, searchFields).getResultStream();
+    public FullTextQuery search(String[] searchTerms, String[] searchFields) {
+        return createFullTextQuery(searchTerms, searchFields);
     }
 
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
-    public Stream<T> search(String searchTerm) {
-        return createFullTextQuery(searchTerm).getResultStream();
+    public FullTextQuery search(String searchTerm) {
+        return createFullTextQuery(searchTerm);
     }
 
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
-    public Stream<T> search(String[] searchTerms, String[] searchFields, Integer offset, Integer limit) {
+    public FullTextQuery search(String[] searchTerms, String[] searchFields, Long offset, Integer limit, Sort sort) {
         Occur[] searchFlags = new Occur[searchFields.length];
         Arrays.fill(searchFlags, Occur.MUST);
         FullTextQuery query = createFullTextQuery(searchTerms, searchFields, searchFlags);
 
-        query.setFirstResult(offset);
+        query.setFirstResult(offset.intValue());
         query.setMaxResults(limit);
+        if (sort != null) {
+            query.setSort(sort);
+        }
 
-        return query.getResultStream();
+        return query;
     }
 
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
-    public Stream<T> search(String searchTerm, Integer offset, Integer limit) {
+    public FullTextQuery search(String searchTerm, Long offset, Integer limit, Sort sort) {
         FullTextQuery query = createFullTextQuery(searchTerm);
 
-        query.setFirstResult(offset);
+        query.setFirstResult(offset.intValue());
         query.setMaxResults(limit);
+        if (sort != null) {
+            query.setSort(sort);
+        }
 
-        return query.getResultStream();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public long count(String[] searchTerms, String[] searchFields) {
-        return createFullTextQuery(searchTerms, searchFields).getResultSize();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public long count(String searchTerm) {
-        return createFullTextQuery(searchTerm).getResultSize();
+        return query;
     }
 
     /**
