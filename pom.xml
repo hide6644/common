@@ -657,7 +657,7 @@
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <jaxb-runtime.version>2.3.2</jaxb-runtime.version>
         <junit-jupiter.version>5.5.2</junit-jupiter.version>
-        <jxls.version>2.7.1</jxls.version>
+        <jxls.version>2.7.2</jxls.version>
         <jxls-poi.version>1.3.1</jxls-poi.version>
         <jxls-reader.version>2.0.6</jxls-reader.version>
         <log4j.version>2.12.1</log4j.version>

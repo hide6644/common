@@ -37,7 +37,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     /** UserのHibernate Search DAO */
     @Autowired
     @Qualifier("userSearch")
-    private HibernateSearch<User> userSearch;
+    private HibernateSearch userSearch;
 
     /** パスワードエンコーダー */
     @Autowired(required = false)

@@ -19,7 +19,7 @@ import common.entity.User;
 
 public class HibernateSearchTest extends BaseDaoTestCase {
 
-    private HibernateSearch<User> hibernateSearch;
+    private HibernateSearch hibernateSearch;
 
     @BeforeEach
     public void setUp() {

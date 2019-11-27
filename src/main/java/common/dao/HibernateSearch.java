@@ -10,7 +10,7 @@ import org.hibernate.search.query.facet.Facet;
 /**
  * Hibernate Search DAOのインターフェース.
  */
-public interface HibernateSearch<T> {
+public interface HibernateSearch {
 
     /**
      * 全文検索する.

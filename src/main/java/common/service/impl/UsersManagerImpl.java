@@ -58,7 +58,7 @@ public class UsersManagerImpl extends BaseManagerImpl implements UsersManager {
     /** UserのHibernate Search DAO */
     @Autowired
     @Qualifier("userSearch")
-    private HibernateSearch<User> userSearch;
+    private HibernateSearch userSearch;
 
     /** パスワードエンコーダー */
     @Autowired(required = false)
@@ -192,12 +192,10 @@ public class UsersManagerImpl extends BaseManagerImpl implements UsersManager {
     private SearchTermAndField getSearchTermAndField(UserSearchCriteria userSearchCriteria) {
         SearchTermAndField searchTermAndField = new SearchTermAndField();
 
-        Optional.ofNullable(userSearchCriteria.getUsername()).ifPresent(username -> {
-            searchTermAndField.addTermAndField(username, UserSearchCriteria.USERNAME_FIELD);
-        });
-        Optional.ofNullable(userSearchCriteria.getEmail()).ifPresent(email -> {
-            searchTermAndField.addTermAndField(email, UserSearchCriteria.EMAIL_FIELD);
-        });
+        Optional.ofNullable(userSearchCriteria.getUsername())
+                .ifPresent(username -> searchTermAndField.addTermAndField(username, UserSearchCriteria.USERNAME_FIELD));
+        Optional.ofNullable(userSearchCriteria.getEmail())
+                .ifPresent(email -> searchTermAndField.addTermAndField(email, UserSearchCriteria.EMAIL_FIELD));
 
         return searchTermAndField;
     }

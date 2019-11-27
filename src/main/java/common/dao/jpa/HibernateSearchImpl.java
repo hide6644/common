@@ -20,7 +20,7 @@ import common.dao.HibernateSearch;
 /**
  * Hibernate Searchの実装クラス.
  */
-public class HibernateSearchImpl<T> implements HibernateSearch<T> {
+public class HibernateSearchImpl<T> implements HibernateSearch {
 
     /** Entity Managerクラス */
     @PersistenceContext(unitName = Constants.PERSISTENCE_UNIT_NAME)
