@@ -152,7 +152,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.26</version>
+                            <version>8.27</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -635,7 +635,7 @@
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
         <jdbc.version>2.5.2</jdbc.version>
 
-        <byte-buddy.version>1.10.3</byte-buddy.version>
+        <byte-buddy.version>1.10.4</byte-buddy.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-digester3.version>3.2</commons-digester3.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
@@ -663,12 +663,12 @@
         <log4j.version>2.12.1</log4j.version>
         <lucene.version>5.5.5</lucene.version>
         <mail.version>1.6.2</mail.version>
-        <mockito.version>3.1.0</mockito.version>
+        <mockito.version>3.2.0</mockito.version>
         <opencsv.version>5.0</opencsv.version>
         <poi.version>4.1.1</poi.version>
         <slf4j.version>1.7.29</slf4j.version>
-        <spring.version>5.2.1.RELEASE</spring.version>
-        <spring-data.version>2.2.2.RELEASE</spring-data.version>
+        <spring.version>5.2.2.RELEASE</spring.version>
+        <spring-data.version>2.2.3.RELEASE</spring-data.version>
         <spring-security.version>5.2.1.RELEASE</spring-security.version>
         <thymeleaf-spring5.version>3.0.11.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
