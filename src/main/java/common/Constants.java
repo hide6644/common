@@ -23,7 +23,7 @@ public class Constants {
     public static final String PREFERRED_LOCALE_KEY = "common.LOCALE";
 
     /** ResourceBundleの名前 */
-    public static final String BUNDLE_KEY = "ApplicationResources";
+    public static final String BUNDLE_KEY = "messages";
 
     /** アプリケーション名 */
     public static final String APP_BASE = ResourceBundle.getBundle(BUNDLE_KEY).getString("app.base");

@@ -80,7 +80,7 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
                     .map(role -> role.getAuthority()).collect(Collectors.toSet());
 
             if (!CollectionUtils.isEqualCollection(userRoles, authorizedRoles)) {
-                log.warn("Access Denied: '" + currentUser.getUsername() + "' tried to change their role(s)!");
+                log.warn("Access Denied: '{}' tried to change their role(s)!", () -> currentUser.getUsername());
                 throw new AccessDeniedException(ACCESS_DENIED);
             }
         }

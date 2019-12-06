@@ -89,7 +89,9 @@ public class UserSecurityAdviceTest {
         userDetailsForm.setUsername("user");
         userDetailsForm.setId(1L);
 
-        userManager.saveUserDetails(userDetailsForm);
+        assertDoesNotThrow(() -> {
+            userManager.saveUserDetails(userDetailsForm);
+        });
     }
 
     @Test
@@ -100,7 +102,9 @@ public class UserSecurityAdviceTest {
         userDetailsForm.getRoles().add(new Role(Constants.USER_ROLE));
         userDetailsForm.setVersion(1L);
 
-        userManager.saveUserDetails(userDetailsForm);
+        assertDoesNotThrow(() -> {
+            userManager.saveUserDetails(userDetailsForm);
+        });
     }
 
     @Test
@@ -157,7 +161,9 @@ public class UserSecurityAdviceTest {
         userDetailsForm.getRoles().add(new Role(Constants.USER_ROLE));
         userDetailsForm.setVersion(1L);
 
-        userManager.saveUserDetails(userDetailsForm);
+        assertDoesNotThrow(() -> {
+            userManager.saveUserDetails(userDetailsForm);
+        });
     }
 
     @Test
@@ -168,6 +174,8 @@ public class UserSecurityAdviceTest {
         userDetailsForm.getRoles().add(new Role(Constants.USER_ROLE));
         userDetailsForm.setVersion(1L);
 
-        userManager.saveUserDetails(userDetailsForm);
+        assertDoesNotThrow(() -> {
+            userManager.saveUserDetails(userDetailsForm);
+        });
     }
 }

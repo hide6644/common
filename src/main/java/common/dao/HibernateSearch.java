@@ -1,15 +1,16 @@
 package common.dao;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.apache.lucene.search.BooleanClause.Occur;
+import org.apache.lucene.search.Sort;
+import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.query.facet.Facet;
 
 /**
  * Hibernate Search DAOのインターフェース.
  */
-public interface HibernateSearch<T> {
+public interface HibernateSearch {
 
     /**
      * 全文検索する.
@@ -20,9 +21,9 @@ public interface HibernateSearch<T> {
      *            検索項目
      * @param searchFlags
      *            検索項目のフラグ
-     * @return 検索結果のオブジェクトのリスト
+     * @return 検索結果のオブジェクト
      */
-    Stream<T> search(String[] searchTerms, String[] searchFields, Occur[] searchFlags);
+    FullTextQuery search(String[] searchTerms, String[] searchFields, Occur[] searchFlags);
 
     /**
      * 全文検索する.
@@ -31,18 +32,18 @@ public interface HibernateSearch<T> {
      *            検索文字列
      * @param searchFields
      *            検索項目
-     * @return 検索結果のオブジェクトのリスト
+     * @return 検索結果のオブジェクト
      */
-    Stream<T> search(String[] searchTerms, String[] searchFields);
+    FullTextQuery search(String[] searchTerms, String[] searchFields);
 
     /**
      * 全文検索する.
      *
      * @param searchTerm
      *            検索文字列
-     * @return 検索結果のオブジェクトのリスト
+     * @return 検索結果のオブジェクト
      */
-    Stream<T> search(String searchTerm);
+    FullTextQuery search(String searchTerm);
 
     /**
      * 指定の範囲のオブジェクトを取得(全文検索)する.
@@ -55,9 +56,11 @@ public interface HibernateSearch<T> {
      *            開始位置
      * @param limit
      *            取得数
-     * @return 検索結果のオブジェクトのリスト
+     * @param sort
+     *            並び順
+     * @return 検索結果のオブジェクト
      */
-    Stream<T> search(String[] searchTerms, String[]searchFields, Integer offset, Integer limit);
+    FullTextQuery search(String[] searchTerms, String[]searchFields, Long offset, Integer limit, Sort sort);
 
     /**
      * 指定の範囲のオブジェクトを取得(全文検索)する.
@@ -68,29 +71,11 @@ public interface HibernateSearch<T> {
      *            開始位置
      * @param limit
      *            取得数
-     * @return 検索結果のオブジェクトのリスト
+     * @param sort
+     *            並び順
+     * @return 検索結果のオブジェクト
      */
-    Stream<T> search(String searchTerm, Integer offset, Integer limit);
-
-    /**
-     * 件数を取得(全文検索)する.
-     *
-     * @param searchTerms
-     *            検索文字列
-     * @param searchFields
-     *            検索項目
-     * @return 件数
-     */
-    long count(String[] searchTerms, String[]searchFields);
-
-    /**
-     * 件数を取得(全文検索)する.
-     *
-     * @param searchTerm
-     *            検索文字列
-     * @return 件数
-     */
-    long count(String searchTerm);
+    FullTextQuery search(String searchTerm, Long offset, Integer limit, Sort sort);
 
     /**
      * ファセットを作成する.

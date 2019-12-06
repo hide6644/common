@@ -31,7 +31,9 @@ public class UserControllerTest extends BaseControllerTestCase {
 
     @Test
     public void testInitBinder() {
-        c.initBinder(new WebDataBinder(User.class));
+        assertDoesNotThrow(() -> {
+            c.initBinder(new WebDataBinder(User.class));
+        });
     }
 
     @Test

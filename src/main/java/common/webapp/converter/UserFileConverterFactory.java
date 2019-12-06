@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -14,19 +13,19 @@ import javax.xml.bind.JAXBException;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.jxls.reader.XLSDataReadException;
-import org.springframework.beans.TypeMismatchException;
 import org.springframework.core.io.ClassPathResource;
 import org.xml.sax.SAXException;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.bean.ColumnPositionMappingStrategy;
+import com.opencsv.bean.CsvToBean;
 
 import common.Constants;
 import common.entity.BaseObjects;
 import common.entity.User;
 import common.entity.Users;
 import common.exception.FileException;
-import common.webapp.converter.util.CsvFileReader;
 import common.webapp.converter.util.JxlsFileReader;
 import common.webapp.converter.util.XmlFileReader;
 
@@ -112,18 +111,17 @@ public class UserFileConverterFactory {
         return multipartFile -> {
             try (InputStreamReader is = new InputStreamReader(multipartFile.getInputStream(), Constants.ENCODING);
                     CSVReader reader = new CSVReaderBuilder(is).withSkipLines(1).build()) {
-                return reader.readAll().stream().map(line -> {
-                    try {
-                        CsvFileReader csvFileReader = new CsvFileReader(
-                                FileUtils.readFileToString(new ClassPathResource("/common/webapp/converter/User.csv").getFile(), Constants.ENCODING).split(","));
-                        return csvFileReader.read(new User(), line);
-                    } catch (IOException e) {
-                        throw new FileException("errors.io", e);
-                    }
-                }).collect(Collectors.toList());
+                ColumnPositionMappingStrategy<User> strat = new ColumnPositionMappingStrategy<>();
+                strat.setType(User.class);
+                strat.setColumnMapping(FileUtils.readFileToString(new ClassPathResource("/common/webapp/converter/User.csv").getFile(), Constants.ENCODING).split(","));
+
+                CsvToBean<User> csv = new CsvToBean<>();
+                csv.setCsvReader(reader);
+                csv.setMappingStrategy(strat);
+                return csv.parse();
             } catch (IOException e) {
                 throw new FileException("errors.io", e);
-            } catch (IllegalArgumentException | IndexOutOfBoundsException | TypeMismatchException e) {
+            } catch (IllegalStateException e) {
                 throw new FileException("errors.convert", e);
             }
         };
