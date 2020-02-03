@@ -651,7 +651,7 @@
         <hamcrest.version>2.2</hamcrest.version>
         <hibernate.version>5.4.10.Final</hibernate.version>
         <hibernate-search.version>5.11.4.Final</hibernate-search.version>
-        <hibernate-validator.version>6.1.1.Final</hibernate-validator.version>
+        <hibernate-validator.version>6.1.2.Final</hibernate-validator.version>
         <HikariCP.version>3.4.2</HikariCP.version>
         <javax.activation.version>1.1.1</javax.activation.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
@@ -664,7 +664,7 @@
         <lucene.version>5.5.5</lucene.version>
         <mail.version>1.6.2</mail.version>
         <mockito.version>3.2.4</mockito.version>
-        <opencsv.version>5.0</opencsv.version>
+        <opencsv.version>5.1</opencsv.version>
         <poi.version>4.1.1</poi.version>
         <slf4j.version>1.7.30</slf4j.version>
         <spring.version>5.2.3.RELEASE</spring.version>
