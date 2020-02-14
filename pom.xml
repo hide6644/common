@@ -649,7 +649,7 @@
         <greenmail.version>1.5.11</greenmail.version>
         <groovy.version>2.5.9</groovy.version>
         <hamcrest.version>2.2</hamcrest.version>
-        <hibernate.version>5.4.10.Final</hibernate.version>
+        <hibernate.version>5.4.11.Final</hibernate.version>
         <hibernate-search.version>5.11.4.Final</hibernate-search.version>
         <hibernate-validator.version>6.1.2.Final</hibernate-validator.version>
         <HikariCP.version>3.4.2</HikariCP.version>
@@ -665,7 +665,7 @@
         <mail.version>1.6.2</mail.version>
         <mockito.version>3.2.4</mockito.version>
         <opencsv.version>5.1</opencsv.version>
-        <poi.version>4.1.1</poi.version>
+        <poi.version>4.1.2</poi.version>
         <slf4j.version>1.7.30</slf4j.version>
         <spring.version>5.2.3.RELEASE</spring.version>
         <spring-data.version>2.2.4.RELEASE</spring-data.version>
