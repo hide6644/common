@@ -49,8 +49,8 @@ public class UserController extends BaseController {
     /**
      * {@inheritDoc}
      */
-    @InitBinder
     @Override
+    @InitBinder
     public void initBinder(WebDataBinder binder) {
         super.initBinder(binder);
         binder.registerCustomEditor(LocalDateTime.class, new LocalDateTimeEditor(DateTimeFormatter.ofPattern(getText("date.time.format")), true));
@@ -67,8 +67,8 @@ public class UserController extends BaseController {
      * @throws IOException
      *             {@link IOException}
      */
-    @ModelAttribute("user")
     @GetMapping
+    @ModelAttribute("user")
     public UserDetailsForm showForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String userId = request.getParameter("userId");
 

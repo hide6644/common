@@ -30,8 +30,8 @@ public class SignupController extends BaseController {
      *
      * @return ユーザ
      */
-    @ModelAttribute("user")
     @GetMapping("signup")
+    @ModelAttribute("user")
     public SignupUserForm showForm() {
         return new SignupUserForm();
     }
