@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
+import lombok.Getter;
+
 /**
  * ページング処理、情報保持クラス.
  */
@@ -21,6 +23,7 @@ public final class PaginatedList<T> {
     private final Page<T> paged;
 
     /** ページリンクの表示数 */
+    @Getter
     private final int pageRangeSize;
 
     /**
@@ -71,15 +74,6 @@ public final class PaginatedList<T> {
      */
     public int getPageSize() {
         return paged.getSize();
-    }
-
-    /**
-     * ページリンクの表示数を取得する.
-     *
-     * @return ページリンクの表示数
-     */
-    public int getPageRangeSize() {
-        return pageRangeSize;
     }
 
     /**
