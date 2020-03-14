@@ -19,6 +19,7 @@
 * HikariCP
 * JavaMail
 * Jxls
+* Lombok
 * Spring
 * Spring Data
 * Spring Security
