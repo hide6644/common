@@ -23,8 +23,8 @@ public class PasswordTokenManagerImpl implements PasswordTokenManager {
     public static final String EXPIRATION_DATE_FORMAT = "yyyyMMddHHmm";
 
     /** パスワードエンコーダー */
-    @Qualifier("passwordTokenEncoder")
     @Autowired
+    @Qualifier("passwordTokenEncoder")
     private PasswordEncoder passwordTokenEncoder;
 
     /**

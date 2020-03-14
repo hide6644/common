@@ -43,10 +43,19 @@ import common.validator.constraints.BasicLatin;
 import common.validator.constraints.CompareStrings;
 import common.validator.constraints.ComparisonMode;
 import common.validator.constraints.UniqueKey;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 /**
  * ユーザ.
  */
+@NoArgsConstructor
+@RequiredArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "app_user")
 @Cache(region = "userCache", usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -54,7 +63,7 @@ import common.validator.constraints.UniqueKey;
 @Analyzer(impl = JapaneseAnalyzer.class)
 @NormalizerDef(name = "userSort", filters = @TokenFilterDef(factory = LowerCaseFilterFactory.class))
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @CompareStrings.List({
         @CompareStrings(
                 propertyNames = { "confirmPassword", "password" },
@@ -75,57 +84,7 @@ import common.validator.constraints.UniqueKey;
 public final class User extends BaseObject implements Serializable, UserDetails {
 
     /** ユーザ名 */
-    private String username;
-
-    /** パスワード */
-    private String password;
-
-    /** パスワード(確認用) */
-    private String confirmPassword;
-
-    /** 名前 */
-    private String firstName;
-
-    /** 名字 */
-    private String lastName;
-
-    /** ｅメール */
-    private String email;
-
-    /** 有効 */
-    private boolean enabled;
-
-    /** ロックアウト */
-    private boolean accountLocked;
-
-    /** 有効期限切れ日時 */
-    private LocalDateTime accountExpiredDate;
-
-    /** 要再認証日時 */
-    private LocalDateTime credentialsExpiredDate;
-
-    /** 権限 */
-    private Set<Role> roles = new HashSet<>();
-
-    /**
-     * デフォルト・コンストラクタ
-     */
-    public User() {
-    }
-
-    /**
-     * コンストラクタ
-     *
-     * @param username
-     *            ユーザ名
-     */
-    public User(String username) {
-        this.username = username;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
+    @NonNull
     @NotEmpty
     @BasicLatin
     @Length(min = 6, max = 16)
@@ -133,69 +92,21 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     @Field
     @Field(name = "usernameSort", normalizer = @Normalizer(definition = "userSort"))
     @SortableField(forField = "usernameSort")
-    @Override
-    public String getUsername() {
-        return username;
-    }
+    private String username;
 
-    /**
-     * ユーザ名を設定する.
-     *
-     * @param username
-     *            ユーザ名
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
+    /** パスワード */
     @NotEmpty
     @Length(min = 6, max = 80)
     @Column(nullable = false, length = 80)
-    @Override
-    public String getPassword() {
-        return password;
-    }
+    private String password;
 
-    /**
-     * パスワードを設定する.
-     *
-     * @param password
-     *            パスワード
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
-     * パスワード(確認用)を取得する.
-     *
-     * @return パスワード(確認用)
-     */
+    /** パスワード(確認用) */
     @Length(max = 80)
     @Transient
     @XmlTransient
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
+    private String confirmPassword;
 
-    /**
-     * パスワード(確認用)を設定する.
-     *
-     * @param confirmPassword
-     *            パスワード(確認用)
-     */
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
-    /**
-     * 名前を取得する.
-     *
-     * @return 名前
-     */
+    /** 名前 */
     @NotEmpty
     @Length(max = 64)
     @Column(name = "first_name", nullable = false, length = 64)
@@ -204,25 +115,9 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     @Field(name = "firstNameSort", normalizer = @Normalizer(definition = "userSort"))
     @Facet(forField = "firstNameFacet")
     @SortableField(forField = "firstNameSort")
-    public String getFirstName() {
-        return firstName;
-    }
+    private String firstName;
 
-    /**
-     * 名前を設定する.
-     *
-     * @param firstName
-     *            名前
-     */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    /**
-     * 名字を取得する.
-     *
-     * @return 名字
-     */
+    /** 名字 */
     @Length(max = 64)
     @Column(name = "last_name", length = 64)
     @Field
@@ -230,25 +125,9 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     @Field(name = "lastNameSort", normalizer = @Normalizer(definition = "userSort"))
     @Facet(forField = "lastNameFacet")
     @SortableField(forField = "lastNameSort")
-    public String getLastName() {
-        return lastName;
-    }
+    private String lastName;
 
-    /**
-     * 名字を設定する.
-     *
-     * @param lastName
-     *            名字
-     */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    /**
-     * ｅメールを取得する.
-     *
-     * @return ｅメール
-     */
+    /** ｅメール */
     @NotEmpty
     @Email
     @Length(max = 64)
@@ -256,131 +135,25 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     @Field
     @Field(name = "emailSort", normalizer = @Normalizer(definition = "userSort"))
     @SortableField(forField = "emailSort")
-    public String getEmail() {
-        return email;
-    }
+    private String email;
 
-    /**
-     * ｅメールを設定する.
-     *
-     * @param email
-     *            ｅメール
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
+    /** 有効 */
     @Column(name = "account_enabled")
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+    private boolean enabled;
 
-    /**
-     * 有効を設定する.
-     *
-     * @param enabled
-     *            有効
-     */
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    /**
-     * ロックアウトを取得する.
-     *
-     * @return ロックアウト
-     */
+    /** ロックアウト */
     @Column(name = "account_locked")
-    public boolean isAccountLocked() {
-        return accountLocked;
-    }
+    private boolean accountLocked;
 
-    /**
-     * ロックアウトを設定する.
-     *
-     * @param accountLocked
-     *            ロックアウト
-     */
-    public void setAccountLocked(boolean accountLocked) {
-        this.accountLocked = accountLocked;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Transient
-    @Override
-    public boolean isAccountNonLocked() {
-        return !isAccountLocked();
-    }
-
-    /**
-     * 有効期限切れ日時を取得する.
-     *
-     * @return 有効期限切れ日時
-     */
+    /** 有効期限切れ日時 */
     @Column(name = "account_expired_date")
-    public LocalDateTime getAccountExpiredDate() {
-        return accountExpiredDate;
-    }
+    private LocalDateTime accountExpiredDate;
 
-    /**
-     * 有効期限切れ日時を設定する.
-     *
-     * @param accountExpiredDate
-     *            有効期限切れ日時
-     */
-    public void setAccountExpiredDate(LocalDateTime accountExpiredDate) {
-        this.accountExpiredDate = accountExpiredDate;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Transient
-    @Override
-    public boolean isAccountNonExpired() {
-        return !(accountExpiredDate != null && accountExpiredDate.isBefore(LocalDateTime.now()));
-    }
-
-    /**
-     * 要再認証日時を取得する.
-     *
-     * @return 要再認証日時
-     */
+    /** 要再認証日時 */
     @Column(name = "credentials_expired_date")
-    public LocalDateTime getCredentialsExpiredDate() {
-        return credentialsExpiredDate;
-    }
+    private LocalDateTime credentialsExpiredDate;
 
-    /**
-     * 要再認証日時を設定する.
-     *
-     * @param credentialsExpiredDate
-     *            要再認証日時
-     */
-    public void setCredentialsExpiredDate(LocalDateTime credentialsExpiredDate) {
-        this.credentialsExpiredDate = credentialsExpiredDate;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Transient
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return !(credentialsExpiredDate != null && credentialsExpiredDate.isBefore(LocalDateTime.now()));
-    }
-
-    /**
-     * 権限を取得する.
-     *
-     * @return 権限
-     */
+    /** 権限 */
     @NotEmpty
     @Valid
     @ManyToMany(fetch = FetchType.EAGER)
@@ -389,18 +162,57 @@ public final class User extends BaseObject implements Serializable, UserDetails 
             joinColumns = { @JoinColumn(name = "user_id", nullable = false) },
             inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false)
         )
-    public Set<Role> getRoles() {
-        return roles;
+    private Set<Role> roles = new HashSet<>();
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getUsername() {
+        return username;
     }
 
     /**
-     * 権限を設定する.
-     *
-     * @param roles
-     *            権限
+     * {@inheritDoc}
      */
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transient
+    public boolean isAccountNonLocked() {
+        return !isAccountLocked();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transient
+    public boolean isAccountNonExpired() {
+        return !(accountExpiredDate != null && accountExpiredDate.isBefore(LocalDateTime.now()));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transient
+    public boolean isCredentialsNonExpired() {
+        return !(credentialsExpiredDate != null && credentialsExpiredDate.isBefore(LocalDateTime.now()));
     }
 
     /**
@@ -426,8 +238,8 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     /**
      * {@inheritDoc}
      */
-    @Transient
     @Override
+    @Transient
     public Set<GrantedAuthority> getAuthorities() {
         return new LinkedHashSet<>(roles);
     }

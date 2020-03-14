@@ -8,18 +8,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.NoArgsConstructor;
+
 /**
  * ユーザリスト.
  */
+@NoArgsConstructor
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public final class Users extends BaseObjects<User> implements Serializable {
-
-    /**
-     * デフォルト・コンストラクタ.
-     */
-    public Users() {
-    }
 
     /**
      * コンストラクタ.

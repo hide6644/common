@@ -6,30 +6,21 @@ import java.util.List;
 import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.XmlTransient;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  * エンティティリストの基底クラス.
  */
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
 @MappedSuperclass
 public abstract class BaseObjects<T extends Serializable> implements Serializable {
 
     /** エンティティリスト */
     private List<T> objects;
-
-    /**
-     * デフォルト・コンストラクタ.
-     */
-    public BaseObjects() {
-    }
-
-    /**
-     * コンストラクタ.
-     *
-     * @param objects
-     *            エンティティリスト
-     */
-    public BaseObjects(List<T> objects) {
-        this.objects = objects;
-    }
 
     /**
      * 件数を取得する.
@@ -48,15 +39,5 @@ public abstract class BaseObjects<T extends Serializable> implements Serializabl
     @XmlTransient
     public List<T> getObjects() {
         return objects;
-    }
-
-    /**
-     * エンティティリストを設定する.
-     *
-     * @param objects
-     *            エンティティリスト
-     */
-    public void setObjects(List<T> objects) {
-        this.objects = objects;
     }
 }

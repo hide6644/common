@@ -4,9 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 取り込み結果を保持するクラス.
  */
+@Getter
+@Setter
 public class UploadResult implements Serializable {
 
     /** 取り込み成功総数 */
@@ -29,48 +34,10 @@ public class UploadResult implements Serializable {
     }
 
     /**
-     * 取り込み成功総数を取得する.
-     *
-     * @return 取り込み成功総数
-     */
-    public int getSuccessTotalCount() {
-        return successTotalCount;
-    }
-
-    /**
-     * 取り込み成功総数を設定する.
-     *
-     * @param successTotalCount
-     *            取り込み成功総数
-     */
-    public void setSuccessTotalCount(int successTotalCount) {
-        this.successTotalCount = successTotalCount;
-    }
-
-    /**
      * 取り込み成功総数を「1」加算する.
      */
     public void addSuccessTotalCount() {
         successTotalCount++;
-    }
-
-    /**
-     * 取り込み中の行番号を取得する.
-     *
-     * @return 取り込み中の行番号
-     */
-    public int getProcessingCount() {
-        return processingCount;
-    }
-
-    /**
-     * 取り込み中の行番号を設定する.
-     *
-     * @param processingCount
-     *            取り込み中の行番号
-     */
-    public void setProcessingCount(int processingCount) {
-        this.processingCount = processingCount;
     }
 
     /**
@@ -91,25 +58,6 @@ public class UploadResult implements Serializable {
      */
     public UploadError createUploadError(String fieldName, String message) {
         return new UploadError(processingCount, fieldName, message);
-    }
-
-    /**
-     * 取り込みエラー一覧を取得する.
-     *
-     * @return 取り込みエラー一覧
-     */
-    public List<UploadError> getUploadErrors() {
-        return uploadErrors;
-    }
-
-    /**
-     * 取り込みエラー一覧を設定する.
-     *
-     * @param uploadErrors
-     *            取り込みエラー一覧
-     */
-    public void setUploadErrors(List<UploadError> uploadErrors) {
-        this.uploadErrors = uploadErrors;
     }
 
     /**

@@ -81,7 +81,7 @@ public class MailEngine {
      */
     public void sendMessage(SimpleMailMessage simpleMailMessage, String templateName, Map<String, Object> model) {
         try {
-            freemarkerConfiguration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_29));
+            freemarkerConfiguration.setObjectWrapper(new Java8ObjectWrapper(Configuration.VERSION_2_3_30));
             simpleMailMessage.setText(FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerConfiguration.getTemplate(templateName), model));
             send(simpleMailMessage);
         } catch (Exception e) {
