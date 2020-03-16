@@ -52,8 +52,8 @@ import lombok.Setter;
 /**
  * ユーザ.
  */
-@NoArgsConstructor
 @RequiredArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
 @Entity

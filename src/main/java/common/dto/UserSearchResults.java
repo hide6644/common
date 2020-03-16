@@ -3,13 +3,13 @@ package common.dto;
 import java.io.Serializable;
 
 import common.entity.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 /**
  * ユーザ検索結果を保持するクラス.
  */
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 public final class UserSearchResults implements Serializable {
 

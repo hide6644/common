@@ -94,7 +94,8 @@ public class UsersManagerImpl extends BaseManagerImpl implements UsersManager {
     @Override
     @Transactional
     public void uploadUsers(UploadForm uploadForm) {
-        uploadForm.setUploadResult(new UploadResult(2)); // 1行目はヘッダー行のため、2から開始する
+        UploadResult uploadResult = new UploadResult(2); // 1行目はヘッダー行のため、2から開始する
+        uploadForm.setUploadResult(uploadResult);
 
         UserFileConverterFactory.createConverter(FileType.of(uploadForm.getFileType()))
                 .convert(uploadForm.getFileData())
@@ -106,38 +107,38 @@ public class UsersManagerImpl extends BaseManagerImpl implements UsersManager {
                     user.setConfirmPassword(user.getPassword());
                     user.setEnabled(true);
                     return user;
-                }).forEach(user -> validateAndSaveUploadedUser(uploadForm, user));
+                }).forEach(user -> validateAndSaveUploadedUser(user, uploadResult));
     }
 
     /**
-     * 検証し保存する.
+     * 入力内容を検証し保存する.
      *
-     * @param uploadForm
-     *            アップロードファイルの情報
      * @param user
      *            ユーザ
+     * @param uploadResult
+     *            取り込み結果
      */
-    private void validateAndSaveUploadedUser(UploadForm uploadForm, User user) {
+    private void validateAndSaveUploadedUser(User user, UploadResult uploadResult) {
         Set<ConstraintViolation<User>> results = validator.validate(user);
 
         if (results.isEmpty()) {
             // エラー無しの場合、保存する
             userManager.saveUser(user);
-            uploadForm.getUploadResult().addSuccessTotalCount();
+            uploadResult.addSuccessTotalCount();
         } else {
             // エラー有りの場合、エラーメッセージを設定する
-            uploadForm.getUploadResult().addUploadErrors(results.stream()
+            uploadResult.addUploadErrors(results.stream()
                     .sorted(Comparator.<ConstraintViolation<User>, String>comparing(violation -> violation.getPropertyPath().toString())
                             .thenComparing(violation -> violation.getMessage()))
                     .map(error -> {
                         String fieldName = getText("user." + error.getPropertyPath().toString());
                         String message = error.getMessage().replaceAll("\\{0\\}", fieldName);
-                        return uploadForm.getUploadResult().createUploadError(fieldName, message);
+                        return uploadResult.createUploadError(fieldName, message);
                     })
                     .collect(Collectors.toList()));
         }
 
-        uploadForm.getUploadResult().addProcessingCount();
+        uploadResult.addProcessingCount();
     }
 
     /**

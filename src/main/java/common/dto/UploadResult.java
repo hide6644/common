@@ -5,14 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * 取り込み結果を保持するクラス.
  */
 @Getter
-@Setter
-public class UploadResult implements Serializable {
+public final class UploadResult implements Serializable {
 
     /** 取り込み成功総数 */
     private int successTotalCount;
