@@ -676,8 +676,8 @@
         <opencsv.version>5.1</opencsv.version>
         <poi.version>4.1.2</poi.version>
         <slf4j.version>1.7.30</slf4j.version>
-        <spring.version>5.2.4.RELEASE</spring.version>
-        <spring-data.version>2.2.5.RELEASE</spring-data.version>
+        <spring.version>5.2.5.RELEASE</spring.version>
+        <spring-data.version>2.2.6.RELEASE</spring-data.version>
         <spring-security.version>5.3.0.RELEASE</spring-security.version>
         <thymeleaf-spring5.version>3.0.11.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
