@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -52,8 +53,8 @@ import lombok.Setter;
 /**
  * ユーザ.
  */
-@NoArgsConstructor
 @RequiredArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
 @Entity
@@ -156,7 +157,10 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     /** 権限 */
     @NotEmpty
     @Valid
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinTable(
             name = "user_role",
             joinColumns = { @JoinColumn(name = "user_id", nullable = false) },
@@ -222,7 +226,8 @@ public final class User extends BaseObject implements Serializable, UserDetails 
      *            権限
      */
     public void addRole(Role role) {
-        getRoles().add(role);
+        roles.add(role);
+        role.getUsers().add(this);
     }
 
     /**
@@ -232,7 +237,8 @@ public final class User extends BaseObject implements Serializable, UserDetails 
      *            権限
      */
     public void removeRole(Role role) {
-        getRoles().remove(role);
+        roles.remove(role);
+        role.getUsers().remove(this);
     }
 
     /**
