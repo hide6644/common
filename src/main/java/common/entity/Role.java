@@ -1,9 +1,12 @@
 package common.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.groups.Default;
@@ -45,6 +48,12 @@ public final class Role extends BaseObject implements Serializable, GrantedAutho
     @Length(max = 64, groups = { Default.class, Modify.class })
     @Column(length = 64)
     private String description;
+
+    /** ユーザ */
+    @EqualsAndHashCode.Exclude
+    @Transient
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users = new HashSet<>();
 
     /**
      * {@inheritDoc}
