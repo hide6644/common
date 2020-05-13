@@ -135,7 +135,7 @@
                         <dependency>
                             <groupId>com.github.spotbugs</groupId>
                             <artifactId>spotbugs</artifactId>
-                            <version>4.0.2</version>
+                            <version>4.0.3</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -657,28 +657,28 @@
         <greenmail.version>1.5.13</greenmail.version>
         <groovy.version>3.0.3</groovy.version>
         <hamcrest.version>2.2</hamcrest.version>
-        <hibernate.version>5.4.14.Final</hibernate.version>
+        <hibernate.version>5.4.15.Final</hibernate.version>
         <hibernate-search.version>5.11.5.Final</hibernate-search.version>
-        <hibernate-validator.version>6.1.4.Final</hibernate-validator.version>
-        <HikariCP.version>3.4.3</HikariCP.version>
+        <hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
+        <HikariCP.version>3.4.5</HikariCP.version>
         <javax.activation.version>1.1.1</javax.activation.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
-        <jaxb-runtime.version>2.3.2</jaxb-runtime.version>
+        <jaxb-runtime.version>2.3.3</jaxb-runtime.version>
         <junit-jupiter.version>5.6.2</junit-jupiter.version>
         <jxls.version>2.8.1</jxls.version>
         <jxls-poi.version>2.8.1</jxls-poi.version>
         <jxls-reader.version>2.0.6</jxls-reader.version>
-        <log4j.version>2.13.2</log4j.version>
+        <log4j.version>2.13.3</log4j.version>
         <lombok.version>1.18.12</lombok.version>
         <lucene.version>5.5.5</lucene.version>
         <mail.version>1.6.2</mail.version>
         <mockito.version>3.3.3</mockito.version>
-        <opencsv.version>5.1</opencsv.version>
+        <opencsv.version>5.2</opencsv.version>
         <poi.version>4.1.2</poi.version>
         <slf4j.version>1.7.30</slf4j.version>
         <spring.version>5.2.6.RELEASE</spring.version>
-        <spring-data.version>2.2.7.RELEASE</spring-data.version>
-        <spring-security.version>5.3.1.RELEASE</spring-security.version>
+        <spring-data.version>2.3.0.RELEASE</spring-data.version>
+        <spring-security.version>5.3.2.RELEASE</spring-security.version>
         <thymeleaf-spring5.version>3.0.11.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
         <thymeleaf-layout-dialect.version>2.4.1</thymeleaf-layout-dialect.version>
