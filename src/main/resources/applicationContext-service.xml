@@ -63,9 +63,9 @@
     <!-- Security class from Spring Security - used to configure Password    -->
     <!-- Encryption in UserManagerImpl. Can override in security.xml.        -->
     <!-- =================================================================== -->
-    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.factory.PasswordEncoderFactories" factory-method="createDelegatingPasswordEncoder" />
 
     <!-- Password reset token encoder -->
-    <bean id="passwordTokenEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder" />
+    <bean id="passwordTokenEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
 </beans>
