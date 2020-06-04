@@ -3,6 +3,7 @@ package common.validator.constraints.impl;
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Id;
@@ -54,7 +55,8 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Object
         boolean isValid = notExists(target);
 
         if (!isValid) {
-            context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()).addPropertyNode(columnNames[0]).addConstraintViolation().disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
+                .addPropertyNode(columnNames[0]).addConstraintViolation().disableDefaultConstraintViolation();
         }
 
         return isValid;
@@ -104,12 +106,9 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Object
      *            検索条件
      */
     private void creatingWhereClauseByColumnNames(CriteriaBuilder builder, Root<?> root, BeanWrapper beanWrapper, List<Predicate> preds) {
-        for (int i = 0; i < columnNames.length; i++) {
-            Object propertyValue = beanWrapper.getPropertyValue(columnNames[i]);
-
-            if (propertyValue != null) {
-                preds.add(builder.equal(root.get(columnNames[i]), propertyValue));
-            }
+        for (String columnName : columnNames) {
+            Optional.ofNullable(beanWrapper.getPropertyValue(columnName))
+                    .ifPresent(propertyValue -> preds.add(builder.equal(root.get(columnName), propertyValue)));
         }
     }
 
@@ -126,13 +125,10 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Object
      *            検索条件
      */
     private void creatingWhereClauseById(CriteriaBuilder builder, Root<?> root, BeanWrapper beanWrapper, List<Predicate> preds) {
-        for (PropertyDescriptor p : beanWrapper.getPropertyDescriptors()) {
-            if (beanWrapper.getPropertyTypeDescriptor(p.getName()).getAnnotation(Id.class) != null) {
-                Object propertyValue = beanWrapper.getPropertyValue(p.getName());
-
-                if (propertyValue != null) {
-                    preds.add(builder.notEqual(root.get(p.getName()), propertyValue));
-                }
+        for (PropertyDescriptor pd : beanWrapper.getPropertyDescriptors()) {
+            if (beanWrapper.getPropertyTypeDescriptor(pd.getName()).getAnnotation(Id.class) != null) {
+                Optional.ofNullable(beanWrapper.getPropertyValue(pd.getName()))
+                        .ifPresent(propertyValue -> preds.add(builder.notEqual(root.get(pd.getName()), propertyValue)));
             }
         }
     }
