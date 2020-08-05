@@ -40,7 +40,7 @@ public final class Role extends BaseObject implements Serializable, GrantedAutho
     /** 名称 */
     @NonNull
     @Length(max = 16, groups = { Default.class, Modify.class })
-    @Column(length = 16)
+    @Column(length = 16, unique = true)
     private String name;
 
     /** 説明 */

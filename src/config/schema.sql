@@ -32,7 +32,8 @@ create table role (
     create_date timestamp default '0000-00-00 00:00:00',
     update_user varchar(16) default null,
     update_date timestamp default '0000-00-00 00:00:00',
-    primary key (id)
+    primary key (id),
+    unique (name)
 ) engine = InnoDB default character set utf8;
 
 create table user_role (
