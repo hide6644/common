@@ -11,7 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import common.Constants;
-import common.dao.UserDao;
+import common.dao.jpa.UserDao;
 import common.dto.UserDetailsForm;
 import common.entity.Role;
 import common.entity.User;

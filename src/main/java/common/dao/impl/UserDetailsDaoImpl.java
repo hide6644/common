@@ -1,4 +1,4 @@
-package common.dao.jpa;
+package common.dao.impl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;

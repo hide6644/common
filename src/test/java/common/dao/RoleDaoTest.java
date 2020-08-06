@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import common.Constants;
+import common.dao.jpa.RoleDao;
 import common.entity.Role;
 
 public class RoleDaoTest extends BaseDaoTestCase {

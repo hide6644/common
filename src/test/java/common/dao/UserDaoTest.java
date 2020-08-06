@@ -16,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.orm.jpa.JpaSystemException;
 
 import common.Constants;
+import common.dao.jpa.RoleDao;
+import common.dao.jpa.UserDao;
 import common.entity.Role;
 import common.entity.User;
 

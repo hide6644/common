@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import common.Constants;
 import common.dao.HibernateSearch;
-import common.dao.UserDao;
+import common.dao.jpa.UserDao;
 import common.dto.PaginatedList;
 import common.dto.SearchTermAndField;
 import common.dto.UploadForm;

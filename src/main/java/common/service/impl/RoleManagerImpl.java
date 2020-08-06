@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import common.dao.RoleDao;
+import common.dao.jpa.RoleDao;
 import common.dto.LabelValue;
 import common.entity.Role;
 import common.service.RoleManager;

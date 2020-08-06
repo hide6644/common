@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import common.Constants;
 import common.dao.HibernateSearch;
-import common.dao.UserDao;
+import common.dao.jpa.UserDao;
 import common.dto.PasswordForm;
 import common.dto.SignupUserForm;
 import common.dto.UserDetailsForm;
