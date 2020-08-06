@@ -10,12 +10,21 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import common.Constants;
 import common.dto.LabelValue;
+import common.entity.Role;
 
 public class RoleManagerTest extends BaseManagerTestCase {
 
     @Autowired
     private RoleManager manager;
+
+    @Test
+    public void testGetRole() {
+        Role role = manager.getRole(Constants.USER_ROLE);
+
+        assertNotNull(role);
+    }
 
     @Test
     public void testGetLabelValues() {

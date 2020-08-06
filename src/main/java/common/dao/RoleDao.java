@@ -1,13 +1,15 @@
 package common.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.query.Param;
 
 import common.entity.Role;
 
 /**
  * 権限DAOインターフェイス.
  */
-public interface RoleDao extends JpaRepository<Role, Long> {
+public interface RoleDao extends JpaRepository<Role, Long>, JpaSpecificationExecutor<Role> {
 
     /**
      * 指定された名称の権限を取得する.
@@ -16,7 +18,7 @@ public interface RoleDao extends JpaRepository<Role, Long> {
      *            名称
      * @return 権限
      */
-    Role findByName(String name);
+    Role findByName(@Param("name") String name);
 
     /**
      * 指定された名称の権限を削除する.
@@ -24,5 +26,5 @@ public interface RoleDao extends JpaRepository<Role, Long> {
      * @param name
      *            名称
      */
-    void removeByName(String name);
+    void deleteByName(@Param("name") String name);
 }

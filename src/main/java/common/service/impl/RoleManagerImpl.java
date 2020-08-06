@@ -40,8 +40,8 @@ public class RoleManagerImpl implements RoleManager {
      */
     @Override
     @Transactional
-    public Role getRole(String rolename) {
-        return roleDao.findByName(rolename);
+    public Role getRole(String name) {
+        return roleDao.findByName(name);
     }
 
     /**
@@ -49,8 +49,8 @@ public class RoleManagerImpl implements RoleManager {
      */
     @Override
     @Transactional(readOnly = true)
-    public Set<Role> getRoles(Set<Role> rolenames) {
-        return rolenames.stream().map(role -> getRole(role.getName())).collect(Collectors.toSet());
+    public Set<Role> getRoles(Set<Role> names) {
+        return names.stream().map(role -> getRole(role.getName())).collect(Collectors.toSet());
     }
 
     /**
@@ -58,8 +58,8 @@ public class RoleManagerImpl implements RoleManager {
      */
     @Override
     @Transactional
-    public void removeRole(String rolename) {
-        roleDao.removeByName(rolename);
+    public void removeRole(String name) {
+        roleDao.deleteByName(name);
     }
 
     /**

@@ -47,7 +47,7 @@ public class RoleDaoTest extends BaseDaoTestCase {
 
         assertNotNull(role.getDescription());
 
-        dao.removeByName("testrole");
+        dao.deleteByName("testrole");
         role = dao.findByName("testrole");
 
         assertNull(role);
