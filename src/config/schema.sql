@@ -24,23 +24,16 @@ create table app_user (
 ) engine = InnoDB default character set utf8;
 
 create table role (
-    id integer not null auto_increment,
     name varchar(64) not null,
     description varchar(64) not null,
-    version integer not null,
-    create_user varchar(16) default null,
-    create_date timestamp default '0000-00-00 00:00:00',
-    update_user varchar(16) default null,
-    update_date timestamp default '0000-00-00 00:00:00',
-    primary key (id),
-    unique (name)
+    primary key (name)
 ) engine = InnoDB default character set utf8;
 
 create table user_role (
     user_id integer not null,
-    role_id integer not null,
+    role_name varchar(64) not null,
     primary key (
         user_id,
-        role_id
+        role_name
     )
 ) engine = InnoDB default character set utf8;

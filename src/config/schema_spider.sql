@@ -86,17 +86,11 @@ create table common.app_user (
 );
 
 create table common.role (
-    id integer not null auto_increment,
     name varchar(64) not null,
     description varchar(64) not null,
-    version integer not null,
-    create_user varchar(16) default null,
-    create_date timestamp default '0000-00-00 00:00:00',
-    update_user varchar(16) default null,
-    update_date timestamp default '0000-00-00 00:00:00',
-    primary key (id)
+    primary key (name)
 ) default character set utf8 engine=spider comment='wrapper "mysql", table "role"'
-    partition by key (id)
+    partition by key (name)
 (
     partition pt1 comment = 'srv "common_backend1 common_backend2_rpl", mbk "2", mkd "2", link_status "1 1"',
     partition pt2 comment = 'srv "common_backend2 common_backend1_rpl", mbk "2", mkd "2", link_status "1 1" '
@@ -104,13 +98,13 @@ create table common.role (
 
 create table common.user_role (
     user_id integer not null,
-    role_id integer not null,
+    role_name varchar(64) not null,
     primary key (
         user_id,
-        role_id
+        role_name
     )
 ) default character set utf8 engine=spider comment='wrapper "mysql", table "user_role"'
-    partition by key (user_id, role_id)
+    partition by key (user_id, role_name)
 (
     partition pt1 comment = 'srv "common_backend1 common_backend2_rpl", mbk "2", mkd "2", link_status "1 1"',
     partition pt2 comment = 'srv "common_backend2 common_backend1_rpl", mbk "2", mkd "2", link_status "1 1" '

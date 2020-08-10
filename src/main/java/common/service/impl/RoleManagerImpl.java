@@ -41,7 +41,7 @@ public class RoleManagerImpl implements RoleManager {
     @Override
     @Transactional
     public Role getRole(String name) {
-        return roleDao.findByName(name);
+        return roleDao.getOne(name);
     }
 
     /**
@@ -59,7 +59,7 @@ public class RoleManagerImpl implements RoleManager {
     @Override
     @Transactional
     public void removeRole(String name) {
-        roleDao.deleteByName(name);
+        roleDao.deleteById(name);
     }
 
     /**

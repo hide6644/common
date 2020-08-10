@@ -2,8 +2,10 @@ package common.dao;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 
 import common.Constants;
 import common.dao.jpa.RoleDao;
@@ -16,14 +18,14 @@ public class RoleDaoTest extends BaseDaoTestCase {
 
     @Test
     public void testGetRoleInvalid() {
-        Role role = dao.findByName("badrolename");
-
-        assertNull(role);
+        Assertions.assertThrows(DataAccessException.class, () -> {
+            dao.getOne("badrolename");
+        });
     }
 
     @Test
     public void testGetRole() {
-        Role role = dao.findByName(Constants.USER_ROLE);
+        Role role = dao.getOne(Constants.USER_ROLE);
 
         assertNotNull(role);
         assertTrue(role.equals(new Role(Constants.USER_ROLE)));
@@ -31,10 +33,10 @@ public class RoleDaoTest extends BaseDaoTestCase {
 
     @Test
     public void testUpdateRole() {
-        Role role = dao.findByName(Constants.USER_ROLE);
+        Role role = dao.getOne(Constants.USER_ROLE);
         role.setDescription("test descr");
         dao.save(role);
-        role = dao.findByName(Constants.USER_ROLE);
+        role = dao.getOne(Constants.USER_ROLE);
 
         assertEquals("test descr", role.getDescription());
     }
@@ -44,13 +46,14 @@ public class RoleDaoTest extends BaseDaoTestCase {
         Role role = new Role("testrole");
         role.setDescription("new role descr");
         dao.save(role);
-        role = dao.findByName("testrole");
+        role = dao.getOne("testrole");
 
         assertNotNull(role.getDescription());
 
-        dao.deleteByName("testrole");
-        role = dao.findByName("testrole");
+        dao.deleteById("testrole");
 
-        assertNull(role);
+        Assertions.assertThrows(DataAccessException.class, () -> {
+            dao.getOne("testrole");
+        });
     }
 }

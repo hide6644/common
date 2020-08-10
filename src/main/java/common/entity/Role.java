@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -35,12 +36,13 @@ import lombok.Setter;
 @Entity
 @Table(name = "role")
 @Cache(region = "roleCache", usage = CacheConcurrencyStrategy.READ_WRITE)
-public final class Role extends BaseObject implements Serializable, GrantedAuthority {
+public final class Role implements Serializable, GrantedAuthority {
 
     /** 名称 */
     @NonNull
+    @Id
     @Length(max = 16, groups = { Default.class, Modify.class })
-    @Column(length = 16, unique = true)
+    @Column(length = 16)
     private String name;
 
     /** 説明 */
