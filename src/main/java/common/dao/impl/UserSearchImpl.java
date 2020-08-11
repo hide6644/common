@@ -1,4 +1,4 @@
-package common.dao.jpa;
+package common.dao.impl;
 
 import org.springframework.stereotype.Repository;
 

@@ -16,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.orm.jpa.JpaSystemException;
 
 import common.Constants;
+import common.dao.jpa.RoleDao;
+import common.dao.jpa.UserDao;
 import common.entity.Role;
 import common.entity.User;
 
@@ -88,7 +90,7 @@ public class UserDaoTest extends BaseDaoTestCase {
 
         assertEquals(1, user.getRoles().size());
 
-        Role role = rdao.findByName(Constants.USER_ROLE);
+        Role role = rdao.getOne(Constants.USER_ROLE);
         user.addRole(role);
         user.setConfirmPassword(user.getPassword());
         dao.save(user);
@@ -118,8 +120,10 @@ public class UserDaoTest extends BaseDaoTestCase {
         user.setLastName("Last");
         user.setEmail("testuser@appfuse.org");
 
-        Role role = rdao.findByName(Constants.USER_ROLE);
-        assertNotNull(role.getId());
+        Role role = rdao.getOne(Constants.USER_ROLE);
+
+        assertNotNull(role);
+
         user.addRole(role);
         user = dao.save(user);
 
@@ -144,9 +148,9 @@ public class UserDaoTest extends BaseDaoTestCase {
         user.setLastName("Last");
         user.setEmail("testuser@appfuse.org");
 
-        Role role = rdao.findByName(Constants.USER_ROLE);
+        Role role = rdao.getOne(Constants.USER_ROLE);
 
-        assertNotNull(role.getId());
+        assertNotNull(role);
 
         user.addRole(role);
         user = dao.save(user);

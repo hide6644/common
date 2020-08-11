@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import common.dao.RoleDao;
+import common.dao.jpa.RoleDao;
 import common.dto.LabelValue;
 import common.entity.Role;
 import common.service.RoleManager;
@@ -40,8 +40,8 @@ public class RoleManagerImpl implements RoleManager {
      */
     @Override
     @Transactional
-    public Role getRole(String rolename) {
-        return roleDao.findByName(rolename);
+    public Role getRole(String name) {
+        return roleDao.getOne(name);
     }
 
     /**
@@ -49,8 +49,8 @@ public class RoleManagerImpl implements RoleManager {
      */
     @Override
     @Transactional(readOnly = true)
-    public Set<Role> getRoles(Set<Role> rolenames) {
-        return rolenames.stream().map(role -> getRole(role.getName())).collect(Collectors.toSet());
+    public Set<Role> getRoles(Set<Role> names) {
+        return names.stream().map(role -> getRole(role.getName())).collect(Collectors.toSet());
     }
 
     /**
@@ -58,8 +58,8 @@ public class RoleManagerImpl implements RoleManager {
      */
     @Override
     @Transactional
-    public void removeRole(String rolename) {
-        roleDao.removeByName(rolename);
+    public void removeRole(String name) {
+        roleDao.deleteById(name);
     }
 
     /**

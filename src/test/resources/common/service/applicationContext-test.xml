@@ -19,7 +19,7 @@
     <bean id="userSecurityAdvice" class="common.service.UserSecurityAdvice" />
 
     <bean id="userDao" class="org.mockito.Mockito" factory-method="mock">
-        <constructor-arg value="common.dao.UserDao" />
+        <constructor-arg value="common.dao.jpa.UserDao" />
     </bean>
 
     <bean id="roleManager" class="org.mockito.Mockito" factory-method="mock">

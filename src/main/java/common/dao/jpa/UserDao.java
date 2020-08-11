@@ -1,4 +1,4 @@
-package common.dao;
+package common.dao.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

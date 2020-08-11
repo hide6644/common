@@ -164,7 +164,7 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     @JoinTable(
             name = "user_role",
             joinColumns = { @JoinColumn(name = "user_id", nullable = false) },
-            inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false)
+            inverseJoinColumns = @JoinColumn(name = "role_name", nullable = false)
         )
     private Set<Role> roles = new HashSet<>();
 

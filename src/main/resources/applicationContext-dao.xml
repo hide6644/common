@@ -66,9 +66,9 @@
     <context:annotation-config />
 
     <!-- Activates scanning of @Repository -->
-    <context:component-scan base-package="common.dao" />
+    <context:component-scan base-package="common.dao.impl" />
 
     <!-- Configure Spring Data JPA and set the base package of the repository interfaces  -->
-    <jpa:repositories base-package="common.dao" />
+    <jpa:repositories base-package="common.dao.jpa" />
 
 </beans>

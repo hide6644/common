@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import common.dao.jpa.HibernateSearchImpl;
+import common.dao.impl.HibernateSearchImpl;
 import common.dto.UserSearchCriteria;
 import common.entity.User;
 
