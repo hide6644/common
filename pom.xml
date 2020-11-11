@@ -296,11 +296,6 @@
                 <version>${poi.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.xmlbeans</groupId>
-                <artifactId>xmlbeans</artifactId>
-                <version>${xmlbeans.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy</artifactId>
                 <version>${groovy.version}</version>
@@ -662,7 +657,7 @@
         <jxls.version>2.9.0</jxls.version>
         <jxls-poi.version>2.9.0</jxls-poi.version>
         <jxls-reader.version>2.0.6</jxls-reader.version>
-        <log4j.version>2.13.3</log4j.version>
+        <log4j.version>2.14.0</log4j.version>
         <lombok.version>1.18.16</lombok.version>
         <lucene.version>5.5.5</lucene.version>
         <mail.version>1.6.5</mail.version>
@@ -670,13 +665,12 @@
         <opencsv.version>5.3</opencsv.version>
         <poi.version>4.1.2</poi.version>
         <slf4j.version>1.7.30</slf4j.version>
-        <spring.version>5.3.0</spring.version>
+        <spring.version>5.3.1</spring.version>
         <spring-data.version>2.4.0</spring-data.version>
         <spring-security.version>5.4.1</spring-security.version>
         <thymeleaf-spring5.version>3.0.11.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
         <thymeleaf-layout-dialect.version>2.5.1</thymeleaf-layout-dialect.version>
-        <xmlbeans.version>3.1.0</xmlbeans.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <copyright.year>2013</copyright.year>
