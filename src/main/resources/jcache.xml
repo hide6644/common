@@ -1,34 +1,36 @@
-<config
-    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-    xmlns='http://www.ehcache.org/v3'
-    xmlns:jsr107='http://www.ehcache.org/v3/jsr107'
+<?xml version="1.0" encoding="UTF-8"?>
+
+<eh:config
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:eh="http://www.ehcache.org/v3"
+    xmlns:jsr107="http://www.ehcache.org/v3/jsr107"
     xsi:schemaLocation="
-        http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.6.xsd
-        http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.6.xsd">
+        http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.8.xsd
+        http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.8.xsd">
 
-    <service>
+    <eh:service>
         <jsr107:defaults enable-management="true" enable-statistics="true" default-template="default" />
-    </service>
+    </eh:service>
 
-    <cache alias="default-query-results-region">
-        <expiry>
-            <tti unit="seconds">300</tti>
-        </expiry>
-        <heap>1024</heap>
-    </cache>
+    <eh:cache alias="default-query-results-region">
+        <eh:expiry>
+            <eh:tti unit="seconds">300</eh:tti>
+        </eh:expiry>
+        <eh:heap>1024</eh:heap>
+    </eh:cache>
 
-    <cache alias="default-update-timestamps-region">
-        <expiry>
-            <none />
-        </expiry>
-        <heap>4096</heap>
-    </cache>
+    <eh:cache alias="default-update-timestamps-region">
+        <eh:expiry>
+            <eh:none />
+        </eh:expiry>
+        <eh:heap>4096</eh:heap>
+    </eh:cache>
 
-    <cache-template name="default">
-        <expiry>
-            <tti unit="seconds">300</tti>
-        </expiry>
-        <heap>1024</heap>
-    </cache-template>
+    <eh:cache-template name="default">
+        <eh:expiry>
+            <eh:tti unit="seconds">300</eh:tti>
+        </eh:expiry>
+        <eh:heap>1024</eh:heap>
+    </eh:cache-template>
 
-</config>
+</eh:config>
