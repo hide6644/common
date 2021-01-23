@@ -275,6 +275,11 @@
                 <version>${byte-buddy.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>${jaxb-runtime.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>net.bytebuddy</groupId>
                 <artifactId>byte-buddy-agent</artifactId>
                 <version>${byte-buddy.version}</version>
@@ -499,12 +504,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-            <version>${jaxb-runtime.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>${freemarker.version}</version>
@@ -661,12 +660,12 @@
         <lombok.version>1.18.16</lombok.version>
         <lucene.version>5.5.5</lucene.version>
         <mail.version>1.6.5</mail.version>
-        <mockito.version>3.7.0</mockito.version>
+        <mockito.version>3.7.7</mockito.version>
         <opencsv.version>5.3</opencsv.version>
         <poi.version>4.1.2</poi.version>
         <slf4j.version>1.7.30</slf4j.version>
-        <spring.version>5.3.2</spring.version>
-        <spring-data.version>2.4.2</spring-data.version>
+        <spring.version>5.3.3</spring.version>
+        <spring-data.version>2.4.3</spring-data.version>
         <spring-security.version>5.4.2</spring-security.version>
         <thymeleaf-spring5.version>3.0.12.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
