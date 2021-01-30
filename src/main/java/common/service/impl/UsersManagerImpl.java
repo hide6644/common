@@ -9,13 +9,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import org.apache.lucene.search.SortField;
-import org.hibernate.search.jpa.FullTextQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -27,10 +24,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import common.Constants;
-import common.dao.HibernateSearch;
+import common.dao.UserSearch;
 import common.dao.jpa.UserDao;
 import common.dto.PaginatedList;
-import common.dto.SearchTermAndField;
 import common.dto.UploadForm;
 import common.dto.UploadResult;
 import common.dto.UserSearchCriteria;
@@ -58,7 +54,7 @@ public class UsersManagerImpl extends BaseManagerImpl implements UsersManager {
     /** UserのHibernate Search DAO */
     @Autowired
     @Qualifier("userSearch")
-    private HibernateSearch userSearch;
+    private UserSearch userSearch;
 
     /** パスワードエンコーダー */
     @Autowired(required = false)
@@ -160,45 +156,17 @@ public class UsersManagerImpl extends BaseManagerImpl implements UsersManager {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
     @Transactional(readOnly = true)
     public PaginatedList<UserSearchResults> createPaginatedListByFullText(UserSearchCriteria userSearchCriteria, Integer page) {
         PageRequest pageRequest = PageRequest.of(Optional.ofNullable(page).orElse(1) - 1, Constants.PAGING_SIZE);
-        SearchTermAndField searchTermAndField = getSearchTermAndField(userSearchCriteria);
-        org.apache.lucene.search.Sort sort = new org.apache.lucene.search.Sort(new SortField(UserSearchCriteria.USERNAME_FIELD + "Sort", SortField.Type.STRING));
-        FullTextQuery userQuery = null;
-
-        if (searchTermAndField.isEmpty()) {
-            userQuery = userSearch.search("*", pageRequest.getOffset(), pageRequest.getPageSize(), sort);
-        } else {
-            userQuery = userSearch.search(searchTermAndField.getTermToArray(), searchTermAndField.getFieldToArray(),
-                    pageRequest.getOffset(), pageRequest.getPageSize(), sort);
-        }
+        List<User> result = userSearch.search(userSearchCriteria, pageRequest);
 
         return new PaginatedList<>(new PageImpl<>(
-                ((Stream<User>) userQuery.getResultStream())
+                result.stream()
                         .map(user -> UserSearchResults.of(user))
                         .collect(Collectors.toList()),
-                pageRequest, userQuery.getResultSize()));
-    }
-
-    /**
-     * 全文検索用の検索文字列、検索項目を取得する.
-     *
-     * @param userSearchCriteria
-     *            ユーザ検索条件
-     * @return 全文検索用の検索文字列、検索項目
-     */
-    private SearchTermAndField getSearchTermAndField(UserSearchCriteria userSearchCriteria) {
-        SearchTermAndField searchTermAndField = new SearchTermAndField();
-
-        Optional.ofNullable(userSearchCriteria.getUsername())
-                .ifPresent(username -> searchTermAndField.addTermAndField(username, UserSearchCriteria.USERNAME_FIELD));
-        Optional.ofNullable(userSearchCriteria.getEmail())
-                .ifPresent(email -> searchTermAndField.addTermAndField(email, UserSearchCriteria.EMAIL_FIELD));
-
-        return searchTermAndField;
+                pageRequest, result.size()));
     }
 
     /**

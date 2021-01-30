@@ -23,19 +23,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
-import org.apache.lucene.analysis.ja.JapaneseAnalyzer;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.search.annotations.Analyze;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.Facet;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.Normalizer;
-import org.hibernate.search.annotations.NormalizerDef;
-import org.hibernate.search.annotations.SortableField;
-import org.hibernate.search.annotations.TokenFilterDef;
+import org.hibernate.search.engine.backend.types.Aggregable;
+import org.hibernate.search.engine.backend.types.Sortable;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -61,8 +55,6 @@ import lombok.Setter;
 @Table(name = "app_user")
 @Cache(region = "userCache", usage = CacheConcurrencyStrategy.READ_WRITE)
 @Indexed
-@Analyzer(impl = JapaneseAnalyzer.class)
-@NormalizerDef(name = "userSort", filters = @TokenFilterDef(factory = LowerCaseFilterFactory.class))
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @CompareStrings.List({
@@ -90,9 +82,8 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     @BasicLatin
     @Length(min = 6, max = 16)
     @Column(nullable = false, length = 16, unique = true)
-    @Field
-    @Field(name = "usernameSort", normalizer = @Normalizer(definition = "userSort"))
-    @SortableField(forField = "usernameSort")
+    @FullTextField(analyzer = "japanese")
+    @KeywordField(name = "usernameSort", sortable = Sortable.YES)
     private String username;
 
     /** パスワード */
@@ -111,21 +102,17 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     @NotEmpty
     @Length(max = 64)
     @Column(name = "first_name", nullable = false, length = 64)
-    @Field
-    @Field(name = "firstNameFacet", analyze = Analyze.NO)
-    @Field(name = "firstNameSort", normalizer = @Normalizer(definition = "userSort"))
-    @Facet(forField = "firstNameFacet")
-    @SortableField(forField = "firstNameSort")
+    @FullTextField(analyzer = "japanese")
+    @KeywordField(name = "firstNameSort", sortable = Sortable.YES)
+    @KeywordField(name = "firstNameFacet", aggregable = Aggregable.YES)
     private String firstName;
 
     /** 名字 */
     @Length(max = 64)
     @Column(name = "last_name", length = 64)
-    @Field
-    @Field(name = "lastNameFacet", analyze = Analyze.NO)
-    @Field(name = "lastNameSort", normalizer = @Normalizer(definition = "userSort"))
-    @Facet(forField = "lastNameFacet")
-    @SortableField(forField = "lastNameSort")
+    @FullTextField(analyzer = "japanese")
+    @KeywordField(name = "lastNameSort", sortable = Sortable.YES)
+    @KeywordField(name = "lastNameFacet", aggregable = Aggregable.YES)
     private String lastName;
 
     /** ｅメール */
@@ -133,9 +120,8 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     @Email
     @Length(max = 64)
     @Column(nullable = false, length = 64, unique = true)
-    @Field
-    @Field(name = "emailSort", normalizer = @Normalizer(definition = "userSort"))
-    @SortableField(forField = "emailSort")
+    @FullTextField(analyzer = "japanese")
+    @KeywordField(name = "emailSort", sortable = Sortable.YES)
     private String email;
 
     /** 有効 */
