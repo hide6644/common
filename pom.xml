@@ -179,7 +179,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>3.0.0-M1</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -288,6 +288,11 @@
                 <groupId>net.bytebuddy</groupId>
                 <artifactId>byte-buddy</artifactId>
                 <version>${byte-buddy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>${jaxb-runtime.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.bytebuddy</groupId>
@@ -484,9 +489,14 @@
             <version>${lucene.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-search-orm</artifactId>
+            <groupId>org.hibernate.search</groupId>
+            <artifactId>hibernate-search-mapper-orm</artifactId>
             <version>${hibernate-search.version}</version>
+        </dependency>
+        <dependency>
+           <groupId>org.hibernate.search</groupId>
+           <artifactId>hibernate-search-backend-lucene</artifactId>
+           <version>${hibernate-search.version}</version>
         </dependency>
 
         <!-- Hibernate Validator -->
@@ -512,12 +522,6 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax.servlet-api.version}</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-            <version>${jaxb-runtime.version}</version>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.freemarker</groupId>
@@ -646,7 +650,7 @@
 
         <jdbc.groupId>org.mariadb.jdbc</jdbc.groupId>
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
-        <jdbc.version>2.7.1</jdbc.version>
+        <jdbc.version>2.7.2</jdbc.version>
 
         <byte-buddy.version>1.10.19</byte-buddy.version>
         <commons-collections4.version>4.4</commons-collections4.version>
@@ -663,9 +667,9 @@
         <groovy.version>3.0.7</groovy.version>
         <hamcrest.version>2.2</hamcrest.version>
         <hibernate.version>5.4.27.Final</hibernate.version>
-        <hibernate-search.version>5.11.8.Final</hibernate-search.version>
+        <hibernate-search.version>6.0.0.Final</hibernate-search.version>
         <hibernate-validator.version>6.2.0.Final</hibernate-validator.version>
-        <HikariCP.version>3.4.5</HikariCP.version>
+        <HikariCP.version>4.0.1</HikariCP.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <jaxb-runtime.version>2.3.3</jaxb-runtime.version>
         <junit-jupiter.version>5.7.0</junit-jupiter.version>
@@ -673,15 +677,15 @@
         <jxls-poi.version>2.9.0</jxls-poi.version>
         <jxls-reader.version>2.0.6</jxls-reader.version>
         <log4j.version>2.14.0</log4j.version>
-        <lombok.version>1.18.16</lombok.version>
-        <lucene.version>5.5.5</lucene.version>
+        <lombok.version>1.18.18</lombok.version>
+        <lucene.version>8.7.0</lucene.version>
         <mail.version>1.6.5</mail.version>
-        <mockito.version>3.7.0</mockito.version>
+        <mockito.version>3.7.7</mockito.version>
         <opencsv.version>5.3</opencsv.version>
         <poi.version>4.1.2</poi.version>
         <slf4j.version>1.7.30</slf4j.version>
-        <spring.version>5.3.2</spring.version>
-        <spring-data.version>2.4.2</spring-data.version>
+        <spring.version>5.3.3</spring.version>
+        <spring-data.version>2.4.3</spring-data.version>
         <spring-security.version>5.4.2</spring-security.version>
         <thymeleaf-spring5.version>3.0.12.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
