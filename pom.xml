@@ -646,8 +646,8 @@
         <greenmail.version>1.6.2</greenmail.version>
         <groovy.version>3.0.7</groovy.version>
         <hamcrest.version>2.2</hamcrest.version>
-        <hibernate.version>5.4.27.Final</hibernate.version>
-        <hibernate-search.version>6.0.0.Final</hibernate-search.version>
+        <hibernate.version>5.4.28.Final</hibernate.version>
+        <hibernate-search.version>6.0.1.Final</hibernate-search.version>
         <hibernate-validator.version>6.2.0.Final</hibernate-validator.version>
         <HikariCP.version>4.0.1</HikariCP.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
@@ -666,7 +666,7 @@
         <slf4j.version>1.7.30</slf4j.version>
         <spring.version>5.3.3</spring.version>
         <spring-data.version>2.4.3</spring-data.version>
-        <spring-security.version>5.4.2</spring-security.version>
+        <spring-security.version>5.4.4</spring-security.version>
         <thymeleaf-spring5.version>3.0.12.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
         <thymeleaf-layout-dialect.version>2.5.2</thymeleaf-layout-dialect.version>
