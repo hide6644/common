@@ -8,7 +8,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.5.3</version>
+    <version>1.5.4</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -130,7 +130,7 @@
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>4.1.4</version>
+                    <version>4.2.2</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.github.spotbugs</groupId>
@@ -147,12 +147,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.1.2</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.41</version>
+                            <version>8.41.1</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -643,29 +643,29 @@
         <el.version>3.0.1-b12</el.version>
         <freemarker.version>2.3.31</freemarker.version>
         <freemarker-java8.version>2.0.0</freemarker-java8.version>
-        <greenmail.version>1.6.2</greenmail.version>
+        <greenmail.version>1.6.3</greenmail.version>
         <groovy.version>3.0.7</groovy.version>
         <hamcrest.version>2.2</hamcrest.version>
-        <hibernate.version>5.4.29.Final</hibernate.version>
+        <hibernate.version>5.4.30.Final</hibernate.version>
         <hibernate-search.version>6.0.2.Final</hibernate-search.version>
         <hibernate-validator.version>6.2.0.Final</hibernate-validator.version>
         <HikariCP.version>4.0.3</HikariCP.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <jaxb-runtime.version>2.3.3</jaxb-runtime.version>
         <junit-jupiter.version>5.7.1</junit-jupiter.version>
-        <jxls.version>2.9.0</jxls.version>
-        <jxls-poi.version>2.9.0</jxls-poi.version>
+        <jxls.version>2.10.0</jxls.version>
+        <jxls-poi.version>2.10.0</jxls-poi.version>
         <jxls-reader.version>2.0.6</jxls-reader.version>
-        <log4j.version>2.14.0</log4j.version>
-        <lombok.version>1.18.18</lombok.version>
+        <log4j.version>2.14.1</log4j.version>
+        <lombok.version>1.18.20</lombok.version>
         <lucene.version>8.7.0</lucene.version>
-        <mail.version>1.6.6</mail.version>
-        <mockito.version>3.8.0</mockito.version>
-        <opencsv.version>5.3</opencsv.version>
+        <mail.version>1.6.7</mail.version>
+        <mockito.version>3.9.0</mockito.version>
+        <opencsv.version>5.4</opencsv.version>
         <poi.version>4.1.2</poi.version>
         <slf4j.version>1.7.30</slf4j.version>
-        <spring.version>5.3.4</spring.version>
-        <spring-data.version>2.4.5</spring-data.version>
+        <spring.version>5.3.5</spring.version>
+        <spring-data.version>2.4.7</spring-data.version>
         <spring-security.version>5.4.5</spring-security.version>
         <thymeleaf-spring5.version>3.0.12.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
