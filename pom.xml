@@ -135,7 +135,7 @@
                         <dependency>
                             <groupId>com.github.spotbugs</groupId>
                             <artifactId>spotbugs</artifactId>
-                            <version>4.2.2</version>
+                            <version>4.2.3</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -647,11 +647,11 @@
         <groovy.version>3.0.7</groovy.version>
         <hamcrest.version>2.2</hamcrest.version>
         <hibernate.version>5.4.30.Final</hibernate.version>
-        <hibernate-search.version>6.0.2.Final</hibernate-search.version>
+        <hibernate-search.version>6.0.3.Final</hibernate-search.version>
         <hibernate-validator.version>6.2.0.Final</hibernate-validator.version>
         <HikariCP.version>4.0.3</HikariCP.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
-        <jaxb-runtime.version>2.3.3</jaxb-runtime.version>
+        <jaxb-runtime.version>2.3.4</jaxb-runtime.version>
         <junit-jupiter.version>5.7.1</junit-jupiter.version>
         <jxls.version>2.10.0</jxls.version>
         <jxls-poi.version>2.10.0</jxls-poi.version>
@@ -664,12 +664,12 @@
         <opencsv.version>5.4</opencsv.version>
         <poi.version>4.1.2</poi.version>
         <slf4j.version>1.7.30</slf4j.version>
-        <spring.version>5.3.5</spring.version>
-        <spring-data.version>2.4.7</spring-data.version>
-        <spring-security.version>5.4.5</spring-security.version>
+        <spring.version>5.3.6</spring.version>
+        <spring-data.version>2.5.0</spring-data.version>
+        <spring-security.version>5.4.6</spring-security.version>
         <thymeleaf-spring5.version>3.0.12.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
-        <thymeleaf-layout-dialect.version>2.5.2</thymeleaf-layout-dialect.version>
+        <thymeleaf-layout-dialect.version>2.5.3</thymeleaf-layout-dialect.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <copyright.year>2013</copyright.year>

@@ -41,7 +41,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
         User testData = new User("1");
         testData.getRoles().add(new Role("user"));
 
-        given(userDao.getOne(1L)).willReturn(testData);
+        given(userDao.getById(1L)).willReturn(testData);
 
         User user = userManager.getUser("1");
 
@@ -54,7 +54,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
         User testData = new User("1");
         testData.getRoles().add(new Role("user"));
 
-        given(userDao.getOne(1L)).willReturn(testData);
+        given(userDao.getById(1L)).willReturn(testData);
 
         User user = userManager.getUser("1");
         user.setLastName("smith");
@@ -92,7 +92,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
         willDoNothing().given(userDao).deleteById(5L);
         userManager.removeUser("5");
 
-        given(userDao.getOne(5L)).willReturn(null);
+        given(userDao.getById(5L)).willReturn(null);
 
         user = userManager.getUser("5");
 
