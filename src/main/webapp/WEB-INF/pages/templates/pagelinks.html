@@ -13,7 +13,7 @@
             <span th:case="*" th:text="${#messages.msg('paging.some_items_found', '__${paginatedList.allRecordCount}__', '__${paginatedList.currentStartRecordNumber}__', '__${paginatedList.allRecordCount} &lt; ${paginatedList.currentEndRecordNumber} ? ${paginatedList.allRecordCount} : ${paginatedList.currentEndRecordNumber}__')}" th:remove="tag"></span>
         </div>
         <div class="col-md-6">
-            <ul class="pagination pagination-sm float-right" th:if="${paginatedList.allPageCount > 0}">
+            <ul class="pagination pagination-sm justify-content-end" th:if="${paginatedList.allPageCount > 0}">
                 <li class="page-item" th:if="${paginatedList.existPrePage}"><a href="?page=1" class="page-link" th:text="#{button.first}"></a></li>
                 <li class="page-item" th:if="${paginatedList.existPrePage}"><a href="#" class="page-link" th:href="|?page=${paginatedList.prePageNumber}|" th:text="#{button.previous}"></a></li>
                 <li class="page-item disabled" th:unless="${paginatedList.existPrePage}"><a href="#" class="page-link" th:text="#{button.first}"></a></li>

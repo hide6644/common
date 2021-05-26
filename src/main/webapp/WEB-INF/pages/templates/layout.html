@@ -14,26 +14,30 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone-with-data.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
     <script type="text/javascript" th:src="@{'/scripts/script.js?ver='} + ${#servletContext.getAttribute('assetsVersion')}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.0/cerulean/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.0.1/cerulean/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" />
     <link rel="stylesheet" th:href="@{'/styles/style.css?ver='} + ${#servletContext.getAttribute('assetsVersion')}" />
 </head>
 <body>
-    <div class="navbar navbar-light bg-light fixed-top navbar-expand-md" role="navigation">
-        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar">&#x2630;</button>
-        <a class="navbar-brand" href="#" th:href="@{'/'}" th:text="#{webapp.name}">webapp.name</a>
-        <div th:replace="~{templates/menu :: navbar_div(${currentMenu})}">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" th:href="@{'/'}" th:text="#{webapp.name}">webapp.name</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div th:replace="~{templates/menu :: navbar_div(${currentMenu})}">
+            </div>
+            <ul class="navbar-nav" th:if="${#locale.language} != 'en'">
+                <li class="nav-item">
+                    <a href="#" id="switch_locale_url">in English</a>
+                </li>
+            </ul>
         </div>
-        <ul class="navbar-nav" th:if="${#locale.language} != 'en'">
-            <li class="nav-item">
-                <a href="#" id="switch_locale_url">in English</a>
-            </li>
-        </ul>
-    </div>
+    </nav>
     <div class="container" id="content">
         <div th:replace="~{templates/messages :: alert_div}">
         </div>
@@ -46,15 +50,21 @@
             </div>
         </div>
     </div>
-    <div class="navbar fixed-bottom" id="footer">
-        <div class="col-md-6 text-left">
-            <span th:if="${#request.remoteUser}" th:text="|#{user.status} ${#request.remoteUser}|">user.status</span>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-bottom">
+        <div class="container-fluid">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <span th:if="${#request.remoteUser}" th:text="|#{user.status} ${#request.remoteUser}|">user.status</span>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <span th:text="|&copy; #{copyright.year}|">copyright.year</span>
+                    <a href="#" th:href="#{company.url}" th:text="#{company.name}">company.name</a>
+                </li>
+            </ul>
         </div>
-        <div class="col-md-6 text-right">
-            <span th:text="|&copy; #{copyright.year}|">copyright.year</span>
-            <a href="#" th:href="#{company.url}" th:text="#{company.name}">company.name</a>
-        </div>
-    </div>
+    </nav>
     <div layout:fragment="scripts" th:remove="tag"></div>
 </body>
 </html>
