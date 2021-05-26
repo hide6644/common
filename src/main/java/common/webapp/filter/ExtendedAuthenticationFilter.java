@@ -47,7 +47,7 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
         try {
             Authentication newAuth = getAuthenticationManager().authenticate(authRequest);
             // ログイン成功
-            recordLoginAttempts(request, trimUsername, true);
+            recordLoginAttempts(trimUsername, request, true);
             return newAuth;
         } catch (BadCredentialsException e) {
             // ログイン失敗
@@ -60,7 +60,7 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
     /**
      * ログイン失敗時の処理を行う.
      *
-     * @param request
+     * @param username
      *            ユーザ名
      * @param request
      *            {@link HttpServletRequest}
@@ -68,7 +68,7 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
     private void loginFailure(String username, HttpServletRequest request) {
         try {
             if (Optional.ofNullable(getBadCredentialsMap(request).get(username)).orElse(0) < Constants.LOGIN_FAILURE_UPPER_LIMIT) {
-                recordLoginAttempts(request, username, false);
+                recordLoginAttempts(username, request, false);
             } else {
                 // ユーザをロックする
                 userManager.lockoutUser(username);
@@ -81,14 +81,14 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
     /**
      * ログイン失敗回数を記録する.
      *
-     * @param request
-     *            {@link HttpServletRequest}
      * @param username
      *            ユーザ名
+     * @param request
+     *            {@link HttpServletRequest}
      * @param result
      *            ログイン成否
      */
-    private void recordLoginAttempts(HttpServletRequest request, String username, boolean result) {
+    private void recordLoginAttempts(String username, HttpServletRequest request, boolean result) {
         Map<String, Integer> badCredentialsMap = getBadCredentialsMap(request);
 
         if (result) {
