@@ -21,22 +21,22 @@ import lombok.Setter;
 @Getter
 @Setter
 @CompareStrings.List({
-        @CompareStrings(
-                propertyNames = { "confirmPassword", "password" },
-                comparisonMode = ComparisonMode.EQUAL,
-                message = "{common.validator.constraints.confirmPassword.message}"
+    @CompareStrings(
+            propertyNames = { "confirmPassword", "password" },
+            comparisonMode = ComparisonMode.EQUAL,
+            message = "{common.validator.constraints.confirmPassword.message}"
         )
-    })
+})
 @UniqueKey.List({
-        @UniqueKey(
-                columnNames = { "username" },
-                model = User.class
+    @UniqueKey(
+            columnNames = { "username" },
+            model = User.class
         ),
-        @UniqueKey(
-                columnNames = { "email" },
-                model = User.class
+    @UniqueKey(
+            columnNames = { "email" },
+            model = User.class
         )
-    })
+})
 public class SignupUserForm implements Serializable {
 
     /** ユーザ名 */

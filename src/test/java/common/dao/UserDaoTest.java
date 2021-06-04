@@ -32,13 +32,13 @@ public class UserDaoTest extends BaseDaoTestCase {
     @Test
     public void testGetUserInvalid() throws Exception {
         Assertions.assertThrows(DataAccessException.class, () -> {
-            dao.getOne(1000L);
+            dao.getById(1000L);
         });
     }
 
     @Test
     public void testGetUser() throws Exception {
-        User user = dao.getOne(-1L);
+        User user = dao.getById(-1L);
 
         assertNotNull(user);
         assertEquals(1, user.getRoles().size());
@@ -54,7 +54,7 @@ public class UserDaoTest extends BaseDaoTestCase {
 
     @Test
     public void testGetUserPassword() {
-        User user = dao.getOne(-1L);
+        User user = dao.getById(-1L);
         String password = dao.findPasswordById(user.getId());
 
         assertNotNull(password);
@@ -64,11 +64,11 @@ public class UserDaoTest extends BaseDaoTestCase {
 
     @Test
     public void testUpdateUser() {
-        User user = dao.getOne(-1L);
+        User user = dao.getById(-1L);
 
         dao.save(user);
 
-        user = dao.getOne(-1L);
+        user = dao.getById(-1L);
 
         User newUser = new User();
         newUser.setConfirmPassword(user.getPassword());
@@ -86,27 +86,27 @@ public class UserDaoTest extends BaseDaoTestCase {
 
     @Test
     public void testAddUserRole() {
-        User user = dao.getOne(-1L);
+        User user = dao.getById(-1L);
 
         assertEquals(1, user.getRoles().size());
 
-        Role role = rdao.getOne(Constants.USER_ROLE);
+        Role role = rdao.getById(Constants.USER_ROLE);
         user.addRole(role);
         user.setConfirmPassword(user.getPassword());
         dao.save(user);
-        user = dao.getOne(-1L);
+        user = dao.getById(-1L);
 
         assertEquals(2, user.getRoles().size());
 
         user.addRole(role);
         dao.save(user);
-        user = dao.getOne(-1L);
+        user = dao.getById(-1L);
 
         assertEquals(2, user.getRoles().size());
 
         user.removeRole(role);
         dao.save(user);
-        user = dao.getOne(-1L);
+        user = dao.getById(-1L);
 
         assertEquals(1, user.getRoles().size());
     }
@@ -120,7 +120,7 @@ public class UserDaoTest extends BaseDaoTestCase {
         user.setLastName("Last");
         user.setEmail("testuser@appfuse.org");
 
-        Role role = rdao.getOne(Constants.USER_ROLE);
+        Role role = rdao.getById(Constants.USER_ROLE);
 
         assertNotNull(role);
 
@@ -129,13 +129,13 @@ public class UserDaoTest extends BaseDaoTestCase {
 
         assertNotNull(user.getId());
 
-        final User delUser = dao.getOne(user.getId());
+        final User delUser = dao.getById(user.getId());
 
         assertEquals("testpass", delUser.getPassword());
 
         dao.delete(delUser);
         Assertions.assertThrows(DataAccessException.class, () -> {
-            dao.getOne(delUser.getId());
+            dao.getById(delUser.getId());
         });
     }
 
@@ -148,7 +148,7 @@ public class UserDaoTest extends BaseDaoTestCase {
         user.setLastName("Last");
         user.setEmail("testuser@appfuse.org");
 
-        Role role = rdao.getOne(Constants.USER_ROLE);
+        Role role = rdao.getById(Constants.USER_ROLE);
 
         assertNotNull(role);
 
@@ -157,13 +157,13 @@ public class UserDaoTest extends BaseDaoTestCase {
 
         assertNotNull(user.getId());
 
-        final User delUser = dao.getOne(user.getId());
+        final User delUser = dao.getById(user.getId());
 
         assertEquals("testpass", delUser.getPassword());
 
         dao.deleteById(delUser.getId());
         Assertions.assertThrows(DataAccessException.class, () -> {
-            dao.getOne(delUser.getId());
+            dao.getById(delUser.getId());
         });
     }
 

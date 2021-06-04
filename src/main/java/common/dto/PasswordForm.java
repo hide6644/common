@@ -18,12 +18,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @CompareStrings.List({
-        @CompareStrings(
-                propertyNames = { "confirmPassword", "newPassword" },
-                comparisonMode = ComparisonMode.EQUAL,
-                message = "{common.validator.constraints.confirmPassword.message}"
+    @CompareStrings(
+            propertyNames = { "confirmPassword", "newPassword" },
+            comparisonMode = ComparisonMode.EQUAL,
+            message = "{common.validator.constraints.confirmPassword.message}"
         )
-    })
+})
 public class PasswordForm implements Serializable {
 
     /** ユーザ名 */

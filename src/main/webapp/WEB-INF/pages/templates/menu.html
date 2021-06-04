@@ -8,21 +8,21 @@
 </head>
 <body>
     <div class="collapse navbar-collapse" id="navbar" th:fragment="navbar_div(currentMenu)">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active" th:unless="${#request.remoteUser}">
-                <a href="#" class="nav-link" th:href="@{'/login'}" th:text="#{loginForm.heading}"></a>
+        <ul class="nav nav-pills">
+            <li class="nav-item" th:unless="${#request.remoteUser}">
+                <a href="#" class="nav-link active" th:href="@{'/login'}" th:text="#{loginForm.heading}"></a>
             </li>
-            <li class="nav-item" th:classappend="${currentMenu} == 'topForm' ? 'active'" sec:authorize="isAuthenticated()">
-                <a href="#" class="nav-link" th:href="@{'/top'}" th:text="#{topForm.title}"></a>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a href="#" class="nav-link" th:classappend="${currentMenu} == 'topForm' ? 'active'" th:href="@{'/top'}" th:text="#{topForm.title}"></a>
             </li>
-            <li class="nav-item" th:classappend="${currentMenu} == 'userSaveForm' ? 'active'" sec:authorize="isAuthenticated()">
-                <a href="#" class="nav-link" th:href="@{'/user'}" th:text="#{userSaveForm.heading}"></a>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a href="#" class="nav-link" th:classappend="${currentMenu} == 'userSaveForm' ? 'active'" th:href="@{'/user'}" th:text="#{userSaveForm.heading}"></a>
             </li>
-            <li class="nav-item dropdown" th:classappend="${currentMenu} == 'admin' ? 'active'" sec:authorize="hasRole('ROLE_ADMIN')">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+            <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
+                <a class="nav-link dropdown-toggle" th:classappend="${currentMenu} == 'admin' ? 'active'" href="#" id="dropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <span th:text="#{admin.topForm}" th:remove="tag"></span> <span class="caret"></span>
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <li class="dropdown-item"><a href="#" class="nav-link" th:href="@{'/admin/master/top'}" th:text="#{admin.master.topForm}"></a></li>
                     <li class="dropdown-item"><a href="#" class="nav-link" th:href="@{'/admin/activeUsers'}" th:text="#{activeUsersForm}"></a></li>
                 </ul>

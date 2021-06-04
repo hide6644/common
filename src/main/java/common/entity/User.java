@@ -58,22 +58,22 @@ import lombok.Setter;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @CompareStrings.List({
-        @CompareStrings(
-                propertyNames = { "confirmPassword", "password" },
-                comparisonMode = ComparisonMode.EQUAL,
-                message = "{common.validator.constraints.confirmPassword.message}"
+    @CompareStrings(
+            propertyNames = { "confirmPassword", "password" },
+            comparisonMode = ComparisonMode.EQUAL,
+            message = "{common.validator.constraints.confirmPassword.message}"
         )
-    })
+})
 @UniqueKey.List({
-        @UniqueKey(
-                columnNames = { "username" },
-                model = User.class
+    @UniqueKey(
+            columnNames = { "username" },
+            model = User.class
         ),
-        @UniqueKey(
-                columnNames = { "email" },
-                model = User.class
+    @UniqueKey(
+            columnNames = { "email" },
+            model = User.class
         )
-    })
+})
 public final class User extends BaseObject implements Serializable, UserDetails {
 
     /** ユーザ名 */
@@ -144,8 +144,8 @@ public final class User extends BaseObject implements Serializable, UserDetails 
     @NotEmpty
     @Valid
     @ManyToMany(fetch = FetchType.EAGER, cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
+        CascadeType.PERSIST,
+        CascadeType.MERGE
     })
     @JoinTable(
             name = "user_role",

@@ -3,44 +3,7 @@ html {
   min-height: 100%;
 }
 
-body {
-  padding-top: 80px;
-}
-
-body#login {
-  padding-bottom: 40px;
-}
-
-#content {
-  padding-bottom: 60px;
-}
-
-h1, h2 {
-  margin-bottom: 10px;
-}
-
-.row h2 {
-  margin-top: 0;
-}
-
 /* FORMS */
-
-.controls.readonly {
-  padding-top: 5px;
-}
-
-.form-group {
-  margin-bottom: 0;
-}
-
-.btn-group {
-  margin-bottom: 10px;
-}
-
-.btn-group .btn, .form-group .btn {
-  margin-left: 5px;
-}
-
 #login p {
   text-align: center;
 }
@@ -53,7 +16,7 @@ h1, h2 {
 
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .form-signin .checkbox {
@@ -85,32 +48,6 @@ h1, h2 {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-}
-
-/* FOOTER */
-#footer {
-  position: absolute;
-  bottom: 0;
-  clear: both;
-  margin: 0 auto;
-  padding: 10px 0 10px 0;
-  border-top: 4px solid #f0f0f0;
-  color: #808080;
-  font-size: 0.9em;
-}
-
-#footer a {
-  color: #808080;
-  text-decoration: none;
-  margin-left: 5px;
-}
-
-#footer a:hover {
-  text-decoration: underline;
-}
-
-#footer p {
-  margin: 0;
 }
 
 /* Responsive

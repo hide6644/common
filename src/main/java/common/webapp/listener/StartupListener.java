@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
@@ -96,7 +96,7 @@ public class StartupListener implements ServletContextListener {
         // WARにバージョン番号が指定されていれば、それを使用する
         // そうでなければ、開発バージョンであると仮定し、ランダムな番号を生成する
         if (appVersion == null || appVersion.contains("SNAPSHOT")) {
-            appVersion = String.valueOf(new Random().nextInt(100000));
+            appVersion = String.valueOf(ThreadLocalRandom.current().nextInt(100000));
         }
 
         log.info("Application version set to:{}", appVersion);
