@@ -33,9 +33,9 @@ public class ReloadController extends BaseController {
      *
      * @param request
      *            {@link HttpServletRequest}
+     * @return 遷移先
      * @throws IOException
      *             {@link IOException}
-     * @return 遷移先
      */
     @GetMapping("admin/reload")
     public String handleRequest(HttpServletRequest request) throws IOException {
