@@ -7,27 +7,27 @@
 </head>
 <body>
     <div th:each="error : ${error_messages}" th:fragment="alert_div" th:remove="tag">
-        <div class="alert alert-danger alert-dismissable">
-            <a class="close" href="#" data-dismiss="alert">&times;</a>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <span th:text="${error}" th:remove="tag">error</span><br />
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
     <div th:each="error : ${flash_error_messages}" th:fragment="alert_div" th:remove="tag">
-        <div class="alert alert-danger alert-dismissable">
-            <a class="close" href="#" data-dismiss="alert">&times;</a>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <span th:text="${error}" th:remove="tag">flash_error</span><br />
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
     <div th:each="info : ${info_messages}" th:fragment="alert_div" th:remove="tag">
-        <div class="alert alert-success alert-dismissable">
-            <a class="close" href="#" data-dismiss="alert">&times;</a>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
             <span th:text="${info}" th:remove="tag">info</span><br />
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
     <div th:each="info : ${flash_info_messages}" th:fragment="alert_div" th:remove="tag">
-        <div class="alert alert-success alert-dismissable">
-            <a class="close" href="#" data-dismiss="alert">&times;</a>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
             <span th:text="${info}" th:remove="tag">flash_info</span><br />
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
 </body>
