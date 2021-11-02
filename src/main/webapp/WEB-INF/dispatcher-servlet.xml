@@ -57,7 +57,7 @@
         <property name="additionalDialects">
             <set>
                 <bean class="org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect" />
-                <bean class="nz.net.ultraq.thymeleaf.LayoutDialect" />
+                <bean class="nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect" />
             </set>
         </property>
     </bean>
