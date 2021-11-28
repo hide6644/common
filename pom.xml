@@ -130,12 +130,12 @@
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>4.4.1</version>
+                    <version>4.5.0.0</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.github.spotbugs</groupId>
                             <artifactId>spotbugs</artifactId>
-                            <version>4.4.2</version>
+                            <version>4.5.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -632,7 +632,7 @@
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
         <jdbc.version>2.7.4</jdbc.version>
 
-        <byte-buddy.version>1.11.22</byte-buddy.version>
+        <byte-buddy.version>1.12.2</byte-buddy.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-digester3.version>3.2</commons-digester3.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
@@ -660,13 +660,13 @@
         <lombok.version>1.18.22</lombok.version>
         <lucene.version>8.7.0</lucene.version>
         <mail.version>1.6.7</mail.version>
-        <mockito.version>4.0.0</mockito.version>
+        <mockito.version>4.1.0</mockito.version>
         <opencsv.version>5.5.2</opencsv.version>
         <poi.version>4.1.2</poi.version>
         <slf4j.version>1.7.32</slf4j.version>
-        <spring.version>5.3.12</spring.version>
-        <spring-data.version>2.5.6</spring-data.version>
-        <spring-security.version>5.5.3</spring-security.version>
+        <spring.version>5.3.13</spring.version>
+        <spring-data.version>2.6.0</spring-data.version>
+        <spring-security.version>5.6.0</spring-security.version>
         <thymeleaf-spring5.version>3.0.12.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
         <thymeleaf-layout-dialect.version>3.0.0</thymeleaf-layout-dialect.version>
