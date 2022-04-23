@@ -9,13 +9,6 @@ import java.util.ResourceBundle;
  */
 public class Constants {
 
-    /**
-     * プライベート・コンストラクタ.
-     * このクラスはインスタンス化禁止.
-     */
-    private Constants() {
-    }
-
     public static final String ASSETS_VERSION = "assetsVersion";
 
     public static final String CONFIG = "appConfig";
@@ -69,4 +62,11 @@ public class Constants {
 
     /** 1ページ当たりの表示数 */
     public static final int PAGING_SIZE = Integer.parseInt(ResourceBundle.getBundle(BUNDLE_KEY).getString("paging.size"));
+
+    /**
+     * プライベート・コンストラクタ.
+     * このクラスはインスタンス化禁止.
+     */
+    private Constants() {
+    }
 }
