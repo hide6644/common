@@ -8,7 +8,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.5.9</version>
+    <version>1.5.10</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -58,12 +58,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.0</version>
+                <version>3.10.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
@@ -89,7 +89,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
+                <version>3.0.0-M6</version>
                 <configuration>
                     <reuseForks>false</reuseForks>
                     <argLine>${argLine} -Dcatalina.base=${project.build.directory}</argLine>
@@ -98,7 +98,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.7</version>
+                <version>0.8.8</version>
                 <executions>
                     <execution>
                         <goals>
@@ -114,28 +114,18 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <path>/common</path>
-                    <server>tomcat-localhost</server>
-                    <url>http://localhost:8080/manager/text</url>
-                </configuration>
-            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>4.5.3.0</version>
+                    <version>4.7.0.0</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.github.spotbugs</groupId>
                             <artifactId>spotbugs</artifactId>
-                            <version>4.6.0</version>
+                            <version>4.7.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -159,7 +149,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -169,7 +159,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.11.0</version>
+                    <version>3.12.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -632,7 +622,7 @@
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
         <jdbc.version>3.0.4</jdbc.version>
 
-        <byte-buddy.version>1.12.9</byte-buddy.version>
+        <byte-buddy.version>1.12.10</byte-buddy.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-digester3.version>3.2</commons-digester3.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
@@ -646,8 +636,8 @@
         <greenmail.version>1.6.8</greenmail.version>
         <groovy.version>3.0.10</groovy.version>
         <hamcrest.version>2.2</hamcrest.version>
-        <hibernate.version>5.6.8.Final</hibernate.version>
-        <hibernate-search.version>6.1.4.Final</hibernate-search.version>
+        <hibernate.version>5.6.9.Final</hibernate.version>
+        <hibernate-search.version>6.1.5.Final</hibernate-search.version>
         <hibernate-validator.version>6.2.3.Final</hibernate-validator.version>
         <HikariCP.version>5.0.1</HikariCP.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
@@ -664,9 +654,9 @@
         <opencsv.version>5.6</opencsv.version>
         <poi.version>4.1.2</poi.version>
         <slf4j.version>1.7.36</slf4j.version>
-        <spring.version>5.3.19</spring.version>
-        <spring-data.version>2.6.4</spring-data.version>
-        <spring-security.version>5.6.3</spring-security.version>
+        <spring.version>5.3.20</spring.version>
+        <spring-data.version>2.7.0</spring-data.version>
+        <spring-security.version>5.7.1</spring-security.version>
         <thymeleaf-spring5.version>3.0.15.RELEASE</thymeleaf-spring5.version>
         <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
         <thymeleaf-layout-dialect.version>3.1.0</thymeleaf-layout-dialect.version>
