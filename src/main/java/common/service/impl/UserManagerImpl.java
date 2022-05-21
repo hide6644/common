@@ -75,7 +75,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     @Override
     @Transactional
     public User getUser(String userId) {
-        return userDao.getById(Long.valueOf(userId));
+        return userDao.getReferenceById(Long.valueOf(userId));
     }
 
     /**
