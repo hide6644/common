@@ -27,6 +27,24 @@ jobs:
       - run:
           name: Build
           command: mvn -B -DskipTests clean package
+      # Wait for MariaDB to be ready.
+      - run:
+          name: Wait_DB
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z 127.0.0.1 3306 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for MySQL && exit 1
+      # Installation of MySQL CLI. Import of test data.
+      - run:
+          name: Tast_Data_Import
+          command: |
+            sudo apt install default-mysql-client
+            mysql -h 127.0.0.1 -u common -pcommon_pw common < src/config/schema.sql
+            mysql -h 127.0.0.1 -u common -pcommon_pw common < src/config/data.sql
       # Then run your tests!
       - run:
           name: Test
