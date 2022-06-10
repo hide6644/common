@@ -19,13 +19,13 @@ public class RoleDaoTest extends BaseDaoTestCase {
     @Test
     public void testGetRoleInvalid() {
         Assertions.assertThrows(DataAccessException.class, () -> {
-            dao.getById("badrolename");
+            dao.getReferenceById("badrolename");
         });
     }
 
     @Test
     public void testGetRole() {
-        Role role = dao.getById(Constants.USER_ROLE);
+        Role role = dao.getReferenceById(Constants.USER_ROLE);
 
         assertNotNull(role);
         assertTrue(role.equals(new Role(Constants.USER_ROLE)));
@@ -33,10 +33,10 @@ public class RoleDaoTest extends BaseDaoTestCase {
 
     @Test
     public void testUpdateRole() {
-        Role role = dao.getById(Constants.USER_ROLE);
+        Role role = dao.getReferenceById(Constants.USER_ROLE);
         role.setDescription("test descr");
         dao.save(role);
-        role = dao.getById(Constants.USER_ROLE);
+        role = dao.getReferenceById(Constants.USER_ROLE);
 
         assertEquals("test descr", role.getDescription());
     }
@@ -46,14 +46,14 @@ public class RoleDaoTest extends BaseDaoTestCase {
         Role role = new Role("testrole");
         role.setDescription("new role descr");
         dao.save(role);
-        role = dao.getById("testrole");
+        role = dao.getReferenceById("testrole");
 
         assertNotNull(role.getDescription());
 
         dao.deleteById("testrole");
 
         Assertions.assertThrows(DataAccessException.class, () -> {
-            dao.getById("testrole");
+            dao.getReferenceById("testrole");
         });
     }
 }
