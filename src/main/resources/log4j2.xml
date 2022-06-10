@@ -11,7 +11,7 @@
         <Console name="stdout" target="SYSTEM_OUT">
             <PatternLayout pattern="${loglayout}" />
         </Console>
-        <RollingFile name="applog" fileName="${sys:catalina.base}/logs/${bundle:messages:app.base}/app.log" filePattern="${sys:catalina.base}/logs/${bundle:ApplicationResources:app.base}/$${date:yyyy-MM}/app-%d{yyyy-MM-dd}-%i.log.gz">
+        <RollingFile name="applog" fileName="${sys:catalina.base}/logs/${bundle:messages:app.base}/app.log" filePattern="${sys:catalina.base}/logs/${bundle:messages:app.base}/$${date:yyyy-MM}/app-%d{yyyy-MM-dd}-%i.log.gz">
             <PatternLayout pattern="${loglayout}" />
             <Policies>
                 <SizeBasedTriggeringPolicy size="10 MB" />

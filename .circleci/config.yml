@@ -47,15 +47,16 @@ jobs:
           command: mvn test
       # Publish test results.
       - run:
-          name: Save test results
+          name: Collect Test Results
           command: |
-            mkdir -p ~/test-results/junit/
-            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
+            mkdir -p ~/junit/
+            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/junit/ \;
           when: always
       - store_test_results:
-          path: ~/test-results/junit
+          path: ~/junit
       - store_artifacts:
-          path: ~/test-results/junit
+          path: build/reports
+          destination: reports
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows

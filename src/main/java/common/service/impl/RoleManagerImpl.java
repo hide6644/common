@@ -41,7 +41,7 @@ public class RoleManagerImpl implements RoleManager {
     @Override
     @Transactional
     public Role getRole(String name) {
-        return roleDao.getById(name);
+        return roleDao.getReferenceById(name);
     }
 
     /**
