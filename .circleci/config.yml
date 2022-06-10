@@ -24,7 +24,7 @@ jobs:
           command: mvn -B -DskipTests clean package
       # Wait for MariaDB to be ready.
       - run:
-          name: Wait DB
+          name: Waiting DB setup
           command: |
             for i in `seq 1 10`;
             do
@@ -35,7 +35,7 @@ jobs:
             echo Failed waiting for MySQL && exit 1
       # Installation of MySQL CLI. And import test data.
       - run:
-          name: Import Tast Data
+          name: Import tast data
           command: |
             sudo apt update
             sudo apt install mysql-client
