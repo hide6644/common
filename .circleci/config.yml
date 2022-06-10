@@ -42,7 +42,8 @@ jobs:
       - run:
           name: Tast_Data_Import
           command: |
-            sudo apt install default-mysql-client
+            sudo apt update
+            sudo apt install mysql-client
             mysql -h 127.0.0.1 -u common -pcommon_pw common < src/config/schema.sql
             mysql -h 127.0.0.1 -u common -pcommon_pw common < src/config/data.sql
       # Then run your tests!
