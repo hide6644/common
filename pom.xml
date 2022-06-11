@@ -29,8 +29,8 @@
     </issueManagement>
 
     <ciManagement>
-        <system>Travis CI</system>
-        <url>https://travis-ci.org/hide6644/common</url>
+        <system>circleci</system>
+        <url>https://app.circleci.com/pipelines/github/hide6644/common</url>
     </ciManagement>
 
     <licenses>
