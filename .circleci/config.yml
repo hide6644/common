@@ -57,7 +57,7 @@ jobs:
       # Generate a site.
       - run:
           name: Site
-          command: mvn site
+          command: mvn jacoco:report coveralls:report
       - store_artifacts:
           path: target/site
           destination: reports
