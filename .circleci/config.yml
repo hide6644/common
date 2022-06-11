@@ -1,0 +1,70 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+jobs:
+  build-and-test:
+    docker:
+      - image: cimg/openjdk:11.0
+      - image: cimg/mariadb:10.8
+        environment:
+          MARIADB_DATABASE: common
+          MARIADB_USER: common
+          MARIADB_PASSWORD: common_pw
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      # Checkout the code as the first step.
+      - checkout
+      # Use mvn clean and package as the standard maven build phase
+      - run:
+          name: Build
+          command: mvn -B -DskipTests clean package
+      # Wait for MariaDB to be ready.
+      - run:
+          name: Waiting DB setup
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z 127.0.0.1 3306 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for MySQL && exit 1
+      # Installation of MySQL CLI. And import test data.
+      - run:
+          name: Import tast data
+          command: |
+            sudo apt update
+            sudo apt install mysql-client
+            mysql -h 127.0.0.1 -u common -pcommon_pw common < src/config/schema.sql
+            mysql -h 127.0.0.1 -u common -pcommon_pw common < src/config/data.sql
+      # Then run tests!
+      - run:
+          name: Test
+          command: mvn test
+      # Publish test results.
+      - run:
+          name: Collect test results
+          command: |
+            mkdir -p ~/junit/
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/junit/ \;
+          when: always
+      - store_test_results:
+          path: ~/junit
+      # Generate a site.
+      - run:
+          name: Site
+          command: mvn jacoco:report coveralls:report
+      - store_artifacts:
+          path: target/site
+          destination: reports
+
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+workflows:
+  build-deploy:
+    jobs:
+      - build-and-test
