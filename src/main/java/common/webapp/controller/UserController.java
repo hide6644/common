@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import common.Constants;
 import common.dto.UserDetailsForm;
 import common.entity.Role;
-import common.entity.User;
 import common.exception.DatabaseException;
 import common.service.UserManager;
 import common.service.mail.UserMail;
@@ -80,7 +79,7 @@ public class UserController extends BaseController {
         }
 
         if (Objects.equals(request.getParameter("mode"), "Add")) {
-            UserDetailsForm userDetailsForm = new UserDetailsForm();
+            var userDetailsForm = new UserDetailsForm();
             userDetailsForm.setCredentialsExpiredDate(LocalDateTime.now().plusDays(Constants.CREDENTIALS_EXPIRED_TERM));
             userDetailsForm.addRole(new Role(Constants.USER_ROLE));
             return userDetailsForm;
@@ -114,7 +113,7 @@ public class UserController extends BaseController {
         }
 
         try {
-            User managedUser = userManager.saveUserDetails(userDetailsForm);
+            var managedUser = userManager.saveUserDetails(userDetailsForm);
             saveFlashMessage(getText("inserted"));
 
             // 登録完了メールを送信する

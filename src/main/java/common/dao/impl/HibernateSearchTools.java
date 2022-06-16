@@ -4,8 +4,6 @@ import javax.persistence.EntityManager;
 
 import org.apache.logging.log4j.LogManager;
 import org.hibernate.search.mapper.orm.Search;
-import org.hibernate.search.mapper.orm.massindexing.MassIndexer;
-import org.hibernate.search.mapper.orm.session.SearchSession;
 
 /**
  * 全文検索を処理するクラス.
@@ -27,8 +25,8 @@ class HibernateSearchTools {
      *            Entity Manager
      */
     public static <T> void reindex(Class<T> clazz, EntityManager entityManager) {
-        SearchSession searchSession = Search.session(entityManager);
-        MassIndexer massIndexer = searchSession.massIndexer(clazz);
+        var searchSession = Search.session(entityManager);
+        var massIndexer = searchSession.massIndexer(clazz);
 
         try {
             massIndexer.startAndWait();
@@ -47,8 +45,8 @@ class HibernateSearchTools {
      *            Entity Manager
      */
     public static void reindexAll(boolean async, EntityManager entityManager) {
-        SearchSession searchSession = Search.session(entityManager);
-        MassIndexer massIndexer = searchSession.massIndexer();
+        var searchSession = Search.session(entityManager);
+        var massIndexer = searchSession.massIndexer();
         massIndexer.purgeAllOnStart(true);
 
         if (!async) {

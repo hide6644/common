@@ -92,7 +92,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      */
     @Override
     public UserDetailsForm getUserDetails(User user) {
-        UserDetailsForm userDetailsForm = new UserDetailsForm();
+        var userDetailsForm = new UserDetailsForm();
         BeanUtils.copyProperties(user, userDetailsForm);
         return userDetailsForm;
     }
@@ -169,7 +169,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
      * @return 暗号化済みパスワード
      */
     private String passwordEncode(String currentPassword, String newPassword) {
-        boolean passwordChanged = false;
+        var passwordChanged = false;
 
         if (currentPassword == null) {
             // 登録の場合
@@ -213,13 +213,13 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     @Override
     @Transactional
     public User saveSignupUser(SignupUserForm signupUser) {
-        User user = new User();
+        var user = new User();
         BeanUtils.copyProperties(signupUser, user);
         // デフォルトの要再認証日時を設定する
         user.setCredentialsExpiredDate(LocalDateTime.now().plusDays(Constants.CREDENTIALS_EXPIRED_TERM));
         // 新規登録時は権限を一般で設定する
         user.addRole(new Role(Constants.USER_ROLE));
-        User managedUser = saveUser(user);
+        var managedUser = saveUser(user);
 
         // 登録完了メールを送信する
         userMail.sendSignupEmail(managedUser);
@@ -233,12 +233,12 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     @Override
     @Transactional
     public void enableUser(String username) {
-        User user = getUserByUsername(username);
+        var user = getUserByUsername(username);
         user.setConfirmPassword(user.getPassword());
         user.setEnabled(true);
 
         // 登録した"username"、"password"でログイン処理を行う
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
+        var auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
         auth.setDetails(user);
         SecurityContextHolder.getContext().setAuthentication(auth);
 
@@ -251,7 +251,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     @Override
     @Transactional
     public void lockoutUser(String username) {
-        User user = getUserByUsername(username);
+        var user = getUserByUsername(username);
         user.setConfirmPassword(user.getPassword());
         user.setAccountLocked(true);
         userDao.saveAndFlush(user);
@@ -290,7 +290,7 @@ public class UserManagerImpl extends BaseManagerImpl implements UserManager {
     @Override
     @Transactional
     public User updatePassword(PasswordForm passwordForm) {
-        User user = getUserByUsername(passwordForm.getUsername());
+        var user = getUserByUsername(passwordForm.getUsername());
 
         if (isRecoveryTokenValid(user, passwordForm.getToken())) {
             user.setPassword(passwordEncode(user.getPassword(), passwordForm.getNewPassword()));

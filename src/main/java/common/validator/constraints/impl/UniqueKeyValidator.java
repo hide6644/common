@@ -74,10 +74,10 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Object
             return true;
         }
 
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        var builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
         Root<?> root = criteriaQuery.from(model);
-        BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(target);
+        var beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(target);
         List<Predicate> preds = new ArrayList<>();
 
         creatingWhereClauseByColumnNames(builder, root, beanWrapper, preds);

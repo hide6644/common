@@ -46,7 +46,7 @@ public class MaxFileSizeValidator implements ConstraintValidator<MaxFileSize, Ob
      */
     @Override
     public boolean isValid(Object target, ConstraintValidatorContext context) {
-        boolean isValid = true;
+        var isValid = true;
 
         if (target == null) {
             isValid = false;

@@ -6,7 +6,6 @@ import java.util.Map;
 import org.hibernate.search.engine.search.aggregation.AggregationKey;
 import org.hibernate.search.engine.search.query.SearchResult;
 import org.hibernate.search.mapper.orm.Search;
-import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
@@ -58,7 +57,7 @@ public class UserSearchImpl extends HibernateSearchImpl<User> implements UserSea
      */
     @Override
     public Map<String, Long> facet(String field, int maxCount) {
-        SearchSession searchSession = Search.session(entityManager);
+        var searchSession = Search.session(entityManager);
         AggregationKey<Map<String, Long>> countByKey = AggregationKey.of(field);
 
         SearchResult<User> result = searchSession.search(User.class)

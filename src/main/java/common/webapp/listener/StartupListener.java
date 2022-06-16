@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
 import javax.servlet.ServletContext;
@@ -40,7 +39,7 @@ public class StartupListener implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent event) {
-        ServletContext context = event.getServletContext();
+        var context = event.getServletContext();
 
         @SuppressWarnings("unchecked")
         Map<String, Object> config = Optional.ofNullable((Map<String, Object>) context.getAttribute(Constants.CONFIG)).orElseGet(HashMap::new);
@@ -83,9 +82,9 @@ public class StartupListener implements ServletContextListener {
             if (is == null) {
                 log.warn("META-INF/MANIFEST.MF not found.");
             } else {
-                Manifest mf = new Manifest();
+                var mf = new Manifest();
                 mf.read(is);
-                Attributes atts = mf.getMainAttributes();
+                var atts = mf.getMainAttributes();
                 appVersion = atts.getValue("Implementation-Version");
             }
         } catch (IOException e) {

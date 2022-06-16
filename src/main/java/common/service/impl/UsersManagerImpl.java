@@ -90,7 +90,7 @@ public class UsersManagerImpl extends BaseManagerImpl implements UsersManager {
     @Override
     @Transactional
     public void uploadUsers(UploadForm uploadForm) {
-        UploadResult uploadResult = new UploadResult(2); // 1行目はヘッダー行のため、2から開始する
+        var uploadResult = new UploadResult(2); // 1行目はヘッダー行のため、2から開始する
         uploadForm.setUploadResult(uploadResult);
 
         UserFileConverterFactory.createConverter(FileType.of(uploadForm.getFileType()))
@@ -143,7 +143,7 @@ public class UsersManagerImpl extends BaseManagerImpl implements UsersManager {
     @Override
     @Transactional(readOnly = true)
     public PaginatedList<UserSearchResults> createPaginatedList(UserSearchCriteria userSearchCriteria, Integer page) {
-        PageRequest pageRequest = PageRequest.of(Optional.ofNullable(page).orElse(1) - 1, Constants.PAGING_SIZE, Sort.by(UserSearchCriteria.USERNAME_FIELD));
+        var pageRequest = PageRequest.of(Optional.ofNullable(page).orElse(1) - 1, Constants.PAGING_SIZE, Sort.by(UserSearchCriteria.USERNAME_FIELD));
         Page<User> pagedUser = userDao.findAll(where(usernameContains(userSearchCriteria.getUsername())).and(emailContains(userSearchCriteria.getEmail())), pageRequest);
 
         return new PaginatedList<>(new PageImpl<>(
@@ -159,7 +159,7 @@ public class UsersManagerImpl extends BaseManagerImpl implements UsersManager {
     @Override
     @Transactional(readOnly = true)
     public PaginatedList<UserSearchResults> createPaginatedListByFullText(UserSearchCriteria userSearchCriteria, Integer page) {
-        PageRequest pageRequest = PageRequest.of(Optional.ofNullable(page).orElse(1) - 1, Constants.PAGING_SIZE);
+        var pageRequest = PageRequest.of(Optional.ofNullable(page).orElse(1) - 1, Constants.PAGING_SIZE);
         List<User> result = userSearch.search(userSearchCriteria, pageRequest);
 
         return new PaginatedList<>(new PageImpl<>(

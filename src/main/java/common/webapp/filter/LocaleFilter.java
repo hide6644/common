@@ -25,7 +25,7 @@ public class LocaleFilter extends OncePerRequestFilter {
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String locale = request.getParameter("locale");
-        Locale preferredLocale = getPreferredLocale(locale);
+        var preferredLocale = getPreferredLocale(locale);
         HttpSession session = request.getSession(locale != null);
 
         if (session != null) {
@@ -60,8 +60,8 @@ public class LocaleFilter extends OncePerRequestFilter {
             int indexOfUnderscore = locale.indexOf('_');
 
             if (indexOfUnderscore != -1) {
-                String language = locale.substring(0, indexOfUnderscore);
-                String country = locale.substring(indexOfUnderscore + 1);
+                var language = locale.substring(0, indexOfUnderscore);
+                var country = locale.substring(indexOfUnderscore + 1);
                 preferredLocale = new Locale(language, country);
             } else {
                 preferredLocale = new Locale(locale);

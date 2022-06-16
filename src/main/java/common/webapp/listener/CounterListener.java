@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSessionBindingEvent;
 
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
@@ -85,7 +84,7 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
         User user = null;
 
         if (event.getName().equals(EVENT_KEY) && !isAnonymous()) {
-            Authentication auth = ((SecurityContext) event.getValue()).getAuthentication();
+            var auth = ((SecurityContext) event.getValue()).getAuthentication();
 
             if (auth != null && auth.getPrincipal() instanceof User) {
                 user = (User) auth.getPrincipal();
@@ -160,10 +159,10 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
      */
     private boolean isAnonymous() {
         AuthenticationTrustResolver resolver = new AuthenticationTrustResolverImpl();
-        SecurityContext ctx = SecurityContextHolder.getContext();
+        var ctx = SecurityContextHolder.getContext();
 
         if (ctx != null) {
-            Authentication auth = ctx.getAuthentication();
+            var auth = ctx.getAuthentication();
             return resolver.isAnonymous(auth);
         }
 

@@ -28,7 +28,7 @@ public class ConstraintValidatorUtil {
      * @return 比較結果
      */
     public static boolean isValid(List<String> propertyValues, ComparisonMode comparisonMode) {
-        boolean ignoreCase = false;
+        var ignoreCase = false;
 
         switch (comparisonMode) {
         case EQUAL_IGNORE_CASE:

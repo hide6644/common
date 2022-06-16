@@ -73,7 +73,7 @@ public class UpdatePasswordController extends BaseController {
             return "redirect:/login";
         }
 
-        PasswordForm passwordForm = new PasswordForm();
+        var passwordForm = new PasswordForm();
         passwordForm.setUsername(username);
         passwordForm.setToken(token);
         model.addAttribute("passwordForm", passwordForm);
