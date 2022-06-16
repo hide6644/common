@@ -50,7 +50,7 @@ public class UserSearchImpl extends HibernateSearchImpl<User> implements UserSea
                     }
                 })
                 .sort(f -> f.field(UserSearchCriteria.USERNAME_FIELD + "Sort"))
-                .fetchHits(Long.valueOf(pageRequest.getOffset()).intValue(), pageRequest.getPageSize());
+                .fetchHits((int) pageRequest.getOffset(), pageRequest.getPageSize());
     }
 
     /**

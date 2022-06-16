@@ -59,6 +59,10 @@ public class JxlsView extends AbstractUrlBasedView {
      *             {@link IOException}
      */
     private InputStream getTemplateSource(String url, HttpServletRequest request) throws IOException {
+        if (url == null) {
+            throw new NullPointerException("Property 'url' is required");
+        }
+
         LocalizedResourceHelper helper = new LocalizedResourceHelper(getApplicationContext());
         Locale userLocale = RequestContextUtils.getLocale(request);
         Resource inputFile = helper.findLocalizedResource(url.substring(0, url.lastIndexOf('.')), url.substring(url.lastIndexOf('.')), userLocale);

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 
@@ -47,7 +48,8 @@ public class UsersController extends BaseController {
      * @return ユーザ
      */
     @ModelAttribute("userSearchCriteria")
-    public UserSearchCriteria getUserSearchCriteria() {
+    public UserSearchCriteria getUserSearchCriteria(SessionStatus status) {
+        status.setComplete();
         return new UserSearchCriteria();
     }
 
