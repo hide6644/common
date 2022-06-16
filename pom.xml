@@ -29,8 +29,8 @@
     </issueManagement>
 
     <ciManagement>
-        <system>Travis CI</system>
-        <url>https://travis-ci.org/hide6644/common</url>
+        <system>circleci</system>
+        <url>https://app.circleci.com/pipelines/github/hide6644/common</url>
     </ciManagement>
 
     <licenses>
@@ -265,15 +265,15 @@
                 <version>${byte-buddy.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish.jaxb</groupId>
-                <artifactId>jaxb-runtime</artifactId>
-                <version>${jaxb-runtime.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>net.bytebuddy</groupId>
                 <artifactId>byte-buddy-agent</artifactId>
                 <version>${byte-buddy.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>${jaxb-runtime.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
