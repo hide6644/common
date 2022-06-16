@@ -19,7 +19,7 @@ import com.icegreen.greenmail.util.ServerSetupTest;
 import common.dto.PasswordForm;
 import common.entity.User;
 
-public class PasswordTokenManagerTest extends BaseManagerTestCase {
+class PasswordTokenManagerTest extends BaseManagerTestCase {
 
     @Autowired
     private UserManager userManager;
@@ -30,14 +30,14 @@ public class PasswordTokenManagerTest extends BaseManagerTestCase {
     private static GreenMail greenMail;
 
     @BeforeAll
-    public static void setUpClass() {
+    static void setUpClass() {
         LocaleContextHolder.setLocale(Locale.JAPANESE);
         greenMail = new GreenMail(ServerSetupTest.SMTP);
         greenMail.start();
     }
 
     @BeforeEach
-    public void setUp() throws FolderException {
+    void setUp() throws FolderException {
         greenMail.purgeEmailFromAllMailboxes();
         JavaMailSenderImpl mailSender = (JavaMailSenderImpl) applicationContext.getBean("mailSender");
         mailSender.setPort(greenMail.getSmtp().getPort());
@@ -45,12 +45,12 @@ public class PasswordTokenManagerTest extends BaseManagerTestCase {
     }
 
     @AfterAll
-    public static void tearDownClass() {
+    static void tearDownClass() {
         greenMail.stop();
     }
 
     @Test
-    public void testGenerateRecoveryToken() {
+    void testGenerateRecoveryToken() {
         User user = userManager.getUserByUsername("normaluser");
         String token = passwordTokenManager.generateRecoveryToken(user);
 
@@ -59,7 +59,7 @@ public class PasswordTokenManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testConsumeRecoveryToken() {
+    void testConsumeRecoveryToken() {
         User user = userManager.getUserByUsername("normaluser");
         String token = passwordTokenManager.generateRecoveryToken(user);
 
@@ -72,7 +72,7 @@ public class PasswordTokenManagerTest extends BaseManagerTestCase {
         passwordForm.setNewPassword("pass");
         user = userManager.updatePassword(passwordForm);
 
-        assertTrue(greenMail.getReceivedMessages().length == 1);
+        assertEquals(1, greenMail.getReceivedMessages().length);
         assertFalse(passwordTokenManager.isRecoveryTokenValid(user, token));
     }
 }

@@ -21,14 +21,14 @@ import common.Constants;
 import common.entity.Role;
 import common.entity.User;
 
-public class CounterListenerTest {
+class CounterListenerTest {
 
     private MockServletContext sc;
 
     private CounterListener listener;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         sc = new MockServletContext("");
         sc.addInitParameter(ContextLoader.CONFIG_LOCATION_PARAM, "classpath:common/dao/applicationContext-resources.xml, classpath:/common/dao/applicationContext-dao.xml, classpath:/applicationContext-service.xml");
 
@@ -36,7 +36,7 @@ public class CounterListenerTest {
     }
 
     @Test
-    public void testContextInitialized() {
+    void testContextInitialized() {
         listener.contextInitialized(new ServletContextEvent(sc));
 
         assertNotNull(sc.getAttribute(CounterListener.COUNT_KEY));
@@ -45,7 +45,7 @@ public class CounterListenerTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testAttribute() {
+    void testAttribute() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         HttpSession session =request.getSession();
 

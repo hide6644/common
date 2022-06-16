@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-public class NotEmptyFileTest {
+class NotEmptyFileTest {
 
     private static Validator validator;
 
@@ -21,13 +21,13 @@ public class NotEmptyFileTest {
     private MultipartFile fileData;
 
     @BeforeAll
-    public static void setUpClass(){
+    static void setUpClass(){
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
 
     @Test
-    public void testEmpty() throws Exception {
+    void testEmpty() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream("common/validator/constraints/empty.csv");
         fileData = new MockMultipartFile("fileData", input);
@@ -39,7 +39,7 @@ public class NotEmptyFileTest {
     }
 
     @Test
-    public void testNotEmpty() throws Exception {
+    void testNotEmpty() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream("common/validator/constraints/notempty.csv");
         fileData = new MockMultipartFile("fileData", input);
@@ -50,7 +50,7 @@ public class NotEmptyFileTest {
         assertEquals(0, validator.validate(bean).size());
     }
 
-    public void setFileData(MultipartFile fileData) {
+    void setFileData(MultipartFile fileData) {
         this.fileData = fileData;
     }
 }

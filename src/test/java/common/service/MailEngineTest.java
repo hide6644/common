@@ -24,7 +24,7 @@ import com.icegreen.greenmail.util.ServerSetupTest;
 
 import common.service.mail.MailEngine;
 
-public class MailEngineTest extends BaseManagerTestCase {
+class MailEngineTest extends BaseManagerTestCase {
 
     @Autowired
     private MailEngine mailEngine;
@@ -35,13 +35,13 @@ public class MailEngineTest extends BaseManagerTestCase {
     private static GreenMail greenMail;
 
     @BeforeAll
-    public static void setUpClass() {
+    static void setUpClass() {
         greenMail = new GreenMail(ServerSetupTest.SMTP);
         greenMail.start();
     }
 
     @BeforeEach
-    public void setUp() throws FolderException {
+    void setUp() throws FolderException {
         greenMail.purgeEmailFromAllMailboxes();
         JavaMailSenderImpl mailSender = (JavaMailSenderImpl) applicationContext.getBean("mailSender");
         mailSender.setPort(greenMail.getSmtp().getPort());
@@ -50,12 +50,12 @@ public class MailEngineTest extends BaseManagerTestCase {
     }
 
     @AfterAll
-    public static void tearDownClass() {
+    static void tearDownClass() {
         greenMail.stop();
     }
 
     @Test
-    public void testSend() throws Exception {
+    void testSend() throws Exception {
         Date dte = new Date();
         mailMessage.setTo("foo@bar.com");
         String emailSubject = "grepster testSend: " + dte;
@@ -67,7 +67,7 @@ public class MailEngineTest extends BaseManagerTestCase {
         ClassPathResource cpResource = new ClassPathResource("/test-attachment.txt");
         mailEngine.send(mailMessage, emailBody, cpResource.getURL().getPath());
 
-        assertTrue(greenMail.getReceivedMessages().length == 2);
+        assertEquals(2, greenMail.getReceivedMessages().length);
 
         MimeMessage mm = greenMail.getReceivedMessages()[0];
         assertEquals(emailSubject, mm.getSubject());
@@ -75,7 +75,7 @@ public class MailEngineTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testSendMessageWithAttachment() throws Exception {
+    void testSendMessageWithAttachment() throws Exception {
         final String attachmentName = "boring-attachment.txt";
 
         Date dte = new Date();
@@ -88,7 +88,7 @@ public class MailEngineTest extends BaseManagerTestCase {
         mailEngine.sendMessage(new String[] { "foo@bar.com" }, mailMessage.getFrom(), emailBody, emailSubject, attachmentName, cpResource);
 
         // one without and one with from
-        assertTrue(greenMail.getReceivedMessages().length == 2);
+        assertEquals(2, greenMail.getReceivedMessages().length);
 
         MimeMessage mm = greenMail.getReceivedMessages()[0];
         Object o = mm.getContent();

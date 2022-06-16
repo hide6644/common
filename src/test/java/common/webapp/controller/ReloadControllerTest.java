@@ -9,13 +9,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-public class ReloadControllerTest extends BaseControllerTestCase {
+class ReloadControllerTest extends BaseControllerTestCase {
 
     @Autowired
     private ReloadController c;
 
     @Test
-    public void testHandleRequest() throws Exception {
+    void testHandleRequest() throws Exception {
         MockHttpServletRequest request = newGet("/admin/reload");
         String rtn = c.handleRequest(request);
 
@@ -23,7 +23,7 @@ public class ReloadControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testHandleRequestWithReferer() throws Exception {
+    void testHandleRequestWithReferer() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getSession()).thenReturn(newGet("/admin/reload").getSession());
         when(request.getHeader("Referer")).thenReturn("http://foo.bar/common/test");

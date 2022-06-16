@@ -8,13 +8,13 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 
-public class ErrorControllerTest extends BaseControllerTestCase {
+class ErrorControllerTest extends BaseControllerTestCase {
 
     @Autowired
     private ErrorController c;
 
     @Test
-    public void testRenderErrorPage() {
+    void testRenderErrorPage() {
         MockHttpServletRequest request = newGet("/error");
         request.setAttribute("javax.servlet.error.status_code", 400);
         Model model = new ExtendedModelMap();

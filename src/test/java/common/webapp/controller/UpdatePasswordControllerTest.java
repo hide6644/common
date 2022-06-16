@@ -16,7 +16,7 @@ import common.service.PasswordTokenManager;
 import common.service.UserManager;
 import common.webapp.filter.FlashMap;
 
-public class UpdatePasswordControllerTest extends BaseControllerTestCase {
+class UpdatePasswordControllerTest extends BaseControllerTestCase {
 
     @Autowired
     private UpdatePasswordController c;
@@ -28,17 +28,17 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     private UserManager userManager;
 
     @Test
-    public void testRequestRecoveryToken() {
+    void testRequestRecoveryToken() {
         String username = "administrator";
 
         c.requestRecoveryToken(username);
 
-        assertTrue(greenMail.getReceivedMessages().length == 1);
+        assertEquals(1, greenMail.getReceivedMessages().length);
         assertNotNull(FlashMap.get("flash_info_messages"));
     }
 
     @Test
-    public void testShowUpdatePasswordForm() {
+    void testShowUpdatePasswordForm() {
         String username = "administrator";
         MockHttpServletRequest request = newGet("/updatePassword");
         request.setRemoteUser(username);
@@ -49,7 +49,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testShowResetPasswordForm() {
+    void testShowResetPasswordForm() {
         String username = "administrator";
         String token = passwordTokenManager.generateRecoveryToken(userManager.getUserByUsername(username));
         MockHttpServletRequest request = newGet("/updatePassword");
@@ -62,7 +62,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testShowResetPasswordFormBadToken() {
+    void testShowResetPasswordFormBadToken() {
         String username = "administrator";
         String badtoken = new RandomStringGenerator.Builder().build().generate(32);
         MockHttpServletRequest request = newGet("/updatePassword");
@@ -75,7 +75,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testResetPassword() {
+    void testResetPassword() {
         MockHttpServletRequest request = newGet("/updatePassword");
         PasswordForm passwordForm = new PasswordForm();
         passwordForm.setUsername("administrator");
@@ -86,13 +86,13 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
         BindingResult errors = new DataBinder(passwordForm).getBindingResult();
         c.onSubmit(passwordForm, errors, request);
 
-        assertTrue(greenMail.getReceivedMessages().length == 1);
+        assertEquals(1, greenMail.getReceivedMessages().length);
         assertNotNull(FlashMap.get("flash_info_messages"));
         assertNull(FlashMap.get("flash_error_messages"));
     }
 
     @Test
-    public void testResetPasswordBadToken() {
+    void testResetPasswordBadToken() {
         MockHttpServletRequest request = newGet("/updatePassword");
         PasswordForm passwordForm = new PasswordForm();
         passwordForm.setUsername("administrator");
@@ -108,7 +108,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testUpdatePassword() {
+    void testUpdatePassword() {
         MockHttpServletRequest request = newGet("/updatePassword");
         PasswordForm passwordForm = new PasswordForm();
         passwordForm.setUsername("administrator");
@@ -125,7 +125,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testUpdatePasswordFromList() {
+    void testUpdatePasswordFromList() {
         MockHttpServletRequest request = newGet("/updatePassword");
         PasswordForm passwordForm = new PasswordForm();
         passwordForm.setUsername("administrator");
@@ -143,7 +143,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testUpdatePasswordEmptyPassword() {
+    void testUpdatePasswordEmptyPassword() {
         MockHttpServletRequest request = newGet("/updatePassword");
         PasswordForm passwordForm = new PasswordForm();
         passwordForm.setUsername("administrator");
@@ -158,7 +158,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testUpdatePasswordBadCurrentPassword() {
+    void testUpdatePasswordBadCurrentPassword() {
         MockHttpServletRequest request = newGet("/updatePassword");
         PasswordForm passwordForm = new PasswordForm();
         passwordForm.setUsername("administrator");
@@ -174,7 +174,7 @@ public class UpdatePasswordControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testUpdatePasswordWithoutPermission() {
+    void testUpdatePasswordWithoutPermission() {
         MockHttpServletRequest request = newGet("/updatePassword");
         PasswordForm passwordForm = new PasswordForm();
         passwordForm.setUsername("administrator");

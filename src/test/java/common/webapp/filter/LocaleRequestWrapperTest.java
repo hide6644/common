@@ -7,10 +7,10 @@ import java.util.Locale;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-public class LocaleRequestWrapperTest {
+class LocaleRequestWrapperTest {
 
     @Test
-    public void testSetLocaleInSessionWhenSessionIsNull() throws Exception {
+    void testSetLocaleInSessionWhenSessionIsNull() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addParameter("locale", "en");
 

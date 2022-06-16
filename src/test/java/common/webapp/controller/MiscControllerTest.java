@@ -5,62 +5,62 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class MiscControllerTest extends BaseControllerTestCase {
+class MiscControllerTest extends BaseControllerTestCase {
 
     @Autowired
     private MiscController c;
 
     @Test
-    public void testTopRedirect() {
+    void testTopRedirect() {
         String rtn = c.topRedirect();
 
         assertEquals("redirect:/top", rtn);
     }
 
     @Test
-    public void testTopRequest() {
+    void testTopRequest() {
         String rtn = c.topRequest();
 
         assertEquals("top", rtn);
     }
 
     @Test
-    public void testAdminTopRedirect() {
+    void testAdminTopRedirect() {
         String rtn = c.adminTopRedirect();
 
         assertEquals("redirect:/admin/top", rtn);
     }
 
     @Test
-    public void testAdminTopRequest() {
+    void testAdminTopRequest() {
         String rtn = c.adminTopRequest();
 
         assertEquals("admin/top", rtn);
     }
 
     @Test
-    public void testAdminMasterTopRedirect() {
+    void testAdminMasterTopRedirect() {
         String rtn = c.adminMasterTopRedirect();
 
         assertEquals("redirect:/admin/master/top", rtn);
     }
 
     @Test
-    public void testAdminMasterTopRequest() {
+    void testAdminMasterTopRequest() {
         String rtn = c.adminMasterTopRequest();
 
         assertEquals("admin/master/top", rtn);
     }
 
     @Test
-    public void testActiveUsersRequest() {
+    void testActiveUsersRequest() {
         String rtn = c.activeUsersRequest();
 
         assertEquals("admin/activeUsers", rtn);
     }
 
     @Test
-    public void testSaveFlashError() {
+    void testSaveFlashError() {
         assertDoesNotThrow(() -> {
             c.saveFlashError(new RuntimeException("foo.bar"));
         });

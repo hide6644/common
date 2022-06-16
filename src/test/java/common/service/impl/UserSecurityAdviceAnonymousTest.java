@@ -22,12 +22,12 @@ import common.entity.User;
 import common.service.UserManager;
 
 @ExtendWith(MockitoExtension.class)
-public class UserSecurityAdviceAnonymousTest {
+class UserSecurityAdviceAnonymousTest {
 
     private static UserManager userManager;
 
     @BeforeAll
-    public static void setUpClass() {
+    static void setUpClass() {
         try (ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("/common/service/applicationContext-test.xml")) {
             userManager = (UserManager) ctx.getBean("target");
             User user = new User("user");
@@ -39,14 +39,14 @@ public class UserSecurityAdviceAnonymousTest {
     }
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         SecurityContext context = new SecurityContextImpl();
         context.setAuthentication(new AnonymousAuthenticationToken("key", "anonymousUser", AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")));
         SecurityContextHolder.setContext(context);
     }
 
     @Test
-    public void testAddUser() throws Exception {
+    void testAddUser() throws Exception {
         UserDetailsForm userDetailsForm = new UserDetailsForm();
         userDetailsForm.setUsername("user");
         userDetailsForm.setId(1L);

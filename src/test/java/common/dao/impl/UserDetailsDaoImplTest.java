@@ -10,20 +10,20 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import common.dao.BaseDaoTestCase;
 
-public class UserDetailsDaoImplTest extends BaseDaoTestCase {
+class UserDetailsDaoImplTest extends BaseDaoTestCase {
 
     @Autowired
     private UserDetailsService dao;
 
     @Test
-    public void testLoadUserByUsername() {
+    void testLoadUserByUsername() {
         UserDetails user = dao.loadUserByUsername("administrator");
 
         assertNotNull(user);
     }
 
     @Test
-    public void testLoadUserByUsernameNotFoundException() {
+    void testLoadUserByUsernameNotFoundException() {
         try {
             dao.loadUserByUsername("foo");
             fail("UsernameNotFoundException not thrown");

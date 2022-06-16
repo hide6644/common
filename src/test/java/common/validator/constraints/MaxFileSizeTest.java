@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-public class MaxFileSizeTest {
+class MaxFileSizeTest {
 
     private static Validator validator;
 
@@ -25,13 +25,13 @@ public class MaxFileSizeTest {
     private MultipartFile fileDataM;
 
     @BeforeAll
-    public static void setUpClass() {
+    static void setUpClass() {
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
 
     @Test
-    public void testEmpty() throws Exception {
+    void testEmpty() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         fileData = new MockMultipartFile("fileData", classLoader.getResourceAsStream("common/validator/constraints/empty.csv"));
         fileDataK = new MockMultipartFile("fileData", classLoader.getResourceAsStream("common/validator/constraints/empty.csv"));
@@ -46,7 +46,7 @@ public class MaxFileSizeTest {
     }
 
     @Test
-    public void testNotEmpty() throws Exception {
+    void testNotEmpty() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         fileData = new MockMultipartFile("fileData", classLoader.getResourceAsStream("common/validator/constraints/notempty.csv"));
         fileDataK = new MockMultipartFile("fileData", classLoader.getResourceAsStream("common/validator/constraints/notempty.csv"));
@@ -60,15 +60,15 @@ public class MaxFileSizeTest {
         assertEquals(1, validator.validate(bean).size());
     }
 
-    public void setFileData(MultipartFile fileData) {
+    void setFileData(MultipartFile fileData) {
         this.fileData = fileData;
     }
 
-    public void setFileDataK(MultipartFile fileDataK) {
+    void setFileDataK(MultipartFile fileDataK) {
         this.fileDataK = fileDataK;
     }
 
-    public void setFileDataM(MultipartFile fileDataM) {
+    void setFileDataM(MultipartFile fileDataM) {
         this.fileDataM = fileDataM;
     }
 }

@@ -11,7 +11,7 @@ import common.dto.UserDetailsForm;
 import common.entity.Role;
 import common.entity.User;
 
-public class UserManagerTest extends BaseManagerTestCase {
+class UserManagerTest extends BaseManagerTestCase {
 
     @Autowired
     private UserManager userManager;
@@ -20,7 +20,7 @@ public class UserManagerTest extends BaseManagerTestCase {
     private RoleManager roleManager;
 
     @Test
-    public void testGetUser() {
+    void testGetUser() {
         User user = userManager.getUserByUsername("normaluser");
 
         assertNotNull(user);
@@ -34,7 +34,7 @@ public class UserManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testGetUserDetails() {
+    void testGetUserDetails() {
         User user = userManager.getUserByUsername("normaluser");
         UserDetailsForm userDetails = userManager.getUserDetails(user);
 
@@ -43,7 +43,7 @@ public class UserManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testSaveUser() {
+    void testSaveUser() {
         User user = userManager.getUserByUsername("normaluser");
         UserDetailsForm userDetailsForm = new UserDetailsForm();
         BeanUtils.copyProperties(user, userDetailsForm);
@@ -64,7 +64,7 @@ public class UserManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testAddAndRemoveUser() {
+    void testAddAndRemoveUser() {
         UserDetailsForm userDetailsForm = new UserDetailsForm();
         userDetailsForm = (UserDetailsForm) populate(userDetailsForm);
         userDetailsForm.addRole(roleManager.getRole(Constants.USER_ROLE));
@@ -78,7 +78,7 @@ public class UserManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testLockoutUser() {
+    void testLockoutUser() {
         User user = userManager.getUserByUsername("normaluser");
 
         assertFalse(user.isAccountLocked());
@@ -90,7 +90,7 @@ public class UserManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testAddAndRemoveUserByPK() {
+    void testAddAndRemoveUserByPK() {
         UserDetailsForm userDetailsForm = new UserDetailsForm();
         userDetailsForm = (UserDetailsForm) populate(userDetailsForm);
         userDetailsForm.addRole(roleManager.getRole(Constants.USER_ROLE));

@@ -8,20 +8,20 @@ import org.springframework.ui.ExtendedModelMap;
 
 import common.webapp.filter.FlashMap;
 
-public class LoginControllerTest extends BaseControllerTestCase {
+class LoginControllerTest extends BaseControllerTestCase {
 
     @Autowired
     private LoginController c;
 
     @Test
-    public void testSetupLogin() {
+    void testSetupLogin() {
         String rtn = c.setupLogin(new ExtendedModelMap());
 
         assertEquals("login", rtn);
     }
 
     @Test
-    public void testLogin() throws Exception {
+    void testLogin() throws Exception {
         boolean rememberMeFlg = true;
         String username = "user";
         String password = "pass";
@@ -31,7 +31,7 @@ public class LoginControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testAccountDisabled() {
+    void testAccountDisabled() {
         String rtn = c.accountDisabled();
 
         assertEquals("redirect:/login", rtn);
@@ -39,7 +39,7 @@ public class LoginControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testAccountLocked() {
+    void testAccountLocked() {
         String rtn = c.accountLocked();
 
         assertEquals("redirect:/login", rtn);
@@ -47,7 +47,7 @@ public class LoginControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testAccountExpired() {
+    void testAccountExpired() {
         String rtn = c.accountExpired();
 
         assertEquals("redirect:/login", rtn);
@@ -55,7 +55,7 @@ public class LoginControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testCredentialsExpired() {
+    void testCredentialsExpired() {
         String rtn = c.credentialsExpired();
 
         assertEquals("redirect:/login", rtn);
@@ -63,7 +63,7 @@ public class LoginControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testBadCredentials() {
+    void testBadCredentials() {
         String rtn = c.badCredentials();
 
         assertEquals("redirect:/login", rtn);

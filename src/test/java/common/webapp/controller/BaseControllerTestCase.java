@@ -52,13 +52,13 @@ public abstract class BaseControllerTestCase {
     protected MockMvc mockMvc;
 
     @BeforeAll
-    public static void setUpClass() {
+    protected static void setUpClass() {
         greenMail = new GreenMail(ServerSetupTest.SMTP);
         greenMail.start();
     }
 
     @BeforeEach
-    public void setUp() throws FolderException {
+    protected void setUp() throws FolderException {
         greenMail.purgeEmailFromAllMailboxes();
         JavaMailSenderImpl mailSender = (JavaMailSenderImpl) applicationContext.getBean("mailSender");
         mailSender.setPort(greenMail.getSmtp().getPort());
@@ -71,12 +71,12 @@ public abstract class BaseControllerTestCase {
     }
 
     @AfterEach
-    public void tearDown() {
+    protected void tearDown() {
         SecurityContextHolder.clearContext();
     }
 
     @AfterAll
-    public static void tearDownClass() {
+    protected static void tearDownClass() {
         greenMail.stop();
     }
 

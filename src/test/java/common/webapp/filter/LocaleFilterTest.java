@@ -14,18 +14,18 @@ import org.springframework.mock.web.MockHttpSession;
 
 import common.Constants;
 
-public class LocaleFilterTest {
+class LocaleFilterTest {
 
     private static LocaleFilter filter;
 
     @BeforeAll
-    public static void setUpClass() throws Exception {
+    static void setUpClass() throws Exception {
         filter = new LocaleFilter();
         filter.init(new MockFilterConfig());
     }
 
     @Test
-    public void testSetLocaleInSessionWhenSessionIsNull() throws Exception {
+    void testSetLocaleInSessionWhenSessionIsNull() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addParameter("locale", "es");
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -41,7 +41,7 @@ public class LocaleFilterTest {
     }
 
     @Test
-    public void testSetLocaleInSessionWhenSessionNotNull() throws Exception {
+    void testSetLocaleInSessionWhenSessionNotNull() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addParameter("locale", "es");
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -58,7 +58,7 @@ public class LocaleFilterTest {
     }
 
     @Test
-    public void testSetInvalidLocale() throws Exception {
+    void testSetInvalidLocale() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addParameter("locale", "foo");
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -71,7 +71,7 @@ public class LocaleFilterTest {
     }
 
     @Test
-    public void testLocaleAndCountry() throws Exception {
+    void testLocaleAndCountry() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setSession(new MockHttpSession());
         request.addParameter("locale", "zh_TW");
@@ -87,7 +87,7 @@ public class LocaleFilterTest {
     }
 
     @Test
-    public void testNullLocale() throws Exception {
+    void testNullLocale() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
         request.setSession(new MockHttpSession(null));

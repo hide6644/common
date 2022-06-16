@@ -27,34 +27,34 @@ import org.junit.jupiter.api.Test;
                 comparisonMode = ComparisonMode.NOT_EQUAL_IGNORE_CASE
         )
     })
-public class CompareStringsTest {
+class CompareStringsTest {
 
     private static Validator validator;
 
-    public String equalTest1;
+    String equalTest1;
 
-    public String equalTest2;
+    String equalTest2;
 
-    public String equalIgnoreCaseTest1;
+    String equalIgnoreCaseTest1;
 
-    public String equalIgnoreCaseTest2;
+    String equalIgnoreCaseTest2;
 
-    public String notEqualTest1;
+    String notEqualTest1;
 
-    public String notEqualTest2;
+    String notEqualTest2;
 
-    public String notEqualIgnoreCaseTest1;
+    String notEqualIgnoreCaseTest1;
 
-    public String notEqualIgnoreCaseTest2;
+    String notEqualIgnoreCaseTest2;
 
     @BeforeAll
-    public static void setUpClass(){
+    static void setUpClass(){
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
 
     @Test
-    public void testEqual() throws Exception {
+    void testEqual() throws Exception {
         CompareStringsTest bean = new CompareStringsTest();
         bean.equalTest1 = "same";
         bean.equalTest2 = "same";

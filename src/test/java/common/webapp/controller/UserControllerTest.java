@@ -24,20 +24,20 @@ import common.entity.User;
 import common.service.UserManager;
 import common.webapp.filter.FlashMap;
 
-public class UserControllerTest extends BaseControllerTestCase {
+class UserControllerTest extends BaseControllerTestCase {
 
     @Autowired
     private UserController c;
 
     @Test
-    public void testInitBinder() {
+    void testInitBinder() {
         assertDoesNotThrow(() -> {
             c.initBinder(new WebDataBinder(User.class));
         });
     }
 
     @Test
-    public void testAdd() throws Exception {
+    void testAdd() throws Exception {
         log.debug("testing add new user...");
         MockHttpServletRequest request = newGet("/userform.html");
         request.addParameter("mode", "Add");
@@ -48,7 +48,7 @@ public class UserControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testAddWithoutPermission() throws Exception {
+    void testAddWithoutPermission() throws Exception {
         log.debug("testing add new user...");
         MockHttpServletRequest request = newGet("/userform.html");
         request.addParameter("mode", "Add");
@@ -62,7 +62,7 @@ public class UserControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testEdit() throws Exception {
+    void testEdit() throws Exception {
         log.debug("testing edit...");
         MockHttpServletRequest request = newGet("/userform.html");
         request.addParameter("userId", "-1");
@@ -73,7 +73,7 @@ public class UserControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testEditWithoutPermission() throws Exception {
+    void testEditWithoutPermission() throws Exception {
         log.debug("testing edit...");
         MockHttpServletRequest request = newGet("/userform.html");
         request.addParameter("userId", "-2");
@@ -87,7 +87,7 @@ public class UserControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testEditProfile() throws Exception {
+    void testEditProfile() throws Exception {
         log.debug("testing edit profile...");
         MockHttpServletRequest request = newGet("/userform.html");
         request.setRemoteUser("normaluser");
@@ -97,7 +97,7 @@ public class UserControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testSaveHasErrors() throws Exception {
+    void testSaveHasErrors() throws Exception {
         MockHttpServletRequest request = newPost("/userform.html");
         UserDetailsForm userDetailsForm = new UserDetailsForm();
         userDetailsForm.setUsername("testuser");
@@ -110,7 +110,7 @@ public class UserControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testSaveWithoutPermission() throws Exception {
+    void testSaveWithoutPermission() throws Exception {
         MockHttpServletRequest request = newPost("/userform.html");
         User user = ((UserManager) applicationContext.getBean("userManager")).getUser("-2");
         user.setConfirmPassword(user.getPassword());
@@ -138,7 +138,7 @@ public class UserControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testSave() throws Exception {
+    void testSave() throws Exception {
         MockHttpServletRequest request = newPost("/userform.html");
         User user = ((UserManager) applicationContext.getBean("userManager")).getUser("-1");
         user.setConfirmPassword(user.getPassword());
@@ -156,7 +156,7 @@ public class UserControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testSaveAddFromList() throws Exception {
+    void testSaveAddFromList() throws Exception {
         MockHttpServletRequest request = newPost("/userform.html");
         request.setParameter("from", "list");
         request.setParameter("mode", "Add");
@@ -172,13 +172,13 @@ public class UserControllerTest extends BaseControllerTestCase {
         BindingResult errors = new DataBinder(userDetailsForm).getBindingResult();
         c.onSubmitByPostMethod(userDetailsForm, errors, request, new MockHttpServletResponse());
 
-        assertTrue(greenMail.getReceivedMessages().length == 1);
+        assertEquals(1, greenMail.getReceivedMessages().length);
         assertFalse(errors.hasErrors());
         assertNotNull(FlashMap.get("flash_info_messages"));
     }
 
     @Test
-    public void testSaveEditFromList() throws Exception {
+    void testSaveEditFromList() throws Exception {
         MockHttpServletRequest request = newPost("/userform.html");
         request.setParameter("from", "list");
         request.setParameter("version", "1");

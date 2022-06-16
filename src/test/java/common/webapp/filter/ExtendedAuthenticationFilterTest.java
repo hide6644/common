@@ -26,7 +26,7 @@ import common.Constants;
 import common.service.UserManager;
 
 @ExtendWith(MockitoExtension.class)
-public class ExtendedAuthenticationFilterTest {
+class ExtendedAuthenticationFilterTest {
 
     @Mock
     private UserManager userManager;
@@ -35,7 +35,7 @@ public class ExtendedAuthenticationFilterTest {
     private ExtendedAuthenticationFilter filter = new ExtendedAuthenticationFilter();
 
     @Test
-    public void testNormalOperation() {
+    void testNormalOperation() {
         MockHttpServletRequest request = new MockHttpServletRequest("POST", "/");
         request.addParameter(
                 UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY,
@@ -60,7 +60,7 @@ public class ExtendedAuthenticationFilterTest {
     }
 
     @Test
-    public void testAuthenticationServiceException() {
+    void testAuthenticationServiceException() {
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/");
         request.setSession(new MockHttpSession());
 
@@ -75,7 +75,7 @@ public class ExtendedAuthenticationFilterTest {
     }
 
     @Test
-    public void testFailedAuthenticationThrowsException() {
+    void testFailedAuthenticationThrowsException() {
         MockHttpServletRequest request = new MockHttpServletRequest("POST", "/");
         request.addParameter(
                 UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY,
@@ -96,7 +96,7 @@ public class ExtendedAuthenticationFilterTest {
     }
 
     @Test
-    public void testFailedAuthenticationUsernameNotFound() {
+    void testFailedAuthenticationUsernameNotFound() {
         MockHttpServletRequest request = new MockHttpServletRequest("POST", "/");
         request.setSession(new MockHttpSession());
 

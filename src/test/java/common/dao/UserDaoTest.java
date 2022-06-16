@@ -21,7 +21,7 @@ import common.dao.jpa.UserDao;
 import common.entity.Role;
 import common.entity.User;
 
-public class UserDaoTest extends BaseDaoTestCase {
+class UserDaoTest extends BaseDaoTestCase {
 
     @Autowired
     private UserDao dao;
@@ -30,14 +30,14 @@ public class UserDaoTest extends BaseDaoTestCase {
     private RoleDao rdao;
 
     @Test
-    public void testGetUserInvalid() throws Exception {
+    void testGetUserInvalid() throws Exception {
         Assertions.assertThrows(DataAccessException.class, () -> {
             dao.getReferenceById(1000L);
         });
     }
 
     @Test
-    public void testGetUser() throws Exception {
+    void testGetUser() throws Exception {
         User user = dao.getReferenceById(-1L);
 
         assertNotNull(user);
@@ -46,14 +46,14 @@ public class UserDaoTest extends BaseDaoTestCase {
     }
 
     @Test
-    public void testGetUsers() {
+    void testGetUsers() {
         List<User> userList = dao.findAll(Sort.by("username"));
 
         assertEquals(2, userList.size());
     }
 
     @Test
-    public void testGetUserPassword() {
+    void testGetUserPassword() {
         User user = dao.getReferenceById(-1L);
         String password = dao.findPasswordById(user.getId());
 
@@ -63,7 +63,7 @@ public class UserDaoTest extends BaseDaoTestCase {
     }
 
     @Test
-    public void testUpdateUser() {
+    void testUpdateUser() {
         User user = dao.getReferenceById(-1L);
 
         dao.save(user);
@@ -85,7 +85,7 @@ public class UserDaoTest extends BaseDaoTestCase {
     }
 
     @Test
-    public void testAddUserRole() {
+    void testAddUserRole() {
         User user = dao.getReferenceById(-1L);
 
         assertEquals(1, user.getRoles().size());
@@ -112,7 +112,7 @@ public class UserDaoTest extends BaseDaoTestCase {
     }
 
     @Test
-    public void testAddAndRemoveUser() {
+    void testAddAndRemoveUser() {
         User user = new User("testuser");
         user.setConfirmPassword("testpass");
         user.setPassword("testpass");
@@ -140,7 +140,7 @@ public class UserDaoTest extends BaseDaoTestCase {
     }
 
     @Test
-    public void testAddAndRemoveUserId() {
+    void testAddAndRemoveUserId() {
         User user = new User("testuser");
         user.setConfirmPassword("testpass");
         user.setPassword("testpass");
@@ -168,21 +168,21 @@ public class UserDaoTest extends BaseDaoTestCase {
     }
 
     @Test
-    public void testUserExists() {
+    void testUserExists() {
         boolean b = dao.existsById(-1L);
 
         assertTrue(b);
     }
 
     @Test
-    public void testUserNotExists() {
+    void testUserNotExists() {
         boolean b = dao.existsById(111L);
 
         assertFalse(b);
     }
 
     @Test
-    public void testPaged() {
+    void testPaged() {
         String username = "";
         String email = "";
 

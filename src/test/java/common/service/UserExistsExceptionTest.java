@@ -10,7 +10,7 @@ import common.dto.UserDetailsForm;
 import common.entity.User;
 import common.exception.DatabaseException;
 
-public class UserExistsExceptionTest extends BaseManagerTestCase {
+class UserExistsExceptionTest extends BaseManagerTestCase {
 
     @Autowired
     private UserManager manager;
@@ -19,7 +19,7 @@ public class UserExistsExceptionTest extends BaseManagerTestCase {
     private RoleManager roleManager;
 
     @Test
-    public void testAddExistingUser() {
+    void testAddExistingUser() {
         User user = manager.getUser("-1");
 
         UserDetailsForm userDetailsForm = new UserDetailsForm();
