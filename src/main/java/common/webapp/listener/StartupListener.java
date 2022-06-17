@@ -2,13 +2,13 @@ package common.webapp.listener;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.jar.Manifest;
 
 import javax.servlet.ServletContext;
@@ -95,7 +95,8 @@ public class StartupListener implements ServletContextListener {
         // WARにバージョン番号が指定されていれば、それを使用する
         // そうでなければ、開発バージョンであると仮定し、ランダムな番号を生成する
         if (appVersion == null || appVersion.contains("SNAPSHOT")) {
-            appVersion = String.valueOf(ThreadLocalRandom.current().nextInt(100000));
+            var sr = new SecureRandom();
+            appVersion = String.valueOf(sr.nextInt(100000));
         }
 
         log.info("Application version set to:{}", appVersion);
