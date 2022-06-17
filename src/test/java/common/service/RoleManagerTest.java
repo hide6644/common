@@ -14,20 +14,20 @@ import common.Constants;
 import common.dto.LabelValue;
 import common.entity.Role;
 
-public class RoleManagerTest extends BaseManagerTestCase {
+class RoleManagerTest extends BaseManagerTestCase {
 
     @Autowired
     private RoleManager manager;
 
     @Test
-    public void testGetRole() {
+    void testGetRole() {
         Role role = manager.getRole(Constants.USER_ROLE);
 
         assertNotNull(role);
     }
 
     @Test
-    public void testGetLabelValues() {
+    void testGetLabelValues() {
         List<LabelValue> labelValueList = manager.getLabelValues();
 
         assertNotNull(labelValueList);
@@ -37,8 +37,8 @@ public class RoleManagerTest extends BaseManagerTestCase {
         LabelValue newLabelValue = LabelValue.of("TEST_LABEL", "ROLE_USER");
 
         Collections.sort(labelValueList);
-        assertFalse(labelValueList.get(0).equals(newLabelValue));
-        assertTrue(labelValueList.get(1).equals(newLabelValue));
+        assertNotEquals(labelValueList.get(0), newLabelValue);
+        assertEquals(labelValueList.get(1), newLabelValue);
 
         LabelValue userLabelValue = labelValueList.stream().filter(labelValue -> labelValue.equals(newLabelValue)).findFirst().get();
 

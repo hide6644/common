@@ -6,13 +6,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.LocalizedResourceHelper;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.AbstractUrlBasedView;
@@ -39,12 +37,12 @@ public class CsvView extends AbstractUrlBasedView {
     @Override
     protected final void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws IOException, CsvException {
         try (InputStream is = getTemplateSource(getUrl(), request);
-                InputStreamReader isr = new InputStreamReader(is, Constants.ENCODING);
+                var isr = new InputStreamReader(is, Constants.ENCODING);
                 CSVReader reader = new CSVReaderBuilder(isr).build()) {
             List<String[]> csv = reader.readAll();
 
-            try (OutputStreamWriter os = new OutputStreamWriter(response.getOutputStream(), Constants.ENCODING);
-                    CSVWriter writer = new CSVWriter(os)) {
+            try (var os = new OutputStreamWriter(response.getOutputStream(), Constants.ENCODING);
+                    var writer = new CSVWriter(os)) {
                 // ヘッダー行を追加
                 writer.writeNext(csv.get(0));
 
@@ -71,9 +69,13 @@ public class CsvView extends AbstractUrlBasedView {
      *             {@link IOException}
      */
     private InputStream getTemplateSource(String url, HttpServletRequest request) throws IOException {
-        LocalizedResourceHelper helper = new LocalizedResourceHelper(getApplicationContext());
-        Locale userLocale = RequestContextUtils.getLocale(request);
-        Resource inputFile = helper.findLocalizedResource(url.substring(0, url.lastIndexOf('.')), url.substring(url.lastIndexOf('.')), userLocale);
+        if (url == null) {
+            throw new NullPointerException("Property 'url' is required");
+        }
+
+        var helper = new LocalizedResourceHelper(getApplicationContext());
+        var userLocale = RequestContextUtils.getLocale(request);
+        var inputFile = helper.findLocalizedResource(url.substring(0, url.lastIndexOf('.')), url.substring(url.lastIndexOf('.')), userLocale);
         return inputFile.getInputStream();
     }
 }

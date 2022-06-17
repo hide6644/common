@@ -3,7 +3,8 @@
     xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{templates/layout}"
-    th:with="currentMenu = ${param.from} != null and ${param.from[0]} == 'list' ? 'admin' : 'userSaveForm'">
+    th:with="currentMenu = ${param.from} != null and ${param.from[0]} == 'list' ? 'admin' : 'userSaveForm'"
+    lang="ja">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title th:text="#{userSaveForm.title}">userForm.title</title>

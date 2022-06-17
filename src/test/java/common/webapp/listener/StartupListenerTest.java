@@ -15,7 +15,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import common.Constants;
 
-public class StartupListenerTest {
+class StartupListenerTest {
 
     private MockServletContext sc;
 
@@ -24,7 +24,7 @@ public class StartupListenerTest {
     private ContextLoaderListener springListener;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         sc = new MockServletContext("");
         sc.addInitParameter(ContextLoader.CONFIG_LOCATION_PARAM, "classpath:common/dao/applicationContext-resources.xml, classpath:/common/dao/applicationContext-dao.xml, classpath:/applicationContext-service.xml");
 
@@ -34,13 +34,13 @@ public class StartupListenerTest {
     }
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         springListener.closeWebApplicationContext(sc);
         springListener.contextDestroyed(new ServletContextEvent(sc));
     }
 
     @Test
-    public void testContextInitialized() {
+    void testContextInitialized() {
         listener.contextInitialized(new ServletContextEvent(sc));
 
         assertNotNull(sc.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE));

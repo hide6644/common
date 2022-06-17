@@ -11,28 +11,28 @@ import common.Constants;
 import common.dao.jpa.RoleDao;
 import common.entity.Role;
 
-public class RoleDaoTest extends BaseDaoTestCase {
+class RoleDaoTest extends BaseDaoTestCase {
 
     @Autowired
     private RoleDao dao;
 
     @Test
-    public void testGetRoleInvalid() {
+    void testGetRoleInvalid() {
         Assertions.assertThrows(DataAccessException.class, () -> {
             dao.getReferenceById("badrolename");
         });
     }
 
     @Test
-    public void testGetRole() {
+    void testGetRole() {
         Role role = dao.getReferenceById(Constants.USER_ROLE);
 
         assertNotNull(role);
-        assertTrue(role.equals(new Role(Constants.USER_ROLE)));
+        assertEquals(role, new Role(Constants.USER_ROLE));
     }
 
     @Test
-    public void testUpdateRole() {
+    void testUpdateRole() {
         Role role = dao.getReferenceById(Constants.USER_ROLE);
         role.setDescription("test descr");
         dao.save(role);
@@ -42,7 +42,7 @@ public class RoleDaoTest extends BaseDaoTestCase {
     }
 
     @Test
-    public void testAddAndRemoveRole() {
+    void testAddAndRemoveRole() {
         Role role = new Role("testrole");
         role.setDescription("new role descr");
         dao.save(role);

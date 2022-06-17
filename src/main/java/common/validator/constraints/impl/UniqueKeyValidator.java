@@ -74,10 +74,10 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Object
             return true;
         }
 
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        var builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
         Root<?> root = criteriaQuery.from(model);
-        BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(target);
+        var beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(target);
         List<Predicate> preds = new ArrayList<>();
 
         creatingWhereClauseByColumnNames(builder, root, beanWrapper, preds);
@@ -126,7 +126,9 @@ public class UniqueKeyValidator implements ConstraintValidator<UniqueKey, Object
      */
     private void creatingWhereClauseById(CriteriaBuilder builder, Root<?> root, BeanWrapper beanWrapper, List<Predicate> preds) {
         for (PropertyDescriptor pd : beanWrapper.getPropertyDescriptors()) {
-            if (beanWrapper.getPropertyTypeDescriptor(pd.getName()).getAnnotation(Id.class) != null) {
+            var type = beanWrapper.getPropertyTypeDescriptor(pd.getName());
+
+            if (type != null && type.getAnnotation(Id.class) != null) {
                 Optional.ofNullable(beanWrapper.getPropertyValue(pd.getName()))
                         .ifPresent(propertyValue -> preds.add(builder.notEqual(root.get(pd.getName()), propertyValue)));
             }

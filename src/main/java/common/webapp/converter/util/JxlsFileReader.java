@@ -1,7 +1,6 @@
 package common.webapp.converter.util;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -35,8 +34,8 @@ public class JxlsFileReader {
      *             {@link SAXException}
      */
     public XLSReadStatus read(Resource templateFile, MultipartFile excelFile, Map<?, ?> model) throws InvalidFormatException, IOException, SAXException {
-        try (InputStream templateInputStream = templateFile.getInputStream();
-                InputStream excelInputStream = excelFile.getInputStream()) {
+        try (var templateInputStream = templateFile.getInputStream();
+                var excelInputStream = excelFile.getInputStream()) {
             ReaderConfig.getInstance().setSkipErrors(true);
 
             return ReaderBuilder.buildFromXML(templateInputStream).read(excelInputStream, model);

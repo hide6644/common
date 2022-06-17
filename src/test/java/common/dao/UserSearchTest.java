@@ -13,18 +13,18 @@ import org.springframework.data.domain.PageRequest;
 import common.dto.UserSearchCriteria;
 import common.entity.User;
 
-public class UserSearchTest extends BaseDaoTestCase {
+class UserSearchTest extends BaseDaoTestCase {
 
     @Autowired
     private UserSearch userSearch;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         userSearch.reindexAll(false);
     }
 
     @Test
-    public void testSearch() {
+    void testSearch() {
         userSearch.reindex();
 
         UserSearchCriteria userSearchCriteria = new UserSearchCriteria();
@@ -45,7 +45,7 @@ public class UserSearchTest extends BaseDaoTestCase {
     }
 
     @Test
-    public void testFacet() {
+    void testFacet() {
         userSearch.reindex();
         Map<String, Long> userFacet = userSearch.facet("firstNameFacet", 2);
 

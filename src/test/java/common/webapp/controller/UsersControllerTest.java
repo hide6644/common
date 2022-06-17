@@ -23,20 +23,20 @@ import common.entity.User;
 import common.service.UserManager;
 import common.webapp.filter.FlashMap;
 
-public class UsersControllerTest extends BaseControllerTestCase {
+class UsersControllerTest extends BaseControllerTestCase {
 
     @Autowired
     private UsersController c;
 
     @Test
-    public void testShowForm() {
+    void testShowForm() {
         PaginatedList<UserSearchResults> paginatedList = c.showForm(new UserSearchCriteria(), null);
 
         assertNotNull(paginatedList);
     }
 
     @Test
-    public void testSearch() {
+    void testSearch() {
         UserManager userManager = (UserManager) applicationContext.getBean("userManager");
         userManager.reindex();
 
@@ -50,7 +50,7 @@ public class UsersControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testRemove() {
+    void testRemove() {
         MockHttpServletRequest request = newGet("/userform.html");
         request.setRemoteUser("administrator");
         setAuthentication();
@@ -61,7 +61,7 @@ public class UsersControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testCsvList() throws Exception {
+    void testCsvList() throws Exception {
         MockHttpServletRequest request = newGet("/admin/master/users.csv");
         request.setRemoteUser("administrator");
         setAuthentication();
@@ -73,7 +73,7 @@ public class UsersControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testXlsList() throws Exception {
+    void testXlsList() throws Exception {
         MockHttpServletRequest request = newGet("/admin/master/users.xlsx");
         request.setRemoteUser("administrator");
         setAuthentication();
@@ -85,7 +85,7 @@ public class UsersControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testXmlList() throws Exception {
+    void testXmlList() throws Exception {
         MockHttpServletRequest request = newGet("/admin/master/users.xml");
         request.setRemoteUser("administrator");
         setAuthentication();

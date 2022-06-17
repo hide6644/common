@@ -19,7 +19,7 @@ import common.exception.DatabaseException;
 import common.service.PasswordTokenManager;
 import common.service.RoleManager;
 
-public class UserManagerImplTest extends BaseManagerMockTestCase {
+class UserManagerImplTest extends BaseManagerMockTestCase {
 
     @Mock
     private UserDao userDao;
@@ -37,7 +37,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
     private UserManagerImpl userManager = new UserManagerImpl(userDao, roleManager);
 
     @Test
-    public void testGetUser() {
+    void testGetUser() {
         User testData = new User("1");
         testData.getRoles().add(new Role("user"));
 
@@ -50,7 +50,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
     }
 
     @Test
-    public void testSaveUser() {
+    void testSaveUser() {
         User testData = new User("1");
         testData.getRoles().add(new Role("user"));
 
@@ -71,7 +71,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
     }
 
     @Test
-    public void testAddAndRemoveUser() {
+    void testAddAndRemoveUser() {
         User user = new User();
 
         user = (User) populate(user);
@@ -102,7 +102,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
     }
 
     @Test
-    public void testUserExistsException() {
+    void testUserExistsException() {
         User user = new User("admin");
         user.setEmail("matt@raibledesigns.com");
 

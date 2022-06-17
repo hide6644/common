@@ -25,7 +25,7 @@ public class NotEmptyFileValidator implements ConstraintValidator<NotEmptyFile, 
      */
     @Override
     public boolean isValid(Object target, ConstraintValidatorContext context) {
-        boolean isValid = true;
+        var isValid = true;
 
         if (target == null) {
             isValid = false;

@@ -15,20 +15,20 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import common.dto.UploadForm;
 import common.webapp.converter.FileType;
 
-public class UserUploadControllerTest extends BaseControllerTestCase {
+class UserUploadControllerTest extends BaseControllerTestCase {
 
     @Autowired
     private UserUploadController c;
 
     @Test
-    public void testSetupUpload() {
+    void testSetupUpload() {
         UploadForm uploadForm = c.setupUpload();
 
         assertEquals(Integer.valueOf(FileType.XML.getValue()), uploadForm.getFileType());
     }
 
     @Test
-    public void testOnSubmitCsv() throws Exception {
+    void testOnSubmitCsv() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream("common/webapp/controller/users.csv");
         MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);
@@ -46,7 +46,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testOnSubmitCsvError() throws Exception {
+    void testOnSubmitCsvError() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream("common/webapp/controller/usersError.csv");
         MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);
@@ -64,7 +64,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testOnSubmitXls() throws Exception {
+    void testOnSubmitXls() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream("common/webapp/controller/users.xlsx");
         MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);
@@ -82,7 +82,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testOnSubmitXml() throws Exception {
+    void testOnSubmitXml() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream("common/webapp/controller/users.xml");
         MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);
@@ -100,7 +100,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testHasErrors() throws Exception {
+    void testHasErrors() throws Exception {
         UploadForm uploadForm = new UploadForm();
 
         BindingResult errors = new DataBinder(uploadForm).getBindingResult();
@@ -111,7 +111,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testOnSubmitCsvFileException() throws Exception {
+    void testOnSubmitCsvFileException() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream("common/webapp/controller/users.xml");
         MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);
@@ -129,7 +129,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testOnSubmitXlsFileException() throws Exception {
+    void testOnSubmitXlsFileException() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream("common/webapp/controller/users.csv");
         MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);
@@ -147,7 +147,7 @@ public class UserUploadControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testOnSubmitXmlFileException() throws Exception {
+    void testOnSubmitXmlFileException() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream("common/webapp/controller/users.xlsx");
         MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);

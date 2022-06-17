@@ -3,7 +3,8 @@
     xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{templates/layout}"
-    th:with="currentMenu = 'admin', currentNavlistMenu = 'userForm'">
+    th:with="currentMenu = 'admin', currentNavlistMenu = 'userForm'"
+    lang="ja">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title th:text="#{userForm.title}">userForm.title</title>
@@ -30,6 +31,7 @@
             </div>
             <form action="#" th:action="@{/admin/master/users}" th:method="delete">
                 <table class="table table-sm table-striped table-hover">
+                    <caption></caption>
                     <thead>
                         <tr>
                             <th scope="col"><input type="checkbox" id="toggle_checkAll" /></th>

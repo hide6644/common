@@ -109,7 +109,7 @@ public class UserFileConverterFactory {
      */
     private static FileConverter<User> createCsvConverter() {
         return multipartFile -> {
-            try (InputStreamReader is = new InputStreamReader(multipartFile.getInputStream(), Constants.ENCODING);
+            try (var is = new InputStreamReader(multipartFile.getInputStream(), Constants.ENCODING);
                     CSVReader reader = new CSVReaderBuilder(is).withSkipLines(1).build()) {
                 ColumnPositionMappingStrategy<User> strat = new ColumnPositionMappingStrategy<>();
                 strat.setType(User.class);

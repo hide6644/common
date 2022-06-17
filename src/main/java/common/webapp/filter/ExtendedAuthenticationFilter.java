@@ -39,7 +39,7 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
 
         String trimUsername = Optional.ofNullable(obtainUsername(request)).map(username -> username.trim()).orElse("");
         String password = Optional.ofNullable(obtainPassword(request)).orElse("");
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(trimUsername, password);
+        var authRequest = new UsernamePasswordAuthenticationToken(trimUsername, password);
 
         // サブクラスに詳細情報を設定する
         setDetails(request, authRequest);

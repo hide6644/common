@@ -24,12 +24,12 @@ import common.service.UserManager;
 import common.service.UserSecurityAdvice;
 
 @ExtendWith(MockitoExtension.class)
-public class UserSecurityAdviceTest {
+class UserSecurityAdviceTest {
 
     private static UserManager userManager;
 
     @BeforeAll
-    public static void setUpClass() {
+    static void setUpClass() {
         try (ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("/common/service/applicationContext-test.xml")) {
             userManager = (UserManager) ctx.getBean("target");
             User user = new User("user");
@@ -41,7 +41,7 @@ public class UserSecurityAdviceTest {
     }
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         User user = new User("user");
         user.setId(1L);
         user.setPassword("password");
@@ -55,7 +55,7 @@ public class UserSecurityAdviceTest {
     }
 
     @Test
-    public void testAddUserWithoutAdminRole() throws Exception {
+    void testAddUserWithoutAdminRole() throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         assertTrue(auth.isAuthenticated());
@@ -74,7 +74,7 @@ public class UserSecurityAdviceTest {
     }
 
     @Test
-    public void testAddUserAsAdmin() throws Exception {
+    void testAddUserAsAdmin() throws Exception {
         User user = new User("admin");
         user.setId(2L);
         user.setPassword("password");
@@ -95,7 +95,7 @@ public class UserSecurityAdviceTest {
     }
 
     @Test
-    public void testUpdateUserProfile() throws Exception {
+    void testUpdateUserProfile() throws Exception {
         UserDetailsForm userDetailsForm = new UserDetailsForm();
         userDetailsForm.setUsername("user");
         userDetailsForm.setId(1L);
@@ -108,7 +108,7 @@ public class UserSecurityAdviceTest {
     }
 
     @Test
-    public void testChangeToAdminRoleFromUserRole() throws Exception {
+    void testChangeToAdminRoleFromUserRole() throws Exception {
         UserDetailsForm userDetailsForm = new UserDetailsForm();
         userDetailsForm.setUsername("user");
         userDetailsForm.setId(1L);
@@ -125,7 +125,7 @@ public class UserSecurityAdviceTest {
     }
 
     @Test
-    public void testAddAdminRoleWhenAlreadyHasUserRole() throws Exception {
+    void testAddAdminRoleWhenAlreadyHasUserRole() throws Exception {
         UserDetailsForm userDetailsForm = new UserDetailsForm();
         userDetailsForm.setUsername("user");
         userDetailsForm.setId(1L);
@@ -143,7 +143,7 @@ public class UserSecurityAdviceTest {
     }
 
     @Test
-    public void testAddUserRoleWhenHasAdminRole() throws Exception {
+    void testAddUserRoleWhenHasAdminRole() throws Exception {
         User user = new User("user");
         user.setId(1L);
         user.setPassword("password");
@@ -167,7 +167,7 @@ public class UserSecurityAdviceTest {
     }
 
     @Test
-    public void testUpdateUserWithUserRole() throws Exception {
+    void testUpdateUserWithUserRole() throws Exception {
         UserDetailsForm userDetailsForm = new UserDetailsForm();
         userDetailsForm.setUsername("user");
         userDetailsForm.setId(1L);

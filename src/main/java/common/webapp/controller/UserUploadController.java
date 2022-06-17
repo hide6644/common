@@ -32,7 +32,7 @@ public class UserUploadController extends BaseController {
      */
     @GetMapping
     public UploadForm setupUpload() {
-        UploadForm uploadForm = new UploadForm();
+        var uploadForm = new UploadForm();
         uploadForm.setFileType(FileType.XML.getValue());
         return uploadForm;
     }

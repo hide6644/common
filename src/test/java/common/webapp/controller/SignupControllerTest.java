@@ -11,19 +11,19 @@ import org.springframework.validation.DataBinder;
 import common.dto.SignupUserForm;
 import common.webapp.filter.FlashMap;
 
-public class SignupControllerTest extends BaseControllerTestCase {
+class SignupControllerTest extends BaseControllerTestCase {
 
     @Autowired
     private SignupController c;
 
     @Test
-    public void testShowForm() {
+    void testShowForm() {
         SignupUserForm signupUser = c.showForm();
         assertNotNull(signupUser);
     }
 
     @Test
-    public void testSignupUserHasErrors() {
+    void testSignupUserHasErrors() {
         SignupUserForm signupUser = new SignupUserForm();
         signupUser.setUsername("testuser");
 
@@ -35,14 +35,14 @@ public class SignupControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    public void testCompleteHasErrors() {
+    void testCompleteHasErrors() {
         String rtn = c.complete("normaluser", "test-token");
 
         assertEquals("redirect:/login", rtn);
     }
 
     @Test
-    public void testSignupUser() throws Exception {
+    void testSignupUser() throws Exception {
         SignupUserForm signupUser = new SignupUserForm();
         signupUser.setUsername("self-registered");
         signupUser.setPassword("Password1");
@@ -60,7 +60,7 @@ public class SignupControllerTest extends BaseControllerTestCase {
         String token = content.substring(content.indexOf("token=") + "token=".length()).replaceAll("\r\n", "");
         c.complete("self-registered", token);
 
-        assertTrue(greenMail.getReceivedMessages().length == 1);
+        assertEquals(1, greenMail.getReceivedMessages().length);
         assertNotNull(FlashMap.get("flash_info_messages"));
 
         SecurityContextHolder.getContext().setAuthentication(null);

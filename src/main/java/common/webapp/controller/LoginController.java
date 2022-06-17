@@ -40,7 +40,7 @@ public class LoginController extends BaseController {
     @PostMapping("login")
     public String login(@RequestParam(value = "remember-me", required = false) boolean rememberMeFlg,
             @RequestParam("username") String username, @RequestParam("password") String password) {
-        String forwardString = "forward:/login?username=" + username + "&password=" + password;
+        var forwardString = "forward:/login?username=" + username + "&password=" + password;
 
         if (rememberMeFlg) {
             forwardString += "&remember-me=true";

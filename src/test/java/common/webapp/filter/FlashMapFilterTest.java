@@ -14,12 +14,12 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-public class FlashMapFilterTest {
+class FlashMapFilterTest {
 
     private static FlashMapFilter filter;
 
     @BeforeAll
-    public static void setUpClass() throws Exception {
+    static void setUpClass() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
@@ -28,7 +28,7 @@ public class FlashMapFilterTest {
     }
 
     @Test
-    public void testDoFilter() throws Exception {
+    void testDoFilter() throws Exception {
         ServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
         FlashMap.put("testKey", Arrays.asList("testValue"));

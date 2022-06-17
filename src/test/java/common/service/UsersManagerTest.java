@@ -16,13 +16,13 @@ import common.dto.UserSearchResults;
 import common.entity.User;
 import common.webapp.converter.FileType;
 
-public class UsersManagerTest extends BaseManagerTestCase {
+class UsersManagerTest extends BaseManagerTestCase {
 
     @Autowired
     private UsersManager usersManager;
 
     @Test
-    public void testGetUsers() {
+    void testGetUsers() {
         List<User> userList = usersManager.getUsers();
 
         assertNotNull(userList);
@@ -30,7 +30,7 @@ public class UsersManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testCreatePaginatedList() throws Exception {
+    void testCreatePaginatedList() throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream("common/service/users.csv");
         MockMultipartFile mockMultipartFile = new MockMultipartFile("fileData", input);
@@ -89,7 +89,7 @@ public class UsersManagerTest extends BaseManagerTestCase {
     }
 
     @Test
-    public void testCreatePaginatedListByFullText() {
+    void testCreatePaginatedListByFullText() {
         usersManager.reindex();
         UserSearchCriteria userSearchCriteria = new UserSearchCriteria();
         PaginatedList<UserSearchResults> paginatedList = usersManager.createPaginatedListByFullText(userSearchCriteria, 1);

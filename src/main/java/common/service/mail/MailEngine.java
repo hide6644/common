@@ -3,7 +3,6 @@ package common.service.mail;
 import java.util.Map;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
 import org.apache.logging.log4j.LogManager;
 import org.springframework.core.io.ClassPathResource;
@@ -50,8 +49,8 @@ public class MailEngine {
      *             {@link MessagingException}
      */
     public void sendMessage(String[] recipients, String sender, String bodyText, String subject, String attachmentName, ClassPathResource resource) throws MessagingException {
-        MimeMessage message = ((JavaMailSenderImpl) mailSender).createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        var message = ((JavaMailSenderImpl) mailSender).createMimeMessage();
+        var helper = new MimeMessageHelper(message, true);
 
         helper.setTo(recipients);
 
@@ -102,15 +101,15 @@ public class MailEngine {
      *             {@link MessagingException}
      */
     public void send(SimpleMailMessage simpleMailMessage, String bodyText, String attachmentFilePath) throws MessagingException {
-        MimeMessage message = ((JavaMailSenderImpl) mailSender).createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        var message = ((JavaMailSenderImpl) mailSender).createMimeMessage();
+        var helper = new MimeMessageHelper(message, true);
 
         helper.setTo(simpleMailMessage.getTo());
         helper.setFrom(simpleMailMessage.getFrom());
         helper.setSubject(simpleMailMessage.getSubject());
         helper.setText(bodyText);
 
-        FileSystemResource file = new FileSystemResource(attachmentFilePath);
+        var file = new FileSystemResource(attachmentFilePath);
         helper.addAttachment(file.getFilename(), file);
 
         ((JavaMailSenderImpl) mailSender).send(message);

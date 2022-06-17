@@ -17,7 +17,6 @@ import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -41,11 +40,11 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
      */
     @Override
     public void before(Method method, Object[] args, Object target) {
-        SecurityContext ctx = SecurityContextHolder.getContext();
+        var ctx = SecurityContextHolder.getContext();
 
         if (ctx.getAuthentication() != null) {
-            Authentication auth = ctx.getAuthentication();
-            UserDetailsForm userDetailsForm = (UserDetailsForm) args[0];
+            var auth = ctx.getAuthentication();
+            var userDetailsForm = (UserDetailsForm) args[0];
 
             if (new AuthenticationTrustResolverImpl().isAnonymous(auth)) {
                 log.debug("Registering new user '{}'", () -> userDetailsForm.getUsername());
@@ -65,7 +64,7 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
      */
     private void checkAuthentication(Authentication auth, UserDetailsForm userDetailsForm) {
         boolean administrator = auth.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals(Constants.ADMIN_ROLE));
-        User currentUser = getCurrentUser(auth);
+        var currentUser = getCurrentUser(auth);
 
         if (!Objects.equals(userDetailsForm.getId(), currentUser.getId()) && !administrator) {
             log.warn("Access Denied: '{}' tried to modify '{}'!", () -> currentUser.getUsername(), () -> userDetailsForm.getUsername());
@@ -95,15 +94,15 @@ public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdv
             return;
         }
 
-        User user = (User) returnValue;
+        var user = (User) returnValue;
 
         if (user.getVersion() != null) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            var auth = SecurityContextHolder.getContext().getAuthentication();
             AuthenticationTrustResolver resolver = new AuthenticationTrustResolverImpl();
             boolean signupUser = resolver.isAnonymous(auth);
 
             if (auth != null && !signupUser) {
-                User currentUser = getCurrentUser(auth);
+                var currentUser = getCurrentUser(auth);
 
                 if (currentUser.getId().equals(user.getId())) {
                     auth = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());

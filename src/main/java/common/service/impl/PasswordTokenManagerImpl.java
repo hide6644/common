@@ -48,8 +48,8 @@ public class PasswordTokenManagerImpl implements PasswordTokenManager {
             return false;
         }
 
-        String expirationTimestamp = token.substring(0, EXPIRATION_DATE_FORMAT.length());
-        String tokenWithoutTimestamp = token.substring(EXPIRATION_DATE_FORMAT.length());
+        var expirationTimestamp = token.substring(0, EXPIRATION_DATE_FORMAT.length());
+        var tokenWithoutTimestamp = token.substring(EXPIRATION_DATE_FORMAT.length());
 
         return Optional.ofNullable(user).map(userData -> isAfter(expirationTimestamp)
                 && passwordTokenEncoder.matches(expirationTimestamp + getTokenSource(userData), tokenWithoutTimestamp))

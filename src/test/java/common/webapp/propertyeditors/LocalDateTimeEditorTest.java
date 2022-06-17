@@ -7,10 +7,10 @@ import java.time.format.DateTimeFormatter;
 
 import org.junit.jupiter.api.Test;
 
-public class LocalDateTimeEditorTest {
+class LocalDateTimeEditorTest {
 
     @Test
-    public void testGetAsText() throws Exception {
+    void testGetAsText() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         LocalDateTimeEditor editor = new LocalDateTimeEditor(dateTimeFormatter, true);
         LocalDateTime now = LocalDateTime.now();
@@ -20,7 +20,7 @@ public class LocalDateTimeEditorTest {
     }
 
     @Test
-    public void testSetAsTextAllowEmpty() throws Exception {
+    void testSetAsTextAllowEmpty() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         LocalDateTimeEditor editor = new LocalDateTimeEditor(dateTimeFormatter, true);
         LocalDateTime now = LocalDateTime.now();
@@ -34,7 +34,7 @@ public class LocalDateTimeEditorTest {
     }
 
     @Test
-    public void testGetAsTextNull() throws Exception {
+    void testGetAsTextNull() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         LocalDateTimeEditor editor = new LocalDateTimeEditor(dateTimeFormatter, true);
 
@@ -42,7 +42,7 @@ public class LocalDateTimeEditorTest {
     }
 
     @Test
-    public void testSetAsTextInvalidDate() throws Exception {
+    void testSetAsTextInvalidDate() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         LocalDateTimeEditor editor = new LocalDateTimeEditor(dateTimeFormatter, false);
 
