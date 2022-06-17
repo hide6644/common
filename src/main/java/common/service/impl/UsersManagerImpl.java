@@ -128,7 +128,7 @@ public class UsersManagerImpl extends BaseManagerImpl implements UsersManager {
                             .thenComparing(violation -> violation.getMessage()))
                     .map(error -> {
                         String fieldName = getText("user." + error.getPropertyPath().toString());
-                        String message = error.getMessage().replaceAll("\\{0\\}", fieldName);
+                        String message = error.getMessage().replace("{0}", fieldName);
                         return uploadResult.createUploadError(fieldName, message);
                     })
                     .collect(Collectors.toList()));

@@ -28,17 +28,15 @@ public class ConstraintValidatorUtil {
      * @return 比較結果
      */
     public static boolean isValid(List<String> propertyValues, ComparisonMode comparisonMode) {
-        var ignoreCase = false;
-
         switch (comparisonMode) {
         case EQUAL_IGNORE_CASE:
-            ignoreCase = true;
+            return changePropertyValues(propertyValues, true).size() == 1;
         case EQUAL:
-            return changePropertyValues(propertyValues, ignoreCase).size() == 1;
+            return changePropertyValues(propertyValues, false).size() == 1;
         case NOT_EQUAL_IGNORE_CASE:
-            ignoreCase = true;
+            return changePropertyValues(propertyValues, true).size() == propertyValues.size();
         case NOT_EQUAL:
-            return changePropertyValues(propertyValues, ignoreCase).size() == propertyValues.size();
+            return changePropertyValues(propertyValues, false).size() == propertyValues.size();
         }
 
         return true;
