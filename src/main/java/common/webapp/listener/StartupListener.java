@@ -2,8 +2,8 @@ package common.webapp.listener;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,10 +93,10 @@ public class StartupListener implements ServletContextListener {
 
         // ブラウザのキャッシュを破棄させるために、バージョン番号をページに埋め込む
         // WARにバージョン番号が指定されていれば、それを使用する
-        // そうでなければ、開発バージョンであると仮定し、ランダムな番号を生成する
+        // そうでなければ、開発バージョンであると仮定し、日付をバージョン番号に使用する
         if (appVersion == null || appVersion.contains("SNAPSHOT")) {
-            var sr = new SecureRandom();
-            appVersion = String.valueOf(sr.nextInt(100000));
+            var date = new Date();
+            appVersion = String.valueOf(date.getTime());
         }
 
         log.info("Application version set to:{}", appVersion);
