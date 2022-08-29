@@ -144,7 +144,11 @@ public class UsersManagerImpl extends BaseManagerImpl implements UsersManager {
     @Transactional(readOnly = true)
     public PaginatedList<UserSearchResults> createPaginatedList(UserSearchCriteria userSearchCriteria, Integer page) {
         var pageRequest = PageRequest.of(Optional.ofNullable(page).orElse(1) - 1, Constants.PAGING_SIZE, Sort.by(UserSearchCriteria.USERNAME_FIELD));
-        Page<User> pagedUser = userDao.findAll(where(usernameContains(userSearchCriteria.getUsername())).and(emailContains(userSearchCriteria.getEmail())), pageRequest);
+        Page<User> pagedUser = userDao.findAll(
+                where(
+                        usernameContains(userSearchCriteria.getUsername()))
+                                .and(emailContains(userSearchCriteria.getEmail())),
+                pageRequest);
 
         return new PaginatedList<>(new PageImpl<>(
                 pagedUser.stream()
