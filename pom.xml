@@ -120,24 +120,24 @@
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>4.7.0.0</version>
+                    <version>4.7.2.0</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.github.spotbugs</groupId>
                             <artifactId>spotbugs</artifactId>
-                            <version>4.7.1</version>
+                            <version>4.7.2</version>
                         </dependency>
                     </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.4.0</version>
+                    <version>3.4.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>3.1.2</version>
+                    <version>3.2.0</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
@@ -159,7 +159,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>4.0.0-M2</version>
+                    <version>4.0.0-M3</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -193,7 +193,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.4.1</version>
                 <configuration>
                     <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
                 </configuration>
@@ -201,12 +201,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.3.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.4.0</version>
+                <version>3.4.1</version>
                 <configuration>
                     <author>true</author>
                     <source>11</source>
@@ -622,7 +622,7 @@
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
         <jdbc.version>3.0.7</jdbc.version>
 
-        <byte-buddy.version>1.12.14</byte-buddy.version>
+        <byte-buddy.version>1.12.16</byte-buddy.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-digester3.version>3.2</commons-digester3.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
@@ -636,9 +636,9 @@
         <greenmail.version>1.6.9</greenmail.version>
         <groovy.version>3.0.12</groovy.version>
         <hamcrest.version>2.2</hamcrest.version>
-        <hibernate.version>5.6.10.Final</hibernate.version>
+        <hibernate.version>5.6.11.Final</hibernate.version>
         <hibernate-search.version>6.1.6.Final</hibernate-search.version>
-        <hibernate-validator.version>6.2.4.Final</hibernate-validator.version>
+        <hibernate-validator.version>6.2.5.Final</hibernate-validator.version>
         <HikariCP.version>5.0.1</HikariCP.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <jaxb-runtime.version>2.3.6</jaxb-runtime.version>
@@ -650,8 +650,8 @@
         <lombok.version>1.18.24</lombok.version>
         <lucene.version>8.11.1</lucene.version>
         <mail.version>1.6.7</mail.version>
-        <mockito.version>4.7.0</mockito.version>
-        <opencsv.version>5.6</opencsv.version>
+        <mockito.version>4.8.0</mockito.version>
+        <opencsv.version>5.7.0</opencsv.version>
         <poi.version>4.1.2</poi.version>
         <slf4j.version>1.7.36</slf4j.version>
         <spring.version>5.3.22</spring.version>
