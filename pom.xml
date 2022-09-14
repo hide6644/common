@@ -633,7 +633,7 @@
         <el.version>3.0.1-b12</el.version>
         <freemarker.version>2.3.31</freemarker.version>
         <freemarker-java8.version>2.1.0</freemarker-java8.version>
-        <greenmail.version>1.6.9</greenmail.version>
+        <greenmail.version>1.6.10</greenmail.version>
         <groovy.version>3.0.12</groovy.version>
         <hamcrest.version>2.2</hamcrest.version>
         <hibernate.version>5.6.11.Final</hibernate.version>
