@@ -1,6 +1,6 @@
 package common.dao.impl;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 import org.apache.logging.log4j.LogManager;
 import org.hibernate.search.mapper.orm.Search;

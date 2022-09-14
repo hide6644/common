@@ -1,7 +1,7 @@
 package common.dao.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import common.Constants;
 import common.dao.HibernateSearch;

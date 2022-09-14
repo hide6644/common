@@ -2,8 +2,8 @@ package common.webapp.converter.util;
 
 import java.io.IOException;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
 
 import org.springframework.web.multipart.MultipartFile;
 
