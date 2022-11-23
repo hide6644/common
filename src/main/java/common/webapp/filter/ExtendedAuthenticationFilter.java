@@ -48,6 +48,7 @@ public class ExtendedAuthenticationFilter extends UsernamePasswordAuthentication
             Authentication newAuth = getAuthenticationManager().authenticate(authRequest);
             // ログイン成功
             recordLoginAttempts(trimUsername, request, true);
+            request.getSession().setAttribute("remoteUser", trimUsername);
             return newAuth;
         } catch (BadCredentialsException e) {
             // ログイン失敗

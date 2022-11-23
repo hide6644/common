@@ -22,7 +22,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="user, stat : ${#servletContext.getAttribute('loginUsers')}" th:class="|row${stat.index % 2}|">
+                    <tr th:each="user, stat : ${application.loginUsers}" th:class="|row${stat.index % 2}|">
                         <td th:text="${user.username}">user.username</td>
                         <td>
                             <a href="#" th:href="|mailto:${user.email}|" th:if="${user.email}">

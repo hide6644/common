@@ -10,7 +10,7 @@
 <body>
     <div class="collapse navbar-collapse" id="navbar" th:fragment="navbar_div(currentMenu)">
         <ul class="nav nav-pills">
-            <li class="nav-item" th:unless="${#request.remoteUser}">
+            <li class="nav-item" th:unless="${session.remoteUser}">
                 <a href="#" class="nav-link active" th:href="@{'/login'}" th:text="#{loginForm.heading}"></a>
             </li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
