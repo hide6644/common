@@ -16,42 +16,42 @@ class ErrorControllerTest extends BaseControllerTestCase {
     @Test
     void testRenderErrorPage() {
         MockHttpServletRequest request = newGet("/error");
-        request.setAttribute("javax.servlet.error.status_code", 400);
+        request.setAttribute("jakarta.servlet.error.status_code", 400);
         Model model = new ExtendedModelMap();
         String rtn = c.renderErrorPage(model, request);
 
         assertEquals("error", model.asMap().get("errorTitle"));
         assertEquals("error", rtn);
 
-        request.setAttribute("javax.servlet.error.status_code", 401);
+        request.setAttribute("jakarta.servlet.error.status_code", 401);
         model = new ExtendedModelMap();
         rtn = c.renderErrorPage(model, request);
 
         assertEquals("403", model.asMap().get("errorTitle"));
         assertEquals("error", rtn);
 
-        request.setAttribute("javax.servlet.error.status_code", 403);
+        request.setAttribute("jakarta.servlet.error.status_code", 403);
         model = new ExtendedModelMap();
         rtn = c.renderErrorPage(model, request);
 
         assertEquals("403", model.asMap().get("errorTitle"));
         assertEquals("error", rtn);
 
-        request.setAttribute("javax.servlet.error.status_code", 404);
+        request.setAttribute("jakarta.servlet.error.status_code", 404);
         model = new ExtendedModelMap();
         rtn = c.renderErrorPage(model, request);
 
         assertEquals("404", model.asMap().get("errorTitle"));
         assertEquals("error", rtn);
 
-        request.setAttribute("javax.servlet.error.status_code", 500);
+        request.setAttribute("jakarta.servlet.error.status_code", 500);
         model = new ExtendedModelMap();
         rtn = c.renderErrorPage(model, request);
 
         assertEquals("error", model.asMap().get("errorTitle"));
         assertEquals("error", rtn);
 
-        request.setAttribute("javax.servlet.error.status_code", 999);
+        request.setAttribute("jakarta.servlet.error.status_code", 999);
         model = new ExtendedModelMap();
         rtn = c.renderErrorPage(model, request);
 

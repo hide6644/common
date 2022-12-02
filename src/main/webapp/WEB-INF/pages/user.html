@@ -48,7 +48,7 @@
                         <span class="invalid-feedback" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></span>
                     </div>
                 </div>
-                <div class="mb-3" th:if="${session.remoteUser} == *{username} and !${addMode}">
+                <div class="mb-3" th:if="${#authentication.name} == *{username} and !${addMode}">
                     <a href="#" th:if="${listMode}" th:href="|@{'/updatePassword'}?from=list|" th:text="#{userSaveForm.password.request}">userSaveForm.password.request</a>
                     <a href="#" th:unless="${listMode}" th:href="@{'/updatePassword'}" th:text="#{userSaveForm.password.request}">userSaveForm.password.request</a>
                 </div>

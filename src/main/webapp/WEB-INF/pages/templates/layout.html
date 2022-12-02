@@ -1,6 +1,7 @@
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     th:lang="${#locale.language}"
     lang="ja">
@@ -58,7 +59,7 @@
         <div class="container-fluid">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <span th:if="${session.remoteUser}" th:text="|#{user.status} ${session.remoteUser}|">user.status</span>
+                    <span sec:authorize="isAuthenticated()" th:text="|#{user.status} ${#authentication.name}|">user.status</span>
                 </li>
             </ul>
             <ul class="navbar-nav">

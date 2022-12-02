@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Set;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionBindingEvent;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSessionBindingEvent;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
