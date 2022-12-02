@@ -2,7 +2,7 @@ package common.webapp.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;

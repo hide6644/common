@@ -22,7 +22,7 @@
     <mvc:resources mapping="/scripts/**" location="/scripts/" />
     <mvc:resources mapping="/styles/**" location="/styles/" />
 
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />
 
     <!-- View Resolver for XMLs -->
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
@@ -44,25 +44,25 @@
     </bean>
 
     <!-- View Resolver for Thymeleaf -->
-    <bean id="templateResolver" class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+    <bean id="templateResolver" class="org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver">
         <property name="prefix" value="/WEB-INF/pages/" />
         <property name="suffix" value=".html" />
         <property name="templateMode" value="HTML" />
         <property name="cacheable" value="false" />
     </bean>
 
-    <bean id="templateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
+    <bean id="templateEngine" class="org.thymeleaf.spring6.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver" />
         <property name="enableSpringELCompiler" value="true" />
         <property name="additionalDialects">
             <set>
-                <bean class="org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect" />
+                <bean class="org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect" />
                 <bean class="nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect" />
             </set>
         </property>
     </bean>
 
-    <bean class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+    <bean class="org.thymeleaf.spring6.view.ThymeleafViewResolver">
         <property name="templateEngine" ref="templateEngine" />
         <property name="characterEncoding" value="UTF-8" />
         <property name="order" value="4" />

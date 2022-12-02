@@ -19,7 +19,7 @@
     <!-- Configures the @Controller programming model -->
     <mvc:annotation-driven />
 
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />
 
     <!-- View Resolver for XMLs -->
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">

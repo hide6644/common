@@ -1,6 +1,6 @@
 package common.webapp.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,9 +23,8 @@ public class ErrorController extends BaseController {
      */
     @GetMapping(value = "error")
     public String renderErrorPage(Model model, HttpServletRequest request) {
-        switch ((Integer) request.getAttribute("javax.servlet.error.status_code")) {
-        case 401:
-        case 403:
+        switch ((Integer) request.getAttribute("jakarta.servlet.error.status_code")) {
+        case 401, 403:
             model.addAttribute("errorTitle", "403");
             break;
         case 404:

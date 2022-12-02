@@ -2,7 +2,7 @@ package common.webapp.util;
 
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * ブラウザの判定するUtilityクラス.
