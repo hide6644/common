@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Date;
 
-import javax.mail.BodyPart;
-import javax.mail.Part;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import jakarta.mail.BodyPart;
+import jakarta.mail.Part;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -71,7 +71,7 @@ class MailEngineTest extends BaseManagerTestCase {
 
         MimeMessage mm = greenMail.getReceivedMessages()[0];
         assertEquals(emailSubject, mm.getSubject());
-        assertEquals(emailBody, mm.getContent());
+        assertEquals(emailBody + "\r\n", mm.getContent());
     }
 
     @Test

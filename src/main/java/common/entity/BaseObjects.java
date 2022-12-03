@@ -3,8 +3,8 @@ package common.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.MappedSuperclass;
-import javax.xml.bind.annotation.XmlTransient;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.xml.bind.annotation.XmlTransient;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

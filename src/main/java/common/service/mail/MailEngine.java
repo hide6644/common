@@ -2,7 +2,7 @@ package common.service.mail;
 
 import java.util.Map;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 
 import org.apache.logging.log4j.LogManager;
 import org.springframework.core.io.ClassPathResource;

@@ -10,7 +10,7 @@
 <body>
     <div class="collapse navbar-collapse" id="navbar" th:fragment="navbar_div(currentMenu)">
         <ul class="nav nav-pills">
-            <li class="nav-item" th:unless="${#request.remoteUser}">
+            <li class="nav-item" sec:authorize="isAnonymous()">
                 <a href="#" class="nav-link active" th:href="@{'/login'}" th:text="#{loginForm.heading}"></a>
             </li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
@@ -29,7 +29,9 @@
                 </ul>
             </li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a href="#" class="nav-link" th:href="@{'/logout'}" th:text="#{topForm.logout}"></a>
+                <form th:action="@{/logout}" method="POST" id="logout">
+                    <a href="#" class="nav-link" th:text="#{topForm.logout}" onclick="$('#logout').submit();"></a>
+                </form>
             </li>
         </ul>
     </div>

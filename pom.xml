@@ -8,7 +8,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>1.5.10</version>
+    <version>2.0.0</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -135,12 +135,12 @@
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>4.7.2.0</version>
+                    <version>4.7.3.0</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.github.spotbugs</groupId>
                             <artifactId>spotbugs</artifactId>
-                            <version>4.7.2</version>
+                            <version>4.7.3</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -157,7 +157,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>10.3.3</version>
+                            <version>10.5.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -169,7 +169,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>3.0.0-M6</version>
+                    <version>3.0.0-M7</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -224,7 +224,7 @@
                 <version>3.4.1</version>
                 <configuration>
                     <author>true</author>
-                    <source>11</source>
+                    <source>17</source>
                     <show>protected</show>
                     <encoding>UTF-8</encoding>
                     <charset>UTF-8</charset>
@@ -256,7 +256,7 @@
             <dependency>
                 <groupId>com.sun.mail</groupId>
                 <artifactId>jakarta.mail</artifactId>
-                <version>${mail.version}</version>
+                <version>${jakarta.mail.version}</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
@@ -265,9 +265,10 @@
                 <version>${commons-beanutils.version}</version>
             </dependency>
             <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
+                <groupId>jakarta.xml.bind</groupId>
+                <artifactId>jakarta.xml.bind-api</artifactId>
+                <version>${jakarta.xml.bind-api.version}</version>
+                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>net.bytebuddy</groupId>
@@ -356,6 +357,11 @@
 
         <!-- Commons -->
         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-digester3</artifactId>
             <version>${commons-digester3.version}</version>
@@ -370,11 +376,6 @@
                     <artifactId>commons-logging</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-            <version>${commons-fileupload.version}</version>
         </dependency>
 
         <!-- Spring Framework -->
@@ -452,18 +453,18 @@
 
         <!-- Hibernate -->
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-hikaricp</artifactId>
             <version>${hibernate.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-jcache</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
@@ -476,7 +477,7 @@
         </dependency>
         <dependency>
             <groupId>org.hibernate.search</groupId>
-            <artifactId>hibernate-search-mapper-orm</artifactId>
+            <artifactId>hibernate-search-mapper-orm-orm6</artifactId>
             <version>${hibernate-search.version}</version>
         </dependency>
         <dependency>
@@ -504,10 +505,9 @@
             <version>${opencsv.version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${javax.servlet-api.version}</version>
-            <scope>provided</scope>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${jakarta.servlet-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.ehcache</groupId>
@@ -523,12 +523,6 @@
             <groupId>no.api.freemarker</groupId>
             <artifactId>freemarker-java8</artifactId>
             <version>${freemarker-java8.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.el</artifactId>
-            <version>${el.version}</version>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.jxls</groupId>
@@ -548,13 +542,13 @@
         </dependency>
         <dependency>
             <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf-spring5</artifactId>
-            <version>${thymeleaf-spring5.version}</version>
+            <artifactId>thymeleaf-spring6</artifactId>
+            <version>${thymeleaf-spring6.version}</version>
         </dependency>
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
-            <version>${thymeleaf-extras-springsecurity5.version}</version>
+            <artifactId>thymeleaf-extras-springsecurity6</artifactId>
+            <version>${thymeleaf-extras-springsecurity6.version}</version>
         </dependency>
         <dependency>
             <groupId>nz.net.ultraq.thymeleaf</groupId>
@@ -603,6 +597,12 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.el</artifactId>
+            <version>${jakarta.el.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
             <version>${hamcrest.version}</version>
@@ -631,54 +631,54 @@
     </dependencies>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
 
         <jdbc.groupId>org.mariadb.jdbc</jdbc.groupId>
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
-        <jdbc.version>3.0.7</jdbc.version>
+        <jdbc.version>3.1.0</jdbc.version>
 
-        <byte-buddy.version>1.12.16</byte-buddy.version>
+        <byte-buddy.version>1.12.19</byte-buddy.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-digester3.version>3.2</commons-digester3.version>
-        <commons-fileupload.version>1.4</commons-fileupload.version>
         <commons-io.version>2.11.0</commons-io.version>
         <commons-jexl.version>2.1.1</commons-jexl.version>
         <commons-jexl3.version>3.2.1</commons-jexl3.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
-        <commons-text.version>1.9</commons-text.version>
-        <ehcache.version>3.10.1</ehcache.version>
-        <el.version>3.0.1-b12</el.version>
+        <commons-text.version>1.10.0</commons-text.version>
+        <ehcache.version>3.10.8</ehcache.version>
         <freemarker.version>2.3.31</freemarker.version>
         <freemarker-java8.version>2.1.0</freemarker-java8.version>
-        <greenmail.version>1.6.10</greenmail.version>
-        <groovy.version>3.0.12</groovy.version>
+        <greenmail.version>2.0.0-alpha-2</greenmail.version>
+        <groovy.version>3.0.13</groovy.version>
         <hamcrest.version>2.2</hamcrest.version>
-        <hibernate.version>5.6.11.Final</hibernate.version>
-        <hibernate-search.version>6.1.6.Final</hibernate-search.version>
-        <hibernate-validator.version>6.2.5.Final</hibernate-validator.version>
+        <hibernate.version>6.1.5.Final</hibernate.version>
+        <hibernate-search.version>6.1.7.Final</hibernate-search.version>
+        <hibernate-validator.version>7.0.5.Final</hibernate-validator.version>
         <HikariCP.version>5.0.1</HikariCP.version>
-        <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
-        <jaxb-runtime.version>2.3.6</jaxb-runtime.version>
-        <junit-jupiter.version>5.9.0</junit-jupiter.version>
+        <jakarta.el.version>4.0.2</jakarta.el.version>
+        <jakarta.mail.version>2.0.1</jakarta.mail.version>
+        <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
+        <jakarta.xml.bind-api.version>3.0.1</jakarta.xml.bind-api.version>
+        <jaxb-runtime.version>3.0.2</jaxb-runtime.version>
+        <junit-jupiter.version>5.9.1</junit-jupiter.version>
         <jxls.version>2.12.0</jxls.version>
         <jxls-poi.version>2.12.0</jxls-poi.version>
-        <jxls-reader.version>2.0.6</jxls-reader.version>
-        <logback.version>1.4.1</logback.version>
-        <log4j.version>2.18.0</log4j.version>
+        <jxls-reader.version>2.1.0</jxls-reader.version>
+        <logback.version>1.4.5</logback.version>
+        <log4j.version>2.19.0</log4j.version>
         <lombok.version>1.18.24</lombok.version>
         <lucene.version>8.11.1</lucene.version>
-        <mail.version>1.6.7</mail.version>
-        <mockito.version>4.8.0</mockito.version>
-        <opencsv.version>5.7.0</opencsv.version>
+        <mockito.version>4.9.0</mockito.version>
+        <opencsv.version>5.7.1</opencsv.version>
         <poi.version>4.1.2</poi.version>
-        <slf4j.version>2.0.1</slf4j.version>
-        <spring.version>5.3.22</spring.version>
-        <spring-data.version>2.7.2</spring-data.version>
-        <spring-security.version>5.7.3</spring-security.version>
-        <thymeleaf-spring5.version>3.0.15.RELEASE</thymeleaf-spring5.version>
-        <thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
+        <slf4j.version>2.0.5</slf4j.version>
+        <spring.version>6.0.2</spring.version>
+        <spring-data.version>3.0.0</spring-data.version>
+        <spring-security.version>6.0.0</spring-security.version>
+        <thymeleaf-spring6.version>3.1.0.RELEASE</thymeleaf-spring6.version>
+        <thymeleaf-extras-springsecurity6.version>3.1.0.RELEASE</thymeleaf-extras-springsecurity6.version>
         <thymeleaf-layout-dialect.version>3.1.0</thymeleaf-layout-dialect.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
