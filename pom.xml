@@ -8,7 +8,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -147,7 +147,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>10.5.0</version>
+                            <version>10.6.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -626,9 +626,9 @@
 
         <jdbc.groupId>org.mariadb.jdbc</jdbc.groupId>
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
-        <jdbc.version>3.1.0</jdbc.version>
+        <jdbc.version>3.1.1</jdbc.version>
 
-        <byte-buddy.version>1.12.20</byte-buddy.version>
+        <byte-buddy.version>1.12.22</byte-buddy.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-digester3.version>3.2</commons-digester3.version>
@@ -638,10 +638,10 @@
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-text.version>1.10.0</commons-text.version>
         <ehcache.version>3.10.8</ehcache.version>
-        <freemarker.version>2.3.31</freemarker.version>
+        <freemarker.version>2.3.32</freemarker.version>
         <freemarker-java8.version>2.1.0</freemarker-java8.version>
-        <greenmail.version>2.0.0-alpha-2</greenmail.version>
-        <groovy.version>3.0.13</groovy.version>
+        <greenmail.version>2.0.0-alpha-3</greenmail.version>
+        <groovy.version>3.0.14</groovy.version>
         <hamcrest.version>2.2</hamcrest.version>
         <hibernate.version>6.1.6.Final</hibernate.version>
         <hibernate-search.version>6.1.7.Final</hibernate-search.version>
@@ -652,7 +652,7 @@
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
         <jakarta.xml.bind-api.version>3.0.1</jakarta.xml.bind-api.version>
         <jaxb-runtime.version>3.0.2</jaxb-runtime.version>
-        <junit-jupiter.version>5.9.1</junit-jupiter.version>
+        <junit-jupiter.version>5.9.2</junit-jupiter.version>
         <jxls.version>2.12.0</jxls.version>
         <jxls-poi.version>2.12.0</jxls-poi.version>
         <jxls-reader.version>2.1.0</jxls-reader.version>
@@ -660,12 +660,12 @@
         <log4j.version>2.19.0</log4j.version>
         <lombok.version>1.18.24</lombok.version>
         <lucene.version>8.11.1</lucene.version>
-        <mockito.version>4.10.0</mockito.version>
+        <mockito.version>4.11.0</mockito.version>
         <opencsv.version>5.7.1</opencsv.version>
         <poi.version>4.1.2</poi.version>
         <slf4j.version>2.0.6</slf4j.version>
-        <spring.version>6.0.3</spring.version>
-        <spring-data.version>3.0.0</spring-data.version>
+        <spring.version>6.0.4</spring.version>
+        <spring-data.version>3.0.1</spring-data.version>
         <spring-security.version>6.0.1</spring-security.version>
         <thymeleaf-spring6.version>3.1.1.RELEASE</thymeleaf-spring6.version>
         <thymeleaf-extras-springsecurity6.version>3.1.1.RELEASE</thymeleaf-extras-springsecurity6.version>
