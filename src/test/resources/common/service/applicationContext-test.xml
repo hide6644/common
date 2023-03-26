@@ -19,11 +19,15 @@
     <bean id="userSecurityAdvice" class="common.service.UserSecurityAdvice" />
 
     <bean id="userDao" class="org.mockito.Mockito" factory-method="mock">
-        <constructor-arg value="common.dao.jpa.UserDao" />
+        <constructor-arg>
+            <value type="java.lang.Class">common.dao.jpa.UserDao</value>
+        </constructor-arg>
     </bean>
 
     <bean id="roleManager" class="org.mockito.Mockito" factory-method="mock">
-        <constructor-arg value="common.service.RoleManager" />
+        <constructor-arg>
+            <value type="java.lang.Class">common.service.RoleManager</value>
+        </constructor-arg>
     </bean>
 
     <bean id="userManager" class="common.service.impl.UserManagerImpl">
