@@ -71,7 +71,7 @@ class MailEngineTest extends BaseManagerTestCase {
 
         MimeMessage mm = greenMail.getReceivedMessages()[0];
         assertEquals(emailSubject, mm.getSubject());
-        assertEquals(emailBody + "\r\n", mm.getContent());
+        assertEquals(emailBody, mm.getContent());
     }
 
     @Test
