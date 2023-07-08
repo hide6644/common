@@ -36,7 +36,7 @@ public class UserSearchImpl extends HibernateSearchImpl<User> implements UserSea
                     if (userSearchCriteria.getUsername() == null && userSearchCriteria.getEmail() == null) {
                         return f.matchAll();
                     } else {
-                        return f.bool(b -> {
+                        return f.bool().with(b -> {
                             if (userSearchCriteria.getUsername() != null) {
                                 b.should(f.match().field(UserSearchCriteria.USERNAME_FIELD)
                                         .matching(userSearchCriteria.getUsername()));
