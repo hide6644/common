@@ -134,23 +134,20 @@
     <div layout:fragment="scripts">
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
+        new tempusDominus.TempusDominus(document.getElementById('accountExpiredDatePicker'), {
+          localization: {
+            locale: '[(${#locale.language})]',
+            format: '[(#{date.time.format})]',
+          }
+        })
+        new tempusDominus.TempusDominus(document.getElementById('credentialsExpiredDatePicker'), {
+          localization: {
+            locale: '[(${#locale.language})]',
+            format: '[(#{date.time.format})]',
+          }
+        })
+
         $(function () {
-          $('#accountExpiredDatePicker').datetimepicker({
-            locale: '[(${#locale.language})]',
-            format: '[(#{datetimepicker.format})]',
-            icons: {
-              time: 'fas fa-clock',
-              date: 'fas fa-calendar',
-              up: 'fas fa-arrow-up',
-              down: 'fas fa-arrow-down'
-            }
-          })
-
-          $('#credentialsExpiredDatePicker').datetimepicker({
-            locale: '[(${#locale.language})]',
-            format: '[(#{datetimepicker.format})]'
-          })
-
           $('#button_cancel').click(function() {
             $(location).prop('href', '[(${listMode} ? @{\'/admin/master/users\'} : @{\'/top\'})]')
           })
