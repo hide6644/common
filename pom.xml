@@ -62,6 +62,7 @@
                 <configuration>
                     <compilerArgs>
                         <arg>-parameters</arg>
+                        <arg>-proc:full</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
@@ -97,7 +98,7 @@
                 <version>3.1.2</version>
                 <configuration>
                     <reuseForks>false</reuseForks>
-                    <argLine>${argLine} -Dcatalina.base=${project.build.directory}</argLine>
+                    <argLine>${argLine} -XX:+EnableDynamicAgentLoading -Dcatalina.base=${project.build.directory}</argLine>
                 </configuration>
             </plugin>
             <plugin>
