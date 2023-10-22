@@ -131,7 +131,7 @@
                         <dependency>
                             <groupId>com.github.spotbugs</groupId>
                             <artifactId>spotbugs</artifactId>
-                            <version>4.7.3</version>
+                            <version>4.8.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -647,21 +647,21 @@
         <jakarta.mail.version>2.0.1</jakarta.mail.version>
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
         <jakarta.xml.bind-api.version>4.0.1</jakarta.xml.bind-api.version>
-        <jaxb-runtime.version>4.0.3</jaxb-runtime.version>
+        <jaxb-runtime.version>4.0.4</jaxb-runtime.version>
         <junit-jupiter.version>5.10.0</junit-jupiter.version>
         <jxls-poi.version>2.13.0</jxls-poi.version>
         <jxls-reader.version>2.1.0</jxls-reader.version>
         <logback.version>1.4.11</logback.version>
-        <log4j.version>2.20.0</log4j.version>
+        <log4j.version>2.21.0</log4j.version>
         <lombok.version>1.18.30</lombok.version>
         <lucene.version>8.11.2</lucene.version>
         <mockito.version>5.6.0</mockito.version>
         <opencsv.version>5.8</opencsv.version>
         <poi.version>5.2.4</poi.version>
         <slf4j.version>2.0.9</slf4j.version>
-        <spring.version>6.0.12</spring.version>
-        <spring-data.version>3.1.4</spring-data.version>
-        <spring-security.version>6.1.4</spring-security.version>
+        <spring.version>6.0.13</spring.version>
+        <spring-data.version>3.1.5</spring-data.version>
+        <spring-security.version>6.1.5</spring-security.version>
         <thymeleaf-spring6.version>3.1.2.RELEASE</thymeleaf-spring6.version>
         <thymeleaf-extras-springsecurity6.version>3.1.2.RELEASE</thymeleaf-extras-springsecurity6.version>
         <thymeleaf-layout-dialect.version>3.3.0</thymeleaf-layout-dialect.version>
