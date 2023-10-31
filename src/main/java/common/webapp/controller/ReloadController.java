@@ -1,7 +1,7 @@
 package common.webapp.controller;
 
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -46,7 +46,7 @@ public class ReloadController extends BaseController {
 
         if (referer != null) {
             saveFlashMessage(getText("master.updated"));
-            return "redirect:" + new URL(referer).getFile().substring(request.getContextPath().length());
+            return "redirect:" + URI.create(referer).toURL().getFile().substring(request.getContextPath().length());
         }
 
         return "redirect:/top";

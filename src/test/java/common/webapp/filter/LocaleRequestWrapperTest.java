@@ -19,7 +19,7 @@ class LocaleRequestWrapperTest {
         assertNotNull(wrapper.getLocale());
         assertNotNull(wrapper.getLocales());
 
-        wrapper = new LocaleRequestWrapper(request, new Locale("jp"));
+        wrapper = new LocaleRequestWrapper(request, Locale.of("jp"));
 
         assertNotNull(wrapper.getLocale());
         assertNotNull(wrapper.getLocales());

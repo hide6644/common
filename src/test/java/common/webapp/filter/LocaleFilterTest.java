@@ -37,7 +37,7 @@ class LocaleFilterTest {
 
         assertNotNull(locale);
         assertNotNull(LocaleContextHolder.getLocale());
-        assertEquals(new Locale("es"), locale);
+        assertEquals(Locale.of("es"), locale);
     }
 
     @Test
@@ -54,7 +54,7 @@ class LocaleFilterTest {
 
         assertNotNull(locale);
         assertNotNull(LocaleContextHolder.getLocale());
-        assertEquals(new Locale("es"), locale);
+        assertEquals(Locale.of("es"), locale);
     }
 
     @Test
@@ -83,7 +83,7 @@ class LocaleFilterTest {
         Locale locale = (Locale) request.getSession().getAttribute(Constants.PREFERRED_LOCALE_KEY);
 
         assertNotNull(locale);
-        assertEquals(new Locale("zh", "TW"), locale);
+        assertEquals(Locale.of("zh", "TW"), locale);
     }
 
     @Test

@@ -62,9 +62,9 @@ public class LocaleFilter extends OncePerRequestFilter {
             if (indexOfUnderscore != -1) {
                 var language = locale.substring(0, indexOfUnderscore);
                 var country = locale.substring(indexOfUnderscore + 1);
-                preferredLocale = new Locale(language, country);
+                preferredLocale = Locale.of(language, country);
             } else {
-                preferredLocale = new Locale(locale);
+                preferredLocale = Locale.of(locale);
             }
         }
 
