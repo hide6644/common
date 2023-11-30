@@ -131,7 +131,7 @@
                         <dependency>
                             <groupId>com.github.spotbugs</groupId>
                             <artifactId>spotbugs</artifactId>
-                            <version>4.8.1</version>
+                            <version>4.8.2</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -165,7 +165,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>4.0.0-M11</version>
+                    <version>4.0.0-M12</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -346,6 +346,11 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>${commons-compress.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -622,24 +627,25 @@
 
         <jdbc.groupId>org.mariadb.jdbc</jdbc.groupId>
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
-        <jdbc.version>3.3.0</jdbc.version>
+        <jdbc.version>3.3.1</jdbc.version>
 
-        <byte-buddy.version>1.14.9</byte-buddy.version>
+        <byte-buddy.version>1.14.10</byte-buddy.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-collections4.version>4.4</commons-collections4.version>
+        <commons-compress.version>1.25.0</commons-compress.version>
         <commons-digester3.version>3.2</commons-digester3.version>
-        <commons-io.version>2.15.0</commons-io.version>
+        <commons-io.version>2.15.1</commons-io.version>
         <commons-jexl.version>2.1.1</commons-jexl.version>
         <commons-jexl3.version>3.3</commons-jexl3.version>
-        <commons-lang3.version>3.13.0</commons-lang3.version>
+        <commons-lang3.version>3.14.0</commons-lang3.version>
         <commons-text.version>1.11.0</commons-text.version>
         <ehcache.version>3.10.8</ehcache.version>
         <freemarker.version>2.3.32</freemarker.version>
         <freemarker-java8.version>2.1.0</freemarker-java8.version>
-        <greenmail.version>2.0.0</greenmail.version>
+        <greenmail.version>2.0.1</greenmail.version>
         <groovy.version>3.0.19</groovy.version>
         <hamcrest.version>2.2</hamcrest.version>
-        <hibernate.version>6.3.1.Final</hibernate.version>
+        <hibernate.version>6.3.2.Final</hibernate.version>
         <hibernate-search.version>6.2.2.Final</hibernate-search.version>
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
         <HikariCP.version>5.1.0</HikariCP.version>
@@ -651,17 +657,17 @@
         <junit-jupiter.version>5.10.1</junit-jupiter.version>
         <jxls-poi.version>2.13.0</jxls-poi.version>
         <jxls-reader.version>2.1.0</jxls-reader.version>
-        <logback.version>1.4.11</logback.version>
-        <log4j.version>2.21.1</log4j.version>
+        <logback.version>1.4.13</logback.version>
+        <log4j.version>2.22.0</log4j.version>
         <lombok.version>1.18.30</lombok.version>
         <lucene.version>8.11.2</lucene.version>
         <mockito.version>5.7.0</mockito.version>
-        <opencsv.version>5.8</opencsv.version>
-        <poi.version>5.2.4</poi.version>
+        <opencsv.version>5.9</opencsv.version>
+        <poi.version>5.2.5</poi.version>
         <slf4j.version>2.0.9</slf4j.version>
-        <spring.version>6.1.0</spring.version>
+        <spring.version>6.1.1</spring.version>
         <spring-data.version>3.2.0</spring-data.version>
-        <spring-security.version>6.1.5</spring-security.version>
+        <spring-security.version>6.2.0</spring-security.version>
         <thymeleaf-spring6.version>3.1.2.RELEASE</thymeleaf-spring6.version>
         <thymeleaf-extras-springsecurity6.version>3.1.2.RELEASE</thymeleaf-extras-springsecurity6.version>
         <thymeleaf-layout-dialect.version>3.3.0</thymeleaf-layout-dialect.version>
