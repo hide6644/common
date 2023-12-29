@@ -58,7 +58,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.12.1</version>
                 <configuration>
                     <compilerArgs>
                         <arg>-parameters</arg>
@@ -95,7 +95,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.2</version>
+                <version>3.2.3</version>
                 <configuration>
                     <reuseForks>false</reuseForks>
                     <argLine>${argLine} -XX:+EnableDynamicAgentLoading -Dcatalina.base=${project.build.directory}</argLine>
@@ -126,12 +126,12 @@
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>4.8.1.0</version>
+                    <version>4.8.2.0</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.github.spotbugs</groupId>
                             <artifactId>spotbugs</artifactId>
-                            <version>4.8.2</version>
+                            <version>4.8.3</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -148,7 +148,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>10.12.5</version>
+                            <version>10.12.6</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -165,7 +165,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>4.0.0-M12</version>
+                    <version>4.0.0-M13</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -199,7 +199,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.4.5</version>
+                <version>3.5.0</version>
                 <configuration>
                     <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
                 </configuration>
@@ -212,10 +212,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.6.2</version>
+                <version>3.6.3</version>
                 <configuration>
                     <author>true</author>
-                    <source>17</source>
+                    <source>21</source>
                     <show>protected</show>
                     <encoding>UTF-8</encoding>
                     <charset>UTF-8</charset>
@@ -226,7 +226,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>3.2.2</version>
+                <version>3.2.3</version>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -463,12 +463,12 @@
         <!-- Hibernate Search & Lucene -->
         <dependency>
             <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-analyzers-kuromoji</artifactId>
+            <artifactId>lucene-analysis-kuromoji</artifactId>
             <version>${lucene.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate.search</groupId>
-            <artifactId>hibernate-search-mapper-orm-orm6</artifactId>
+            <artifactId>hibernate-search-mapper-orm</artifactId>
             <version>${hibernate-search.version}</version>
         </dependency>
         <dependency>
@@ -627,9 +627,9 @@
 
         <jdbc.groupId>org.mariadb.jdbc</jdbc.groupId>
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
-        <jdbc.version>3.3.1</jdbc.version>
+        <jdbc.version>3.3.2</jdbc.version>
 
-        <byte-buddy.version>1.14.10</byte-buddy.version>
+        <byte-buddy.version>1.14.11</byte-buddy.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-compress.version>1.25.0</commons-compress.version>
@@ -643,10 +643,10 @@
         <freemarker.version>2.3.32</freemarker.version>
         <freemarker-java8.version>2.1.0</freemarker-java8.version>
         <greenmail.version>2.0.1</greenmail.version>
-        <groovy.version>3.0.19</groovy.version>
+        <groovy.version>3.0.20</groovy.version>
         <hamcrest.version>2.2</hamcrest.version>
-        <hibernate.version>6.3.2.Final</hibernate.version>
-        <hibernate-search.version>6.2.2.Final</hibernate-search.version>
+        <hibernate.version>6.4.1.Final</hibernate.version>
+        <hibernate-search.version>7.0.0.Final</hibernate-search.version>
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
         <HikariCP.version>5.1.0</HikariCP.version>
         <jakarta.el.version>4.0.2</jakarta.el.version>
@@ -655,19 +655,19 @@
         <jakarta.xml.bind-api.version>4.0.1</jakarta.xml.bind-api.version>
         <jaxb-runtime.version>4.0.4</jaxb-runtime.version>
         <junit-jupiter.version>5.10.1</junit-jupiter.version>
-        <jxls-poi.version>2.13.0</jxls-poi.version>
+        <jxls-poi.version>2.14.0</jxls-poi.version>
         <jxls-reader.version>2.1.0</jxls-reader.version>
-        <logback.version>1.4.13</logback.version>
+        <logback.version>1.4.14</logback.version>
         <log4j.version>2.22.0</log4j.version>
         <lombok.version>1.18.30</lombok.version>
-        <lucene.version>8.11.2</lucene.version>
-        <mockito.version>5.7.0</mockito.version>
+        <lucene.version>9.8.0</lucene.version>
+        <mockito.version>5.8.0</mockito.version>
         <opencsv.version>5.9</opencsv.version>
         <poi.version>5.2.5</poi.version>
         <slf4j.version>2.0.9</slf4j.version>
-        <spring.version>6.1.1</spring.version>
-        <spring-data.version>3.2.0</spring-data.version>
-        <spring-security.version>6.2.0</spring-security.version>
+        <spring.version>6.1.2</spring.version>
+        <spring-data.version>3.2.1</spring-data.version>
+        <spring-security.version>6.2.1</spring-security.version>
         <thymeleaf-spring6.version>3.1.2.RELEASE</thymeleaf-spring6.version>
         <thymeleaf-extras-springsecurity6.version>3.1.2.RELEASE</thymeleaf-extras-springsecurity6.version>
         <thymeleaf-layout-dialect.version>3.3.0</thymeleaf-layout-dialect.version>
