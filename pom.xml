@@ -148,7 +148,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>10.12.6</version>
+                            <version>10.12.7</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -658,13 +658,13 @@
         <jxls-poi.version>2.14.0</jxls-poi.version>
         <jxls-reader.version>2.1.0</jxls-reader.version>
         <logback.version>1.4.14</logback.version>
-        <log4j.version>2.22.0</log4j.version>
+        <log4j.version>2.22.1</log4j.version>
         <lombok.version>1.18.30</lombok.version>
         <lucene.version>9.8.0</lucene.version>
         <mockito.version>5.8.0</mockito.version>
         <opencsv.version>5.9</opencsv.version>
         <poi.version>5.2.5</poi.version>
-        <slf4j.version>2.0.9</slf4j.version>
+        <slf4j.version>2.0.11</slf4j.version>
         <spring.version>6.1.2</spring.version>
         <spring-data.version>3.2.1</spring-data.version>
         <spring-security.version>6.2.1</spring-security.version>
