@@ -35,7 +35,7 @@ import lombok.Setter;
     @CompareStrings(
             propertyNames = { "confirmPassword", "password" },
             comparisonMode = ComparisonMode.EQUAL,
-            message = "{common.validator.constraints.confirmPassword.message}"
+            message = "{common.validator.constraints.ConfirmPassword.message}"
         )
 })
 @UniqueKey.List({
