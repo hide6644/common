@@ -48,16 +48,12 @@ public class UserFileConverterFactory {
      * @return ファイル変換処理クラスの関数
      */
     public static FileConverter<User> createConverter(FileType fileType) {
-        switch (fileType) {
-        case XML:
-            return createXmlConverter();
-        case EXCEL:
-            return createExcelConverter();
-        case CSV:
-            return createCsvConverter();
-        default:
-            throw new FileException("errors.fileType");
-        }
+        return switch (fileType) {
+        case XML -> createXmlConverter();
+        case EXCEL -> createExcelConverter();
+        case CSV -> createCsvConverter();
+        case null, default -> throw new FileException("errors.fileType");
+        };
     }
 
     /**
