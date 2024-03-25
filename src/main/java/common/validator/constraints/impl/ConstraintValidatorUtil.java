@@ -28,18 +28,13 @@ public class ConstraintValidatorUtil {
      * @return 比較結果
      */
     public static boolean isValid(List<String> propertyValues, ComparisonMode comparisonMode) {
-        switch (comparisonMode) {
-        case EQUAL_IGNORE_CASE:
-            return changePropertyValues(propertyValues, true).size() == 1;
-        case EQUAL:
-            return changePropertyValues(propertyValues, false).size() == 1;
-        case NOT_EQUAL_IGNORE_CASE:
-            return changePropertyValues(propertyValues, true).size() == propertyValues.size();
-        case NOT_EQUAL:
-            return changePropertyValues(propertyValues, false).size() == propertyValues.size();
-        }
-
-        return true;
+        return switch (comparisonMode) {
+        case EQUAL_IGNORE_CASE -> changePropertyValues(propertyValues, true).size() == 1;
+        case EQUAL -> changePropertyValues(propertyValues, false).size() == 1;
+        case NOT_EQUAL_IGNORE_CASE -> changePropertyValues(propertyValues, true).size() == propertyValues.size();
+        case NOT_EQUAL -> changePropertyValues(propertyValues, false).size() == propertyValues.size();
+        case null, default -> true;
+        };
     }
 
     /**
