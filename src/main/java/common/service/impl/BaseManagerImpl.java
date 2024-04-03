@@ -1,19 +1,16 @@
 package common.service.impl;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.MessageSourceAccessor;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * 基底クラス.
  */
+@Log4j2
 public class BaseManagerImpl {
-
-    /** ログ出力クラス */
-    protected final Logger log = LogManager.getLogger(this);
 
     /** メッセージソースアクセサー */
     protected MessageSourceAccessor messageSourceAccessor;

@@ -10,17 +10,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import lombok.NoArgsConstructor;
 
 /**
  * 認証成功を処理するクラス.
  */
+@NoArgsConstructor
 public class ExtendedAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-
-    /**
-     * デフォルト・コンストラクタ.
-     */
-    public ExtendedAuthenticationSuccessHandler() {
-    }
 
     /**
      * コンストラクタ.

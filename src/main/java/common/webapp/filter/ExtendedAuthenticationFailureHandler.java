@@ -9,7 +9,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,10 +18,12 @@ import org.springframework.util.Assert;
 
 import common.Constants;
 import common.service.UserManager;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * 認証失敗を処理するクラス.
  */
+@Log4j2
 public class ExtendedAuthenticationFailureHandler extends ExceptionMappingAuthenticationFailureHandler {
 
     /** ユーザ処理クラス */
@@ -85,7 +86,7 @@ public class ExtendedAuthenticationFailureHandler extends ExceptionMappingAuthen
                 userManager.lockoutUser(trimUsername);
             }
         } catch (UsernameNotFoundException unfe) {
-            LogManager.getLogger(ExtendedAuthenticationFailureHandler.class).debug("Account not found: username={}", () -> trimUsername);
+            log.debug("Account not found: username={}", () -> trimUsername);
         }
     }
 

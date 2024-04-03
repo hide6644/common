@@ -7,10 +7,12 @@ import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
 import org.springframework.util.StringUtils;
+import lombok.AllArgsConstructor;
 
 /**
  * ユーザが入力した数値文字列を解析してBeanのDateTimeプロパティに変換するクラス.
  */
+@AllArgsConstructor
 public class LocalDateTimeEditor extends PropertyEditorSupport {
 
     /** 日付/時間オブジェクトの出力および解析のためのフォーマッタ */
@@ -18,19 +20,6 @@ public class LocalDateTimeEditor extends PropertyEditorSupport {
 
     /** 空文字を許可 */
     private final boolean allowEmpty;
-
-    /**
-     * コンストラクタ
-     *
-     * @param dateTimeFormat
-     *            日付/時間オブジェクトの出力および解析のためのフォーマッタ
-     * @param allowEmpty
-     *            空文字を許可
-     */
-    public LocalDateTimeEditor(DateTimeFormatter dateTimeFormat, boolean allowEmpty) {
-        this.dateTimeFormat = dateTimeFormat;
-        this.allowEmpty = allowEmpty;
-    }
 
     /**
      * {@inheritDoc}

@@ -4,7 +4,6 @@ import java.util.Map;
 
 import jakarta.mail.MessagingException;
 
-import org.apache.logging.log4j.LogManager;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailSender;
@@ -15,10 +14,12 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import freemarker.template.Configuration;
 import no.api.freemarker.java8.Java8ObjectWrapper;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * メールを処理するクラス.
  */
+@Log4j2
 public class MailEngine {
 
     /** メール送信処理クラス */
@@ -84,7 +85,7 @@ public class MailEngine {
             simpleMailMessage.setText(FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerConfiguration.getTemplate(templateName), model));
             send(simpleMailMessage);
         } catch (Exception e) {
-            LogManager.getLogger(MailEngine.class).error(e);
+            log.error(e);
         }
     }
 

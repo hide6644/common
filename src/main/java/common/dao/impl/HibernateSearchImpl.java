@@ -5,10 +5,13 @@ import jakarta.persistence.PersistenceContext;
 
 import common.Constants;
 import common.dao.HibernateSearch;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Hibernate Searchの実装クラス.
  */
+@RequiredArgsConstructor
 public class HibernateSearchImpl<T> implements HibernateSearch {
 
     /** Entity Managerクラス */
@@ -16,17 +19,8 @@ public class HibernateSearchImpl<T> implements HibernateSearch {
     protected EntityManager entityManager;
 
     /** エンティティクラス */
+    @NonNull
     private Class<T> persistentClass;
-
-    /**
-     * コンストラクタ.
-     *
-     * @param persistentClass
-     *            エンティティクラス
-     */
-    public HibernateSearchImpl(Class<T> persistentClass) {
-        this.persistentClass = persistentClass;
-    }
 
     /**
      * {@inheritDoc}

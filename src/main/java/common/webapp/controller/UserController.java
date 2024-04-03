@@ -29,12 +29,14 @@ import common.service.UserManager;
 import common.service.mail.UserMail;
 import common.validator.groups.Modify;
 import common.webapp.propertyeditors.LocalDateTimeEditor;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * ユーザ登録情報変更処理クラス.
  */
 @Controller
 @RequestMapping("/user")
+@Log4j2
 public class UserController extends BaseController {
 
     /** Userメール処理クラス */

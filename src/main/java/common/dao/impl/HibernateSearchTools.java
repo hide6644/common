@@ -2,12 +2,13 @@ package common.dao.impl;
 
 import jakarta.persistence.EntityManager;
 
-import org.apache.logging.log4j.LogManager;
 import org.hibernate.search.mapper.orm.Search;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * 全文検索を処理するクラス.
  */
+@Log4j2
 class HibernateSearchTools {
 
     /**
@@ -31,7 +32,7 @@ class HibernateSearchTools {
         try {
             massIndexer.startAndWait();
         } catch (InterruptedException e) {
-            LogManager.getLogger(HibernateSearchTools.class).warn("mass reindexing interrupted:{}", () -> e.getMessage());
+            log.warn("mass reindexing interrupted:{}", () -> e.getMessage());
             Thread.currentThread().interrupt();
         }
     }
@@ -53,7 +54,7 @@ class HibernateSearchTools {
             try {
                 massIndexer.startAndWait();
             } catch (InterruptedException e) {
-                LogManager.getLogger(HibernateSearchTools.class).warn("mass reindexing interrupted:{}", () -> e.getMessage());
+                log.warn("mass reindexing interrupted:{}", () -> e.getMessage());
                 Thread.currentThread().interrupt();
             }
         } else {
