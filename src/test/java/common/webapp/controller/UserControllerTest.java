@@ -23,7 +23,9 @@ import common.dto.UserDetailsForm;
 import common.entity.User;
 import common.service.UserManager;
 import common.webapp.filter.FlashMap;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 class UserControllerTest extends BaseControllerTestCase {
 
     @Autowired

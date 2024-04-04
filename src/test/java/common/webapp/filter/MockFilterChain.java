@@ -10,12 +10,10 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 public class MockFilterChain implements FilterChain {
-
-    private Logger log = LogManager.getLogger(getClass());
 
     private String forwardURL;
 
