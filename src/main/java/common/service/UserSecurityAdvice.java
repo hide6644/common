@@ -8,8 +8,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.aop.AfterReturningAdvice;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.security.access.AccessDeniedException;
@@ -23,17 +21,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import common.Constants;
 import common.dto.UserDetailsForm;
 import common.entity.User;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * ユーザ処理のAdviceクラス.
  */
+@Log4j2
 public class UserSecurityAdvice implements MethodBeforeAdvice, AfterReturningAdvice {
 
     /** "Access Denied" エラーメッセージ (not i18n-ized). */
     public static final String ACCESS_DENIED = "Access Denied: Only administrators are allowed to modify other users.";
-
-    /** ログ出力クラス */
-    private final Logger log = LogManager.getLogger(this);
 
     /**
      * {@inheritDoc}

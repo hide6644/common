@@ -24,11 +24,13 @@ import common.service.PasswordTokenManager;
 import common.service.RoleManager;
 import common.service.UserManager;
 import common.service.mail.UserMail;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * ユーザ処理の実装クラス.
  */
 @Service("userManager")
+@Log4j2
 public class UserManagerImpl extends BaseManagerImpl implements UserManager {
 
     /** ユーザDAO */

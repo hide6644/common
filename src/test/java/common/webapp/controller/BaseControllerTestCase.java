@@ -2,8 +2,6 @@ package common.webapp.controller;
 
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -38,8 +36,6 @@ import com.icegreen.greenmail.util.ServerSetupTest;
 @Transactional
 @Rollback
 public abstract class BaseControllerTestCase {
-
-    protected transient Logger log = LogManager.getLogger(getClass());
 
     @Autowired
     protected WebApplicationContext wac;

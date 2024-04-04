@@ -9,18 +9,15 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import common.dto.LabelValue;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * オブジェクト変換のUtilityクラス.
  */
+@Log4j2
 public final class ConvertUtil {
-
-    /** ログ出力クラス */
-    private static final Logger log = LogManager.getLogger(ConvertUtil.class);
 
     /**
      * プライベート・コンストラクタ.

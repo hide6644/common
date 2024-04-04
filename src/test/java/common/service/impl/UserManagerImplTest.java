@@ -18,7 +18,9 @@ import common.entity.User;
 import common.exception.DatabaseException;
 import common.service.PasswordTokenManager;
 import common.service.RoleManager;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 class UserManagerImplTest extends BaseManagerMockTestCase {
 
     @Mock

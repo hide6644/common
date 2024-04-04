@@ -10,7 +10,9 @@ import common.Constants;
 import common.dto.UserDetailsForm;
 import common.entity.Role;
 import common.entity.User;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 class UserManagerTest extends BaseManagerTestCase {
 
     @Autowired

@@ -20,7 +20,9 @@ import common.dao.jpa.RoleDao;
 import common.dao.jpa.UserDao;
 import common.entity.Role;
 import common.entity.User;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 class UserDaoTest extends BaseDaoTestCase {
 
     @Autowired

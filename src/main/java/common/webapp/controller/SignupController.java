@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import common.dto.SignupUserForm;
 import common.exception.DatabaseException;
 import common.service.UserManager;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * ユーザ登録処理クラス.
  */
 @Controller
+@Log4j2
 public class SignupController extends BaseController {
 
     /** User処理クラス */

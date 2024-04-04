@@ -6,17 +6,15 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import common.webapp.util.ConvertUtil;
+import lombok.extern.log4j.Log4j2;
 
 @ExtendWith(MockitoExtension.class)
+@Log4j2
 public abstract class BaseManagerMockTestCase {
-
-    protected transient Logger log = LogManager.getLogger(getClass());
 
     protected ResourceBundle rb;
 
