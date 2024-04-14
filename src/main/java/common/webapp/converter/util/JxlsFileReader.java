@@ -17,6 +17,13 @@ import org.xml.sax.SAXException;
 public class JxlsFileReader {
 
     /**
+     * プライベート・コンストラクタ.
+     * Utilityクラスはインスタンス化禁止.
+     */
+    private JxlsFileReader() {
+    }
+
+    /**
      * XLSファイルから値を抽出する.
      *
      * @param templateFile
@@ -33,7 +40,7 @@ public class JxlsFileReader {
      * @throws SAXException
      *             {@link SAXException}
      */
-    public XLSReadStatus read(Resource templateFile, MultipartFile excelFile, Map<?, ?> model) throws InvalidFormatException, IOException, SAXException {
+    public static XLSReadStatus read(Resource templateFile, MultipartFile excelFile, Map<?, ?> model) throws InvalidFormatException, IOException, SAXException {
         try (var templateInputStream = templateFile.getInputStream();
                 var excelInputStream = excelFile.getInputStream()) {
             ReaderConfig.getInstance().setSkipErrors(true);

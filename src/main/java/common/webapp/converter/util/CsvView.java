@@ -39,15 +39,16 @@ public class CsvView extends AbstractUrlBasedView {
         try (InputStream is = getTemplateSource(getUrl(), request);
                 var isr = new InputStreamReader(is, Constants.ENCODING);
                 CSVReader reader = new CSVReaderBuilder(isr).build()) {
-            List<String[]> csv = reader.readAll();
+            List<String[]> csvTemplate = reader.readAll();
 
             try (var os = new OutputStreamWriter(response.getOutputStream(), Constants.ENCODING);
                     var writer = new CSVWriter(os)) {
                 // ヘッダー行を追加
-                writer.writeNext(csv.get(0));
+                writer.writeNext(csvTemplate.get(0));
 
-                ColumnPositionMappingStrategy<Serializable> strat = (ColumnPositionMappingStrategy<Serializable>) model.get("strategy");
-                strat.setColumnMapping(csv.get(1));
+                ColumnPositionMappingStrategy<Serializable> strat = new ColumnPositionMappingStrategy<>();
+                strat.setType((Class<Serializable>) model.get("clazz"));
+                strat.setColumnMapping(csvTemplate.get(1));
 
                 StatefulBeanToCsv<Serializable> beanToCsv = new StatefulBeanToCsvBuilder<Serializable>(writer)
                         .withMappingStrategy(strat)

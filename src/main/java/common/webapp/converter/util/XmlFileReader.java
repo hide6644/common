@@ -13,6 +13,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class XmlFileReader {
 
     /**
+     * プライベート・コンストラクタ.
+     * Utilityクラスはインスタンス化禁止.
+     */
+    private XmlFileReader() {
+    }
+
+    /**
      * XMLファイルから値を抽出する.
      *
      * @param context
@@ -25,7 +32,7 @@ public class XmlFileReader {
      * @throws IOException
      *             {@link IOException}
      */
-    public Object read(JAXBContext context, MultipartFile multipartFile) throws JAXBException, IOException {
+    public static Object read(JAXBContext context, MultipartFile multipartFile) throws JAXBException, IOException {
         return context.createUnmarshaller().unmarshal(multipartFile.getInputStream());
     }
 }
