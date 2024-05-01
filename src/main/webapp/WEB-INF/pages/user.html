@@ -108,7 +108,7 @@
                 </div>
                 <div class="mb-3" th:if="${listMode}">
                     <label for="roles" th:text="#{userForm.assignRoles}">userForm.assignRoles</label>
-                    <select class="form-control" th:classappend="${#fields.hasErrors('roles')} ? is-invalid" name="roles" multiple="multiple">
+                    <select class="form-control" th:classappend="${#fields.hasErrors('roles')} ? is-invalid" id="roles" name="roles" multiple="multiple">
                         <option th:each="role : ${application.availableRoles}" th:selected="${user.roleList.contains(role)}" th:value="${role.value}" th:text="${role.label}">role.label</option>
                     </select>
                     <span class="invalid-feedback" th:each="err : ${#fields.errors('roles')}" th:text="${err}"></span>
@@ -132,7 +132,7 @@
         </div>
     </div>
     <div layout:fragment="scripts">
-        <script type="text/javascript" th:inline="javascript">
+        <script type="text/javascript" th:inline="javascript" th:if="${listMode}">
         /*<![CDATA[*/
         new tempusDominus.TempusDominus(document.getElementById('accountExpiredDatePicker'), {
           localization: {
@@ -146,7 +146,10 @@
             format: '[(#{date.time.format})]',
           }
         })
-
+        /*]]>*/
+        </script>
+        <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
         $(function () {
           $('#button_cancel').click(function() {
             $(location).prop('href', '[(${listMode} ? @{\'/admin/master/users\'} : @{\'/top\'})]')

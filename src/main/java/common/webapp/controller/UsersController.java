@@ -1,6 +1,5 @@
 package common.webapp.controller;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-
-import com.opencsv.bean.ColumnPositionMappingStrategy;
 
 import common.dto.PaginatedList;
 import common.dto.UserSearchCriteria;
@@ -69,9 +66,7 @@ public class UsersController extends BaseController {
         response.setContentType("Application/Octet-Stream");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/') + 1) + "\"");
         model.addAttribute("csv", usersManager.getUsers());
-        ColumnPositionMappingStrategy<Serializable> strat = new ColumnPositionMappingStrategy<>();
-        strat.setType(User.class);
-        model.addAttribute("strategy", strat);
+        model.addAttribute("clazz", User.class);
 
         return "admin/master/csv/users";
     }

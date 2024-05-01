@@ -17,7 +17,7 @@
             </fieldset>
             <form class="card bg-light card-body mb-3" action="#" method="post" enctype="multipart/form-data" th:action="@{/admin/master/uploadUsers}" th:object="${uploadForm}">
                 <div class="form-group mb-2">
-                    <label for="fileType" th:text="#{uploadForm.fileType}">uploadForm.fileType</label>
+                    <div th:text="#{uploadForm.fileType}">uploadForm.fileType</div>
                     <div class="radio" th:each="ft : ${application.fileTypeList}">
                         <label>
                             <input type="radio" th:field="*{fileType}" th:value="${ft.value}" th:text="${ft.label}" />
@@ -51,7 +51,7 @@
             </form>
         </div>
         <div class="col-sm-9" th:if="${uploadForm.uploadResult}">
-            <table class="table table-sm table-striped table-hover" th:if="${uploadForm.uploadResult.uploadErrors}">
+            <table class="table table-sm table-striped table-hover caption-top" th:if="${uploadForm.uploadResult.uploadErrors}">
                 <caption th:text="#{uploadError}">uploadError</caption>
                 <thead>
                     <tr>

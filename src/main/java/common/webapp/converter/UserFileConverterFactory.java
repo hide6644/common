@@ -65,7 +65,7 @@ public class UserFileConverterFactory {
     private static FileConverter<User> createXmlConverter() {
         return multipartFile -> {
             try {
-                return ((BaseObjects<User>) new XmlFileReader().read(JAXBContext.newInstance(Users.class), multipartFile)).getObjects();
+                return ((BaseObjects<User>) XmlFileReader.read(JAXBContext.newInstance(Users.class), multipartFile)).getObjects();
             } catch (IOException e) {
                 throw new FileException("errors.io", e);
             } catch (JAXBException e) {
@@ -85,7 +85,7 @@ public class UserFileConverterFactory {
             model.put("Users", new ArrayList<>());
 
             try {
-                if (new JxlsFileReader().read(new ClassPathResource("/common/webapp/converter/User.xml"), multipartFile, model).isStatusOK()) {
+                if (JxlsFileReader.read(new ClassPathResource("/common/webapp/converter/User.xml"), multipartFile, model).isStatusOK()) {
                     return model.get("Users");
                 } else {
                     throw new FileException("errors.convert");
