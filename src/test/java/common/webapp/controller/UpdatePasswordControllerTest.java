@@ -64,7 +64,7 @@ class UpdatePasswordControllerTest extends BaseControllerTestCase {
     @Test
     void testShowResetPasswordFormBadToken() {
         String username = "administrator";
-        String badtoken = new RandomStringGenerator.Builder().build().generate(32);
+        String badtoken = new RandomStringGenerator.Builder().get().generate(32);
         MockHttpServletRequest request = newGet("/updatePassword");
         request.addParameter("username", username);
         request.addParameter("token", badtoken);
@@ -96,7 +96,7 @@ class UpdatePasswordControllerTest extends BaseControllerTestCase {
         MockHttpServletRequest request = newGet("/updatePassword");
         PasswordForm passwordForm = new PasswordForm();
         passwordForm.setUsername("administrator");
-        passwordForm.setToken(new RandomStringGenerator.Builder().build().generate(32));
+        passwordForm.setToken(new RandomStringGenerator.Builder().get().generate(32));
         passwordForm.setNewPassword("new-pass");
         passwordForm.setConfirmPassword("new-pass");
 
