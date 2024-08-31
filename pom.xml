@@ -8,7 +8,7 @@
     <artifactId>common</artifactId>
     <packaging>war</packaging>
     <name>common</name>
-    <version>2.0.4</version>
+    <version>2.0.5</version>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/hide6644/common</url>
 
@@ -69,7 +69,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.7.1</version>
+                <version>3.8.0</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
@@ -95,7 +95,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.5.0</version>
                 <configuration>
                     <reuseForks>false</reuseForks>
                     <argLine>${argLine} -XX:+EnableDynamicAgentLoading -Dcatalina.base=${project.build.directory}</argLine>
@@ -126,12 +126,12 @@
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>4.8.6.1</version>
+                    <version>4.8.6.2</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.github.spotbugs</groupId>
                             <artifactId>spotbugs</artifactId>
-                            <version>4.8.3</version>
+                            <version>4.8.6</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -143,12 +143,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>3.4.0</version>
+                    <version>3.5.0</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>10.17.0</version>
+                            <version>10.18.1</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -160,22 +160,22 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.7.0</version>
+                    <version>3.10.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-project-info-reports-plugin</artifactId>
-                    <version>3.6.1</version>
+                    <version>3.7.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.1.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>4.0.0-M15</version>
+                    <version>4.0.0-M16</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -222,7 +222,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>3.4.0</version>
+                <version>3.5.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -231,7 +231,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.5.0</version>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -569,6 +569,11 @@
             <version>${log4j.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+            <version>${jboss-logging.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
             <version>${slf4j.version}</version>
@@ -600,7 +605,7 @@
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-library</artifactId>
+            <artifactId>hamcrest</artifactId>
             <version>${hamcrest.version}</version>
             <scope>test</scope>
         </dependency>
@@ -634,24 +639,24 @@
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
         <jdbc.version>3.4.1</jdbc.version>
 
-        <byte-buddy.version>1.14.18</byte-buddy.version>
+        <byte-buddy.version>1.15.1</byte-buddy.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-collections4.version>4.4</commons-collections4.version>
-        <commons-compress.version>1.26.2</commons-compress.version>
+        <commons-compress.version>1.27.1</commons-compress.version>
         <commons-digester3.version>3.2</commons-digester3.version>
         <commons-io.version>2.16.1</commons-io.version>
         <commons-jexl.version>2.1.1</commons-jexl.version>
         <commons-jexl3.version>3.4.0</commons-jexl3.version>
-        <commons-lang3.version>3.15.0</commons-lang3.version>
+        <commons-lang3.version>3.17.0</commons-lang3.version>
         <commons-text.version>1.12.0</commons-text.version>
         <ehcache.version>3.10.8</ehcache.version>
         <freemarker.version>2.3.33</freemarker.version>
-        <freemarker-java8.version>2.1.0</freemarker-java8.version>
+        <freemarker-java8.version>3.0.0</freemarker-java8.version>
         <greenmail.version>2.0.1</greenmail.version>
         <groovy.version>3.0.22</groovy.version>
-        <hamcrest.version>2.2</hamcrest.version>
-        <hibernate.version>6.5.2.Final</hibernate.version>
-        <hibernate-search.version>7.1.1.Final</hibernate-search.version>
+        <hamcrest.version>3.0</hamcrest.version>
+        <hibernate.version>6.6.0.Final</hibernate.version>
+        <hibernate-search.version>7.2.1.Final</hibernate-search.version>
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
         <HikariCP.version>5.1.0</HikariCP.version>
         <jakarta.el.version>4.0.2</jakarta.el.version>
@@ -659,20 +664,21 @@
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
         <jakarta.xml.bind-api.version>4.0.2</jakarta.xml.bind-api.version>
         <jaxb-runtime.version>4.0.5</jaxb-runtime.version>
-        <junit-jupiter.version>5.10.3</junit-jupiter.version>
+        <junit-jupiter.version>5.11.0</junit-jupiter.version>
         <jxls-poi.version>3.0.0</jxls-poi.version>
         <jxls-reader.version>2.1.0</jxls-reader.version>
-        <logback.version>1.5.6</logback.version>
+        <jboss-logging.version>3.6.0.Final</jboss-logging.version>
+        <logback.version>1.5.7</logback.version>
         <log4j.version>2.23.1</log4j.version>
         <lombok.version>1.18.34</lombok.version>
-        <lucene.version>9.9.2</lucene.version>
-        <mockito.version>5.12.0</mockito.version>
+        <lucene.version>9.11.1</lucene.version>
+        <mockito.version>5.13.0</mockito.version>
         <opencsv.version>5.9</opencsv.version>
         <poi.version>5.3.0</poi.version>
-        <slf4j.version>2.0.13</slf4j.version>
-        <spring.version>6.1.11</spring.version>
-        <spring-data.version>3.3.2</spring-data.version>
-        <spring-security.version>6.3.1</spring-security.version>
+        <slf4j.version>2.0.16</slf4j.version>
+        <spring.version>6.1.12</spring.version>
+        <spring-data.version>3.3.3</spring-data.version>
+        <spring-security.version>6.3.3</spring-security.version>
         <thymeleaf-spring6.version>3.1.2.RELEASE</thymeleaf-spring6.version>
         <thymeleaf-extras-springsecurity6.version>3.1.2.RELEASE</thymeleaf-extras-springsecurity6.version>
         <thymeleaf-layout-dialect.version>3.3.0</thymeleaf-layout-dialect.version>
