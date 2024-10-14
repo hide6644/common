@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -95,7 +95,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.0</version>
+                <version>3.5.1</version>
                 <configuration>
                     <reuseForks>false</reuseForks>
                     <argLine>${argLine} -XX:+EnableDynamicAgentLoading -Dcatalina.base=${project.build.directory}</argLine>
@@ -141,7 +141,7 @@
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>4.8.6.2</version>
+                    <version>4.8.6.4</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.github.spotbugs</groupId>
@@ -163,7 +163,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>10.18.1</version>
+                            <version>10.18.2</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -175,7 +175,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.10.0</version>
+                    <version>3.10.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -265,8 +265,8 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.sun.mail</groupId>
-                <artifactId>jakarta.mail</artifactId>
+                <groupId>jakarta.mail</groupId>
+                <artifactId>jakarta.mail-api</artifactId>
                 <version>${jakarta.mail.version}</version>
                 <scope>compile</scope>
             </dependency>
@@ -605,12 +605,6 @@
             <artifactId>greenmail</artifactId>
             <version>${greenmail.version}</version>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
@@ -654,12 +648,12 @@
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
         <jdbc.version>3.4.1</jdbc.version>
 
-        <byte-buddy.version>1.15.1</byte-buddy.version>
+        <byte-buddy.version>1.15.4</byte-buddy.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-compress.version>1.27.1</commons-compress.version>
         <commons-digester3.version>3.2</commons-digester3.version>
-        <commons-io.version>2.16.1</commons-io.version>
+        <commons-io.version>2.17.0</commons-io.version>
         <commons-jexl.version>2.1.1</commons-jexl.version>
         <commons-jexl3.version>3.4.0</commons-jexl3.version>
         <commons-lang3.version>3.17.0</commons-lang3.version>
@@ -667,32 +661,32 @@
         <ehcache.version>3.10.8</ehcache.version>
         <freemarker.version>2.3.33</freemarker.version>
         <freemarker-java8.version>3.0.0</freemarker-java8.version>
-        <greenmail.version>2.0.1</greenmail.version>
+        <greenmail.version>2.1.0</greenmail.version>
         <groovy.version>3.0.22</groovy.version>
         <hamcrest.version>3.0</hamcrest.version>
-        <hibernate.version>6.6.0.Final</hibernate.version>
+        <hibernate.version>6.6.1.Final</hibernate.version>
         <hibernate-search.version>7.2.1.Final</hibernate-search.version>
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
-        <HikariCP.version>5.1.0</HikariCP.version>
+        <HikariCP.version>6.0.0</HikariCP.version>
         <jakarta.el.version>4.0.2</jakarta.el.version>
-        <jakarta.mail.version>2.0.1</jakarta.mail.version>
+        <jakarta.mail.version>2.1.3</jakarta.mail.version>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
         <jakarta.xml.bind-api.version>4.0.2</jakarta.xml.bind-api.version>
         <jaxb-runtime.version>4.0.5</jaxb-runtime.version>
-        <junit-jupiter.version>5.11.0</junit-jupiter.version>
+        <junit-jupiter.version>5.11.2</junit-jupiter.version>
         <jxls-poi.version>3.0.0</jxls-poi.version>
         <jxls-reader.version>2.1.0</jxls-reader.version>
-        <jboss-logging.version>3.6.0.Final</jboss-logging.version>
-        <logback.version>1.5.7</logback.version>
-        <log4j.version>2.23.1</log4j.version>
+        <jboss-logging.version>3.6.1.Final</jboss-logging.version>
+        <logback.version>1.5.10</logback.version>
+        <log4j.version>2.24.1</log4j.version>
         <lombok.version>1.18.34</lombok.version>
         <lucene.version>9.11.1</lucene.version>
-        <mockito.version>5.13.0</mockito.version>
+        <mockito.version>5.14.1</mockito.version>
         <opencsv.version>5.9</opencsv.version>
         <poi.version>5.3.0</poi.version>
         <slf4j.version>2.0.16</slf4j.version>
-        <spring.version>6.1.12</spring.version>
-        <spring-data.version>3.3.3</spring-data.version>
+        <spring.version>6.1.13</spring.version>
+        <spring-data.version>3.3.4</spring-data.version>
         <spring-security.version>6.3.3</spring-security.version>
         <thymeleaf-spring6.version>3.1.2.RELEASE</thymeleaf-spring6.version>
         <thymeleaf-extras-springsecurity6.version>3.1.2.RELEASE</thymeleaf-extras-springsecurity6.version>
