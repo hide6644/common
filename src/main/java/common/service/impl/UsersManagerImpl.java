@@ -8,7 +8,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
@@ -131,7 +130,7 @@ public class UsersManagerImpl extends BaseManagerImpl implements UsersManager {
                         String message = error.getMessage().replace("{0}", fieldName);
                         return uploadResult.createUploadError(fieldName, message);
                     })
-                    .collect(Collectors.toList()));
+                    .toList());
         }
 
         uploadResult.addProcessingCount();
@@ -153,7 +152,7 @@ public class UsersManagerImpl extends BaseManagerImpl implements UsersManager {
         return new PaginatedList<>(new PageImpl<>(
                 pagedUser.stream()
                         .map(user -> UserSearchResults.of(user))
-                        .collect(Collectors.toList()),
+                        .toList(),
                 pagedUser.getPageable(), pagedUser.getTotalElements()));
     }
 
@@ -169,7 +168,7 @@ public class UsersManagerImpl extends BaseManagerImpl implements UsersManager {
         return new PaginatedList<>(new PageImpl<>(
                 result.stream()
                         .map(user -> UserSearchResults.of(user))
-                        .collect(Collectors.toList()),
+                        .toList(),
                 pageRequest, result.size()));
     }
 

@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -74,7 +75,7 @@ public class CsvView extends AbstractUrlBasedView {
             throw new NullPointerException("Property 'url' is required");
         }
 
-        var helper = new LocalizedResourceHelper(getApplicationContext());
+        var helper = new LocalizedResourceHelper(Optional.ofNullable(getApplicationContext()).orElseThrow(() -> new NullPointerException()));
         var userLocale = RequestContextUtils.getLocale(request);
         var inputFile = helper.findLocalizedResource(url.substring(0, url.lastIndexOf('.')), url.substring(url.lastIndexOf('.')), userLocale);
         return inputFile.getInputStream();

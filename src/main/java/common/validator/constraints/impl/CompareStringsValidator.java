@@ -1,7 +1,6 @@
 package common.validator.constraints.impl;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -41,7 +40,7 @@ public class CompareStringsValidator implements ConstraintValidator<CompareStrin
         boolean isValid = ConstraintValidatorUtil.isValid(
                 Arrays.stream(propertyNames)
                 .map(propertyName -> (String) fieldAccessor.getPropertyValue(propertyName))
-                .collect(Collectors.toList()), comparisonMode);
+                .toList(), comparisonMode);
 
         if (!isValid) {
             context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()).addPropertyNode(propertyNames[0]).addConstraintViolation().disableDefaultConstraintViolation();

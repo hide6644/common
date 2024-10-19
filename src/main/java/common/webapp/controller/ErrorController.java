@@ -27,7 +27,7 @@ public class ErrorController extends BaseController {
         case 401, 403 -> model.addAttribute("errorTitle", "403");
         case 404 -> model.addAttribute("errorTitle", "404");
         default -> model.addAttribute("errorTitle", "error");
-        };
+        }
 
         return "error";
     }

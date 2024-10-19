@@ -86,10 +86,10 @@ public class CounterListener implements ServletContextListener, HttpSessionAttri
         if (event.getName().equals(EVENT_KEY) && !isAnonymous()) {
             var auth = ((SecurityContext) event.getValue()).getAuthentication();
 
-            if (auth != null && auth.getPrincipal() instanceof User) {
-                user = (User) auth.getPrincipal();
-            } else if (auth != null && auth.getDetails() instanceof User) {
-                user = (User) auth.getDetails();
+            if (auth.getPrincipal() instanceof User principal) {
+                user = principal;
+            } else if (auth.getDetails() instanceof User details) {
+                user = details;
             }
         }
 
