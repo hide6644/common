@@ -632,7 +632,7 @@
         <jdbc.artifactId>mariadb-java-client</jdbc.artifactId>
         <jdbc.version>3.4.1</jdbc.version>
 
-        <byte-buddy.version>1.15.4</byte-buddy.version>
+        <byte-buddy.version>1.15.5</byte-buddy.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-compress.version>1.27.1</commons-compress.version>
@@ -661,16 +661,16 @@
         <jxls-poi.version>3.0.0</jxls-poi.version>
         <jxls-reader.version>2.1.0</jxls-reader.version>
         <jboss-logging.version>3.6.1.Final</jboss-logging.version>
-        <logback.version>1.5.10</logback.version>
+        <logback.version>1.5.11</logback.version>
         <log4j.version>2.24.1</log4j.version>
         <lombok.version>1.18.34</lombok.version>
         <lucene.version>9.11.1</lucene.version>
-        <mockito.version>5.14.1</mockito.version>
+        <mockito.version>5.14.2</mockito.version>
         <opencsv.version>5.9</opencsv.version>
         <poi.version>5.3.0</poi.version>
         <slf4j.version>2.0.16</slf4j.version>
-        <spring.version>6.1.13</spring.version>
-        <spring-data.version>3.3.4</spring-data.version>
+        <spring.version>6.1.14</spring.version>
+        <spring-data.version>3.3.5</spring-data.version>
         <spring-security.version>6.3.3</spring-security.version>
         <thymeleaf-spring6.version>3.1.2.RELEASE</thymeleaf-spring6.version>
         <thymeleaf-extras-springsecurity6.version>3.1.2.RELEASE</thymeleaf-extras-springsecurity6.version>
