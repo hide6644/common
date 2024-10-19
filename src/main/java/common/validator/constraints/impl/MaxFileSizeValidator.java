@@ -45,6 +45,6 @@ public class MaxFileSizeValidator implements ConstraintValidator<MaxFileSize, Ob
             throw new IllegalArgumentException("Object instance must be MultipartFile.class.");
         }
 
-        return !(target == null || target instanceof MultipartFile file && file.getSize() > max * multiple);
+        return !(target == null || ((MultipartFile) target).getSize() > max * multiple);
     }
 }

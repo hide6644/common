@@ -29,6 +29,6 @@ public class NotEmptyFileValidator implements ConstraintValidator<NotEmptyFile, 
             throw new IllegalArgumentException("Object instance must be MultipartFile.class.");
         }
 
-        return !(target == null || target instanceof MultipartFile file && file.getSize() == 0);
+        return !(target == null || ((MultipartFile) target).getSize() == 0);
     }
 }
