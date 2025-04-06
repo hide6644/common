@@ -64,7 +64,7 @@ public class PasswordTokenManagerImpl implements PasswordTokenManager {
      * @return トークン生成の元となる文字列
      */
     private String getTokenSource(User user) {
-        return user.getEmail() + user.getVersion() + user.getPassword();
+        return user.getEmail() + user.getVersion();
     }
 
     /**
