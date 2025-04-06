@@ -25,16 +25,10 @@ public class NotEmptyFileValidator implements ConstraintValidator<NotEmptyFile, 
      */
     @Override
     public boolean isValid(Object target, ConstraintValidatorContext context) {
-        var isValid = true;
-
-        if (target == null) {
-            isValid = false;
-        } else if (!(target instanceof MultipartFile)) {
+        if (target != null && !(target instanceof MultipartFile)) {
             throw new IllegalArgumentException("Object instance must be MultipartFile.class.");
-        } else if (((MultipartFile) target).getSize() == 0) {
-            isValid = false;
         }
 
-        return isValid;
+        return !(target == null || ((MultipartFile) target).getSize() == 0);
     }
 }

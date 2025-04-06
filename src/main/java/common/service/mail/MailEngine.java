@@ -1,6 +1,7 @@
 package common.service.mail;
 
 import java.util.Map;
+import java.util.Optional;
 
 import jakarta.mail.MessagingException;
 
@@ -105,13 +106,13 @@ public class MailEngine {
         var message = ((JavaMailSenderImpl) mailSender).createMimeMessage();
         var helper = new MimeMessageHelper(message, true);
 
-        helper.setTo(simpleMailMessage.getTo());
-        helper.setFrom(simpleMailMessage.getFrom());
-        helper.setSubject(simpleMailMessage.getSubject());
+        helper.setTo(Optional.ofNullable(simpleMailMessage.getTo()).orElseThrow(() -> new NullPointerException()));
+        helper.setFrom(Optional.ofNullable(simpleMailMessage.getFrom()).orElseThrow(() -> new NullPointerException()));
+        helper.setSubject(Optional.ofNullable(simpleMailMessage.getSubject()).orElseThrow(() -> new NullPointerException()));
         helper.setText(bodyText);
 
         var file = new FileSystemResource(attachmentFilePath);
-        helper.addAttachment(file.getFilename(), file);
+        helper.addAttachment(Optional.ofNullable(file.getFilename()).orElseThrow(() -> new NullPointerException()), file);
 
         ((JavaMailSenderImpl) mailSender).send(message);
     }

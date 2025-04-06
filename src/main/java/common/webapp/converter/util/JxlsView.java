@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
+import java.util.Optional;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -49,7 +50,7 @@ public class JxlsView extends AbstractUrlBasedView {
             throw new NullPointerException("Property 'url' is required");
         }
 
-        var helper = new LocalizedResourceHelper(getApplicationContext());
+        var helper = new LocalizedResourceHelper(Optional.ofNullable(getApplicationContext()).orElseThrow(() -> new NullPointerException()));
         var userLocale = RequestContextUtils.getLocale(request);
         var inputFile = helper.findLocalizedResource(url.substring(0, url.lastIndexOf('.')), url.substring(url.lastIndexOf('.')), userLocale);
         return inputFile.getInputStream();
