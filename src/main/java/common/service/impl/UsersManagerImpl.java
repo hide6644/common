@@ -1,7 +1,6 @@
 package common.service.impl;
 
 import static common.dao.jpa.UserSpecifications.*;
-import static org.springframework.data.jpa.domain.Specification.*;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -144,9 +143,7 @@ public class UsersManagerImpl extends BaseManagerImpl implements UsersManager {
     public PaginatedList<UserSearchResults> createPaginatedList(UserSearchCriteria userSearchCriteria, Integer page) {
         var pageRequest = PageRequest.of(Optional.ofNullable(page).orElse(1) - 1, Constants.PAGING_SIZE, Sort.by(UserSearchCriteria.USERNAME_FIELD));
         Page<User> pagedUser = userDao.findAll(
-                where(
-                        usernameContains(userSearchCriteria.getUsername()))
-                                .and(emailContains(userSearchCriteria.getEmail())),
+                usernameContains(userSearchCriteria.getUsername()).and(emailContains(userSearchCriteria.getEmail())),
                 pageRequest);
 
         return new PaginatedList<>(new PageImpl<>(

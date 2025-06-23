@@ -49,6 +49,6 @@ public class UserSpecifications {
      * @return {@link Specification}
      */
     private static Specification<User> buildSpecification(String columnName, String pattern) {
-        return StringUtils.isEmpty(pattern) ? null : (root, query, cb) -> cb.like(root.get(columnName), "%" + pattern + "%");
+        return StringUtils.isEmpty(pattern) ? (root, query, cb) -> null : (root, query, cb) -> cb.like(root.get(columnName), "%" + pattern + "%");
     }
 }
