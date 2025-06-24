@@ -2,7 +2,6 @@ package common.dao;
 
 import static common.dao.jpa.UserSpecifications.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.data.jpa.domain.Specification.*;
 
 import java.util.List;
 
@@ -188,13 +187,13 @@ class UserDaoTest extends BaseDaoTestCase {
         String username = "";
         String email = "";
 
-        Page<User> pagedUser = dao.findAll(where(usernameContains(username)).and(emailContains(email)), PageRequest.of(0, 10, Sort.by("username")));
+        Page<User> pagedUser = dao.findAll(usernameContains(username).and(emailContains(email)), PageRequest.of(0, 10, Sort.by("username")));
 
         assertEquals(1, pagedUser.getTotalPages());
         assertEquals(2, pagedUser.getTotalElements());
         assertEquals(2, pagedUser.getContent().size());
 
-        pagedUser = dao.findAll(where(usernameContains(username)).and(emailContains(email)), PageRequest.of(1, 10, Sort.by("username")));
+        pagedUser = dao.findAll(usernameContains(username).and(emailContains(email)), PageRequest.of(1, 10, Sort.by("username")));
 
         assertEquals(1, pagedUser.getTotalPages());
         assertEquals(2, pagedUser.getTotalElements());
@@ -202,7 +201,7 @@ class UserDaoTest extends BaseDaoTestCase {
         username = "baduser";
         email = "bademail";
 
-        pagedUser = dao.findAll(where(usernameContains(username)).and(emailContains(email)), PageRequest.of(0, 10, Sort.by("username")));
+        pagedUser = dao.findAll(usernameContains(username).and(emailContains(email)), PageRequest.of(0, 10, Sort.by("username")));
 
         assertEquals(0, pagedUser.getTotalPages());
         assertEquals(0, pagedUser.getTotalElements());
