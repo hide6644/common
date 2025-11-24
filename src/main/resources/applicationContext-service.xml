@@ -23,14 +23,11 @@
 
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
-    <!-- Enable @AspectJ support -->
-    <aop:aspectj-autoproxy />
-
     <!-- Activates scanning of @Autowired -->
     <context:annotation-config />
 
     <!-- Activates scanning of @Service -->
-    <context:component-scan base-package="common.service,common.validator" />
+    <context:component-scan base-package="common.service,common.validator,common.webapp.config" />
 
     <!-- Enable @Transactional support -->
     <tx:annotation-driven />
@@ -58,14 +55,5 @@
     <bean id="mailMessage" class="org.springframework.mail.SimpleMailMessage" scope="prototype">
         <property name="from" value="${mail.default.from}" />
     </bean>
-
-    <!-- =================================================================== -->
-    <!-- Security class from Spring Security - used to configure Password    -->
-    <!-- Encryption in UserManagerImpl. Can override in security.xml.        -->
-    <!-- =================================================================== -->
-    <bean id="passwordEncoder" class="org.springframework.security.crypto.factory.PasswordEncoderFactories" factory-method="createDelegatingPasswordEncoder" />
-
-    <!-- Password reset token encoder -->
-    <bean id="passwordTokenEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
 </beans>

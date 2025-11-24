@@ -30,8 +30,7 @@ import com.icegreen.greenmail.util.ServerSetupTest;
 @WebAppConfiguration
 @ContextConfiguration(
         locations = { "classpath:/common/dao/applicationContext-resources.xml", "classpath:/common/dao/applicationContext-dao.xml",
-                "classpath:/applicationContext-service.xml", "classpath:/applicationContext-security.xml",
-                "classpath*:/applicationContext.xml",
+                "classpath:/applicationContext-service.xml", "classpath*:/applicationContext.xml",
                 "classpath:/common/webapp/controller/dispatcher-servlet.xml" })
 @Transactional
 @Rollback
