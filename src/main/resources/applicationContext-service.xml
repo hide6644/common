@@ -27,7 +27,10 @@
     <context:annotation-config />
 
     <!-- Activates scanning of @Service -->
-    <context:component-scan base-package="common.service,common.validator,common.webapp.config" />
+    <context:component-scan base-package="common.service,common.validator" />
+
+    <!-- Spring Security Java configuration -->
+    <bean class="common.webapp.config.SecurityConfig" />
 
     <!-- Enable @Transactional support -->
     <tx:annotation-driven />

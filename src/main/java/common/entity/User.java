@@ -144,7 +144,6 @@ public final class User extends BaseObject implements Serializable, UserDetails 
 
     /** 権限 */
     @NotEmpty
-    @Valid
     @ManyToMany(fetch = FetchType.EAGER, cascade = {
         CascadeType.PERSIST,
         CascadeType.MERGE
@@ -154,7 +153,7 @@ public final class User extends BaseObject implements Serializable, UserDetails 
             joinColumns = { @JoinColumn(name = "user_id", nullable = false) },
             inverseJoinColumns = @JoinColumn(name = "role_name", nullable = false)
         )
-    private Set<Role> roles = new HashSet<>();
+    private Set<@Valid Role> roles = new HashSet<>();
 
     /**
      * {@inheritDoc}

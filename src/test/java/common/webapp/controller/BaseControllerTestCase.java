@@ -9,6 +9,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,15 +29,25 @@ import com.icegreen.greenmail.store.FolderException;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetupTest;
 
+import common.webapp.config.WebMvcConfig;
+
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
-@ContextConfiguration(
-        locations = { "classpath:/common/dao/applicationContext-resources.xml", "classpath:/common/dao/applicationContext-dao.xml",
-                "classpath:/applicationContext-service.xml", "classpath*:/applicationContext.xml",
-                "classpath:/common/webapp/controller/dispatcher-servlet.xml" })
+@ContextConfiguration(classes = BaseControllerTestCase.TestConfig.class)
 @Transactional
 @Rollback
 public abstract class BaseControllerTestCase {
+
+    @Configuration
+    @Import(WebMvcConfig.class)
+    @ImportResource({
+            "classpath:/common/dao/applicationContext-resources.xml",
+            "classpath:/common/dao/applicationContext-dao.xml",
+            "classpath:/applicationContext-service.xml",
+            "classpath*:/applicationContext.xml"
+    })
+    static class TestConfig {
+    }
 
     @Autowired
     protected WebApplicationContext wac;

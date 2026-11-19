@@ -96,8 +96,7 @@ public class UserDetailsForm implements Serializable {
     private LocalDateTime credentialsExpiredDate;
 
     /** 権限 */
-    @Valid
-    private Set<Role> roles = new HashSet<>();
+    private Set<@Valid Role> roles = new HashSet<>();
 
     /** 更新回数 */
     private Long version;

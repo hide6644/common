@@ -13,7 +13,6 @@
         <param-value>
             classpath:/applicationContext-*.xml
             classpath*:/applicationContext.xml
-            /WEB-INF/dispatcher-servlet.xml
         </param-value>
     </context-param>
 
@@ -116,8 +115,12 @@
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
+            <param-name>contextClass</param-name>
+            <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+        </init-param>
+        <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value></param-value>
+            <param-value>common.webapp.config.WebMvcConfig</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
         <multipart-config>
