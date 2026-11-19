@@ -82,7 +82,7 @@
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         $(function () {
-          $('#button_cancel').click(function () {
+          $('#button_cancel').on('click', function () {
             $(location).prop('href', '[(@{\'/top\'})]')
           })
         })

@@ -109,11 +109,11 @@
             $('#button_download').prop('disabled', true)
           }
 
-          $('#button_new').click(function () {
+          $('#button_new').on('click', function () {
             $(location).prop('href', $('#button_new').val())
           })
 
-          $('#button_edit').click(function () {
+          $('#button_edit').on('click', function () {
             let ids = $('input[name$=Ids]:checked')
             if (ids.length === 0) {
               alert('[(${#messages.msg(\'button.choose\', \'__#{button.edit_target}__\')})]')
@@ -124,7 +124,7 @@
             }
           })
 
-          $('#button_delete').click(function () {
+          $('#button_delete').on('click', function () {
             if ($('input[name$=Ids]:checked').length === 0) {
               alert('[(${#messages.msg(\'button.choose\', \'__#{button.delete_target}__\')})]')
               return false
@@ -133,23 +133,23 @@
             }
           })
 
-          $('#button_cancel').click(function () {
+          $('#button_cancel').on('click', function () {
             $(location).prop('href', '[(@{\'/admin/master/top\'})]')
           })
 
-          $('#button_upload').click(function () {
+          $('#button_upload').on('click', function () {
             $(location).prop('href', '[(@{\'/admin/master/uploadUsers\'})]')
           })
 
-          $('#dialog_download_csv').click(function () {
+          $('#dialog_download_csv').on('click', function () {
             $(location).prop('href', '[(@{\'/admin/master/users.csv\'})]')
           })
 
-          $('#dialog_download_xls').click(function () {
+          $('#dialog_download_xls').on('click', function () {
             $(location).prop('href', '[(@{\'/admin/master/users.xlsx\'})]')
           })
 
-          $('#dialog_download_xml').click(function () {
+          $('#dialog_download_xml').on('click', function () {
             $(location).prop('href', '[(@{\'/admin/master/users.xml\'})]')
           })
         })

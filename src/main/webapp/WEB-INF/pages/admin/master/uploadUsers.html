@@ -74,19 +74,19 @@
         <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         $(function () {
-          $('#fileData').click(function () {
-            $('input[name=fileData]').click()
+          $('#fileData').on('click', function () {
+            $('input[name=fileData]').trigger('click')
           })
 
-          $('#folderOpen').click(function () {
-            $('input[name=fileData]').click()
+          $('#folderOpen').on('click', function () {
+            $('input[name=fileData]').trigger('click')
           })
 
-          $('input[name=fileData]').change(function () {
+          $('input[name=fileData]').on('change', function () {
             $('#fileData').val($(this).prop('files')[0].name)
           })
 
-          $('#button_cancel').click(function () {
+          $('#button_cancel').on('click', function () {
             $(location).prop('href', '[(@{\'/admin/master/users\'})]')
           })
         })

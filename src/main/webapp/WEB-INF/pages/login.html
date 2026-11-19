@@ -38,16 +38,16 @@
         $(function () {
           $('#username').val(Cookies.get('login_username'))
 
-          $('#password').focus()
+          $('#password').trigger('focus')
 
-          $('#login').submit(function () {
+          $('#login').on('submit', function () {
             Cookies.set('login_username', $('#username').val(), { expires: 30, path: '[(@{\'/\'})]' })
           })
 
-          $('#send').click(function () {
+          $('#send').on('click', function () {
             if ($('#username').val().length === 0) {
               alert('[(${#messages.msg(\'errors.required\', \'__#{loginForm.username}__\')})]')
-              $('#username').focus()
+              $('#username').trigger('focus')
             } else {
               $(location).prop('href', '[(@{\'/requestRecoveryToken\'})]?username=' + $('#username').val())
             }
