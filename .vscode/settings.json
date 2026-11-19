@@ -1,4 +1,15 @@
 {
     "java.compile.nullAnalysis.mode": "disabled",
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.test.config": [
+        {
+            "name": "JUnit",
+            "workingDirectory": "${workspaceFolder}",
+            "vmArgs": [
+                "-XX:+EnableDynamicAgentLoading",
+                "-Dcatalina.base=${workspaceFolder}/target"
+            ]
+        }
+    ],
+    "java.test.defaultConfig": "JUnit"
 }

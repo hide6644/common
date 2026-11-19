@@ -7,8 +7,8 @@ version: 2.1
 jobs:
   build-and-test:
     docker:
-      - image: cimg/openjdk:21.0
-      - image: cimg/mariadb:11.2
+      - image: cimg/openjdk:25.0
+      - image: cimg/mariadb:13.1
         environment:
           MARIADB_DATABASE: common
           MARIADB_USER: common
@@ -32,8 +32,8 @@ jobs:
               echo -n .
               sleep 1
             done
-            echo Failed waiting for MySQL && exit 1
-      # Installation of MySQL CLI. And import test data.
+            echo Failed waiting for MariaDB && exit 1
+      # Installation of MariaDB CLI. And import test data.
       - run:
           name: Import tast data
           command: |
