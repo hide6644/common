@@ -12,7 +12,7 @@ jobs:
         environment:
           MARIADB_DATABASE: common
           MARIADB_USER: common
-          MARIADB_PASSWORD: common_pw
+          MARIADB_PASSWORD: common_pass
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
@@ -35,12 +35,12 @@ jobs:
             echo Failed waiting for MariaDB && exit 1
       # Installation of MariaDB CLI. And import test data.
       - run:
-          name: Import tast data
+          name: Import test data
           command: |
             sudo apt update
             sudo apt install mysql-client
-            mysql -h 127.0.0.1 -u common -pcommon_pw common < src/config/schema.sql
-            mysql -h 127.0.0.1 -u common -pcommon_pw common < src/config/data.sql
+            mysql -h 127.0.0.1 -u common -pcommon_pass common < src/config/schema.sql
+            mysql -h 127.0.0.1 -u common -pcommon_pass common < src/config/data.sql
       # Then run tests!
       - run:
           name: Test
